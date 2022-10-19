@@ -1,0 +1,11 @@
+framework module ConnectEVMAdapter {
+  umbrella header "ConnectEVMAdapter.h"
+
+  export *
+  module * { export * }
+}
+
+module ConnectEVMAdapter.Swift {
+  header "ConnectEVMAdapter-Swift.h"
+  requires objc
+}

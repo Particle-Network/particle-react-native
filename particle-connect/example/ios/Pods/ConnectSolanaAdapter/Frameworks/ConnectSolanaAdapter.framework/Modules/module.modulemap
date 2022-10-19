@@ -1,0 +1,11 @@
+framework module ConnectSolanaAdapter {
+  umbrella header "ConnectSolanaAdapter.h"
+
+  export *
+  module * { export * }
+}
+
+module ConnectSolanaAdapter.Swift {
+  header "ConnectSolanaAdapter-Swift.h"
+  requires objc
+}

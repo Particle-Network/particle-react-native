@@ -8,8 +8,8 @@ const LINKING_ERROR =
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
 
-const ParticleAuth = NativeModules.ParticleAuth
-  ? NativeModules.ParticleAuth
+const ParticleAuthPlugin = NativeModules.ParticleAuthPlugin
+  ? NativeModules.ParticleAuthPlugin
   : new Proxy(
     {},
     {
@@ -23,9 +23,9 @@ export function init(chainInfo: ChainInfo, env: Env) {
   const obj = { chain_name: chainInfo.chain_name, chain_id: chainInfo.chain_id, chain_id_name: chainInfo.chain_id_name, env: env };
   const json = JSON.stringify(obj);
   if (Platform.OS === 'ios') {
-    ParticleAuth.initialize(json);
+    ParticleAuthPlugin.initialize(json);
   } else {
-    ParticleAuth.init(json);
+    ParticleAuthPlugin.init(json);
   }
 }
 
@@ -33,7 +33,7 @@ export function setChainInfo(chainInfo: ChainInfo): Promise<boolean> {
   const obj = { chain_name: chainInfo.chain_name, chain_id: chainInfo.chain_id, chain_id_name: chainInfo.chain_id_name };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
-    ParticleAuth.setChainInfo(json, (result: boolean) => {
+    ParticleAuthPlugin.setChainInfo(json, (result: boolean) => {
       resolve(result);
     });
   });
@@ -41,7 +41,7 @@ export function setChainInfo(chainInfo: ChainInfo): Promise<boolean> {
 
 export function getChainInfo(): Promise<ChainInfo> {
   return new Promise((resolve) => {
-    ParticleAuth.getChainInfo((result: string) => {
+    ParticleAuthPlugin.getChainInfo((result: string) => {
       resolve(JSON.parse(result) as ChainInfo);
     });
   });
@@ -51,7 +51,7 @@ export function setChainInfoAsync(chainInfo: ChainInfo): Promise<boolean> {
   const obj = { chain_name: chainInfo.chain_name, chain_id: chainInfo.chain_id, chain_id_name: chainInfo.chain_id_name };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
-    ParticleAuth.setChainInfoAsync(json, (result: boolean) => {
+    ParticleAuthPlugin.setChainInfoAsync(json, (result: boolean) => {
       resolve(result);
     });
   });
@@ -62,7 +62,7 @@ export function login(type: LoginType, account: string, supportAuthType: [Suppor
   const json = JSON.stringify(obj);
   console.log("login:", json);
   return new Promise((resolve) => {
-    ParticleAuth.login(json, (result: string) => {
+    ParticleAuthPlugin.login(json, (result: string) => {
       resolve(JSON.parse(result))
     });
   });
@@ -70,7 +70,7 @@ export function login(type: LoginType, account: string, supportAuthType: [Suppor
 
 export function logout(): Promise<any> {
   return new Promise((resolve) => {
-    ParticleAuth.logout((result: string) => {
+    ParticleAuthPlugin.logout((result: string) => {
       resolve(JSON.parse(result));
     });
   });
@@ -78,7 +78,7 @@ export function logout(): Promise<any> {
 
 export function isLogin(): Promise<boolean> {
   return new Promise((resolve) => {
-    ParticleAuth.isLogin((result: boolean) => {
+    ParticleAuthPlugin.isLogin((result: boolean) => {
       resolve(result);
     });
   });
@@ -87,7 +87,7 @@ export function isLogin(): Promise<boolean> {
 
 export function signMessage(message: string) {
   return new Promise((resolve) => {
-    ParticleAuth.signMessage(message, (result: string) => {
+    ParticleAuthPlugin.signMessage(message, (result: string) => {
       resolve(JSON.parse(result));
     });
   });
@@ -95,7 +95,7 @@ export function signMessage(message: string) {
 //only solana chain support!
 export function signTransaction(transaction: string) {
   return new Promise((resolve) => {
-    ParticleAuth.signTransaction(transaction, (result: string) => {
+    ParticleAuthPlugin.signTransaction(transaction, (result: string) => {
       resolve(JSON.parse(result));
     });
   });
@@ -105,7 +105,7 @@ export function signTransaction(transaction: string) {
 export function signAllTransactions(transactions: [string]) {
   const json = JSON.stringify(transactions);
   return new Promise((resolve) => {
-    ParticleAuth.signAllTransactions(json, (result: string) => {
+    ParticleAuthPlugin.signAllTransactions(json, (result: string) => {
       resolve(JSON.parse(result));
     });
   });
@@ -113,7 +113,7 @@ export function signAllTransactions(transactions: [string]) {
 
 export function signAndSendTransaction(transaction: string) {
   return new Promise((resolve) => {
-    ParticleAuth.signAndSendTransaction(transaction, (result: string) => {
+    ParticleAuthPlugin.signAndSendTransaction(transaction, (result: string) => {
       resolve(JSON.parse(result));
     });
   });
@@ -125,31 +125,31 @@ export function signTypedData(typedData: string, version: string) {
   const json = JSON.stringify(obj);
 
   return new Promise((resolve) => {
-    ParticleAuth.signTypedData(json, (result: string) => {
+    ParticleAuthPlugin.signTypedData(json, (result: string) => {
       resolve(JSON.parse(result));
     });
   });
 }
 
 export function getAddress(): Promise<string> {
-  return ParticleAuth.getAddress()
+  return ParticleAuthPlugin.getAddress()
 }
 
 export function getUserInfo() {
-  return ParticleAuth.getUserInfo()
+  return ParticleAuthPlugin.getUserInfo()
 }
 
 //only support ios
 export function setModalPresentStyle(style: iOSModalPresentStyle) {
-  ParticleAuth.setModalPresentStyle(style)
+  ParticleAuthPlugin.setModalPresentStyle(style)
 }
 
 export function setDisplayWallet(isDisplay: boolean) {
-  ParticleAuth.setDisplayWallet(isDisplay)
+  ParticleAuthPlugin.setDisplayWallet(isDisplay)
 }
 
 export function openWebWallet() {
-  ParticleAuth.openWebWallet();
+  ParticleAuthPlugin.openWebWallet();
 }
 
 export * from "./Models/LoginInfo"

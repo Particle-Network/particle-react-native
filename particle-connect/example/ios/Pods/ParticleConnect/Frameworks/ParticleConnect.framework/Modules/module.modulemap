@@ -1,0 +1,11 @@
+framework module ParticleConnect {
+  umbrella header "ParticleConnect.h"
+
+  export *
+  module * { export * }
+}
+
+module ParticleConnect.Swift {
+  header "ParticleConnect-Swift.h"
+  requires objc
+}

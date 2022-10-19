@@ -10,7 +10,7 @@
 #endif
 #endif
 
-#import "ParticleConnect-Bridging-Header.h"
+#import "ParticleConnectPlugin-Bridging-Header.h"
 
 FOUNDATION_EXPORT double react_native_particle_connectVersionNumber;
 FOUNDATION_EXPORT const unsigned char react_native_particle_connectVersionString[];

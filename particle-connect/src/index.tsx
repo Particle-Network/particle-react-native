@@ -178,6 +178,14 @@ export function exportPrivateKey(walletType: WalletType, publicAddress: string):
   });
 }
 
+export function getChainInfo(): Promise<ChainInfo> {
+  return new Promise((resolve) => {
+    ParticleConnectPlugin.getChainInfo((result: string) => {
+      resolve(JSON.parse(result) as ChainInfo);
+    });
+  });
+}
+
 export * from "./Models/LoginInfo"
 export * from "./Models/ChainInfo"
 export * from "./Models/DappMetaData"

@@ -115,6 +115,15 @@ class ParticleConnectPlugin: NSObject {
     }
     
     @objc
+    public func getChainInfo(_ callback: @escaping RCTResponseSenderBlock) {
+        let chainInfo = ParticleNetwork.getChainInfo()
+        
+        let jsonString = ["chain_name": chainInfo.name, "chain_id": chainInfo.chainId, "chain_id_name": chainInfo.network].jsonString() ?? ""
+        
+        callback([jsonString])
+    }
+    
+    @objc
     public func getAccounts(_ json: String, resolve: RCTPromiseResolveBlock, rejecter:RCTPromiseRejectBlock) {
         let walletTypeString = json
         guard let walletType = map2WalletType(from: walletTypeString) else {
@@ -754,5 +763,16 @@ class ParticleConnectPlugin: NSObject {
                 callback([json])
             }
         }.disposed(by: bag)
+    }
+}
+
+extension Dictionary {
+    /// - Parameter prettify: set true to prettify string (default is false).
+    /// - Returns: optional JSON String (if applicable).
+    public func jsonString(prettify: Bool = false) -> String? {
+        guard JSONSerialization.isValidJSONObject(self) else { return nil }
+        let options = (prettify == true) ? JSONSerialization.WritingOptions.prettyPrinted : JSONSerialization.WritingOptions()
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: self, options: options) else { return nil }
+        return String(data: jsonData, encoding: .utf8)
     }
 }

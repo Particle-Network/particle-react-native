@@ -3,13 +3,13 @@ import { AbiEncodeFunction, EVMReqBodyMethod } from "./NetParams";
 import JsonRpcRequest from "./NetService";
 import BigNumber from 'bignumber.js';
 import { Buffer } from 'buffer';
-import * as ParticleAuth from 'react-native-particle-auth';
+import * as ParticleConnect from 'react-native-particle-connect';
 
 export class EvmService {
     static async rpc(method: string, params: any) {
         const rpcUrl = "https://api.particle.network/";
         const path = "evm-chain/rpc";
-        const chainInfo = await ParticleAuth.getChainInfo();
+        const chainInfo = await ParticleConnect.getChainInfo();
         const chainId = chainInfo.chain_id;
         const result = await JsonRpcRequest(rpcUrl, path, method, params, chainId);
         return result;
@@ -85,7 +85,7 @@ export class EvmService {
 
         const maxPriorityFeePerGas = gasFeesResult.high.maxPriorityFeePerGas;
         const maxPriorityFeePerGasHex = "0x" + BigNumber(maxPriorityFeePerGas * Math.pow(10, 9)).toString(16);
-        const chainInfo = await ParticleAuth.getChainInfo();
+        const chainInfo = await ParticleConnect.getChainInfo();
         const chainId = chainInfo.chain_id;
 
         const transaction = { from: from, to: contractAddress, data: data, gasLimit: gasLimit, value: "0x0", type: "0x2", chainId: "0x" + chainId.toString(16), maxPriorityFeePerGas: maxPriorityFeePerGasHex, maxFeePerGas: maxFeePerGasHex }

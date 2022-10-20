@@ -6,6 +6,7 @@ import * as particleConnect from 'react-native-particle-connect';
 import { TestAccountEVM, TestAccountSolana } from './TestAccount';
 import * as Helper from './Helper';
 import { WalletType, Env} from 'react-native-particle-connect';
+import { ChainInfo } from '../../lib/commonjs/Models/ChainInfo';
 
 const walletType = WalletType.MetaMask
 var loginSourceMessage = "";
@@ -17,14 +18,14 @@ getAccounts = async () => {
 }
 
 setChainInfo = async () => {
-    const chainInfo = EthereumGoerli;
+    const chainInfo = ChainInfo.EthereumGoerli;
     const result = await particleConnect.setChainInfo(chainInfo);
     console.log(result);
 
 }
 
 init = async () => {
-    const chainInfo = EthereumGoerli;
+    const chainInfo = ChainInfo.EthereumGoerli;
     const env = Env.Dev;
     const metadata = { name: "Particle Connect", icon: "https://connect.particle.network/icons/512.png", url: "https://connect.particle.network" }
     const rpcUrl = { evm_url: null, solana_url: null };

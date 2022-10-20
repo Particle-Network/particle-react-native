@@ -3,7 +3,7 @@ import { StyleSheet, View, Image } from 'react-native';
 import { Button } from '@rneui/themed';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ConnectDemo from './ConnectDemo';
+import GUIDemo from './WalletDemo';
 const logo = require('../images/ic_round.png');
 
 function HomeScreen({ navigation }) {
@@ -14,9 +14,9 @@ function HomeScreen({ navigation }) {
         <Image style={styles.logo} source={logo} />
 
         <Button
-          title={"ConnectDemo"}
+          title={"GUIDemo"}
           onPress={
-            () => navigation.push('ConnectDemo')
+            () => navigation.push('GUIDemo')
           }
           buttonStyle={styles.buttonStyle}
           containerStyle={styles.containerStyle}
@@ -29,10 +29,10 @@ function HomeScreen({ navigation }) {
 
 const Stack = createNativeStackNavigator();
 
-function ConnectScreen() {
+function GUIScreen() {
   return (
     <View style={styles.container}>
-      <ConnectDemo />
+      <GUIDemo />
     </View>
   )
 }
@@ -42,7 +42,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name='Home' component={HomeScreen} />
-        <Stack.Screen name='ConnectDemo' component={ConnectScreen} />
+        <Stack.Screen name='GUIDemo' component={GUIScreen} />
       </Stack.Navigator>
     </NavigationContainer>
 

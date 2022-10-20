@@ -1,7 +1,7 @@
 {
-  "name": "react-native-particle-connect",
+  "name": "react-native-particle-wallet",
   "version": "0.1.0",
-  "description": "Particle Connect Service in React Native",
+  "description": "Partciel Wallet Service in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
@@ -40,13 +40,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/Particle-Network/particle-react-native#readme",
+  "repository": "https://github.com/Particle-Network/particle-react-native",
   "author": "Zhichao Link <sunzhichao@minijoy.work> (https://particle.network)",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/Particle-Network/particle-react-native#readme/issues"
+    "url": "https://github.com/Particle-Network/particle-react-native/issues"
   },
-  "homepage": "https://github.com/Particle-Network/particle-react-native#readme#readme",
+  "homepage": "https://github.com/Particle-Network/particle-react-native#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -65,11 +65,12 @@
     "jest": "^28.1.1",
     "pod-install": "^0.1.0",
     "prettier": "^2.0.5",
-    "react": "18.0.0",
-    "react-native": "0.69.6",
-    "react-native-builder-bob": "^0.18.3",
+    "react": "18.1.0",
+    "react-native": "0.70.3",
+    "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "react-native-particle-connect":"^0.1.0"
   },
   "resolutions": {
     "@types/react": "17.0.21"

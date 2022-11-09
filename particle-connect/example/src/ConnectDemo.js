@@ -5,8 +5,9 @@ import { Button } from '@rneui/themed';
 import * as particleConnect from 'react-native-particle-connect';
 import { TestAccountEVM, TestAccountSolana } from './TestAccount';
 import * as Helper from './Helper';
-import { WalletType, Env} from 'react-native-particle-connect';
+import { WalletType, Env, LoginType, SupportAuthType} from 'react-native-particle-connect';
 import { ChainInfo } from '../../lib/commonjs/Models/ChainInfo';
+import { ParticleConnectConfig } from '../../lib/typescript/Models/ConnectConfig';
 
 const walletType = WalletType.MetaMask
 var loginSourceMessage = "";
@@ -34,6 +35,18 @@ init = async () => {
 
 connect = async () => {
     const result = await particleConnect.connect(walletType);
+    if (result.status) {
+        const account = result.data;
+        console.log(account);
+    } else {
+        const error = result.data;
+        console.log(error);
+    }
+}
+
+connectWithParticleConfig = async () => {
+    const connectConfig = new ParticleConnectConfig(LoginType.Phone, "", [SupportAuthType.Facebook, SupportAuthType.Google, SupportAuthType.Apple])
+    const result = await particleConnect.connect(walletType, connectConfig);
     if (result.status) {
         const account = result.data;
         console.log(account);
@@ -205,6 +218,7 @@ const data = [
     { key: 'SetChainInfo', function: this.setChainInfo },
     { key: 'GetAccounts', function: this.getAccounts },
     { key: 'Connect', function: this.connect },
+    { key: 'ConnectWithParticleConfig', function: this.connectWithParticleConfig},
     { key: 'Disconnect', function: this.disconnect },
     { key: 'IsConnected', function: this.isConnected },
     { key: 'SignMessage', function: this.signMessage },

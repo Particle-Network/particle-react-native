@@ -19,6 +19,12 @@ const ParticleAuthPlugin = NativeModules.ParticleAuthPlugin
     }
   );
 
+
+  /**
+     * Init Particle Auth Service.
+     * @param chainInfo ChainInfo
+     * @param env Env
+     */
 export function init(chainInfo: ChainInfo, env: Env) {
   const obj = { chain_name: chainInfo.chain_name, chain_id: chainInfo.chain_id, chain_id_name: chainInfo.chain_id_name, env: env };
   const json = JSON.stringify(obj);
@@ -29,6 +35,11 @@ export function init(chainInfo: ChainInfo, env: Env) {
   }
 }
 
+/**
+ * Set chainInfo
+ * @param chainInfo ChainInfo
+ * @returns Result
+ */
 export function setChainInfo(chainInfo: ChainInfo): Promise<boolean> {
   const obj = { chain_name: chainInfo.chain_name, chain_id: chainInfo.chain_id, chain_id_name: chainInfo.chain_id_name };
   const json = JSON.stringify(obj);
@@ -38,7 +49,10 @@ export function setChainInfo(chainInfo: ChainInfo): Promise<boolean> {
     });
   });
 }
-
+/**
+ * Get chainInfo
+ * @returns ChainInfo
+ */
 export function getChainInfo(): Promise<ChainInfo> {
   return new Promise((resolve) => {
     ParticleAuthPlugin.getChainInfo((result: string) => {
@@ -46,7 +60,11 @@ export function getChainInfo(): Promise<ChainInfo> {
     });
   });
 }
-
+/**
+ * Set chainInfo async, because ParticleAuthService support both solana and evm, if switch to solana from evm, Auth Service will create a evm address if the user doesn't has a evm address.
+ * @param chainInfo 
+ * @returns Result
+ */
 export function setChainInfoAsync(chainInfo: ChainInfo): Promise<boolean> {
   const obj = { chain_name: chainInfo.chain_name, chain_id: chainInfo.chain_id, chain_id_name: chainInfo.chain_id_name };
   const json = JSON.stringify(obj);
@@ -57,6 +75,14 @@ export function setChainInfoAsync(chainInfo: ChainInfo): Promise<boolean> {
   });
 }
 
+/**
+ * Login Particle Auth Service
+ * @param type Login type, support phone, email, json web token, google, apple and more.
+ * @param account When login type is email, phone or jwt, you could pass email address, phone number or jwt.
+ * @param supportAuthType Controls whether third-party login buttons are displayed. default will show all third-party login buttons.
+ * @param loginFormMode Controls whether show light UI in web, default is false.
+ * @returns Result, userinfo or error
+ */
 export function login(type: LoginType, account: string, supportAuthType: [SupportAuthType], loginFormMode: boolean = false): Promise<any> {
   const obj = { login_type: type, account: account, support_auth_type_values: supportAuthType, login_form_mode: loginFormMode };
   const json = JSON.stringify(obj);
@@ -68,6 +94,10 @@ export function login(type: LoginType, account: string, supportAuthType: [Suppor
   });
 }
 
+/**
+ * Logout
+ * @returns Result, success or error
+ */
 export function logout(): Promise<any> {
   return new Promise((resolve) => {
     ParticleAuthPlugin.logout((result: string) => {
@@ -76,6 +106,10 @@ export function logout(): Promise<any> {
   });
 }
 
+/**
+ * Is user log in
+ * @returns Result, if user is login return true, otherwise retrun false
+ */
 export function isLogin(): Promise<boolean> {
   return new Promise((resolve) => {
     ParticleAuthPlugin.isLogin((result: boolean) => {
@@ -85,6 +119,11 @@ export function isLogin(): Promise<boolean> {
 
 }
 
+/**
+ * Sign message
+ * @param message Message that you want user to sign.
+ * @returns Result, signed message or error
+ */
 export function signMessage(message: string) {
   return new Promise((resolve) => {
     ParticleAuthPlugin.signMessage(message, (result: string) => {
@@ -92,7 +131,12 @@ export function signMessage(message: string) {
     });
   });
 }
-//only solana chain support!
+
+/**
+ * Sign transaction, only solana chain support!
+ * @param transaction Transaction that you want user to sign.
+ * @returns Result, signed transaction or error
+ */
 export function signTransaction(transaction: string) {
   return new Promise((resolve) => {
     ParticleAuthPlugin.signTransaction(transaction, (result: string) => {
@@ -101,7 +145,11 @@ export function signTransaction(transaction: string) {
   });
 }
 
-//only solana chain support!
+/**
+ * Sign all transactions, only solana chain support!
+ * @param transactions Transactions that you want user to sign
+ * @returns Result, signed transactions or error
+ */
 export function signAllTransactions(transactions: [string]) {
   const json = JSON.stringify(transactions);
   return new Promise((resolve) => {
@@ -111,6 +159,11 @@ export function signAllTransactions(transactions: [string]) {
   });
 }
 
+/**
+ * Sign and send transaction
+ * @param transaction Transaction that you want user to sign and send
+ * @returns Result, signature or error
+ */
 export function signAndSendTransaction(transaction: string) {
   return new Promise((resolve) => {
     ParticleAuthPlugin.signAndSendTransaction(transaction, (result: string) => {
@@ -119,7 +172,12 @@ export function signAndSendTransaction(transaction: string) {
   });
 }
 
-//only evm chain support sign typed data!
+/**
+ * Sign typed data, only evm chain support sign typed data!
+ * @param typedData TypedData string
+ * @param version TypedData version, support v1, v3, v4
+ * @returns Result, signature or error
+ */
 export function signTypedData(typedData: string, version: string) {
   const obj = { message: typedData, version: version };
   const json = JSON.stringify(obj);
@@ -131,23 +189,41 @@ export function signTypedData(typedData: string, version: string) {
   });
 }
 
+/**
+ * Get public address
+ * @returns Public address
+ */
 export function getAddress(): Promise<string> {
   return ParticleAuthPlugin.getAddress()
 }
 
+/**
+ * Get user info
+ * @returns User info
+ */
 export function getUserInfo() {
   return ParticleAuthPlugin.getUserInfo()
 }
 
-//only support ios
+/**
+ * Set modal present style, only support ios
+ * @param style Modal present style
+ */
 export function setModalPresentStyle(style: iOSModalPresentStyle) {
   ParticleAuthPlugin.setModalPresentStyle(style)
 }
 
+/**
+ * Set if display wallet in web page.
+ * @param isDisplay 
+ */
 export function setDisplayWallet(isDisplay: boolean) {
   ParticleAuthPlugin.setDisplayWallet(isDisplay)
 }
 
+/**
+ * Open web wallet
+ */
 export function openWebWallet() {
   ParticleAuthPlugin.openWebWallet();
 }

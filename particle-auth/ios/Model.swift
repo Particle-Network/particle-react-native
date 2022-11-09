@@ -53,8 +53,8 @@ public extension NSObject {
         } else if name == "arbitrum" {
             if chainId == 42161 {
                 chainInfo = .arbitrum(.mainnet)
-            } else if chainId == 421611 {
-                chainInfo = .arbitrum(.testnet)
+            } else if chainId == 421613 {
+                chainInfo = .arbitrum(.goerli)
             }
         } else if name == "moonbeam" {
             if chainId == 1284 {
@@ -144,17 +144,8 @@ public extension NSObject {
     }
 
     func ResponseFromError(_ error: Error) -> ReactResponseError {
-        if let error = error as? ParticleNetwork.Error {
-            switch error {
-            case .invalidResponse(let response):
-                return ReactResponseError(code: response.code, message: response.message ?? "", data: response.data)
-            case .invalidData(reason: let reason):
-                return ReactResponseError(code: nil, message: reason ?? "", data: nil)
-            case .interrupt:
-                return ReactResponseError(code: nil, message: "interrupt", data: nil)
-            case .resultEmpty:
-                return ReactResponseError(code: nil, message: error.description, data: nil)
-            }
+        if let responseError = error as? ParticleNetwork.ResponseError {
+            return ReactResponseError(code: responseError.code, message: responseError.message ?? "", data: responseError.data)
         } else {
             return ReactResponseError(code: nil, message: String(describing: error), data: nil)
         }

@@ -20,7 +20,7 @@ export class ChainInfo {
     public static FantomMainnet = new ChainInfo("Fantom", 250, "Mainnet");
     public static FantomTestnet = new ChainInfo("Fantom", 4002, "Testnet");
     public static ArbitrumMainnet = new ChainInfo("Arbitrum", 42161, "Mainnet");
-    public static ArbitrumTestnet = new ChainInfo("Arbitrum", 421611, "Testnet");
+    public static ArbitrumGoerli = new ChainInfo("Arbitrum", 421613, "Goerli");
     public static MoonbeamMainnet = new ChainInfo("Moonbeam", 1284, "Mainnet");
     public static MoonbeamTestnet = new ChainInfo("Moonbeam", 1287, "Testnet");
     public static MoonriverMainnet = new ChainInfo("Moonriver", 1285, "Mainnet");
@@ -34,9 +34,9 @@ export class ChainInfo {
     public static KCCMainnet = new ChainInfo("KCC", 321, "Mainnet");
     public static KCCTestnet = new ChainInfo("KCC", 322, "Testnet");
     public static OptimismMainnet = new ChainInfo("Optimism", 10, "Mainnet");
-    public static OptimismTestnet = new ChainInfo("Optimism", 420, "Testnet");
+    public static OptimismGoerli = new ChainInfo("Optimism", 420, "Goerli");
     public static PlatonMainnet = new ChainInfo("Platon", 210425, "Mainnet");
-    public static PlatonTestnet = new ChainInfo("Platon", 2203181, "Goerli");
+    public static PlatonTestnet = new ChainInfo("Platon", 2203181, "Testnet");
 
     public static SolanaMainnet = new ChainInfo("Solana", 101, "Mainnet");
     public static SolanaTestnet = new ChainInfo("Solana", 102, "Testnet");

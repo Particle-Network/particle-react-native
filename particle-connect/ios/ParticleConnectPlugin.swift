@@ -146,7 +146,7 @@ class ParticleConnectPlugin: NSObject {
     }
     
     @objc
-    public func connect(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+    public func connect(_ json: String, configJson: string, callback: @escaping RCTResponseSenderBlock) {
         let walletTypeString = json
         guard let walletType = map2WalletType(from: walletTypeString) else {
             print("walletType \(walletTypeString) is not existed")

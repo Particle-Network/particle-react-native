@@ -4,10 +4,7 @@ import { Button } from '@rneui/themed';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthDemo from './AuthDemo';
-// import ConnectDemo from './Demo/ConnectDemo';
-// import GUIDemo from './Demo/GUIDemo';
-// import EvmRpcDemo from './Demo/EvmRpcDemo';
-// import SolanaRpcDemo from './Demo/SolanaRpcDemo';
+
 const logo = require('../images/ic_round.png');
 
 function HomeScreen({ navigation }) {

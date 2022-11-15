@@ -55,6 +55,7 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
+
 }
 
 repositories {
@@ -134,12 +135,18 @@ dependencies {
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 // From node_modules
+
+    def sdkVersion = "0.8.5"
+    implementation("network.particle:auth-service:$sdkVersion")
+    implementation("com.blankj:utilcodex:1.31.0")
+    implementation("commons-codec:commons-codec:1.15")
+    implementation("com.google.code.gson:gson:2.8.5")
 }
 
 if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
     libraryName = "ParticleAuth"
-    codegenJavaPackageName = "com.reactnativeparticleauth"
+    codegenJavaPackageName = "com.particleauth"
   }
 }

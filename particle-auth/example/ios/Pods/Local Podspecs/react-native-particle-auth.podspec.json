@@ -1,15 +1,15 @@
 {
   "name": "react-native-particle-auth",
   "version": "0.1.0",
-  "summary": "test",
-  "homepage": "https://particle.network#readme",
-  "license": "MIT",
+  "summary": "Particle Auth Service in React Native",
+  "homepage": "https://github.com/Particle-Network/particle-react-native#readme",
+  "license": "Apache-2.0",
   "authors": "Zhichao Link <sunzhichao@minijoy.work> (https://particle.network)",
   "platforms": {
     "ios": "13.0"
   },
   "source": {
-    "git": "https://particle.network.git",
+    "git": "https://github.com/Particle-Network/particle-react-native.git",
     "tag": "0.1.0"
   },
   "source_files": "ios/**/*.{h,m,mm,swift}",
@@ -26,6 +26,5 @@
     "BigInt": [
       "~> 5.2.0"
     ]
-  },
-  "static_framework": true
+  }
 }

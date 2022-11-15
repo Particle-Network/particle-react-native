@@ -1,5 +1,7 @@
 # react-native-particle-auth
+
 Particle Auth Service in React Native
+
 ## Installation
 
 ```sh
@@ -9,8 +11,11 @@ npm install react-native-particle-auth
 ## Usage
 
 ```js
-import * as particleAuth from "react-native-particle-auth";
+import { multiply } from 'react-native-particle-auth';
 
+// ...
+
+const result = await multiply(3, 7);
 ```
 
 ## Contributing
@@ -19,7 +24,7 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 
 ## License
 
-Apache 2.0
+MIT
 
 ---
 

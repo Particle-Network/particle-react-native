@@ -55,6 +55,7 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
+
 }
 
 repositories {
@@ -140,6 +141,6 @@ if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
     libraryName = "ParticleWallet"
-    codegenJavaPackageName = "com.reactnativeparticlewallet"
+    codegenJavaPackageName = "com.particlewallet"
   }
 }

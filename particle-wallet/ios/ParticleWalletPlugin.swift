@@ -88,9 +88,42 @@ public class ParticleWalletPlugin: NSObject {
         PNRouter.navigatorNFTDetails(nftDetailsConfig: config)
     }
     
+
     @objc
-    public func navigatorPay() {
-        PNRouter.navigatorPay()
+    public func navigatorBuyCrypto(_ json: String?) {
+        if json == nil {
+            PNRouter.navigatorBuy()
+        } else {
+            let data = JSON(parseJSON: json!)
+            let walletAddress = data["wallet_address"].string
+            let networkString = data["network"].stringValue.lowercased()
+            var network: OpenBuyNetwork?
+            /*
+             Solana,
+             Ethereum,
+             BinanceSmartChain,
+             Avalanche,
+             Polygon,
+             */
+            if networkString == "solana" {
+                network = .solana
+            } else if networkString == "ethereum" {
+                network = .ethereum
+            } else if networkString == "binancesmartchain" {
+                network = .binanceSmartChain
+            } else if networkString == "avalanche" {
+                network = .avalanche
+            } else if networkString == "polygon" {
+                network = .polygon
+            } else {
+                network = nil
+            }
+            let fiatCoin = data["fiat_coin"].string
+            let fiatAmt = data["fiat_amt"].int
+            let cryptoCoin = data["crypto_coin"].string
+            PNRouter.navigatorBuy(walletAddress: walletAddress, network: network, cryptoCoin: cryptoCoin, fiatCoin: fiatCoin, fiatAmt: fiatAmt)
+        }
+        
     }
     
     @objc
@@ -193,11 +226,11 @@ public class ParticleWalletPlugin: NSObject {
          ZH_HANS,
          */
         if json.lowercased() == "system" {
-            ParticleWalletGUI.setLanguage(ParticleWalletGUI.Language.unspecified)
+            ParticleWalletGUI.setLanguage(Language.unspecified)
         } else if json.lowercased() == "en" {
-            ParticleWalletGUI.setLanguage(ParticleWalletGUI.Language.en)
+            ParticleWalletGUI.setLanguage(Language.en)
         } else if json.lowercased() == "zh_hans" {
-            ParticleWalletGUI.setLanguage(ParticleWalletGUI.Language.zh_Hans)
+            ParticleWalletGUI.setLanguage(Language.zh_Hans)
         }
     }
     
@@ -215,5 +248,10 @@ public class ParticleWalletPlugin: NSObject {
         } else if json.lowercased() == "dark" {
             ParticleWalletGUI.setInterfaceStyle(UIUserInterfaceStyle.dark)
         }
+    }
+
+     @objc
+    public func supportWalletConnect(_ enable: Bool) {
+        ParticleWalletGUI.supportWalletConnect(enable)
     }
 }

@@ -1,7 +1,7 @@
 {
   "name": "react-native-particle-wallet",
   "version": "0.1.0",
-  "description": "Partciel Wallet Service in React Native",
+  "description": "test",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
@@ -33,6 +33,7 @@
     "prepare": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
+    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build",
     "bootstrap": "yarn example && yarn install && yarn example pods"
   },
   "keywords": [
@@ -42,7 +43,7 @@
   ],
   "repository": "https://github.com/Particle-Network/particle-react-native",
   "author": "Zhichao Link <sunzhichao@minijoy.work> (https://particle.network)",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Particle-Network/particle-react-native/issues"
   },
@@ -57,8 +58,9 @@
     "@release-it/conventional-changelog": "^5.0.0",
     "@types/jest": "^28.1.2",
     "@types/react": "~17.0.21",
-    "@types/react-native": "0.68.0",
+    "@types/react-native": "0.70.0",
     "commitlint": "^17.0.2",
+    "del-cli": "^5.0.0",
     "eslint": "^8.4.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -66,11 +68,11 @@
     "pod-install": "^0.1.0",
     "prettier": "^2.0.5",
     "react": "18.1.0",
-    "react-native": "0.70.3",
+    "react-native": "0.70.6",
     "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
     "typescript": "^4.5.2",
-    "react-native-particle-connect":"^0.1.0"
+    "react-native-particle-connect":"^0.1.1"
   },
   "resolutions": {
     "@types/react": "17.0.21"

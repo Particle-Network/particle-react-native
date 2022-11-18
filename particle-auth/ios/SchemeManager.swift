@@ -8,7 +8,7 @@
 import Foundation
 import ParticleAuthService
 
-public class SchemeManager: NSObject {
+public class ParticleAuthSchemeManager: NSObject {
     @objc public static func handlerUrl(_ url: URL) -> Bool {
         return ParticleAuthService.handleUrl(url)
     }

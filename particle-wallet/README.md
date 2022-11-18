@@ -1,5 +1,7 @@
 # react-native-particle-wallet
-Particle Wallet Service in React Native
+
+Particle Wallet in React Native
+
 ## Installation
 
 ```sh
@@ -9,7 +11,7 @@ npm install react-native-particle-wallet
 ## Usage
 
 ```js
-import { multiply } from "react-native-particle-wallet";
+import { multiply } from 'react-native-particle-wallet';
 
 // ...
 

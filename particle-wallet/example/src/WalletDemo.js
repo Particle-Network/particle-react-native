@@ -5,6 +5,7 @@ import { Button } from '@rneui/themed';
 import * as particleConnect from 'react-native-particle-connect';
 import { TestAccountEVM, TestAccountSolana } from './TestAccount';
 import * as particleWallet from 'react-native-particle-wallet';
+import { BuyCryptoConfig, OpenBuyNetwork } from 'react-native-particle-wallet';
 
 init = async () => {
     const chainInfo = ChainInfo.EthereumGoerli;
@@ -59,9 +60,13 @@ navigatorNFTDetails = async () => {
     particleWallet.navigatorNFTDetails(mint, tokenId);
 }
 
-navigatorPay = async () => {
-    particleWallet.navigatorPay();
+navigatorBuyCrypto = async () => {
+    // support no parameters
+    // particleWallet.navigatorBuyCrypto();
 
+    // also support pass public address, crypto symbol and so on.
+    const config = new BuyCryptoConfig("0xa0869E99886e1b6737A4364F2cf9Bb454FD637E4", "BNB", "USD", 1000, OpenBuyNetwork.BinanceSmartChain);
+    particleWallet.navigatorBuyCrypto(config);
 }
 
 navigatorLoginList = async () => {
@@ -140,7 +145,7 @@ const data = [
     { key: 'NavigatorTokenTransactionRecords', function: this.navigatorTokenTransactionRecords },
     { key: 'NavigatorNFTSend', function: this.navigatorNFTSend },
     { key: 'NavigatorNFTDetails', function: this.navigatorNFTDetails },
-    { key: 'NavigatorPay', function: this.navigatorPay },
+    { key: 'NavigatorBuyCrypto', function: this.navigatorBuyCrypto },
     { key: 'NavigatorLoginList', function: this.navigatorLoginList },
     { key: 'NavigatorSwap', function: this.navigatorSwap },
     { key: 'ShowTestNetwork', function: this.showTestNetwork },

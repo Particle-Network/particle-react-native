@@ -19,7 +19,7 @@ RCT_EXTERN_METHOD(navigatorNFTSend:(NSString* _Nonnull)json)
 
 RCT_EXTERN_METHOD(navigatorNFTDetails:(NSString* _Nonnull)json)
 
-RCT_EXTERN_METHOD(navigatorPay)
+RCT_EXTERN_METHOD(navigatorBuyCrypto:(NSString* _Nullable)json)
 
 RCT_EXTERN_METHOD(navigatorSwap:(NSString* _Nullable)json)
 
@@ -40,6 +40,8 @@ RCT_EXTERN_METHOD(switchWallet:(NSString* _Nonnull)json callback:(RCTResponseSen
 RCT_EXTERN_METHOD(setLanguage:(NSString* _Nonnull)json)
 
 RCT_EXTERN_METHOD(setInterfaceStyle:(NSString* _Nonnull)json)
+
+RCT_EXTERN_METHOD(supportWalletConnect:(BOOL _Nonnull)json)
 
 - (dispatch_queue_t)methodQueue {
   return dispatch_get_main_queue();

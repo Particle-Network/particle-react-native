@@ -10,13 +10,6 @@ npm install react-native-particle-connect
 
 ## Usage
 
-```js
-import { multiply } from 'react-native-particle-connect';
-
-// ...
-
-const result = await multiply(3, 7);
-```
 
 ## Contributing
 

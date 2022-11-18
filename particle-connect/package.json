@@ -1,7 +1,7 @@
 {
   "name": "react-native-particle-connect",
-  "version": "0.1.0",
-  "description": "test",
+  "version": "0.1.1",
+  "description": "Particle Connect in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
@@ -41,13 +41,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://particle.network",
+  "repository": "https://github.com/Particle-Network/particle-react-native",
   "author": "Zhichao Link <sunzhichao@minijoy.work> (https://particle.network)",
   "license": "MIT",
   "bugs": {
-    "url": "https://particle.network/issues"
+    "url": "https://github.com/Particle-Network/particle-react-native/issues"
   },
-  "homepage": "https://particle.network#readme",
+  "homepage": "https://github.com/Particle-Network/particle-react-native#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

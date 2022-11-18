@@ -2,6 +2,7 @@
 import { NativeModules, Platform } from 'react-native';
 
 import type { WalletDisplay, Language, UserInterfaceStyle, ChainInfo } from 'react-native-particle-connect';
+import type { BuyCryptoConfig } from './Models/BuyCryptoConfig';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-wallet' doesn't seem to be linked. Make sure: \n\n` +
@@ -26,7 +27,8 @@ const ParticleWalletPlugin = NativeModules.ParticleWalletPlugin
 export function initWallet() {
   if (Platform.OS === 'android') {
     ParticleWalletPlugin.init();
-  }
+  } 
+  supportWalletConnect(false);
 }
 
 /**
@@ -91,8 +93,15 @@ export function navigatorNFTDetails(mint: string, tokenId: string) {
 /**
  * Navigator buy crypto page
  */
-export function navigatorPay() {
-  ParticleWalletPlugin.navigatorPay();
+export function navigatorBuyCrypto(config?: BuyCryptoConfig) {
+  if (config != null) {
+    const obj = {wallet_address: config.walletAddres, network: config.network, crypto_coin: config.cryptoCoin, fiat_coin: config.fiatCoin, fiat_amt: config.fiatAmt}
+    const json = JSON.stringify(obj);
+    ParticleWalletPlugin.navigatorBuyCrypto(json);
+  } else {
+    ParticleWalletPlugin.navigatorBuyCrypto(config);
+  }
+  
 }
 
 /**
@@ -216,3 +225,14 @@ export function setLanguage(language: Language) {
 export function setInterfaceStyle(userInterfaceStyle: UserInterfaceStyle) {
   ParticleWalletPlugin.setInterfaceStyle(userInterfaceStyle);
 }
+
+/**
+ * Set wallet if support wallet connect as a wallet
+ * not support for now, coming soon.
+ * @param isEnable 
+ */
+export function supportWalletConnect(isEnable: boolean) {
+  ParticleWalletPlugin.supportWalletConnect(isEnable);
+}
+
+export * from "./Models/BuyCryptoConfig"

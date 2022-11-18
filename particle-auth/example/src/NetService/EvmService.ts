@@ -7,8 +7,8 @@ import * as ParticleAuth from 'react-native-particle-auth';
 
 export class EvmService {
     static async rpc(method: string, params: any) {
-        const rpcUrl = "https://api.particle.network/";
-        const path = "evm-chain/rpc";
+        const rpcUrl = "https://rpc.particle.network/";
+        const path = "evm-chain";
         const chainInfo = await ParticleAuth.getChainInfo();
         const chainId = chainInfo.chain_id;
         const result = await JsonRpcRequest(rpcUrl, path, method, params, chainId);

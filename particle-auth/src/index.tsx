@@ -107,7 +107,7 @@ export function logout(): Promise<any> {
 }
 
 /**
- * Is user log in
+ * Is user logged in
  * @returns Result, if user is login return true, otherwise retrun false
  */
 export function isLogin(): Promise<boolean> {
@@ -210,7 +210,9 @@ export function getUserInfo() {
  * @param style Modal present style
  */
 export function setModalPresentStyle(style: iOSModalPresentStyle) {
-  ParticleAuthPlugin.setModalPresentStyle(style)
+  if (Platform.OS === 'ios') { 
+    ParticleAuthPlugin.setModalPresentStyle(style)
+  }
 }
 
 /**

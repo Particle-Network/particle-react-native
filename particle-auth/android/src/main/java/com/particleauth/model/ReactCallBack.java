@@ -19,15 +19,11 @@ public class ReactCallBack<T> {
         this.status = status.ordinal();
         this.t = t;
     }
-    public static ReactCallBack successStr() {
-        return new ReactCallBack(FlutterCallBackStatus.Success,"success");
-    }
+
     public static <T> ReactCallBack success(T t) {
         return new ReactCallBack(FlutterCallBackStatus.Success, t);
     }
-    public static ReactCallBack failedStr() {
-        return new ReactCallBack(FlutterCallBackStatus.Failed, "failed");
-    }
+
     public static <T> ReactCallBack failed(T t) {
         return new ReactCallBack(FlutterCallBackStatus.Failed, t);
     }

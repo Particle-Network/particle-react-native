@@ -13,6 +13,8 @@ import SwiftyJSON
 
 @objc(ParticleAuthPlugin)
 class ParticleAuthPlugin: NSObject {
+   
+    
     let bag = DisposeBag()
     
     @objc

@@ -13,9 +13,8 @@ export async function getSolanaTransaction(from) {
     const receiver = TestAccountSolana.receiverAddress;
     const amount = 10000000;
     const obj = { sender: sender, receiver: receiver, lamports: amount }
-    const rpcUrl = "http://api-debug.app-link.network/";
-    // const rpcUrl = "https://api.particle.network/"
-    const pathname = "solana/rpc"
+    const rpcUrl = "https://rpc.particle.network/"
+    const pathname = "solana"
     const chainId = 103
 
     const result = await JsonRpcRequest(rpcUrl, pathname, SolanaReqBodyMethod.enhancedSerializeTransaction, [SerializeTransactionParams.transferSol, obj], chainId);
@@ -33,9 +32,8 @@ export async function getSplTokenTransaction(from) {
     const amount = parseInt(TestAccountSolana.amount);
     const mint = TestAccountSolana.tokenContractAddress;
     const obj = { sender: sender, receiver: receiver, amount: amount, mint: mint }
-    const rpcUrl = "http://api-debug.app-link.network/";
-    // const rpcUrl = "https://api.particle.network/"
-    const pathname = "solana/rpc"
+    const rpcUrl = "https://rpc.particle.network/"
+    const pathname = "solana"
     const chainId = 103
 
     const result = await JsonRpcRequest(rpcUrl, pathname, SolanaReqBodyMethod.enhancedSerializeTransaction, [SerializeTransactionParams.transferToken, obj], chainId);

@@ -19,7 +19,7 @@ setChainInfo = async () => {
 }
 
 setChainInfoAsync = async () => {
-    const chainInfo = ChainInfo.EthereumGoerli;
+    const chainInfo = ChainInfo.SolanaDevnet;
     const result = await particleAuth.setChainInfoAsync(chainInfo);
     console.log(result);
 }
@@ -64,10 +64,14 @@ signMessage = async () => {
         const error = result.data;
         console.log(error);
     }
-
 }
 
 signTransaction = async () => {
+    const chainInfo = await particleAuth.getChainInfo();
+    if (chainInfo.chain_name.toLowerCase() != "solana") {
+        console.log("signTransaction only supports solana")
+        return
+    }
     const sender = await particleAuth.getAddress();
     console.log("sender: ", sender);
     const transaction = await Helper.getSolanaTransaction(sender);
@@ -83,6 +87,11 @@ signTransaction = async () => {
 }
 
 signAllTransactions = async () => {
+    const chainInfo = await particleAuth.getChainInfo();
+    if (chainInfo.chain_name.toLowerCase() != "solana") {
+        console.log("signAllTransactions only supports solana")
+        return
+    }
     const sender = await particleAuth.getAddress();
     const transaction1 = await Helper.getSolanaTransaction(sender);
     const transaction2 = await Helper.getSplTokenTransaction(sender);
@@ -101,9 +110,13 @@ signAllTransactions = async () => {
 signAndSendTransaction = async () => {
     console.log("signAndSendTransaction ....");
     const sender = await particleAuth.getAddress();
-
-    // const transaction1 = await getSolanaTransaction(sender);
-    const transaction = await Helper.getEthereumTransacion(sender);
+    const chainInfo = await particleAuth.getChainInfo();
+    let transaction = "";
+    if (chainInfo.chain_name.toLowerCase() == "solana") { 
+        transaction = await Helper.getSolanaTransaction(sender);
+    } else {
+        transaction = await Helper.getEthereumTransacion(sender);
+    }
     console.log(transaction);
     const result = await particleAuth.signAndSendTransaction(transaction);
     if (result.status) {
@@ -117,6 +130,11 @@ signAndSendTransaction = async () => {
 }
 
 signTypedData = async () => {
+    const chainInfo = await particleAuth.getChainInfo();
+    if (chainInfo.chain_name.toLowerCase() == "solana") {
+        console.log("signTypedData only supports evm")
+        return
+    }
     const typedData = "[    {    \"type\":\"string\",    \"name\":\"Message\",    \"value\":\"Hi, Alice!\"    },    {    \"type\":\"uint32\",    \"name\":\"A nunmber\",    \"value\":\"1337\"    }]";
 
     const version = "v1";
@@ -140,7 +158,6 @@ getUserInfo = async () => {
     const result = await particleAuth.getUserInfo();
     const userInfo = JSON.parse(result);
     console.log(userInfo);
-    console.log(userInfo.wallets);
 }
 
 

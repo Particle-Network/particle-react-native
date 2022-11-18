@@ -13,4 +13,7 @@ public class LoginData {
 
     @SerializedName("support_auth_type_values")
     public List<String> supportAuthTypeValues;
+
+    @SerializedName("login_form_mode")
+    public boolean loginFormMode;
 }

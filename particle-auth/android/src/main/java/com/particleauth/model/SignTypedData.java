@@ -6,8 +6,5 @@ public class SignTypedData {
 
     public String version;
 
-//    public String getVersion() {
-//        return version.toLowerCase();
-//    }
 
 }

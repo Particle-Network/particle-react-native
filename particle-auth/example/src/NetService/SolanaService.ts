@@ -4,8 +4,8 @@ import JsonRpcRequest from "./NetService";
 
 export class SolanaService {
     static async rpc(method: string, params: any) {
-        const rpcUrl = "https://api.particle.network/";
-        const path = "solana/rpc";
+        const rpcUrl = "https://rpc.particle.network/";
+        const path = "solana";
         const chainInfo = await particleAuth.getChainInfo();
         const chainId = chainInfo.chain_id; 
         const result = await JsonRpcRequest(rpcUrl, path, method, params, chainId);

@@ -1,6 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-ParticleConnectExample/Pods-ParticleConnectExample-resources.sh
-${PODS_ROOT}/ConnectWalletConnectAdapter/Frameworks/ConnectWalletConnectAdapter/ConnectWalletConnectAdapter.bundle
-${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle
-${PODS_ROOT}/ParticleAuthService/Frameworks/ParticleAuthService/ParticleAuthService.bundle
+${PODS_ROOT}/ConnectWalletConnectAdapter/XCFrameworks/ConnectWalletConnectAdapter/ConnectWalletConnectAdapter.bundle
+${PODS_ROOT}/ParticleAuthService/XCFrameworks/ParticleAuthService/ParticleAuthService.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/SwiftMessages/SwiftMessages.bundle

@@ -8,7 +8,7 @@
 import Foundation
 import ParticleConnect
 
-public class SchemeManager: NSObject {
+public class ParticleConnectSchemeManager: NSObject {
     @objc public static func handlerUrl(_ url: URL) -> Bool {
         return ParticleConnect.handleUrl(url)
     }

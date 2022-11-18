@@ -55,6 +55,7 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
+
 }
 
 repositories {
@@ -134,12 +135,27 @@ dependencies {
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 // From node_modules
+
+    def connectVersion = "0.9.31"
+    implementation("network.particle:base-service:0.8.7")
+    implementation("network.particle:auth-service:0.8.7")
+
+    implementation("network.particle:connect-common:$connectVersion")
+    implementation("network.particle:connect:$connectVersion")
+    implementation("network.particle:connect-evm-adapter:$connectVersion")
+    implementation("network.particle:connect-solana-adapter:$connectVersion")
+    implementation("network.particle:connect-phantom-adapter:$connectVersion")
+    implementation("network.particle:connect-wallet-connect-adapter:$connectVersion")
+
+    implementation("com.blankj:utilcodex:1.31.0")
+    implementation("commons-codec:commons-codec:1.15")
+    implementation("com.google.code.gson:gson:2.8.5")
 }
 
 if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
     libraryName = "ParticleConnect"
-    codegenJavaPackageName = "com.reactnativeparticleconnect"
+    codegenJavaPackageName = "com.particleconnect"
   }
 }

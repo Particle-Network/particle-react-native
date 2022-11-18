@@ -1,6 +1,0 @@
-framework module Expo {
-  umbrella header "Expo-umbrella.h"
-
-  export *
-  module * { export * }
-}

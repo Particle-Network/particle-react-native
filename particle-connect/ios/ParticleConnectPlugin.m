@@ -10,7 +10,9 @@ RCT_EXTERN_METHOD(getChainInfo: (RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(setChainInfo: (NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
-RCT_EXTERN_METHOD(connect:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
+RCT_EXTERN_METHOD(setChainInfoAsync: (NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
+
+RCT_EXTERN_METHOD(connect:(NSString* _Nonnull)json configJson:(NSString* _Nonnull)configJson callback:(RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(disconnect:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 

@@ -97,16 +97,14 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_resource "${PODS_ROOT}/ConnectWalletConnectAdapter/Frameworks/ConnectWalletConnectAdapter/ConnectWalletConnectAdapter.bundle"
-  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle"
-  install_resource "${PODS_ROOT}/ParticleAuthService/Frameworks/ParticleAuthService/ParticleAuthService.bundle"
+  install_resource "${PODS_ROOT}/ConnectWalletConnectAdapter/XCFrameworks/ConnectWalletConnectAdapter/ConnectWalletConnectAdapter.bundle"
+  install_resource "${PODS_ROOT}/ParticleAuthService/XCFrameworks/ParticleAuthService/ParticleAuthService.bundle"
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle"
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/SwiftMessages/SwiftMessages.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_resource "${PODS_ROOT}/ConnectWalletConnectAdapter/Frameworks/ConnectWalletConnectAdapter/ConnectWalletConnectAdapter.bundle"
-  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle"
-  install_resource "${PODS_ROOT}/ParticleAuthService/Frameworks/ParticleAuthService/ParticleAuthService.bundle"
+  install_resource "${PODS_ROOT}/ConnectWalletConnectAdapter/XCFrameworks/ConnectWalletConnectAdapter/ConnectWalletConnectAdapter.bundle"
+  install_resource "${PODS_ROOT}/ParticleAuthService/XCFrameworks/ParticleAuthService/ParticleAuthService.bundle"
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle"
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/SwiftMessages/SwiftMessages.bundle"
 fi

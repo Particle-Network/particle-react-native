@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import ParticleNetworkBase
 import ParticleConnect
+import ParticleNetworkBase
 #if canImport(ConnectEVMAdapter)
 import ConnectEVMAdapter
 #endif
@@ -24,8 +24,9 @@ import ConnectPhantomAdapter
 import ConnectWalletConnectAdapter
 #endif
 import ConnectCommon
-import SwiftyJSON
+import ParticleAuthService
 import RxSwift
+import SwiftyJSON
 
 @objc(ParticleConnectPlugin)
 class ParticleConnectPlugin: NSObject {
@@ -113,6 +114,44 @@ class ParticleConnectPlugin: NSObject {
         ParticleNetwork.setChainInfo(chainInfo)
         callback([true])
     }
+
+    @objc
+    public func setChainInfoAsync(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+        let data = JSON(parseJSON: json)
+        let name = data["chain_name"].stringValue.lowercased()
+        let chainId = data["chain_id"].intValue
+        guard let chainInfo = matchChain(name: name, chainId: chainId) else {
+            callback([false])
+            return
+        }
+        if ParticleAuthService.isLogin() {
+            ParticleAuthService.setChainInfo(chainInfo).subscribe { [weak self] result in
+                guard let self = self else { return }
+
+                switch result {
+                case .failure(let error):
+                    let response = self.ResponseFromError(error)
+                    let statusModel = ReactStatusModel(status: false, data: response)
+                    let data = try! JSONEncoder().encode(statusModel)
+                    guard let json = String(data: data, encoding: .utf8) else { return }
+                    callback([json])
+                    
+                case .success(let userInfo):
+                    guard let userInfo = userInfo else { return }
+                    let statusModel = ReactStatusModel(status: true, data: true)
+                    let data = try! JSONEncoder().encode(statusModel)
+                    guard let json = String(data: data, encoding: .utf8) else { return }
+                    callback([json])
+                }
+            }.disposed(by: bag)
+        } else {
+            ParticleNetwork.setChainInfo(chainInfo)
+            let statusModel = ReactStatusModel(status: true, data: true)
+            let data = try! JSONEncoder().encode(statusModel)
+            guard let json = String(data: data, encoding: .utf8) else { return }
+            callback([json])
+        }
+    }
     
     @objc
     public func getChainInfo(_ callback: @escaping RCTResponseSenderBlock) {
@@ -124,7 +163,7 @@ class ParticleConnectPlugin: NSObject {
     }
     
     @objc
-    public func getAccounts(_ json: String, resolve: RCTPromiseResolveBlock, rejecter:RCTPromiseRejectBlock) {
+    public func getAccounts(_ json: String, resolve: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
         let walletTypeString = json
         guard let walletType = map2WalletType(from: walletTypeString) else {
             print("walletType \(walletTypeString) is not existed")
@@ -146,8 +185,52 @@ class ParticleConnectPlugin: NSObject {
     }
     
     @objc
-    public func connect(_ json: String, configJson: string, callback: @escaping RCTResponseSenderBlock) {
+    public func connect(_ json: String, configJson: String, callback: @escaping RCTResponseSenderBlock) {
         let walletTypeString = json
+        
+        var connectConfig: ParticleConnectConfig?
+        if !configJson.isEmpty {
+            let data = JSON(parseJSON: configJson)
+            let loginType = LoginType(rawValue: data["login_type"].stringValue.lowercased()) ?? .email
+            var supportAuthTypeArray: [SupportAuthType] = []
+            
+            let array = data["support_auth_type_values"].arrayValue.map {
+                $0.stringValue.lowercased()
+            }
+            if array.contains("all") {
+                supportAuthTypeArray = [.all]
+            } else {
+                array.forEach {
+                    if $0 == "apple" {
+                        supportAuthTypeArray.append(.apple)
+                    } else if $0 == "google" {
+                        supportAuthTypeArray.append(.google)
+                    } else if $0 == "facebook" {
+                        supportAuthTypeArray.append(.facebook)
+                    } else if $0 == "github" {
+                        supportAuthTypeArray.append(.github)
+                    } else if $0 == "twitch" {
+                        supportAuthTypeArray.append(.twitch)
+                    } else if $0 == "microsoft" {
+                        supportAuthTypeArray.append(.microsoft)
+                    } else if $0 == "linkedin" {
+                        supportAuthTypeArray.append(.linkedin)
+                    } else if $0 == "discord" {
+                        supportAuthTypeArray.append(.discord)
+                    }
+                }
+            }
+            
+            var account = data["account"].string
+            
+            if account != nil, account!.isEmpty {
+                account = nil
+            }
+            
+            let loginFormMode = data["login_form_mode"].boolValue
+            connectConfig = ParticleConnectConfig(loginType: loginType, supportAuthType: supportAuthTypeArray, loginFormMode: loginFormMode, phoneOrEmailAccount: account)
+        }
+        
         guard let walletType = map2WalletType(from: walletTypeString) else {
             print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
@@ -174,8 +257,10 @@ class ParticleConnectPlugin: NSObject {
         var observable: Single<Account?>
         if walletType == .walletConnect {
             observable = (adapter as! WalletConnectAdapter).connectWithQrCode(from: vc)
+        } else if walletType == .particle {
+            observable = adapter.connect(connectConfig)
         } else {
-            observable = adapter.connect(.none)
+            observable = adapter.connect(ConnectConfig.none)
         }
         
         observable.subscribe { [weak self] result in
@@ -766,10 +851,10 @@ class ParticleConnectPlugin: NSObject {
     }
 }
 
-extension Dictionary {
+public extension Dictionary {
     /// - Parameter prettify: set true to prettify string (default is false).
     /// - Returns: optional JSON String (if applicable).
-    public func jsonString(prettify: Bool = false) -> String? {
+    func jsonString(prettify: Bool = false) -> String? {
         guard JSONSerialization.isValidJSONObject(self) else { return nil }
         let options = (prettify == true) ? JSONSerialization.WritingOptions.prettyPrinted : JSONSerialization.WritingOptions()
         guard let jsonData = try? JSONSerialization.data(withJSONObject: self, options: options) else { return nil }

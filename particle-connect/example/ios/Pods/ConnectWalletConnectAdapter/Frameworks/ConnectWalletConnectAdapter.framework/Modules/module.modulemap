@@ -1,4 +1,0 @@
-framework module ConnectWalletConnectAdapter {
-  header "ConnectWalletConnectAdapter-Swift.h"
-  requires objc
-}

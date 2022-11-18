@@ -52,6 +52,23 @@ export function setChainInfo(chainInfo: ChainInfo): Promise<boolean> {
 }
 
 /**
+ * Set chain info async, used when logged in with wallet type Particle.
+ * Particle will automaticlly created wallet when call this method.
+ * for example, when switch solana to ethereum, Particle will create ethereum account if needed.
+ * @param chainInfo ChainInfo
+ * @returns Result 
+ */
+ export function setChainInfoAsync(chainInfo: ChainInfo): Promise<boolean> {
+  const obj = { chain_name: chainInfo.chain_name, chain_id: chainInfo.chain_id, chain_id_name: chainInfo.chain_id_name };
+  const json = JSON.stringify(obj);
+  return new Promise((resolve) => {
+    ParticleConnectPlugin.setChainInfoAsync(json, (result: boolean) => {
+      resolve(result);
+    });
+  });
+}
+
+/**
  * Get accounts
  * @param walletType Wallet type
  * @returns Account
@@ -304,3 +321,4 @@ export * from "./Models/ChainInfo"
 export * from "./Models/DappMetaData"
 export * from "./Models/RpcUrl"
 export * from "./Models/WalletType"
+export * from "./Models/ConnectConfig"

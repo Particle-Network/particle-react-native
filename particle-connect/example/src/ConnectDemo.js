@@ -6,12 +6,15 @@ import * as particleConnect from 'react-native-particle-connect';
 import { TestAccountEVM, TestAccountSolana } from './TestAccount';
 import * as Helper from './Helper';
 import { WalletType, Env, LoginType, SupportAuthType} from 'react-native-particle-connect';
-import { ChainInfo } from '../../lib/commonjs/Models/ChainInfo';
-import { ParticleConnectConfig } from '../../lib/typescript/Models/ConnectConfig';
+import { ChainInfo } from 'react-native-particle-connect';
+import { ParticleConnectConfig } from 'react-native-particle-connect';
+import { PNAccount }from './Models/PNAccount';
 
 const walletType = WalletType.MetaMask
 var loginSourceMessage = "";
 var loginSignature = "";
+
+var pnaccount;
 
 getAccounts = async () => {
     const accounts = await particleConnect.getAccounts(walletType);
@@ -25,6 +28,17 @@ setChainInfo = async () => {
 
 }
 
+getChainInfo = async () => {
+    const chainInfo = await ParticleConnect.getChainInfo();
+    console.log(chainInfo);
+}
+
+setChainInfoAsync = async () => {
+    const chainInfo = ChainInfo.EthereumGoerli;
+    const result = await particleConnect.setChainInfoAsync(chainInfo);
+    console.log(result);
+}
+
 init = async () => {
     const chainInfo = ChainInfo.EthereumGoerli;
     const env = Env.Dev;
@@ -36,9 +50,12 @@ init = async () => {
 connect = async () => {
     const result = await particleConnect.connect(walletType);
     if (result.status) {
+        console.log("connect success")
         const account = result.data;
-        console.log(account);
+        pnaccount = new PNAccount(account.icons, account.name, account.publicAddress, account.url);
+        console.log("pnaccount = ", pnaccount);
     } else {
+        console.log("connect failure")
         const error = result.data;
         console.log(error);
     }
@@ -46,11 +63,14 @@ connect = async () => {
 
 connectWithParticleConfig = async () => {
     const connectConfig = new ParticleConnectConfig(LoginType.Phone, "", [SupportAuthType.Facebook, SupportAuthType.Google, SupportAuthType.Apple])
-    const result = await particleConnect.connect(walletType, connectConfig);
+    const result = await particleConnect.connect(WalletType.Particle, connectConfig);
     if (result.status) {
+        console.log("connect success")
         const account = result.data;
-        console.log(account);
+        pnaccount = new PNAccount(account.icons, account.name, account.publicAddress, account.url);
+        console.log("pnaccount = ", pnaccount);
     } else {
+        console.log("connect failure")
         const error = result.data;
         console.log(error);
     }
@@ -68,14 +88,14 @@ disconnect = async () => {
 }
 
 isConnected = async () => {
-    const publicAddress = TestAccountEVM.publicAddress;
+    const publicAddress = pnaccount.publicAddress;
     const isConnected = await particleConnect.isConnected(walletType, publicAddress);
     console.log(isConnected);
 }
 
 signMessage = async () => {
     const message = "Hello world!"
-    const publicAddress = TestAccountEVM.publicAddress;
+    const publicAddress = pnaccount.publicAddress;
     const result = await particleConnect.signMessage(walletType, publicAddress, message);
     if (result.status) {
         const signedMessage = result.data;
@@ -89,7 +109,7 @@ signMessage = async () => {
 
 signTransaction = async () => {
     const transaction = ""
-    const publicAddress = TestAccountEVM.publicAddress;
+    const publicAddress = pnaccount.publicAddress;
     const result = await particleConnect.signTransaction(walletType, publicAddress, transaction);
     if (result.status) {
         const signedTransaction = result.data;
@@ -102,7 +122,7 @@ signTransaction = async () => {
 
 signAllTransactions = async () => {
     const transactions = ["", ""]
-    const publicAddress = TestAccountEVM.publicAddress;
+    const publicAddress = pnaccount.publicAddress;
     const result = await particleConnect.signAllTransactions(walletType, publicAddress, transactions);
     if (result.status) {
         const signedTransactions = result.data;
@@ -114,9 +134,10 @@ signAllTransactions = async () => {
 }
 
 signAndSendTransaction = async () => {
-    const transaction = await Helper.getEthereumTransacion(TestAccountEVM.publicAddress);
+    console.log("pnaccount.publicAddress = " + pnaccount.publicAddress)
+    const transaction = await Helper.getEthereumTransacion(pnaccount.publicAddress);
     console.log(transaction);
-    const publicAddress = TestAccountEVM.publicAddress;
+    const publicAddress = pnaccount.publicAddress;
     const result = await particleConnect.signAndSendTransaction(walletType, publicAddress, transaction);
     if (result.status) {
         const signature = result.data;
@@ -130,7 +151,7 @@ signAndSendTransaction = async () => {
 
 signTypedData = async () => {
     const typedData = "{        \"types\": {            \"EIP712Domain\": [                {                    \"name\": \"name\",                    \"type\": \"string\"                },                {                    \"name\": \"version\",                    \"type\": \"string\"                },                {                    \"name\": \"chainId\",                    \"type\": \"uint256\"                },                {                    \"name\": \"verifyingContract\",                    \"type\": \"address\"                }            ],            \"Person\": [                {                    \"name\": \"name\",                    \"type\": \"string\"                },                {                    \"name\": \"wallet\",                    \"type\": \"address\"                }            ],            \"Mail\": [                {                    \"name\": \"from\",                    \"type\": \"Person\"                },                {                    \"name\": \"to\",                    \"type\": \"Person\"                },                {                    \"name\": \"contents\",                    \"type\": \"string\"                }            ]        },        \"primaryType\": \"Mail\",        \"domain\": {            \"name\": \"Ether Mail\",            \"version\": \"1\",            \"chainId\": 5,            \"verifyingContract\": \"0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC\"        },        \"message\": {            \"from\": {                \"name\": \"Cow\",                \"wallet\": \"0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826\"            },            \"to\": {                \"name\": \"Bob\",                \"wallet\": \"0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB\"            },            \"contents\": \"Hello, Bob!\"        }}        ";
-    const publicAddress = TestAccountEVM.publicAddress;
+    const publicAddress = pnaccount.publicAddress;
     const result = await particleConnect.signTypedData(walletType, publicAddress, typedData);
     if (result.status) {
         const signature = result.data;
@@ -142,7 +163,7 @@ signTypedData = async () => {
 }
 
 login = async () => {
-    const publicAddress = TestAccountEVM.publicAddress;
+    const publicAddress = pnaccount.publicAddress;
     const domain = "login.xyz";
     const uri = "https://login.xyz/demo#login";
     const result = await particleConnect.login(walletType, publicAddress, domain, uri);
@@ -161,7 +182,7 @@ login = async () => {
 }
 
 verify = async () => {
-    const publicAddress = TestAccountEVM.publicAddress;
+    const publicAddress = pnaccount.publicAddress;
     const message = loginSourceMessage;
     const signature = loginSignature;
     console.log("verify message:", message);
@@ -216,6 +237,8 @@ exportPrivateKey = async () => {
 const data = [
     { key: 'Init', function: this.init },
     { key: 'SetChainInfo', function: this.setChainInfo },
+    { key: 'SetChainInfoAsync', function: this.setChainInfoAsync },
+    { key: 'GetChainInfo', function: this.getChainInfo },
     { key: 'GetAccounts', function: this.getAccounts },
     { key: 'Connect', function: this.connect },
     { key: 'ConnectWithParticleConfig', function: this.connectWithParticleConfig},

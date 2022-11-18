@@ -1,5 +1,7 @@
 # react-native-particle-connect
-Particle Connect Service in React Native
+
+React Native Particle Connect
+
 ## Installation
 
 ```sh
@@ -9,8 +11,11 @@ npm install react-native-particle-connect
 ## Usage
 
 ```js
-import * as particleConnect from "react-native-particle-connect";
+import { multiply } from 'react-native-particle-connect';
 
+// ...
+
+const result = await multiply(3, 7);
 ```
 
 ## Contributing
@@ -19,7 +24,7 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 
 ## License
 
-Apache 2.0
+MIT
 
 ---
 

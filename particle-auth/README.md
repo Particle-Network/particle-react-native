@@ -10,13 +10,6 @@ npm install react-native-particle-auth
 
 ## Usage
 
-```js
-import { multiply } from 'react-native-particle-auth';
-
-// ...
-
-const result = await multiply(3, 7);
-```
 
 ## Contributing
 

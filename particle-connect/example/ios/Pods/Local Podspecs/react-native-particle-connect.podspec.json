@@ -1,8 +1,8 @@
 {
   "name": "react-native-particle-connect",
-  "version": "0.1.0",
-  "summary": "test",
-  "homepage": "https://particle.network#readme",
+  "version": "0.1.1",
+  "summary": "Particle Connect in React Native",
+  "homepage": "https://github.com/Particle-Network/particle-react-native#readme",
   "license": "MIT",
   "authors": "Zhichao Link <sunzhichao@minijoy.work> (https://particle.network)",
   "platforms": {
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://particle.network.git",
-    "tag": "0.1.0"
+    "tag": "0.1.1"
   },
   "source_files": "ios/**/*.{h,m,mm,swift}",
   "dependencies": {

@@ -61,9 +61,12 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-  
-  return [ParticleConnectSchemeManager handlerUrl:url];
-  
+  if ([ParticleConnectSchemeManager handleUrl:url] == YES) {
+    return YES;
+  } else {
+    // other methods
+  }
+  return YES;
 }
 
 /// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.

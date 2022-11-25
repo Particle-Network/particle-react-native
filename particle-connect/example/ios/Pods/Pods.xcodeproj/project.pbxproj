@@ -2240,7 +2240,7 @@
 		46EB2E00012550 /* ParticleConnectPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 46EB2E000066A0 /* ParticleConnectPlugin.m */; };
 		46EB2E00012560 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EB2E00006680 /* Model.swift */; };
 		46EB2E00012570 /* ParticleConnectPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EB2E000066B0 /* ParticleConnectPlugin.swift */; };
-		46EB2E00012580 /* SchemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EB2E000066C0 /* SchemeManager.swift */; };
+		46EB2E00012580 /* ParticleConnectSchemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EB2E000066C0 /* ParticleConnectSchemeManager.swift */; };
 		46EB2E00012590 /* ParticleConnectPlugin-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 46EB2E00006690 /* ParticleConnectPlugin-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		46EB2E000125F0 /* react-native-particle-connect-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 46EB2E000125E0 /* react-native-particle-connect-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		46EB2E00012630 /* react-native-particle-connect-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 46EB2E00012620 /* react-native-particle-connect-dummy.m */; };
@@ -6415,7 +6415,7 @@
 		46EB2E00006690 /* ParticleConnectPlugin-Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "ParticleConnectPlugin-Bridging-Header.h"; path = "ios/ParticleConnectPlugin-Bridging-Header.h"; sourceTree = "<group>"; };
 		46EB2E000066A0 /* ParticleConnectPlugin.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ParticleConnectPlugin.m; path = ios/ParticleConnectPlugin.m; sourceTree = "<group>"; };
 		46EB2E000066B0 /* ParticleConnectPlugin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParticleConnectPlugin.swift; path = ios/ParticleConnectPlugin.swift; sourceTree = "<group>"; };
-		46EB2E000066C0 /* SchemeManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SchemeManager.swift; path = ios/SchemeManager.swift; sourceTree = "<group>"; };
+		46EB2E000066C0 /* ParticleConnectSchemeManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParticleConnectSchemeManager.swift; path = ios/ParticleConnectSchemeManager.swift; sourceTree = "<group>"; };
 		46EB2E000066D0 /* RNCSafeAreaContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RNCSafeAreaContext.h; path = ios/RNCSafeAreaContext.h; sourceTree = "<group>"; };
 		46EB2E000066E0 /* RNCSafeAreaContext.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = RNCSafeAreaContext.mm; path = ios/RNCSafeAreaContext.mm; sourceTree = "<group>"; };
 		46EB2E000066F0 /* RNCSafeAreaProvider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RNCSafeAreaProvider.h; path = ios/RNCSafeAreaProvider.h; sourceTree = "<group>"; };
@@ -9062,7 +9062,7 @@
 				46EB2E000066A0 /* ParticleConnectPlugin.m */,
 				46EB2E000066B0 /* ParticleConnectPlugin.swift */,
 				46EB2E00006690 /* ParticleConnectPlugin-Bridging-Header.h */,
-				46EB2E000066C0 /* SchemeManager.swift */,
+				46EB2E000066C0 /* ParticleConnectSchemeManager.swift */,
 				46EB2E000072D0 /* Pod */,
 				46EB2E000125A0 /* Support Files */,
 			);
@@ -15521,8 +15521,8 @@
 				46EB2E00012560 /* Model.swift in Sources */,
 				46EB2E00012550 /* ParticleConnectPlugin.m in Sources */,
 				46EB2E00012570 /* ParticleConnectPlugin.swift in Sources */,
+				46EB2E00012580 /* ParticleConnectSchemeManager.swift in Sources */,
 				46EB2E00012630 /* react-native-particle-connect-dummy.m in Sources */,
-				46EB2E00012580 /* SchemeManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

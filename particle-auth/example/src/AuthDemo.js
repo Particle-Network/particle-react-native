@@ -46,7 +46,6 @@ logout = async () => {
         const error = result.data;
         console.log(error);
     }
-
 }
 
 isLogin = async () => {
@@ -108,7 +107,6 @@ signAllTransactions = async () => {
 }
 
 signAndSendTransaction = async () => {
-    console.log("signAndSendTransaction ....");
     const sender = await particleAuth.getAddress();
     const chainInfo = await particleAuth.getChainInfo();
     let transaction = "";
@@ -126,7 +124,6 @@ signAndSendTransaction = async () => {
         const error = result.data;
         console.log(error);
     }
-
 }
 
 signTypedData = async () => {

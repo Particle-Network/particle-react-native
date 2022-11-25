@@ -62,7 +62,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
   
-  return [ParticleConnectSchemeManager handlerUrl:url];
+  return [ParticleConnectSchemeManager handleUrl:url];
   
 }
 

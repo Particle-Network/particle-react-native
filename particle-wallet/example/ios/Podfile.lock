@@ -321,7 +321,7 @@ PODS:
   - React-jsinspector (0.70.6)
   - React-logger (0.70.6):
     - glog
-  - react-native-particle-connect (0.1.1):
+  - react-native-particle-connect (0.8.0):
     - ConnectCommon
     - ConnectEVMAdapter
     - ConnectPhantomAdapter
@@ -633,7 +633,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: b4a65947391c658450151275aa406f2b8263178f
   React-jsinspector: 60769e5a0a6d4b32294a2456077f59d0266f9a8b
   React-logger: 1623c216abaa88974afce404dc8f479406bbc3a0
-  react-native-particle-connect: 5d934ed4ca5ccc1d24f17000fcef998a24fe9146
+  react-native-particle-connect: 74561004f8b0c033b406adce7a7ab82d0c68d4e1
   react-native-particle-wallet: 0ae2f5232fac84a09ac136d713c230c01650cf22
   react-native-safe-area-context: 6c12e3859b6f27b25de4fee8201cfb858432d8de
   React-perflogger: 8c79399b0500a30ee8152d0f9f11beae7fc36595
@@ -666,6 +666,6 @@ SPEC CHECKSUMS:
   WalletConnectSwift: 6309bf3011b0b30e3e9d1e7449535302a9240f71
   Yoga: 99caf8d5ab45e9d637ee6e0174ec16fbbb01bcfc
 
-PODFILE CHECKSUM: 68f7899b8dad5a4b08e3a97f590bf8165de9d265
+PODFILE CHECKSUM: b096c6ab64a2c0ae27205ae5888f89ed36283e80
 
 COCOAPODS: 1.11.3

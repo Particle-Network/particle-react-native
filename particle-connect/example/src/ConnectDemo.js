@@ -5,12 +5,12 @@ import { Button } from '@rneui/themed';
 import * as particleConnect from 'react-native-particle-connect';
 import { TestAccountEVM, TestAccountSolana } from './TestAccount';
 import * as Helper from './Helper';
-import { WalletType, Env, LoginType, SupportAuthType} from 'react-native-particle-connect';
+import { Env, LoginType, SupportAuthType, WalletType } from 'react-native-particle-connect';
 import { ChainInfo } from 'react-native-particle-connect';
 import { ParticleConnectConfig } from 'react-native-particle-connect';
-import { PNAccount }from './Models/PNAccount';
+import { PNAccount } from './Models/PNAccount';
 
-const walletType = WalletType.MetaMask
+const walletType = WalletType.MetaMask;
 var loginSourceMessage = "";
 var loginSignature = "";
 
@@ -233,6 +233,51 @@ exportPrivateKey = async () => {
     }
 }
 
+addEthereumChain = async () => {
+    const publicAddress = TestAccountEVM.publicAddress;
+    const chainId = 80001; // polygon testnet
+
+    const result = await particleConnect.addEthereumChain(WalletType.MetaMask, publicAddress, chainId);
+
+    if (result.status) {
+        const data = result.data;
+        console.log(data);
+    } else {
+        const error = result.data;
+        console.log(error);
+    }
+}
+
+switchEthereumChain = async () => {
+    const publicAddress = TestAccountEVM.publicAddress;
+    const chainId = 137;
+
+    const result = await particleConnect.switchEthereumChain(WalletType.MetaMask, publicAddress, chainId);
+
+    if (result.status) {
+        const data = result.data;
+        console.log(data);
+    } else {
+        const error = result.data;
+        console.log(error);
+    }
+}
+
+reconnectIfNeeded = async () => {
+    const publicAddress = TestAccountEVM.publicAddress;
+
+    console.log("AAA");
+    const result = await particleConnect.reconnectIfNeeded(WalletType.MetaMask, publicAddress);
+
+    if (result.status) {
+        const data = result.data;
+        console.log(data);
+    } else {
+        const error = result.data;
+        console.log(error);
+    }
+}
+
 
 const data = [
     { key: 'Init', function: this.init },
@@ -241,7 +286,7 @@ const data = [
     { key: 'GetChainInfo', function: this.getChainInfo },
     { key: 'GetAccounts', function: this.getAccounts },
     { key: 'Connect', function: this.connect },
-    { key: 'ConnectWithParticleConfig', function: this.connectWithParticleConfig},
+    { key: 'ConnectWithParticleConfig', function: this.connectWithParticleConfig },
     { key: 'Disconnect', function: this.disconnect },
     { key: 'IsConnected', function: this.isConnected },
     { key: 'SignMessage', function: this.signMessage },
@@ -254,6 +299,9 @@ const data = [
     { key: 'ImportPrivateKey', function: this.importPrivateKey },
     { key: 'ImportMnemonic', function: this.importMnemonic },
     { key: 'ExportPrivateKey', function: this.exportPrivateKey },
+    { key: 'AddEthereumChain', function: this.addEthereumChain },
+    { key: 'SwitchEthereumChain', function: this.switchEthereumChain },
+    { key: 'ReconnectIfNeeded', function: this.reconnectIfNeeded },
 ];
 
 export default class ConnectDemo extends PureComponent {
@@ -280,7 +328,7 @@ const Item = ({ item }) => {
 
 
 const styles = StyleSheet.create({
- 
+
     buttonStyle: {
         backgroundColor: 'rgba(78, 116, 289, 1)',
         borderRadius: 3,

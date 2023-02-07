@@ -849,6 +849,127 @@ class ParticleConnectPlugin: NSObject {
             }
         }.disposed(by: bag)
     }
+    
+    @objc
+    public func addEthereumChain(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+        let data = JSON(parseJSON: json)
+        let walletTypeString = data["wallet_type"].stringValue
+        let publicAddress = data["public_address"].stringValue
+        let chainId = data["chain_id"].intValue
+        
+        guard let walletType = map2WalletType(from: walletTypeString) else {
+            print("walletType \(walletTypeString) is not existed ")
+            let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
+            let statusModel = ReactStatusModel(status: false, data: response)
+            let data = try! JSONEncoder().encode(statusModel)
+            guard let json = String(data: data, encoding: .utf8) else { return }
+            callback([json])
+            return
+        }
+        
+        guard let adapter = map2ConnectAdapter(from: walletType) else {
+            print("adapter for \(walletTypeString) is not init")
+            let response = ReactResponseError(code: nil, message: "adapter for \(walletTypeString) is not init", data: nil)
+            let statusModel = ReactStatusModel(status: false, data: response)
+            let data = try! JSONEncoder().encode(statusModel)
+            guard let json = String(data: data, encoding: .utf8) else { return }
+            callback([json])
+            return
+        }
+        adapter.addEthereumChain(publicAddress: publicAddress, chainId: chainId, chainName: nil, nativeCurrency: nil, rpcUrl: nil, blockExplorerUrl: nil).subscribe { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                let response = self.ResponseFromError(error)
+                let statusModel = ReactStatusModel(status: false, data: response)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            case .success(let flag):
+                let statusModel = ReactStatusModel(status: true, data: flag)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            }
+        }.disposed(by: bag)
+    }
+    
+    @objc
+    public func switchEthereumChain(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+        let data = JSON(parseJSON: json)
+        let walletTypeString = data["wallet_type"].stringValue
+        let publicAddress = data["public_address"].stringValue
+        let chainId = data["chain_id"].intValue
+        
+        guard let walletType = map2WalletType(from: walletTypeString) else {
+            print("walletType \(walletTypeString) is not existed ")
+            let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
+            let statusModel = ReactStatusModel(status: false, data: response)
+            let data = try! JSONEncoder().encode(statusModel)
+            guard let json = String(data: data, encoding: .utf8) else { return }
+            callback([json])
+            return
+        }
+        
+        guard let adapter = map2ConnectAdapter(from: walletType) else {
+            print("adapter for \(walletTypeString) is not init")
+            let response = ReactResponseError(code: nil, message: "adapter for \(walletTypeString) is not init", data: nil)
+            let statusModel = ReactStatusModel(status: false, data: response)
+            let data = try! JSONEncoder().encode(statusModel)
+            guard let json = String(data: data, encoding: .utf8) else { return }
+            callback([json])
+            return
+        }
+        adapter.switchEthereumChain(publicAddress: publicAddress, chainId: chainId).subscribe { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                let response = self.ResponseFromError(error)
+                let statusModel = ReactStatusModel(status: false, data: response)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            case .success(let flag):
+                let statusModel = ReactStatusModel(status: true, data: flag)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            }
+        }.disposed(by: bag)
+    }
+    
+    @objc public func reconnectIfNeeded(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+        let data = JSON(parseJSON: json)
+        let walletTypeString = data["wallet_type"].stringValue
+        let publicAddress = data["public_address"].stringValue
+        
+        guard let walletType = map2WalletType(from: walletTypeString) else {
+            print("walletType \(walletTypeString) is not existed ")
+            let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
+            let statusModel = ReactStatusModel(status: false, data: response)
+            let data = try! JSONEncoder().encode(statusModel)
+            guard let json = String(data: data, encoding: .utf8) else { return }
+            callback([json])
+            return
+        }
+        
+        guard let adapter = map2ConnectAdapter(from: walletType) else {
+            print("adapter for \(walletTypeString) is not init")
+            let response = ReactResponseError(code: nil, message: "adapter for \(walletTypeString) is not init", data: nil)
+            let statusModel = ReactStatusModel(status: false, data: response)
+            let data = try! JSONEncoder().encode(statusModel)
+            guard let json = String(data: data, encoding: .utf8) else { return }
+            callback([json])
+            return
+        }
+        
+        (adapter as? WalletConnectAdapter)?.reconnectIfNeeded(publicAddress: publicAddress)
+        let nullStr: String? = nil
+        let statusModel = ReactStatusModel(status: true, data: nullStr)
+        let nullData = try! JSONEncoder().encode(statusModel)
+        guard let json = String(data: nullData, encoding: .utf8) else { return }
+        callback([json])
+    }
 }
 
 public extension Dictionary {

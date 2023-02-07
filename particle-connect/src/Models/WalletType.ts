@@ -9,20 +9,12 @@ export enum WalletType {
     BitKeep = "BitKeep",
     WalletConnect = "WalletConnect",
     Phantom = "Phantom",
-}
-export enum WalletDisplay {
-    Token = 0,
-    NFT = 1
-}
-
-export enum Language {
-    System = "System",
-    En = "EN",
-    Zh_hans = "ZH_HANS"
-}
-
-export enum UserInterfaceStyle {
-    System = "System",
-    Light = "Light",
-    Dark = "Dark",
+    Zerion = "Zerion",
+    Math = "Math",
+    Omni = "Omni",
+    Zengo = "Zengo",
+    Alpha = "Alpha",
+    Bitpie = "Bitpie",
+    Inch1 = "Inch1",
+    TokenPocket = "TokenPocket" // iOS not support by 0.9.0
 }

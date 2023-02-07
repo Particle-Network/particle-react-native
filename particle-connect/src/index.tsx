@@ -255,7 +255,7 @@ export function verify(walletType: WalletType, publicAddress: string, message: s
 
 /**
  * Import private key
- * @param walletType Wallet type
+ * @param walletType Wallet type, EvmPrivateKey or SolanaPrivateKey
  * @param privateKey Private key
  * @returns Result, account or error
  */
@@ -272,7 +272,7 @@ export function importPrivateKey(walletType: WalletType, privateKey: string): Pr
 
 /**
  * Import mnemonic
- * @param walletType Wallet type
+ * @param walletType Wallet type, EvmPrivateKey or SolanaPrivateKey
  * @param mnemonic Mnemonic, example "word1 work2 ... " at least 12 words.
  * @returns Result, account or error
  */
@@ -289,7 +289,7 @@ export function importMnemonic(walletType: WalletType, mnemonic: string): Promis
 
 /**
  * Export private key
- * @param walletType Wallet type
+ * @param walletType Wallet type, EvmPrivateKey or SolanaPrivateKey
  * @param publicAddress Public address
  * @returns Result, private key or error
  */
@@ -299,6 +299,59 @@ export function exportPrivateKey(walletType: WalletType, publicAddress: string):
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.exportPrivateKey(json, (result: string) => {
+      resolve(JSON.parse(result));
+    });
+  });
+}
+
+/**
+ * Add ethereum chain, works with walletconnect, not support wallet type Particle, EvmPrivateKey or SolanaPrivateKey
+ * @param walletType Wallet type
+ * @param publicAddress Public address
+ * @returns Result
+ */
+export function addEthereumChain(walletType: WalletType, publicAddress: string, chainId: number) {
+  const obj = { wallet_type: walletType, public_address: publicAddress, chain_id: chainId };
+  const json = JSON.stringify(obj);
+
+  return new Promise((resolve) => {
+    ParticleConnectPlugin.addEthereumChain(json, (result: string) => {
+      resolve(JSON.parse(result));
+    });
+  });
+}
+
+/**
+ * Switch ethereum chain, works with walletconnect, not support wallet type Particle, EvmPrivateKey or SolanaPrivateKey
+ * @param walletType Wallet type
+ * @param publicAddress Public address
+ * @returns Result
+ */
+export function switchEthereumChain(walletType: WalletType, publicAddress: string, chainId: number) {
+  const obj = { wallet_type: walletType, public_address: publicAddress, chain_id: chainId };
+  const json = JSON.stringify(obj);
+
+  return new Promise((resolve) => {
+    ParticleConnectPlugin.switchEthereumChain(json, (result: string) => {
+      resolve(JSON.parse(result));
+    });
+  });
+}
+
+/**
+ * Only support iOS
+ * 
+ * Reconnect wallet connect, works with walletconnect, not support wallet type Particle, EvmPrivateKey or SolanaPrivateKey
+ * @param walletType Wallet type
+ * @param publicAddress Public address
+ * @returns Result
+ */
+export function reconnectIfNeeded(walletType: WalletType, publicAddress: string) {
+  const obj = { wallet_type: walletType, public_address: publicAddress };
+  const json = JSON.stringify(obj);
+
+  return new Promise((resolve) => {
+    ParticleConnectPlugin.reconnectIfNeeded(json, (result: string) => {
       resolve(JSON.parse(result));
     });
   });
@@ -320,5 +373,6 @@ export * from "./Models/LoginInfo"
 export * from "./Models/ChainInfo"
 export * from "./Models/DappMetaData"
 export * from "./Models/RpcUrl"
+export * from "./Models/WalletDisplay"
 export * from "./Models/WalletType"
 export * from "./Models/ConnectConfig"

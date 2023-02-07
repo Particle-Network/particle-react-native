@@ -1,6 +1,6 @@
 {
   "name": "react-native-particle-connect",
-  "version": "0.1.1",
+  "version": "0.8.0",
   "summary": "Particle Connect in React Native",
   "homepage": "https://github.com/Particle-Network/particle-react-native#readme",
   "license": "MIT",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://particle.network.git",
-    "tag": "0.1.1"
+    "tag": "0.8.0"
   },
   "source_files": "ios/**/*.{h,m,mm,swift}",
   "dependencies": {

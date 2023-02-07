@@ -14,6 +14,8 @@ export enum LoginType {
 
 export enum SupportAuthType {
     None = "None",
+    Email = "Email",
+    Phone = "Phone",
     Google = "Google",
     Facebook = "Facebook",
     Apple = "Apple",

@@ -5,15 +5,15 @@
 //  Created by link on 2022/9/23.
 //
 
-import Foundation
-import ParticleNetworkBase
 import ConnectCommon
+import Foundation
 import ParticleConnect
+import ParticleNetworkBase
 
 extension NSObject {
-    public func matchChain(name: String, chainId: Int) -> ParticleNetwork.ChainInfo? {
+    func matchChain(name: String, chainId: Int) -> ParticleNetwork.ChainInfo? {
         var chainInfo: ParticleNetwork.ChainInfo?
-        
+
         if name == "solana" {
             if chainId == 101 {
                 chainInfo = .solana(.mainnet)
@@ -54,7 +54,9 @@ extension NSObject {
             }
         } else if name == "arbitrum" {
             if chainId == 42161 {
-                chainInfo = .arbitrum(.mainnet)
+                chainInfo = .arbitrum(.one)
+            } else if chainId == 42170 {
+                chainInfo = .arbitrum(.nova)
             } else if chainId == 421613 {
                 chainInfo = .arbitrum(.goerli)
             }
@@ -106,13 +108,63 @@ extension NSObject {
             } else if chainId == 2203181 {
                 chainInfo = .platON(.testnet)
             }
+        } else if name == "tron" {
+            if chainId == 728126428 {
+                chainInfo = .tron(.mainnet)
+            } else if chainId == 2494104990 {
+                chainInfo = .tron(.shasta)
+            } else if chainId == 3448148188 {
+                chainInfo = .tron(.nile)
+            }
+        } else if name == "okc" {
+            if chainId == 66 {
+                chainInfo = .okc(.mainnet)
+            } else if chainId == 65 {
+                chainInfo = .okc(.testnet)
+            }
+        } else if name == "thundercore" {
+            if chainId == 108 {
+                chainInfo = .thunderCore(.mainnet)
+            } else if chainId == 18 {
+                chainInfo = .thunderCore(.testnet)
+            }
+        } else if name == "cronos" {
+            if chainId == 25 {
+                chainInfo = .cronos(.mainnet)
+            } else if chainId == 338 {
+                chainInfo = .cronos(.testnet)
+            }
+        } else if name == "oasisemerald" {
+            if chainId == 42262 {
+                chainInfo = .oasisEmerald(.mainnet)
+            } else if chainId == 42261 {
+                chainInfo = .oasisEmerald(.testnet)
+            }
+        } else if name == "gnosis" {
+            if chainId == 100 {
+                chainInfo = .gnosis(.mainnet)
+            } else if chainId == 10200 {
+                chainInfo = .gnosis(.testnet)
+            }
+        } else if name == "celo" {
+            if chainId == 42220 {
+                chainInfo = .celo(.mainnet)
+            } else if chainId == 44787 {
+                chainInfo = .celo(.testnet)
+            }
+        } else if name == "klaytn" {
+            if chainId == 8217 {
+                chainInfo = .klaytn(.mainnet)
+            } else if chainId == 1001 {
+                chainInfo = .klaytn(.testnet)
+            }
         }
         return chainInfo
     }
-    
-    public func matchChain(name: String) -> ParticleNetwork.Chain? {
+
+    func matchChain(name: String) -> ParticleNetwork.Chain? {
         var chain: ParticleNetwork.Chain?
-        
+
         if name == "solana" {
             chain = .solana
         } else if name == "ethereum" {
@@ -141,10 +193,28 @@ extension NSObject {
             chain = .kcc
         } else if name == "optimism" {
             chain = .optimism
+        } else if name == "platon" {
+            chain = .platON
+        } else if name == "tron" {
+            chain = .tron
+        } else if name == "okc" {
+            chain = .okc
+        } else if name == "thundercore" {
+            chain = .thunderCore
+        } else if name == "cronos" {
+            chain = .cronos
+        } else if name == "oasisemerald" {
+            chain = .oasisEmerald
+        } else if name == "gnosis" {
+            chain = .gnosis
+        } else if name == "celo" {
+            chain = .celo
+        } else if name == "klaytn" {
+            chain = .klaytn
         }
         return chain
     }
-    
+
     func ResponseFromError(_ error: Error) -> ReactResponseError {
         if let responseError = error as? ParticleNetwork.ResponseError {
             return ReactResponseError(code: responseError.code, message: responseError.message ?? "", data: responseError.data)
@@ -152,7 +222,7 @@ extension NSObject {
             return ReactResponseError(code: nil, message: String(describing: error), data: nil)
         }
     }
-    
+
     public func map2WalletType(from string: String) -> WalletType? {
         let str = string.lowercased()
         var walletType: WalletType?
@@ -176,13 +246,27 @@ extension NSObject {
             walletType = .walletConnect
         } else if str == "phantom" {
             walletType = .phantom
+        } else if str == "zerion" {
+            walletType = .zerion
+        } else if str == "math" {
+            walletType = .math
+        } else if str == "omni" {
+            walletType = .omni
+        } else if str == "zengo" {
+            walletType = .zengo
+        } else if str == "alpha" {
+            walletType = .alpha
+        } else if str == "bitpie" {
+            walletType = .bitpie
+        } else if str == "inch1" {
+            walletType = .inch1
         } else {
             walletType = nil
         }
-        
+
         return walletType
     }
-    
+
     public func map2ConnectAdapter(from walletType: WalletType) -> ConnectAdapter? {
         let adapters = ParticleConnect.getAllAdapters().filter {
             $0.walletType == walletType
@@ -212,4 +296,3 @@ public struct ReactLoginListModel: Codable {
     let walletType: String
     let account: Account
 }
-

@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (5.6.2)
+  - Alamofire (5.6.4)
   - BigInt (5.2.0)
   - boost (1.76.0)
   - CryptoSwift (1.5.1)
@@ -14,7 +14,7 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.70.5)
   - fmt (6.2.1)
   - glog (0.3.5)
-  - ParticleAuthService (0.8.8):
+  - ParticleAuthService (0.9.13):
     - CryptoSwift (~> 1.5.1)
     - ParticleNetworkBase
     - RxAlamofire (~> 6.1.1)
@@ -22,7 +22,8 @@ PODS:
     - RxSwift (= 6.5.0)
     - SwiftyJSON (~> 5.0)
     - SwiftyUserDefaults (~> 5.3.0)
-  - ParticleNetworkBase (0.8.8):
+  - ParticleNetworkBase (0.9.13):
+    - BigInt (~> 5.2.0)
     - CryptoSwift (~> 1.5.1)
   - RCT-Folly (2021.07.22.00):
     - boost
@@ -233,8 +234,7 @@ PODS:
   - React-jsinspector (0.70.5)
   - React-logger (0.70.5):
     - glog
-  - react-native-particle-auth (0.1.0):
-    - BigInt (~> 5.2.0)
+  - react-native-particle-auth (0.9.0):
     - ParticleAuthService
     - ParticleNetworkBase
     - React-Core
@@ -454,7 +454,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
+  Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
   BigInt: f668a80089607f521586bbe29513d708491ef2f7
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   CryptoSwift: c4f2debceb38bf44c80659afe009f71e23e4a082
@@ -463,8 +463,8 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: fe8b5f1429cfe83a8d72dc8ed61dc7704cac8745
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
-  ParticleAuthService: b01c5888ef7ec32ad18cd10d90fb3f4f45ae80f8
-  ParticleNetworkBase: fdbdf5f3af15799581e1d668c408028cd48bd2d0
+  ParticleAuthService: 654a947b87bd708b690fbff6bd170c3f3f6f204b
+  ParticleNetworkBase: 12570a2791a2f5f95bd53065f2d6f1e067bc1334
   RCT-Folly: 0080d0a6ebf2577475bda044aa59e2ca1f909cda
   RCTRequired: 21229f84411088e5d8538f21212de49e46cc83e2
   RCTTypeSafety: 62eed57a32924b09edaaf170a548d1fc96223086
@@ -479,7 +479,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 31564fa6912459921568e8b0e49024285a4d584b
   React-jsinspector: badd81696361249893a80477983e697aab3c1a34
   React-logger: fdda34dd285bdb0232e059b19d9606fa0ec3bb9c
-  react-native-particle-auth: 2cdc58e50a2a18cf6cab0086c3a7f04f2b308a70
+  react-native-particle-auth: 73470b3ed2d73d848ca3a1bd0802a81805b8605e
   react-native-safe-area-context: 6c12e3859b6f27b25de4fee8201cfb858432d8de
   React-perflogger: e68d3795cf5d247a0379735cbac7309adf2fb931
   React-RCTActionSheet: 05452c3b281edb27850253db13ecd4c5a65bc247

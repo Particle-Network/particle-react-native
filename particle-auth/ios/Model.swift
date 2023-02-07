@@ -52,7 +52,9 @@ public extension NSObject {
             }
         } else if name == "arbitrum" {
             if chainId == 42161 {
-                chainInfo = .arbitrum(.mainnet)
+                chainInfo = .arbitrum(.one)
+            } else if chainId == 42170 {
+                chainInfo = .arbitrum(.nova)
             } else if chainId == 421613 {
                 chainInfo = .arbitrum(.goerli)
             }
@@ -104,6 +106,56 @@ public extension NSObject {
             } else if chainId == 2203181 {
                 chainInfo = .platON(.testnet)
             }
+        } else if name == "tron" {
+            if chainId == 728126428 {
+                chainInfo = .tron(.mainnet)
+            } else if chainId == 2494104990 {
+                chainInfo = .tron(.shasta)
+            } else if chainId == 3448148188 {
+                chainInfo = .tron(.nile)
+            }
+        } else if name == "okc" {
+            if chainId == 66 {
+                chainInfo = .okc(.mainnet)
+            } else if chainId == 65 {
+                chainInfo = .okc(.testnet)
+            }
+        } else if name == "thundercore" {
+            if chainId == 108 {
+                chainInfo = .thunderCore(.mainnet)
+            } else if chainId == 18 {
+                chainInfo = .thunderCore(.testnet)
+            }
+        } else if name == "cronos" {
+            if chainId == 25 {
+                chainInfo = .cronos(.mainnet)
+            } else if chainId == 338 {
+                chainInfo = .cronos(.testnet)
+            }
+        } else if name == "oasisemerald" {
+            if chainId == 42262 {
+                chainInfo = .oasisEmerald(.mainnet)
+            } else if chainId == 42261 {
+                chainInfo = .oasisEmerald(.testnet)
+            }
+        } else if name == "gnosis" {
+            if chainId == 100 {
+                chainInfo = .gnosis(.mainnet)
+            } else if chainId == 10200 {
+                chainInfo = .gnosis(.testnet)
+            }
+        } else if name == "celo" {
+            if chainId == 42220 {
+                chainInfo = .celo(.mainnet)
+            } else if chainId == 44787 {
+                chainInfo = .celo(.testnet)
+            }
+        } else if name == "klaytn" {
+            if chainId == 8217 {
+                chainInfo = .klaytn(.mainnet)
+            } else if chainId == 1001 {
+                chainInfo = .klaytn(.testnet)
+            }
         }
         return chainInfo
     }
@@ -139,6 +191,24 @@ public extension NSObject {
             chain = .kcc
         } else if name == "optimism" {
             chain = .optimism
+        } else if name == "platon" {
+            chain = .platON
+        } else if name == "tron" {
+            chain = .tron
+        } else if name == "okc" {
+            chain = .okc
+        } else if name == "thundercore" {
+            chain = .thunderCore
+        } else if name == "cronos" {
+            chain = .cronos
+        } else if name == "oasisemerald" {
+            chain = .oasisEmerald
+        } else if name == "gnosis" {
+            chain = .gnosis
+        } else if name == "celo" {
+            chain = .celo
+        } else if name == "klaytn" {
+            chain = .klaytn
         }
         return chain
     }

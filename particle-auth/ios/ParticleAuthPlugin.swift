@@ -13,8 +13,6 @@ import SwiftyJSON
 
 @objc(ParticleAuthPlugin)
 class ParticleAuthPlugin: NSObject {
-   
-    
     let bag = DisposeBag()
     
     @objc
@@ -116,7 +114,11 @@ class ParticleAuthPlugin: NSObject {
             supportAuthTypeArray = [.all]
         } else {
             array.forEach {
-                if $0 == "apple" {
+                if $0 == "email" {
+                    supportAuthTypeArray.append(.email)
+                } else if $0 == "phone" {
+                    supportAuthTypeArray.append(.phone)
+                } else if $0 == "apple" {
                     supportAuthTypeArray.append(.apple)
                 } else if $0 == "google" {
                     supportAuthTypeArray.append(.google)
@@ -333,11 +335,33 @@ class ParticleAuthPlugin: NSObject {
          DARK,
          */
         if json.lowercased() == "system" {
-            ParticleAuthService.setInterfaceStyle(UIUserInterfaceStyle.unspecified)
+            ParticleNetwork.setInterfaceStyle(UIUserInterfaceStyle.unspecified)
         } else if json.lowercased() == "light" {
-            ParticleAuthService.setInterfaceStyle(UIUserInterfaceStyle.light)
+            ParticleNetwork.setInterfaceStyle(UIUserInterfaceStyle.light)
         } else if json.lowercased() == "dark" {
-            ParticleAuthService.setInterfaceStyle(UIUserInterfaceStyle.dark)
+            ParticleNetwork.setInterfaceStyle(UIUserInterfaceStyle.dark)
+        }
+    }
+
+    @objc
+    public func setLanguage(_ json: String) {
+        /*
+         en,
+         zh_hans,
+         zh_hant,
+         ja,
+         ko
+         */
+        if json.lowercased() == "en" {
+            ParticleNetwork.setLanguage(.en)
+        } else if json.lowercased() == "zh_hans" {
+            ParticleNetwork.setLanguage(.zh_Hans)
+        } else if json.lowercased() == "zh_hant" {
+            ParticleNetwork.setLanguage(.zh_Hant)
+        } else if json.lowercased() == "ja" {
+            ParticleNetwork.setLanguage(.ja)
+        } else if json.lowercased() == "ko" {
+            ParticleNetwork.setLanguage(.ko)
         }
     }
     
@@ -347,15 +371,44 @@ class ParticleAuthPlugin: NSObject {
     }
     
     @objc
+    public func setMediumScreen(_ isMediumScreen: Bool) {
+        if #available(iOS 15.0, *) {
+            ParticleAuthService.setMediumScreen(isMediumScreen)
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
+    @objc func openAccountAndSecurity(_ callback: @escaping RCTResponseSenderBlock) {
+        ParticleAuthService.openAccountAndSecurity().subscribe { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                let response = self.ResponseFromError(error)
+                let statusModel = ReactStatusModel(status: false, data: response)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            case .success():
+                let success: String? = nil
+                let statusModel = ReactStatusModel(status: true, data: success)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            }
+        }.disposed(by: bag)
+    }
+    
+    @objc
     public func openWebWallet() {
         ParticleAuthService.openWebWallet()
     }
 }
 
-extension Dictionary {
+public extension Dictionary {
     /// - Parameter prettify: set true to prettify string (default is false).
     /// - Returns: optional JSON String (if applicable).
-    public func jsonString(prettify: Bool = false) -> String? {
+    func jsonString(prettify: Bool = false) -> String? {
         guard JSONSerialization.isValidJSONObject(self) else { return nil }
         let options = (prettify == true) ? JSONSerialization.WritingOptions.prettyPrinted : JSONSerialization.WritingOptions()
         guard let jsonData = try? JSONSerialization.data(withJSONObject: self, options: options) else { return nil }

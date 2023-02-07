@@ -10,6 +10,22 @@ target 'ParticleWalletExample' do
   # Flags change depending on the env values.
   flags = get_default_flags()
 
+
+    pod 'ParticleWalletGUI', '0.8.15'
+    pod 'ParticleWalletAPI', '0.8.15'
+    pod 'ParticleNetworkBase', '0.8.15'
+    pod 'ParticleAuthService', '0.8.15'
+    pod 'ParticleWalletConnect', '0.8.15'
+    
+    pod 'ParticleConnect', '0.1.40'
+    pod 'ConnectWalletConnectAdapter', '0.1.40'
+    pod 'ConnectEVMAdapter', '0.1.40'
+    pod 'ConnectSolanaAdapter', '0.1.40'
+    pod 'ConnectPhantomAdapter', '0.1.40'
+    pod 'ConnectCommon', '0.1.40'
+
+
+
   use_react_native!(
     :path => config[:reactNativePath],
     # Hermes is now enabled by default. Disable by setting this flag to false.

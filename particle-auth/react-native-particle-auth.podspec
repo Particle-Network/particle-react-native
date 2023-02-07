@@ -19,7 +19,6 @@ Pod::Spec.new do |s|
   s.dependency "React-Core"
   s.dependency 'ParticleNetworkBase'
   s.dependency 'ParticleAuthService'
-  s.dependency 'BigInt', '~> 5.2.0'
 
   
   # Don't install the dependencies when we run `pod install` in the old architecture.

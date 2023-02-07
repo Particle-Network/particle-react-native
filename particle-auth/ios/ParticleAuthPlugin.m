@@ -26,6 +26,8 @@ RCT_EXTERN_METHOD(signAndSendTransaction: (NSString* _Nonnull)message callback:(
 
 RCT_EXTERN_METHOD(signTypedData: (NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
+RCT_EXTERN_METHOD(openAccountAndSecurity: (RCTResponseSenderBlock)callback)
+
 RCT_EXTERN_METHOD(getAddress: (RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 
@@ -36,7 +38,11 @@ RCT_EXTERN_METHOD(setModalPresentStyle: (NSString* _Nonnull)style)
 
 RCT_EXTERN_METHOD(setInterfaceStyle:(NSString* _Nonnull)json)
 
+RCT_EXTERN_METHOD(setLanguage:(NSString* _Nonnull)json)
+
 RCT_EXTERN_METHOD(setDisplayWallet:(BOOL)json)
+
+RCT_EXTERN_METHOD(setMediumScreen:(BOOL)json)
 
 RCT_EXTERN_METHOD(openWebWallet)
 

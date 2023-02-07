@@ -1,5 +1,6 @@
 import { NativeModules, Platform } from 'react-native';
 import type { ChainInfo } from './Models/ChainInfo';
+import type { Language } from './Models/Language';
 import type { Env, iOSModalPresentStyle, LoginType, SupportAuthType } from './Models/LoginInfo';
 
 const LINKING_ERROR =
@@ -190,6 +191,19 @@ export function signTypedData(typedData: string, version: string) {
 }
 
 /**
+ * Open account and security page
+ * 
+ * if meet error in web, will return this error.
+ */
+export function openAccountAndSecurity() {
+  return new Promise((resolve) => {
+    ParticleAuthPlugin.openAccountAndSecurity((result: string) => {
+      resolve(JSON.parse(result));
+    });
+  });
+}
+
+/**
  * Get public address
  * @returns Public address
  */
@@ -206,13 +220,34 @@ export function getUserInfo() {
 }
 
 /**
- * Set modal present style, only support ios
+ * Set modal present style, only support iOS
  * @param style Modal present style
  */
 export function setModalPresentStyle(style: iOSModalPresentStyle) {
   if (Platform.OS === 'ios') { 
     ParticleAuthPlugin.setModalPresentStyle(style)
   }
+}
+
+/**
+ * Set medium screen, only support iOS 15.0 or later
+ * 
+ * if you want a medium screen when present safari web view, call this method with true.
+ * and don't call setModalPresentStyle with fullScreen.
+ * @param isMediumScreen Is medium screen
+ */
+export function setMediumScreen(isMediumScreen: boolean) {
+  if (Platform.OS === 'ios') { 
+    ParticleAuthPlugin.setMediumScreen(isMediumScreen)
+  }
+}
+
+/**
+ * Set language
+ * @param language Language
+ */
+export function setLanguage(language: Language) {
+  ParticleAuthPlugin.setLanguage(language)
 }
 
 /**
@@ -234,4 +269,6 @@ export * from "./Models/LoginInfo"
 export * from "./Models/ChainInfo"
 export * from "./Models/DappMetaData"
 export * from "./Models/RpcUrl"
-export * from "./Models/WalletType"
+export * from "./Models/Language"
+export * from "./Models/WalletDisplay"
+export * from "./Models/UserInterfaceStyle"

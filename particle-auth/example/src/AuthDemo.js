@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, SafeAreaView, FlatList } from 'react-native';
-import { ChainInfo, LoginType, SupportAuthType, iOSModalPresentStyle, Env } from "react-native-particle-auth"
+import { ChainInfo, LoginType, SupportAuthType, iOSModalPresentStyle, Env, Language } from "react-native-particle-auth"
 import * as particleAuth from 'react-native-particle-auth';
 
 import { Button } from '@rneui/themed';
@@ -26,7 +26,7 @@ setChainInfoAsync = async () => {
 
 login = async () => {
     const type = LoginType.Phone;
-    const supportAuthType = [SupportAuthType.All];
+    const supportAuthType = [SupportAuthType.Google, SupportAuthType.Email];
     const result = await particleAuth.login(type, "", supportAuthType, undefined);
     if (result.status) {
         const userInfo = result.data;
@@ -146,6 +146,17 @@ signTypedData = async () => {
     }
 }
 
+openAccountAndSecurity = async () => {
+    const result = await particleAuth.openAccountAndSecurity();
+    if (result.status) {
+        const data = result.data;
+        console.log(data);
+    } else {
+        const error = result.data;
+        console.log(error);
+    }
+}
+
 getAddress = async () => {
     const address = await particleAuth.getAddress();
     console.log(address)
@@ -159,8 +170,18 @@ getUserInfo = async () => {
 
 
 setModalPresentStyle = async () => {
-    const style = iOSModalPresentStyle.FullScreen;
+    const style = iOSModalPresentStyle.FormSheet;
     particleAuth.setModalPresentStyle(style)
+}
+
+setMediumScreen = async () => {
+    const isMedium = true;
+    particleAuth.setMediumScreen(isMedium);
+}
+
+setLanguage = async () => {
+    const language = Language.JA;
+    particleAuth.setLanguage(language);
 }
 
 setDisplayWallet = async () => {
@@ -190,9 +211,12 @@ const data = [
     { key: 'SignAllTransactions', function: this.signAllTransactions },
     { key: 'SignAndSendTransaction', function: this.signAndSendTransaction },
     { key: 'SignTypedData', function: this.signTypedData },
+    { key: 'OpenAccountAndSecurity', function: this.openAccountAndSecurity },
     { key: 'GetAddress', function: this.getAddress },
     { key: 'GetUserInfo', function: this.getUserInfo },
     { key: 'SetModalPresentStyle', function: this.setModalPresentStyle },
+    { key: 'SetMediumScreen', function: this.setMediumScreen },
+    { key: 'SetLanguage', function: this.setLanguage },
     { key: 'SetDisplayWallet', function: this.setDisplayWallet },
     { key: 'OpenWebWallet', function: this.openWebWallet },
     { key: 'GetChainInfo', function: this.getChainInfo },

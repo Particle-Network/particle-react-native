@@ -43,6 +43,13 @@ RCT_EXTERN_METHOD(setInterfaceStyle:(NSString* _Nonnull)json)
 
 RCT_EXTERN_METHOD(supportWalletConnect:(BOOL _Nonnull)json)
 
+RCT_EXTERN_METHOD(setFiatCoin:(NSString* _Nonnull)json)
+RCT_EXTERN_METHOD(setDisplayTokenAddresses:(NSString* _Nonnull)json)
+RCT_EXTERN_METHOD(setDisplayNFTContractAddresses:(NSString* _Nonnull)json)
+RCT_EXTERN_METHOD(showLanguageSetting:(BOOL _Nonnull)json)
+RCT_EXTERN_METHOD(showAppearanceSetting:(BOOL _Nonnull)json)
+RCT_EXTERN_METHOD(setSupportAddToken:(BOOL _Nonnull)json)
+
 - (dispatch_queue_t)methodQueue {
   return dispatch_get_main_queue();
 }

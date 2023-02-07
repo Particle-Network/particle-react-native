@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
-import { NativeModules, StyleSheet, View, SafeAreaView, FlatList, Platform } from 'react-native';
-import { Language, UserInterfaceStyle, WalletDisplay, WalletType, Env, ChainInfo } from 'react-native-particle-connect'
+import { StyleSheet, View, SafeAreaView, FlatList, Platform } from 'react-native';
+import { WalletDisplay, WalletType, Env, ChainInfo } from 'react-native-particle-connect'
 import { Button } from '@rneui/themed';
 import * as particleConnect from 'react-native-particle-connect';
+import { Language } from 'react-native-particle-auth';
 import { TestAccountEVM, TestAccountSolana } from './TestAccount';
 import * as particleWallet from 'react-native-particle-wallet';
-import { BuyCryptoConfig, OpenBuyNetwork } from 'react-native-particle-wallet';
+import { BuyCryptoConfig, FaitCoin, OpenBuyNetwork } from 'react-native-particle-wallet';
 
 init = async () => {
     const chainInfo = ChainInfo.EthereumGoerli;
@@ -125,15 +126,36 @@ switchWallet = async () => {
 
 }
 
-//only support iOS
 setLanguage = async () => {
-    const language = Language.Zh_hans
+    const language = Language.JA;
     particleWallet.setLanguage(language);
 }
-//only support iOS
-setInterfaceStyle = async () => {
-    const userInterfaceStyle = UserInterfaceStyle.Light
-    particleWallet.setInterfaceStyle(userInterfaceStyle);
+
+setFiatCoin = async () => {
+    const faitCoin = FaitCoin.HKD;
+    particleWallet.setFiatCoin(faitCoin);
+}
+
+setDisplayTokenAddresses = async () => {
+    const tokenAddresses = ["", ""];
+    particleWallet.setDisplayTokenAddresses(tokenAddresses);
+}
+
+setDisplayNFTContractAddresses = async () => {
+    const nftContractAddresses = ["", ""];
+    particleWallet.setDisplayNFTContractAddresses(nftContractAddresses);
+}
+
+showLanguageSetting = async () => {
+    particleWallet.showLanguageSetting(false);
+}
+
+showAppearanceSetting = async () => {
+    particleWallet.showAppearanceSetting(false);
+}
+
+setSupportAddToken = async () => {
+    particleWallet.setSupportAddToken(false);
 }
 
 const data = [
@@ -157,7 +179,13 @@ const data = [
     { key: 'GetEnableSwap', function: this.getEnableSwap },
     { key: 'SwitchWallet', function: this.switchWallet },
     { key: 'SetLanguage', function: this.setLanguage },
-    { key: 'SetInterfaceStyle', function: this.setInterfaceStyle },
+    { key: 'SetFiatCoin', function: this.setFiatCoin },
+    { key: 'SetDisplayTokenAddresses', function: this.setDisplayTokenAddresses },
+    { key: 'SetDisplayNFTContractAddresses', function: this.setDisplayNFTContractAddresses },
+    { key: 'ShowLanguageSetting', function: this.showLanguageSetting },
+    { key: 'ShowAppearanceSetting', function: this.showAppearanceSetting },
+    { key: 'SetSupportAddToken', function: this.setSupportAddToken },
+
 ];
 
 export default class GUIDemo extends PureComponent {

@@ -18,6 +18,8 @@ Pod::Spec.new do |s|
 
   s.dependency "React-Core"
   s.dependency "ParticleWalletGUI"
+  s.dependency "react_native_particle_connect"
+  s.dependency "react_native_particle_auth"
   
   # Don't install the dependencies when we run `pod install` in the old architecture.
   if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then

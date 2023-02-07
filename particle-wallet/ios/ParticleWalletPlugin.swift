@@ -5,11 +5,11 @@
 //  Created by link on 2022/9/28.
 //
 
-
 import Foundation
+import ParticleNetworkBase
 import ParticleWalletGUI
-import SwiftyJSON
 import RxSwift
+import SwiftyJSON
 
 @objc(ParticleWalletPlugin)
 public class ParticleWalletPlugin: NSObject {
@@ -26,7 +26,7 @@ public class ParticleWalletPlugin: NSObject {
     }
     
     @objc
-    public func getEnablePay(_ callback: @escaping RCTResponseSenderBlock){
+    public func getEnablePay(_ callback: @escaping RCTResponseSenderBlock) {
         callback([ParticleWalletGUI.getEnablePay()])
     }
     
@@ -88,7 +88,6 @@ public class ParticleWalletPlugin: NSObject {
         PNRouter.navigatorNFTDetails(nftDetailsConfig: config)
     }
     
-
     @objc
     public func navigatorBuyCrypto(_ json: String?) {
         if json == nil {
@@ -123,7 +122,6 @@ public class ParticleWalletPlugin: NSObject {
             let cryptoCoin = data["crypto_coin"].string
             PNRouter.navigatorBuy(walletAddress: walletAddress, network: network, cryptoCoin: cryptoCoin, fiatCoin: fiatCoin, fiatAmt: fiatAmt)
         }
-        
     }
     
     @objc
@@ -220,38 +218,75 @@ public class ParticleWalletPlugin: NSObject {
     
     @objc
     public func setLanguage(_ json: String) {
-        /**
-         SYSTEM,
-         EN,
-         ZH_HANS,
+        /*
+         en,
+         zh_hans,
+         zh_hant,
+         ja,
+         ko
          */
-        if json.lowercased() == "system" {
-            ParticleWalletGUI.setLanguage(Language.unspecified)
-        } else if json.lowercased() == "en" {
-            ParticleWalletGUI.setLanguage(Language.en)
+        if json.lowercased() == "en" {
+            ParticleWalletGUI.setLanguage(.en)
         } else if json.lowercased() == "zh_hans" {
-            ParticleWalletGUI.setLanguage(Language.zh_Hans)
+            ParticleWalletGUI.setLanguage(.zh_Hans)
+        } else if json.lowercased() == "zh_hant" {
+            ParticleWalletGUI.setLanguage(.zh_Hant)
+        } else if json.lowercased() == "ja" {
+            ParticleWalletGUI.setLanguage(.ja)
+        } else if json.lowercased() == "ko" {
+            ParticleWalletGUI.setLanguage(.ko)
         }
     }
     
     @objc
-    public func setInterfaceStyle(_ json: String) {
-        /**
-         SYSTEM,
-         LIGHT,
-         DARK,
-         */
-        if json.lowercased() == "system" {
-            ParticleWalletGUI.setInterfaceStyle(UIUserInterfaceStyle.unspecified)
-        } else if json.lowercased() == "light" {
-            ParticleWalletGUI.setInterfaceStyle(UIUserInterfaceStyle.light)
-        } else if json.lowercased() == "dark" {
-            ParticleWalletGUI.setInterfaceStyle(UIUserInterfaceStyle.dark)
-        }
-    }
-
-     @objc
     public func supportWalletConnect(_ enable: Bool) {
         ParticleWalletGUI.supportWalletConnect(enable)
     }
+    
+    @objc
+    public func setDisplayTokenAddresses(_ json: String) {
+        let data = JSON(parseJSON: json)
+        let tokenAddresses = data.arrayValue.map {
+            $0.stringValue
+        }
+        ParticleWalletGUI.setDisplayTokenAddresses(tokenAddresses)
+    }
+    
+    @objc
+    public func setDisplayNFTContractAddresses(_ json: String) {
+        let data = JSON(parseJSON: json)
+        let nftContractAddresses = data.arrayValue.map {
+            $0.stringValue
+        }
+        ParticleWalletGUI.setDisplayNFTContractAddresses(nftContractAddresses)
+    }
+    
+    @objc
+    public func showLanguageSetting(_ isShow: Bool) {
+        ParticleWalletGUI.showLanguageSetting(isShow)
+    }
+    
+    @objc
+    public func showAppearanceSetting(_ isShow: Bool) {
+        ParticleWalletGUI.showAppearanceSetting(isShow)
+    }
+    
+    @objc
+    public func setSupportAddToken(_ isShow: Bool) {
+        ParticleWalletGUI.setSupportAddToken(isShow)
+    }
+    
+    @objc
+    public func setFiatCoin(_ json: String) {
+        /*
+         USD,
+         CNY,
+         JPY,
+         HKD,
+         INR,
+         KRW
+         */
+        ParticleWalletGUI.setFiatCoin(json.uppercased())
+    }
+    
 }

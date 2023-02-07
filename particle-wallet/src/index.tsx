@@ -1,8 +1,10 @@
 
-import { NativeModules, Platform } from 'react-native';
+import {NativeModules, Platform } from 'react-native';
 
-import type { WalletDisplay, Language, UserInterfaceStyle, ChainInfo } from 'react-native-particle-connect';
+import type { WalletDisplay, ChainInfo } from 'react-native-particle-connect';
+import type { Language } from 'react-native-particle-auth';
 import type { BuyCryptoConfig } from './Models/BuyCryptoConfig';
+import type { FaitCoin } from './Models/FaitCoin';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-wallet' doesn't seem to be linked. Make sure: \n\n` +
@@ -219,14 +221,6 @@ export function setLanguage(language: Language) {
 }
 
 /**
- * Set wallet page interface style
- * @param userInterfaceStyle UserInterfaceStyle
- */
-export function setInterfaceStyle(userInterfaceStyle: UserInterfaceStyle) {
-  ParticleWalletPlugin.setInterfaceStyle(userInterfaceStyle);
-}
-
-/**
  * Set wallet if support wallet connect as a wallet
  * not support for now, coming soon.
  * @param isEnable 
@@ -235,4 +229,32 @@ export function supportWalletConnect(isEnable: boolean) {
   ParticleWalletPlugin.supportWalletConnect(isEnable);
 }
 
+export function setFiatCoin(faitCoin: FaitCoin) {
+  ParticleWalletPlugin.setFiatCoin(faitCoin);
+}
+
+export function setDisplayTokenAddresses(tokenAddresses: [string]) {
+  const json = JSON.stringify(tokenAddresses);
+  ParticleWalletPlugin.setDisplayTokenAddresses(json);
+}
+
+export function setDisplayNFTContractAddresses(nftContractAddresses: [string]) {
+  const json = JSON.stringify(nftContractAddresses);
+  ParticleWalletPlugin.setDisplayNFTContractAddresses(json);
+}
+
+export function showLanguageSetting(isShow: boolean) {
+  ParticleWalletPlugin.showLanguageSetting(isShow);
+}
+
+
+export function showAppearanceSetting(isShow: boolean) {
+  ParticleWalletPlugin.showAppearanceSetting(isShow);
+}
+
+export function setSupportAddToken(isShow: boolean) {
+  ParticleWalletPlugin.setSupportAddToken(isShow);
+}
+
 export * from "./Models/BuyCryptoConfig"
+export * from "./Models/FaitCoin"

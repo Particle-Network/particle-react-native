@@ -8,23 +8,13 @@ Particle Wallet in React Native
 npm install react-native-particle-wallet
 ```
 
-## Usage
-
-```js
-import { multiply } from 'react-native-particle-wallet';
-
-// ...
-
-const result = await multiply(3, 7);
-```
-
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
 ## License
 
-MIT
+Apache 2.0
 
 ---
 

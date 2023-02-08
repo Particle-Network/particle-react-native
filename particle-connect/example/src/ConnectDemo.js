@@ -250,7 +250,7 @@ addEthereumChain = async () => {
 
 switchEthereumChain = async () => {
     const publicAddress = TestAccountEVM.publicAddress;
-    const chainId = 137;
+    const chainId = 137; // polygon mainnet
 
     const result = await particleConnect.switchEthereumChain(WalletType.MetaMask, publicAddress, chainId);
 

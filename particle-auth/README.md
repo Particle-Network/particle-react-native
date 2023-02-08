@@ -8,8 +8,6 @@ Particle Auth Service in React Native
 npm install react-native-particle-auth
 ```
 
-## Usage
-
 
 ## Contributing
 

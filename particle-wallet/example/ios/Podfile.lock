@@ -335,7 +335,7 @@ PODS:
     - ConnectWalletConnectAdapter
     - ParticleConnect
     - React-Core
-  - react-native-particle-wallet (0.1.0):
+  - react-native-particle-wallet (0.9.0):
     - ParticleWalletGUI
     - React-Core
   - react-native-safe-area-context (4.3.1):
@@ -669,7 +669,7 @@ SPEC CHECKSUMS:
   React-logger: 1623c216abaa88974afce404dc8f479406bbc3a0
   react-native-particle-auth: 73470b3ed2d73d848ca3a1bd0802a81805b8605e
   react-native-particle-connect: c74420411bff73683a2b445fef9dd3def000392c
-  react-native-particle-wallet: 0ae2f5232fac84a09ac136d713c230c01650cf22
+  react-native-particle-wallet: 1d55e8a134aee93d2dd198d394439fca67597a4b
   react-native-safe-area-context: 6c12e3859b6f27b25de4fee8201cfb858432d8de
   React-perflogger: 8c79399b0500a30ee8152d0f9f11beae7fc36595
   React-RCTActionSheet: 7316773acabb374642b926c19aef1c115df5c466
@@ -701,6 +701,6 @@ SPEC CHECKSUMS:
   WalletConnectSwift: 6309bf3011b0b30e3e9d1e7449535302a9240f71
   Yoga: 99caf8d5ab45e9d637ee6e0174ec16fbbb01bcfc
 
-PODFILE CHECKSUM: 5b57fe9009c78e18da673755ee76c293d6dd8405
+PODFILE CHECKSUM: a1d36a587655da06b4ae402a0da9bf0ee809868b
 
 COCOAPODS: 1.11.3

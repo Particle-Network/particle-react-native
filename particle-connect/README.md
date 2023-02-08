@@ -8,8 +8,6 @@ React Native Particle Connect
 npm install react-native-particle-connect
 ```
 
-## Usage
-
 
 ## Contributing
 

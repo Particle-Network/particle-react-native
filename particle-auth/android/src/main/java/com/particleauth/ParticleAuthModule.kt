@@ -1,20 +1,22 @@
 package com.particleauth
 
 import android.text.TextUtils
-import com.particleauth.utils.EncodeUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.facebook.react.bridge.*
+import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.particle.base.ChainInfo
 import com.particle.base.Env
+import com.particle.base.LanguageEnum
 import com.particle.base.ParticleNetwork
 import com.particle.network.ParticleNetworkAuth.getAddress
 import com.particle.network.ParticleNetworkAuth.getUserInfo
 import com.particle.network.ParticleNetworkAuth.isLogin
 import com.particle.network.ParticleNetworkAuth.login
 import com.particle.network.ParticleNetworkAuth.logout
+import com.particle.network.ParticleNetworkAuth.openAccountAndSecurity
 import com.particle.network.ParticleNetworkAuth.openWebWallet
 import com.particle.network.ParticleNetworkAuth.setChainInfo
 import com.particle.network.ParticleNetworkAuth.setDisplayWallet
@@ -31,9 +33,10 @@ import com.particle.network.service.WebServiceCallback
 import com.particle.network.service.model.*
 import com.particleauth.model.*
 import com.particleauth.utils.ChainUtils
+import com.particleauth.utils.EncodeUtils
 
 
-class ParticleAuthPlugin(reactContext: ReactApplicationContext) :
+class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
 
   @ReactMethod
@@ -130,7 +133,8 @@ class ParticleAuthPlugin(reactContext: ReactApplicationContext) :
     }
     ParticleNetwork.login(LoginType.valueOf(loginData.loginType.uppercase()),
       account,
-      supportAuthType, loginFormMode, object : WebServiceCallback<LoginOutput> {
+      supportAuthType, loginFormMode, null,
+      object : WebServiceCallback<LoginOutput> {
         override fun success(output: LoginOutput) {
 //                     BridgeGUI.setPNWallet()
           callback.invoke(ReactCallBack.success(output).toGson())
@@ -297,6 +301,40 @@ class ParticleAuthPlugin(reactContext: ReactApplicationContext) :
   fun openWebWallet() {
     ParticleNetwork.openWebWallet()
   }
+
+  @ReactMethod
+  fun openAccountAndSecurity() {
+    ParticleNetwork.openAccountAndSecurity(object : WebServiceCallback<WebOutput> {
+      override fun failure(errMsg: WebServiceError) {
+        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java) // <--- added
+          .emit("securityFailedCallBack", ReactCallBack.failed(errMsg).toGson())
+      }
+
+      override fun success(output: WebOutput) {
+      }
+    })
+
+
+  }
+  @ReactMethod
+  fun setLanguage(language: String) {
+    if (language.isEmpty()) {
+      return
+    }
+    if (language.equals("zh_hans")) {
+      ParticleNetwork.setAppliedLanguage(LanguageEnum.ZH_CN)
+    } else if (language.equals("zh_hant")) {
+      ParticleNetwork.setAppliedLanguage(LanguageEnum.ZH_TW)
+    } else if (language.equals("ja")) {
+      ParticleNetwork.setAppliedLanguage(LanguageEnum.JA)
+    } else if (language.equals("ko")) {
+      ParticleNetwork.setAppliedLanguage(LanguageEnum.KO)
+    } else {
+      ParticleNetwork.setAppliedLanguage(LanguageEnum.EN)
+    }
+  }
+
+
 
   override fun getName(): String {
     return "ParticleAuthPlugin"

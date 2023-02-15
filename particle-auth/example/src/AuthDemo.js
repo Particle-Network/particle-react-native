@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { StyleSheet, View, SafeAreaView, FlatList } from 'react-native';
+import React, { PureComponent  } from 'react';
+import { StyleSheet, View, SafeAreaView, FlatList,DeviceEventEmitter } from 'react-native';
 import { ChainInfo, LoginType, SupportAuthType, iOSModalPresentStyle, Env, Language } from "react-native-particle-auth"
 import * as particleAuth from 'react-native-particle-auth';
 
@@ -147,14 +147,8 @@ signTypedData = async () => {
 }
 
 openAccountAndSecurity = async () => {
-    const result = await particleAuth.openAccountAndSecurity();
-    if (result.status) {
-        const data = result.data;
-        console.log(data);
-    } else {
-        const error = result.data;
-        console.log(error);
-    }
+    //use DeviceEventEmitter.addListener('securityFailedCallBack', this.securityFailedCallBack) get securityFailedCallBack
+    particleAuth.openAccountAndSecurity();
 }
 
 getAddress = async () => {
@@ -232,6 +226,15 @@ export default class AuthDemo extends PureComponent {
                 </View>
             </SafeAreaView >
         );
+    }
+    componentDidMount = () => {
+        this.getBarcodeValue = DeviceEventEmitter.addListener('securityFailedCallBack', this.securityFailedCallBack)
+    }
+    componentWillUnmount = () => {
+        this.getBarcodeValue.remove();
+    }
+    securityFailedCallBack(result) {
+        console.log(result);
     }
 }
 

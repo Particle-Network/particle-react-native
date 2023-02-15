@@ -1,7 +1,12 @@
 import { NativeModules, Platform } from 'react-native';
 import type { ChainInfo } from './Models/ChainInfo';
 import type { Language } from './Models/Language';
-import type { Env, iOSModalPresentStyle, LoginType, SupportAuthType } from './Models/LoginInfo';
+import type {
+  Env,
+  iOSModalPresentStyle,
+  LoginType,
+  SupportAuthType,
+} from './Models/LoginInfo';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-auth' doesn't seem to be linked. Make sure: \n\n` +
@@ -12,22 +17,26 @@ const LINKING_ERROR =
 const ParticleAuthPlugin = NativeModules.ParticleAuthPlugin
   ? NativeModules.ParticleAuthPlugin
   : new Proxy(
-    {},
-    {
-      get() {
-        throw new Error(LINKING_ERROR);
-      },
-    }
-  );
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
 
-
-  /**
-     * Init Particle Auth Service.
-     * @param chainInfo ChainInfo
-     * @param env Env
-     */
+/**
+ * Init Particle Auth Service.
+ * @param chainInfo ChainInfo
+ * @param env Env
+ */
 export function init(chainInfo: ChainInfo, env: Env) {
-  const obj = { chain_name: chainInfo.chain_name, chain_id: chainInfo.chain_id, chain_id_name: chainInfo.chain_id_name, env: env };
+  const obj = {
+    chain_name: chainInfo.chain_name,
+    chain_id: chainInfo.chain_id,
+    chain_id_name: chainInfo.chain_id_name,
+    env: env,
+  };
   const json = JSON.stringify(obj);
   if (Platform.OS === 'ios') {
     ParticleAuthPlugin.initialize(json);
@@ -42,7 +51,11 @@ export function init(chainInfo: ChainInfo, env: Env) {
  * @returns Result
  */
 export function setChainInfo(chainInfo: ChainInfo): Promise<boolean> {
-  const obj = { chain_name: chainInfo.chain_name, chain_id: chainInfo.chain_id, chain_id_name: chainInfo.chain_id_name };
+  const obj = {
+    chain_name: chainInfo.chain_name,
+    chain_id: chainInfo.chain_id,
+    chain_id_name: chainInfo.chain_id_name,
+  };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
     ParticleAuthPlugin.setChainInfo(json, (result: boolean) => {
@@ -63,11 +76,15 @@ export function getChainInfo(): Promise<ChainInfo> {
 }
 /**
  * Set chainInfo async, because ParticleAuthService support both solana and evm, if switch to solana from evm, Auth Service will create a evm address if the user doesn't has a evm address.
- * @param chainInfo 
+ * @param chainInfo
  * @returns Result
  */
 export function setChainInfoAsync(chainInfo: ChainInfo): Promise<boolean> {
-  const obj = { chain_name: chainInfo.chain_name, chain_id: chainInfo.chain_id, chain_id_name: chainInfo.chain_id_name };
+  const obj = {
+    chain_name: chainInfo.chain_name,
+    chain_id: chainInfo.chain_id,
+    chain_id_name: chainInfo.chain_id_name,
+  };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
     ParticleAuthPlugin.setChainInfoAsync(json, (result: boolean) => {
@@ -84,13 +101,23 @@ export function setChainInfoAsync(chainInfo: ChainInfo): Promise<boolean> {
  * @param loginFormMode Controls whether show light UI in web, default is false.
  * @returns Result, userinfo or error
  */
-export function login(type: LoginType, account: string, supportAuthType: [SupportAuthType], loginFormMode: boolean = false): Promise<any> {
-  const obj = { login_type: type, account: account, support_auth_type_values: supportAuthType, login_form_mode: loginFormMode };
+export function login(
+  type: LoginType,
+  account: string,
+  supportAuthType: [SupportAuthType],
+  loginFormMode: boolean = false
+): Promise<any> {
+  const obj = {
+    login_type: type,
+    account: account,
+    support_auth_type_values: supportAuthType,
+    login_form_mode: loginFormMode,
+  };
   const json = JSON.stringify(obj);
-  console.log("login:", json);
+  console.log('login:', json);
   return new Promise((resolve) => {
     ParticleAuthPlugin.login(json, (result: string) => {
-      resolve(JSON.parse(result))
+      resolve(JSON.parse(result));
     });
   });
 }
@@ -117,7 +144,6 @@ export function isLogin(): Promise<boolean> {
       resolve(result);
     });
   });
-
 }
 
 /**
@@ -192,15 +218,10 @@ export function signTypedData(typedData: string, version: string) {
 
 /**
  * Open account and security page
- * 
- * if meet error in web, will return this error.
+ * use DeviceEventEmitter.addListener('securityFailedCallBack', this.securityFailedCallBack) get securityFailedCallBack
  */
 export function openAccountAndSecurity() {
-  return new Promise((resolve) => {
-    ParticleAuthPlugin.openAccountAndSecurity((result: string) => {
-      resolve(JSON.parse(result));
-    });
-  });
+  ParticleAuthPlugin.openAccountAndSecurity();
 }
 
 /**
@@ -208,7 +229,7 @@ export function openAccountAndSecurity() {
  * @returns Public address
  */
 export function getAddress(): Promise<string> {
-  return ParticleAuthPlugin.getAddress()
+  return ParticleAuthPlugin.getAddress();
 }
 
 /**
@@ -216,7 +237,7 @@ export function getAddress(): Promise<string> {
  * @returns User info
  */
 export function getUserInfo() {
-  return ParticleAuthPlugin.getUserInfo()
+  return ParticleAuthPlugin.getUserInfo();
 }
 
 /**
@@ -224,21 +245,21 @@ export function getUserInfo() {
  * @param style Modal present style
  */
 export function setModalPresentStyle(style: iOSModalPresentStyle) {
-  if (Platform.OS === 'ios') { 
-    ParticleAuthPlugin.setModalPresentStyle(style)
+  if (Platform.OS === 'ios') {
+    ParticleAuthPlugin.setModalPresentStyle(style);
   }
 }
 
 /**
  * Set medium screen, only support iOS 15.0 or later
- * 
+ *
  * if you want a medium screen when present safari web view, call this method with true.
  * and don't call setModalPresentStyle with fullScreen.
  * @param isMediumScreen Is medium screen
  */
 export function setMediumScreen(isMediumScreen: boolean) {
-  if (Platform.OS === 'ios') { 
-    ParticleAuthPlugin.setMediumScreen(isMediumScreen)
+  if (Platform.OS === 'ios') {
+    ParticleAuthPlugin.setMediumScreen(isMediumScreen);
   }
 }
 
@@ -247,15 +268,15 @@ export function setMediumScreen(isMediumScreen: boolean) {
  * @param language Language
  */
 export function setLanguage(language: Language) {
-  ParticleAuthPlugin.setLanguage(language)
+  ParticleAuthPlugin.setLanguage(language);
 }
 
 /**
  * Set if display wallet in web page.
- * @param isDisplay 
+ * @param isDisplay
  */
 export function setDisplayWallet(isDisplay: boolean) {
-  ParticleAuthPlugin.setDisplayWallet(isDisplay)
+  ParticleAuthPlugin.setDisplayWallet(isDisplay);
 }
 
 /**
@@ -265,10 +286,10 @@ export function openWebWallet() {
   ParticleAuthPlugin.openWebWallet();
 }
 
-export * from "./Models/LoginInfo"
-export * from "./Models/ChainInfo"
-export * from "./Models/DappMetaData"
-export * from "./Models/RpcUrl"
-export * from "./Models/Language"
-export * from "./Models/WalletDisplay"
-export * from "./Models/UserInterfaceStyle"
+export * from './Models/LoginInfo';
+export * from './Models/ChainInfo';
+export * from './Models/DappMetaData';
+export * from './Models/RpcUrl';
+export * from './Models/Language';
+export * from './Models/WalletDisplay';
+export * from './Models/UserInterfaceStyle';

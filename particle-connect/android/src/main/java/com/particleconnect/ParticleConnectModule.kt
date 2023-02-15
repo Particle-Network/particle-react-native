@@ -14,6 +14,7 @@ import com.google.gson.Gson
 import com.particle.base.ChainInfo
 import com.particle.base.Env
 import com.particle.base.ParticleNetwork
+import com.particle.base.getRpcUrl
 import com.particle.connect.ParticleConnect
 import com.particle.connect.ParticleConnect.setChain
 import com.particle.connect.ParticleConnectAdapter
@@ -21,6 +22,7 @@ import com.particle.connect.ParticleConnectConfig
 import com.particle.connect.model.AdapterAccount
 import com.particle.network.ParticleNetworkAuth.setChainInfo
 import com.particle.network.service.ChainChangeCallBack
+import com.particle.network.service.LoginPrompt
 import com.particle.network.service.LoginType
 import com.particle.network.service.SupportAuthType
 import com.particleconnect.model.*
@@ -138,7 +140,7 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
         var supportAuthType = SupportAuthType.NONE.value
         for (i in 0 until loginData.supportAuthTypeValues.size) {
           try {
-            val supportType = loginData.supportAuthTypeValues[i]
+            val supportType = loginData.supportAuthTypeValues[i].uppercase()
             val authType = SupportAuthType.valueOf(supportType)
             supportAuthType = supportAuthType or authType.value
           } catch (e: java.lang.Exception) {
@@ -151,11 +153,22 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
         } catch (e: java.lang.Exception) {
           e.printStackTrace()
         }
+        val prompt = if (loginData.prompt == null) {
+          null
+        } else {
+          try {
+            LoginPrompt.valueOf(loginData.prompt.uppercase())
+          } catch (e: Exception) {
+            e.printStackTrace()
+            null
+          }
+        }
         config = ParticleConnectConfig(
-          LoginType.valueOf(loginData.loginType.toUpperCase()),
+          LoginType.valueOf(loginData.loginType.uppercase()),
           supportAuthType,
           loginFormMode,
-          account
+          account,
+          prompt = prompt
         )
         val configJson = Gson().toJson(config)
         LogUtils.d("Connect connect config", configJson)
@@ -172,7 +185,7 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
       }
     }
     val finalConnectAdapter = connectAdapter
-    connectAdapter!!.connect<ConnectConfig>(null, object : ConnectCallback {
+    connectAdapter!!.connect<ConnectConfig>(config, object : ConnectCallback {
       override fun onConnected(account: Account) {
 //                BridgeGUI.createSelectedWallet(account.publicAddress, finalConnectAdapter!!)
         LogUtils.d("onConnected", account.toString())
@@ -582,6 +595,45 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
       callback.invoke(ReactCallBack.failed(false).toGson())
     }
   }
+
+  @ReactMethod
+  fun addEthereumChain(jsonParams: String, callback: Callback) {
+    val connectSignData = GsonUtils.fromJson(jsonParams, ConnectSignData::class.java)
+    val connectAdapter = getConnectAdapter(connectSignData.publicAddress, connectSignData.walletType)
+    if (connectAdapter == null) {
+      callback.invoke(ReactCallBack.failed("failed").toGson())
+      return
+    }
+    val chainInfo: ChainInfo = ChainUtils.getChainInfo(connectSignData.chainName, connectSignData.chainIdName)
+    connectAdapter.addEthereumChain(connectSignData.publicAddress, chainInfo, object : AddETHChainCallback {
+      override fun onAdded() {
+        callback.invoke(ReactCallBack.success("add success").toGson())
+      }
+
+      override fun onError(error: ConnectError) {
+        callback.invoke(ReactCallBack.failed(error.toString()).toGson())
+      }
+    })
+  }
+  @ReactMethod
+  fun switchEthereumChain(jsonParams: String, callback: Callback) {
+    val connectSignData = GsonUtils.fromJson(jsonParams, ConnectSignData::class.java)
+    val connectAdapter = getConnectAdapter(connectSignData.publicAddress, connectSignData.walletType)
+    if (connectAdapter == null) {
+      callback.invoke(ReactCallBack.failed("failed").toGson())
+      return
+    }
+    connectAdapter.switchEthereumChain(connectSignData.publicAddress, connectSignData.chainId, object : SwitchETHChainCallback {
+      override fun onError(error: ConnectError) {
+        callback.invoke(ReactCallBack.failed(error.toString()).toGson())
+      }
+
+      override fun onSwitched() {
+        callback.invoke(ReactCallBack.success("switch success").toGson())
+      }
+    })
+  }
+
 
   //get adapter
   private fun getConnectAdapter(publicAddress: String, walletType: String): IConnectAdapter? {

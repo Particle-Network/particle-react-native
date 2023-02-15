@@ -2,7 +2,7 @@ import { NativeModules, Platform } from 'react-native';
 import type { ChainInfo } from './Models/ChainInfo';
 import type { ParticleConnectConfig } from './Models/ConnectConfig';
 import type { DappMetaData } from './Models/DappMetaData';
-import type { Env, } from './Models/LoginInfo';
+import type { Env } from './Models/LoginInfo';
 import type { RpcUrl } from './Models/RpcUrl';
 import type { WalletType } from './Models/WalletType';
 
@@ -89,6 +89,7 @@ export function connect(walletType: WalletType, config?: ParticleConnectConfig):
     const obj = { login_type: config.loginType, account: config.account, support_auth_type_values: config.supportAuthType, login_form_mode: config.loginFormMode };
     configJson = JSON.stringify(obj);
   }
+  console.log("configJson", configJson);
   return new Promise((resolve) => {
     ParticleConnectPlugin.connect(walletType, configJson, (result: string) => {
       resolve(JSON.parse(result));
@@ -310,10 +311,20 @@ export function exportPrivateKey(walletType: WalletType, publicAddress: string):
  * @param publicAddress Public address
  * @returns Result
  */
-export function addEthereumChain(walletType: WalletType, publicAddress: string, chainId: number) {
-  const obj = { wallet_type: walletType, public_address: publicAddress, chain_id: chainId };
+export function addEthereumChain(
+  walletType: WalletType,
+  publicAddress: string,
+  chainInfo: ChainInfo
+) {
+  const obj = {
+    wallet_type: walletType,
+    public_address: publicAddress,
+    chain_name: chainInfo.chain_name,
+    chain_id: chainInfo.chain_id,
+    chain_id_name: chainInfo.chain_id_name,
+  };
   const json = JSON.stringify(obj);
-
+  console.log(json);
   return new Promise((resolve) => {
     ParticleConnectPlugin.addEthereumChain(json, (result: string) => {
       resolve(JSON.parse(result));
@@ -327,10 +338,18 @@ export function addEthereumChain(walletType: WalletType, publicAddress: string, 
  * @param publicAddress Public address
  * @returns Result
  */
-export function switchEthereumChain(walletType: WalletType, publicAddress: string, chainId: number) {
-  const obj = { wallet_type: walletType, public_address: publicAddress, chain_id: chainId };
+export function switchEthereumChain(
+  walletType: WalletType,
+  publicAddress: string,
+  chainId: number
+) {
+  const obj = {
+    wallet_type: walletType,
+    public_address: publicAddress,
+    chain_id: chainId,
+  };
   const json = JSON.stringify(obj);
-
+  console.log(json);
   return new Promise((resolve) => {
     ParticleConnectPlugin.switchEthereumChain(json, (result: string) => {
       resolve(JSON.parse(result));

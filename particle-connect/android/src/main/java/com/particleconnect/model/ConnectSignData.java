@@ -6,38 +6,47 @@ import java.util.List;
 
 public class ConnectSignData {
 
-    @SerializedName("wallet_type")
-    public String walletType;
+  @SerializedName("wallet_type")
+  public String walletType;
 
-    @SerializedName("public_address")
-    public String publicAddress;
+  @SerializedName("public_address")
+  public String publicAddress;
 
-    //transactions
-    @SerializedName("transactions")
-    public List<String> transactions;
+  //transactions
+  @SerializedName("transactions")
+  public List<String> transactions;
 
-    @SerializedName("transaction")
-    public String transaction;
+  @SerializedName("transaction")
+  public String transaction;
 
-    @SerializedName("message")
-    public String message;
+  @SerializedName("message")
+  public String message;
 
-    @SerializedName("version")
-    public String version;
+  @SerializedName("version")
+  public String version;
 
-    @SerializedName("mnemonic")
-    public String mnemonic;
+  @SerializedName("mnemonic")
+  public String mnemonic;
 
-    @SerializedName("private_key")
-    public String privateKey;
+  @SerializedName("private_key")
+  public String privateKey;
 
-    @SerializedName("domain")
-    public String domain;
+  @SerializedName("domain")
+  public String domain;
 
-    @SerializedName("uri")
-    public String uri;
+  @SerializedName("uri")
+  public String uri;
 
-    @SerializedName("signature")
-    public String signature;
+  @SerializedName("signature")
+  public String signature;
+
+  @SerializedName("chain_name")
+  public String chainName;
+
+  @SerializedName("chain_id")
+  public long chainId;
+
+  @SerializedName("chain_id_name")
+  public String chainIdName;
 
 }

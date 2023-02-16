@@ -17,4 +17,6 @@ public class LoginData {
 
   @SerializedName("login_form_mode")
   public boolean loginFormMode;
+
+
 }

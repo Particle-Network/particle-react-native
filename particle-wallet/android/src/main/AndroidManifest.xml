@@ -1,4 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.particlewallet">
+  package="com.particlewallet">
 
+  <application>
+    <activity
+      android:name=".ui.RNLoginOptActivity"
+      android:exported="false"
+      android:theme="@style/RNBridgeThemeLoginOpt" />
+  </application>
 </manifest>

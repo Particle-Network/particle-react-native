@@ -147,7 +147,6 @@ signTypedData = async () => {
 }
 
 openAccountAndSecurity = async () => {
-    //use DeviceEventEmitter.addListener('securityFailedCallBack', this.securityFailedCallBack) get securityFailedCallBack
     particleAuth.openAccountAndSecurity();
 }
 

@@ -250,6 +250,10 @@ android {
 
         }
     }
+    //enable databinding
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {

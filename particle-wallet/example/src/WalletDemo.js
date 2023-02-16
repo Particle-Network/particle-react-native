@@ -21,8 +21,9 @@ init = async () => {
 // Before this, you'd better login metamask with our testAccount in TestAccount.js
 // TestAccount provides both evm and solana test account with some tokens.
 connectMetamask = async () => {
-    const account = await particleConnect.connect(WalletType.MetaMask);
-    console.log(account);
+    const accountInfo = await particleConnect.connect(WalletType.MetaMask);
+    console.log('accountInfo', accountInfo.data.publicAddress);
+    particleWallet.createSelectedWallet(accountInfo.data.publicAddress, WalletType.MetaMask);
 }
 
 navigatorWallet = async () => {
@@ -72,7 +73,7 @@ navigatorBuyCrypto = async () => {
 
 navigatorLoginList = async () => {
     const result = await particleWallet.navigatorLoginList();
-    console.log(result)
+    console.log('navigatorLoginList', result)
 }
 
 navigatorSwap = async () => {

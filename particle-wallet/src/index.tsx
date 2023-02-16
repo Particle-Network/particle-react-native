@@ -1,7 +1,6 @@
+import { NativeModules, Platform } from 'react-native';
 
-import {NativeModules, Platform } from 'react-native';
-
-import type { WalletDisplay, ChainInfo } from 'react-native-particle-connect';
+import type { WalletDisplay, ChainInfo, WalletType } from 'react-native-particle-connect';
 import type { Language } from 'react-native-particle-auth';
 import type { BuyCryptoConfig } from './Models/BuyCryptoConfig';
 import type { FaitCoin } from './Models/FaitCoin';
@@ -38,7 +37,14 @@ export function initWallet() {
  * @param display Wallet display
  */
 export function navigatorWallet(display: WalletDisplay) {
+  console.log('navigatorWallet', display);
   ParticleWalletPlugin.navigatorWallet(display);
+}
+export function createSelectedWallet(
+  publicAddress: string,
+  walletType: WalletType
+) {
+  ParticleWalletPlugin.createSelectedWallet(publicAddress, walletType);
 }
 
 /**
@@ -230,7 +236,9 @@ export function supportWalletConnect(isEnable: boolean) {
 }
 
 export function setFiatCoin(faitCoin: FaitCoin) {
-  ParticleWalletPlugin.setFiatCoin(faitCoin);
+  if (Platform.OS == 'ios') {
+    ParticleWalletPlugin.setFiatCoin(faitCoin);
+  }
 }
 
 export function setDisplayTokenAddresses(tokenAddresses: [string]) {
@@ -256,5 +264,5 @@ export function setSupportAddToken(isShow: boolean) {
   ParticleWalletPlugin.setSupportAddToken(isShow);
 }
 
-export * from "./Models/BuyCryptoConfig"
-export * from "./Models/FaitCoin"
+export * from './Models/BuyCryptoConfig';
+export * from './Models/FaitCoin';

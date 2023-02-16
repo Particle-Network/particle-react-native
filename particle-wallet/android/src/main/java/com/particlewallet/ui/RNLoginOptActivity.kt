@@ -13,6 +13,8 @@ import com.connect.common.ConnectCallback
 import com.connect.common.model.Account
 import com.connect.common.model.ChainType
 import com.connect.common.model.ConnectError
+import com.particle.api.infrastructure.db.table.Wallet
+import com.particle.api.infrastructure.db.table.WalletType
 import com.particle.base.ParticleNetwork
 import com.particle.connect.ParticleConnect
 import com.particle.connect.ParticleConnectConfig
@@ -25,12 +27,12 @@ import com.particle.gui.utils.WalletUtils
 import com.particle.network.ParticleNetworkAuth.getAddress
 import com.particle.network.service.LoginType
 import com.particle.network.service.SupportAuthType
+import com.particlewallet.R
+import com.particlewallet.model.ReactCallBack
 import com.wallet.connect.adapter.WalletConnectAdapter
 import com.wallet.connect.adapter.model.MobileWCWallet
 import kotlinx.coroutines.launch
 import network.particle.flutter.bridge.module.BridgeGUI
-import network.particle.reactnative.R
-import network.particle.reactnative.bridge.model.ReactCallBack
 
 class RNLoginOptActivity : AppCompatActivity() {
     lateinit var launcherResult: ActivityResultLauncher<Intent>
@@ -48,7 +50,7 @@ class RNLoginOptActivity : AppCompatActivity() {
                 loginWithPn(loginType, SupportAuthType.ALL)
             }
 
-            override fun onLoginConnect(walletType: Wallettype) {
+            override fun onLoginConnect(walletType: WalletType) {
                 when (walletType) {
                     WalletType.CONNET_METAMASK -> {
                         connectEvmWallet(MobileWCWallet.MetaMask)

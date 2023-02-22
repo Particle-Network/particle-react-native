@@ -1,5 +1,5 @@
 import React, { PureComponent  } from 'react';
-import { StyleSheet, View, SafeAreaView, FlatList,DeviceEventEmitter } from 'react-native';
+import { StyleSheet, View, SafeAreaView, FlatList,DeviceEventEmitter, NativeEventEmitter } from 'react-native';
 import { ChainInfo, LoginType, SupportAuthType, iOSModalPresentStyle, Env, Language } from "react-native-particle-auth"
 import * as particleAuth from 'react-native-particle-auth';
 
@@ -227,7 +227,12 @@ export default class AuthDemo extends PureComponent {
         );
     }
     componentDidMount = () => {
-        this.getBarcodeValue = DeviceEventEmitter.addListener('securityFailedCallBack', this.securityFailedCallBack)
+        if (Platform.OS === 'ios') {
+            const emitter =  new NativeEventEmitter(particleAuth.ParticleAuthEvent);
+            this.getBarcodeValue = emitter.addListener("securityFailedCallBack", this.securityFailedCallBack)
+        } else {
+            this.getBarcodeValue = DeviceEventEmitter.addListener('securityFailedCallBack', this.securityFailedCallBack)
+        }
     }
     componentWillUnmount = () => {
         this.getBarcodeValue.remove();

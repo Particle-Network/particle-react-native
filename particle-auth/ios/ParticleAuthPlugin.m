@@ -1,4 +1,16 @@
 #import <React/RCTBridgeModule.h>
+#import <React/RCTEventEmitter.h>
+
+@interface RCT_EXTERN_MODULE(ParticleAuthEvent, RCTEventEmitter)
+
+RCT_EXTERN_METHOD(supportedEvents)
+
+- (dispatch_queue_t)methodQueue {
+  return dispatch_get_main_queue();
+}
+
+
+@end
 
 @interface RCT_EXTERN_MODULE(ParticleAuthPlugin, NSObject)
 
@@ -26,7 +38,7 @@ RCT_EXTERN_METHOD(signAndSendTransaction: (NSString* _Nonnull)message callback:(
 
 RCT_EXTERN_METHOD(signTypedData: (NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
-RCT_EXTERN_METHOD(openAccountAndSecurity: (RCTResponseSenderBlock)callback)
+RCT_EXTERN_METHOD(openAccountAndSecurity)
 
 RCT_EXTERN_METHOD(getAddress: (RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
@@ -50,5 +62,5 @@ RCT_EXTERN_METHOD(openWebWallet)
   return dispatch_get_main_queue();
 }
 
-
 @end
+

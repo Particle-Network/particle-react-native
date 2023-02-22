@@ -379,7 +379,7 @@ class ParticleAuthPlugin: NSObject {
         }
     }
     
-    @objc func openAccountAndSecurity(_ callback: @escaping RCTResponseSenderBlock) {
+    @objc func openAccountAndSecurity() {
         ParticleAuthService.openAccountAndSecurity().subscribe { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -388,13 +388,9 @@ class ParticleAuthPlugin: NSObject {
                 let statusModel = ReactStatusModel(status: false, data: response)
                 let data = try! JSONEncoder().encode(statusModel)
                 guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
+                ParticleAuthEvent.emitter.sendEvent(withName: "securityFailedCallBack", body: [json])
             case .success():
-                let success: String? = nil
-                let statusModel = ReactStatusModel(status: true, data: success)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
+                break
             }
         }.disposed(by: bag)
     }
@@ -413,5 +409,44 @@ public extension Dictionary {
         let options = (prettify == true) ? JSONSerialization.WritingOptions.prettyPrinted : JSONSerialization.WritingOptions()
         guard let jsonData = try? JSONSerialization.data(withJSONObject: self, options: options) else { return nil }
         return String(data: jsonData, encoding: .utf8)
+    }
+}
+
+@objc(ParticleAuthEvent)
+class ParticleAuthEvent: RCTEventEmitter {
+    public static var emitter: RCTEventEmitter!
+
+    var hasListeners: Bool = false
+    
+    @objc
+    override static func requiresMainQueueSetup() -> Bool {
+        return true
+    }
+    
+    override init() {
+        super.init()
+        ParticleAuthEvent.emitter = self
+    }
+
+    override open func supportedEvents() -> [String] {
+        ["securityFailedCallBack"]
+    }
+    
+    override func startObserving() {
+        hasListeners = true
+        print("startObserving")
+    }
+    
+    override func stopObserving() {
+        hasListeners = false
+        print("stopObserving")
+    }
+    
+    override func addListener(_ eventName: String!) {
+        super.addListener(eventName)
+    }
+    
+    override func removeListeners(_ count: Double) {
+        super.removeListeners(count)
     }
 }

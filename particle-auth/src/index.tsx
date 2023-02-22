@@ -25,6 +25,18 @@ const ParticleAuthPlugin = NativeModules.ParticleAuthPlugin
       }
     );
 
+export const ParticleAuthEvent = NativeModules.ParticleAuthEvent
+  ? NativeModules.ParticleAuthEvent
+  : new Proxy(
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
+
+
 /**
  * Init Particle Auth Service.
  * @param chainInfo ChainInfo

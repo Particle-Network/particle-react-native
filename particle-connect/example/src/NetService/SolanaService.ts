@@ -1,12 +1,12 @@
-import * as particleAuth from 'react-native-particle-auth';
+import * as particleConnect from 'react-native-particle-connect';
 import { SerializeTransactionParams, SolanaReqBodyMethod } from "./NetParams";
 import JsonRpcRequest from "./NetService";
 
 export class SolanaService {
     static async rpc(method: string, params: any) {
-        const rpcUrl = "https://api.particle.network/";
-        const path = "solana/rpc";
-        const chainInfo = await particleAuth.getChainInfo();
+        const rpcUrl = "https://rpc.particle.network/";
+        const path = "solana";
+        const chainInfo = await particleConnect.getChainInfo();
         const chainId = chainInfo.chain_id; 
         const result = await JsonRpcRequest(rpcUrl, path, method, params, chainId);
         return result;

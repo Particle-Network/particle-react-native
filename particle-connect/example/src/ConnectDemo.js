@@ -342,7 +342,6 @@ switchEthereumChain = async () => {
 reconnectIfNeeded = async () => {
     const publicAddress = TestAccountEVM.publicAddress;
 
-    console.log('AAA');
     const result = await particleConnect.reconnectIfNeeded(
         WalletType.MetaMask,
         publicAddress
@@ -364,10 +363,7 @@ const data = [
     { key: 'GetChainInfo', function: this.getChainInfo },
     { key: 'GetAccounts', function: this.getAccounts },
     { key: 'Connect', function: this.connect },
-    {
-        key: 'ConnectWithParticleConfig',
-        function: this.connectWithParticleConfig,
-    },
+    { key: 'ConnectWithParticleConfig', function: this.connectWithParticleConfig },
     { key: 'Disconnect', function: this.disconnect },
     { key: 'IsConnected', function: this.isConnected },
     { key: 'SignMessage', function: this.signMessage },

@@ -58,7 +58,7 @@ export function setChainInfo(chainInfo: ChainInfo): Promise<boolean> {
  * @param chainInfo ChainInfo
  * @returns Result 
  */
- export function setChainInfoAsync(chainInfo: ChainInfo): Promise<boolean> {
+export function setChainInfoAsync(chainInfo: ChainInfo): Promise<boolean> {
   const obj = { chain_name: chainInfo.chain_name, chain_id: chainInfo.chain_id, chain_id_name: chainInfo.chain_id_name };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
@@ -365,15 +365,20 @@ export function switchEthereumChain(
  * @param publicAddress Public address
  * @returns Result
  */
-export function reconnectIfNeeded(walletType: WalletType, publicAddress: string) {
-  const obj = { wallet_type: walletType, public_address: publicAddress };
-  const json = JSON.stringify(obj);
 
-  return new Promise((resolve) => {
-    ParticleConnectPlugin.reconnectIfNeeded(json, (result: string) => {
-      resolve(JSON.parse(result));
+export function reconnectIfNeeded(walletType: WalletType, publicAddress: string) {
+  if (Platform.OS === 'ios') {
+    const obj = { wallet_type: walletType, public_address: publicAddress };
+    const json = JSON.stringify(obj);
+
+    return new Promise((resolve) => {
+
+      ParticleConnectPlugin.reconnectIfNeeded(json, (result: string) => {
+        resolve(JSON.parse(result));
+      });
+
     });
-  });
+  } else { return }
 }
 
 /**

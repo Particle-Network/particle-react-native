@@ -260,6 +260,24 @@ public class ParticleWalletPlugin: NSObject {
         }
         ParticleWalletGUI.setDisplayNFTContractAddresses(nftContractAddresses)
     }
+
+    @objc
+    public func setPriorityTokenAddresses(_ json: String) {
+        let data = JSON(parseJSON: json)
+        let tokenAddresses = data.arrayValue.map {
+            $0.stringValue
+        }
+        ParticleWalletGUI.setPriorityTokenAddresses(tokenAddresses)
+    }
+    
+    @objc
+    public func setPriorityNFTContractAddresses(_ json: String) {
+        let data = JSON(parseJSON: json)
+        let nftContractAddresses = data.arrayValue.map {
+            $0.stringValue
+        }
+        ParticleWalletGUI.setPriorityNFTContractAddresses(nftContractAddresses)
+    }
     
     @objc
     public func showLanguageSetting(_ isShow: Bool) {

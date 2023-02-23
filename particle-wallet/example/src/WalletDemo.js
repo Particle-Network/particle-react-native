@@ -147,6 +147,16 @@ setDisplayNFTContractAddresses = async () => {
     particleWallet.setDisplayNFTContractAddresses(nftContractAddresses);
 }
 
+setPriorityTokenAddresses = async () => {
+    const tokenAddresses = ["", ""];
+    particleWallet.setPriorityTokenAddresses(tokenAddresses);
+}
+
+setPriorityNFTContractAddresses = async () => {
+    const nftContractAddresses = ["", ""];
+    particleWallet.setPriorityNFTContractAddresses(nftContractAddresses);
+}
+
 showLanguageSetting = async () => {
     particleWallet.showLanguageSetting(false);
 }
@@ -183,6 +193,8 @@ const data = [
     { key: 'SetFiatCoin', function: this.setFiatCoin },
     { key: 'SetDisplayTokenAddresses', function: this.setDisplayTokenAddresses },
     { key: 'SetDisplayNFTContractAddresses', function: this.setDisplayNFTContractAddresses },
+    { key: 'SetPriorityTokenAddresses', function: this.setPriorityTokenAddresses },
+    { key: 'SetPriorityNFTContractAddresses', function: this.setPriorityNFTContractAddresses },
     { key: 'ShowLanguageSetting', function: this.showLanguageSetting },
     { key: 'ShowAppearanceSetting', function: this.showAppearanceSetting },
     { key: 'SetSupportAddToken', function: this.setSupportAddToken },

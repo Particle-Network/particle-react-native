@@ -235,31 +235,80 @@ export function supportWalletConnect(isEnable: boolean) {
   ParticleWalletPlugin.supportWalletConnect(isEnable);
 }
 
+/**
+ * Set fait coin
+ * @param faitCoin FaitCoin
+ */
 export function setFiatCoin(faitCoin: FaitCoin) {
   if (Platform.OS == 'ios') {
     ParticleWalletPlugin.setFiatCoin(faitCoin);
   }
 }
 
+/**
+ * Set display token addresses
+ * 
+ * If you called this method, Wallet SDK will only show these tokens in the token addresses.
+ * @param tokenAddresses TokenAddress array
+ */
 export function setDisplayTokenAddresses(tokenAddresses: [string]) {
   const json = JSON.stringify(tokenAddresses);
   ParticleWalletPlugin.setDisplayTokenAddresses(json);
 }
 
+/**
+ * Set display NFT contract addresses
+ * 
+ * If you called this method, Wallet SDK will only show NFTs in the NFT contract addresses.
+ * @param nftContractAddresses 
+ */
 export function setDisplayNFTContractAddresses(nftContractAddresses: [string]) {
   const json = JSON.stringify(nftContractAddresses);
   ParticleWalletPlugin.setDisplayNFTContractAddresses(json);
 }
 
+/**
+ * Set priority token addresses
+ * 
+ * If you called this method, Wallet SDK will show these tokens in top part of the list.
+ * @param tokenAddresses TokenAddress array
+ */
+export function setPriorityTokenAddresses(tokenAddresses: [string]) {
+  const json = JSON.stringify(tokenAddresses);
+  ParticleWalletPlugin.setPriorityTokenAddresses(json);
+}
+
+/**
+ * Set priority NFT contract addresses
+ * 
+ * If you called this method, Wallet SDK will only show NFTs in top part of list.
+ * @param nftContractAddresses 
+ */
+export function setPriorityNFTContractAddresses(nftContractAddresses: [string]) {
+  const json = JSON.stringify(nftContractAddresses);
+  ParticleWalletPlugin.setPriorityNFTContractAddresses(json);
+}
+
+/**
+ * Set show language setting button in setting page
+ * @param isShow default value is false
+ */
 export function showLanguageSetting(isShow: boolean) {
   ParticleWalletPlugin.showLanguageSetting(isShow);
 }
 
-
+/**
+ * Set show appearance setting button in setting page
+ * @param isShow default value is false
+ */
 export function showAppearanceSetting(isShow: boolean) {
   ParticleWalletPlugin.showAppearanceSetting(isShow);
 }
 
+/**
+ * Set support add token, true will show add token button, false will hide add token button.
+ * @param isShow default value is true
+ */
 export function setSupportAddToken(isShow: boolean) {
   ParticleWalletPlugin.setSupportAddToken(isShow);
 }

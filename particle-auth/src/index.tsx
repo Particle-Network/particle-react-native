@@ -147,6 +147,20 @@ export function logout(): Promise<any> {
 }
 
 /**
+ * Fast logout, silently
+ * @returns Result, success or error
+ */
+export function fastLogout(): Promise<any> {
+  return new Promise((resolve) => {
+    ParticleAuthPlugin.fastLogout((result: string) => {
+      resolve(JSON.parse(result));
+    });
+  });
+}
+
+
+
+/**
  * Is user logged in
  * @returns Result, if user is login return true, otherwise retrun false
  */

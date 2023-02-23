@@ -181,6 +181,26 @@ class ParticleAuthPlugin: NSObject {
             }
         }.disposed(by: bag)
     }
+
+    @objc
+    public func fastLogout(_ callback: @escaping RCTResponseSenderBlock) {
+        ParticleAuthService.fastLogout().subscribe { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                let response = self.ResponseFromError(error)
+                let statusModel = ReactStatusModel(status: false, data: response)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            case .success(let success):
+                let statusModel = ReactStatusModel(status: true, data: success)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            }
+        }.disposed(by: bag)
+    }
     
     @objc
     public func isLogin(_ callback: RCTResponseSenderBlock) {

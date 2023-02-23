@@ -48,6 +48,16 @@ logout = async () => {
     }
 }
 
+fastLogout = async () => {
+    const result = await particleAuth.fastLogout();
+    if (result.status) {
+        console.log(result.data);
+    } else {
+        const error = result.data;
+        console.log(error);
+    }
+}
+
 isLogin = async () => {
     const result = await particleAuth.isLogin();
     console.log(result);
@@ -198,6 +208,7 @@ const data = [
     { key: 'SetChainInfoAsync', function: this.setChainInfoAsync },
     { key: 'Login', function: this.login },
     { key: 'Logout', function: this.logout },
+    { key: 'FastLogout', function: this.fastLogout },
     { key: 'IsLogin', function: this.isLogin },
     { key: 'SignMessage', function: this.signMessage },
     { key: 'SignTransaction', function: this.signTransaction },

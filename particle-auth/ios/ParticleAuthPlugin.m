@@ -26,6 +26,8 @@ RCT_EXTERN_METHOD(login: (NSString* _Nonnull)json callback: (RCTResponseSenderBl
 
 RCT_EXTERN_METHOD(logout: (RCTResponseSenderBlock)callback)
 
+RCT_EXTERN_METHOD(fastLogout: (RCTResponseSenderBlock)callback)
+
 RCT_EXTERN_METHOD(isLogin: (RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(signMessage: (NSString* _Nonnull)message callback:(RCTResponseSenderBlock)callback)

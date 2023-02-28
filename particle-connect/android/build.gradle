@@ -137,8 +137,8 @@ dependencies {
 // From node_modules
 
     def connectVersion = "0.10.0"
-    implementation("network.particle:base-service:0.10.0")
-    implementation("network.particle:auth-service:0.10.0")
+    implementation("network.particle:base-service:0.10.2")
+    implementation("network.particle:auth-service:0.10.2")
 
     implementation("network.particle:connect-common:$connectVersion")
     implementation("network.particle:connect:$connectVersion")

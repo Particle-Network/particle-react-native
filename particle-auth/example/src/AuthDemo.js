@@ -1,5 +1,5 @@
-import React, { PureComponent  } from 'react';
-import { StyleSheet, View, SafeAreaView, FlatList,DeviceEventEmitter, NativeEventEmitter } from 'react-native';
+import React, { PureComponent } from 'react';
+import { StyleSheet, View, SafeAreaView, FlatList, DeviceEventEmitter, NativeEventEmitter } from 'react-native';
 import { ChainInfo, LoginType, SupportAuthType, iOSModalPresentStyle, Env, Language } from "react-native-particle-auth"
 import * as particleAuth from 'react-native-particle-auth';
 
@@ -26,7 +26,7 @@ setChainInfoAsync = async () => {
 
 login = async () => {
     const type = LoginType.Phone;
-    const supportAuthType = [SupportAuthType.Google, SupportAuthType.Email];
+    const supportAuthType = [SupportAuthType.All, SupportAuthType.Email, SupportAuthType.Apple];
     const result = await particleAuth.login(type, "", supportAuthType, undefined);
     if (result.status) {
         const userInfo = result.data;
@@ -120,7 +120,7 @@ signAndSendTransaction = async () => {
     const sender = await particleAuth.getAddress();
     const chainInfo = await particleAuth.getChainInfo();
     let transaction = "";
-    if (chainInfo.chain_name.toLowerCase() == "solana") { 
+    if (chainInfo.chain_name.toLowerCase() == "solana") {
         transaction = await Helper.getSolanaTransaction(sender);
     } else {
         transaction = await Helper.getEthereumTransacion(sender);
@@ -204,7 +204,7 @@ getChainInfo = async () => {
 
 const data = [
     { key: 'Init', function: this.init },
-    { key: 'SetChainInfo', function: this.setChainInfo},
+    { key: 'SetChainInfo', function: this.setChainInfo },
     { key: 'SetChainInfoAsync', function: this.setChainInfoAsync },
     { key: 'Login', function: this.login },
     { key: 'Logout', function: this.logout },
@@ -239,7 +239,7 @@ export default class AuthDemo extends PureComponent {
     }
     componentDidMount = () => {
         if (Platform.OS === 'ios') {
-            const emitter =  new NativeEventEmitter(particleAuth.ParticleAuthEvent);
+            const emitter = new NativeEventEmitter(particleAuth.ParticleAuthEvent);
             this.getBarcodeValue = emitter.addListener("securityFailedCallBack", this.securityFailedCallBack)
         } else {
             this.getBarcodeValue = DeviceEventEmitter.addListener('securityFailedCallBack', this.securityFailedCallBack)

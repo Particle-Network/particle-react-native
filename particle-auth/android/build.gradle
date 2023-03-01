@@ -137,7 +137,7 @@ dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 // From node_modules
 
-    def sdkVersion = "0.10.0"
+    def sdkVersion = "0.10.2"
     implementation("network.particle:auth-service:$sdkVersion")
     implementation("com.blankj:utilcodex:1.31.0")
     implementation("commons-codec:commons-codec:1.15")

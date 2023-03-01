@@ -31,7 +31,7 @@ export const ParticleAuthEvent = NativeModules.ParticleAuthEvent
       {},
       {
         get() {
-          throw new Error(LINKING_ERROR);
+          // throw new Error(LINKING_ERROR);
         },
       }
     );

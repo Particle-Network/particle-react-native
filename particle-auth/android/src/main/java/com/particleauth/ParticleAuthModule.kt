@@ -124,7 +124,7 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
     }
     for (i in 0 until loginData.supportAuthTypeValues.size) {
       try {
-        val supportType = loginData.supportAuthTypeValues[i]
+        val supportType = loginData.supportAuthTypeValues[i].uppercase()
         val authType = SupportAuthType.valueOf(supportType)
         supportAuthType = supportAuthType or authType.value
       } catch (e: Exception) {

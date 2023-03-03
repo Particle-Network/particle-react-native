@@ -95,6 +95,20 @@ class ParticleConnectPlugin: NSObject {
         adapters.append(BitkeepConnectAdapter())
         adapters.append(ImtokenConnectAdapter())
         adapters.append(WalletConnectAdapter())
+        adapters.append(TrustConnectAdapter())
+        
+        let moreAdapterClasses: [WalletConnectAdapter.Type] =
+            [ZerionConnectAdapter.self,
+             MathConnectAdapter.self,
+             OmniConnectAdapter.self,
+             Inch1ConnectAdapter.self,
+             ZengoConnectAdapter.self,
+             AlphaConnectAdapter.self,
+             BitpieConnectAdapter.self]
+
+        adapters.append(contentsOf: moreAdapterClasses.map {
+            $0.init()
+        })
 #endif
         
         ParticleConnect.initialize(env: devEnv, chainInfo: chainInfo, dAppData: dAppData) {

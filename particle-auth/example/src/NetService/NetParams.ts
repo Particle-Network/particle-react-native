@@ -2,6 +2,8 @@ export const EVMReqBodyMethod = {
     particleSuggestedGasFees: "particle_suggestedGasFees",
     particleGetPrice: "particle_getPrice",
     particleGetTokensAndNFTs: "particle_getTokensAndNFTs",
+    particleGetTokens: "particle_getTokens",
+    particleGetNFTs: "particle_getNFTs",
     particleDeserializeTransaction: "particle_deserializeTransaction",
     particleGetTransactionsByAddress: "particle_getTransactionsByAddress",
     particleAbiEncodeFunctionCall: "particle_abi_encodeFunctionCall",

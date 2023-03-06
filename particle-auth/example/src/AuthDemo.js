@@ -5,15 +5,19 @@ import * as particleAuth from 'react-native-particle-auth';
 
 import { Button } from '@rneui/themed';
 import * as Helper from './Helper'
+import { TestAccountEVM } from './TestAccount';
+import { EvmService } from './NetService/EvmService';
 
 init = async () => {
     const chainInfo = ChainInfo.EthereumGoerli;
+    EvmService.currentChainInfo = chainInfo;
     const env = Env.Production;
     particleAuth.init(chainInfo, env);
 }
 
 setChainInfo = async () => {
     const chainInfo = ChainInfo.EthereumGoerli;
+    EvmService.currentChainInfo = chainInfo;
     const result = await particleAuth.setChainInfo(chainInfo);
     console.log(result);
 }
@@ -25,8 +29,9 @@ setChainInfoAsync = async () => {
 }
 
 login = async () => {
+
     const type = LoginType.Phone;
-    const supportAuthType = [SupportAuthType.All, SupportAuthType.Email, SupportAuthType.Apple];
+    const supportAuthType = [SupportAuthType.Email, SupportAuthType.Apple, SupportAuthType.Discord];
     const result = await particleAuth.login(type, "", supportAuthType, undefined);
     if (result.status) {
         const userInfo = result.data;
@@ -120,10 +125,36 @@ signAndSendTransaction = async () => {
     const sender = await particleAuth.getAddress();
     const chainInfo = await particleAuth.getChainInfo();
     let transaction = "";
+    // There are four test cases
+    // Before test, make sure your public address have some native token for fee.
+    // 1. send evm native in Ethereum goerli, the transacion is type 0x2, for blockchains support EIP1559
+    // 2. send evm native in BSC testnet, the transacion is type 0x0, for blockchians don't supoort EIP1559
+    // 3. send evm token in Ethereum goerli, the transacion is type 0x2, for blockchains support EIP1559
+    // 4. send evm token in BSC testnet, the transacion is type 0x0, for blockchians don't supoort EIP1559
+    let testCase = 1;
+
     if (chainInfo.chain_name.toLowerCase() == "solana") {
         transaction = await Helper.getSolanaTransaction(sender);
     } else {
-        transaction = await Helper.getEthereumTransacion(sender);
+        if (testCase == 1) {
+            const receiver = TestAccountEVM.receiverAddress;
+            const amount = TestAccountEVM.amount;
+            transaction = await Helper.getEthereumTransacion(sender, receiver, amount);
+        } else if (testCase == 2) {
+            const receiver = TestAccountEVM.receiverAddress;
+            const amount = TestAccountEVM.amount;
+            transaction = await Helper.getEthereumTransacionLegacy(sender, receiver, amount);
+        } else if (testCase == 3) {
+            const receiver = TestAccountEVM.receiverAddress;
+            const amount = TestAccountEVM.amount;
+            const contractAddress = TestAccountEVM.tokenContractAddress;
+            transaction = await Helper.getEvmTokenTransaction(sender, receiver, amount, contractAddress);
+        } else {
+            const receiver = TestAccountEVM.receiverAddress;
+            const amount = TestAccountEVM.amount;
+            const contractAddress = "0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee";
+            transaction = await Helper.getEvmTokenTransactionLegacy(sender, receiver, amount, contractAddress);
+        }
     }
     console.log(transaction);
     const result = await particleAuth.signAndSendTransaction(transaction);
@@ -227,6 +258,7 @@ const data = [
 ];
 
 export default class AuthDemo extends PureComponent {
+
     render = () => {
         return (
 

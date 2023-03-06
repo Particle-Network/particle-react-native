@@ -234,7 +234,7 @@ PODS:
   - React-jsinspector (0.70.5)
   - React-logger (0.70.5):
     - glog
-  - react-native-particle-auth (0.9.0):
+  - react-native-particle-auth (0.10.4):
     - ParticleAuthService
     - ParticleNetworkBase
     - React-Core
@@ -479,7 +479,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 31564fa6912459921568e8b0e49024285a4d584b
   React-jsinspector: badd81696361249893a80477983e697aab3c1a34
   React-logger: fdda34dd285bdb0232e059b19d9606fa0ec3bb9c
-  react-native-particle-auth: 73470b3ed2d73d848ca3a1bd0802a81805b8605e
+  react-native-particle-auth: ae9332d3810b492efd42547727842505ede75c03
   react-native-safe-area-context: 6c12e3859b6f27b25de4fee8201cfb858432d8de
   React-perflogger: e68d3795cf5d247a0379735cbac7309adf2fb931
   React-RCTActionSheet: 05452c3b281edb27850253db13ecd4c5a65bc247

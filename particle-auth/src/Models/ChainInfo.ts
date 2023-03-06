@@ -1,9 +1,9 @@
 export class ChainInfo {
-    chain_name: string
-    chain_id: number
-    chain_id_name: string
+    public chain_name: string
+    public chain_id: number
+    public chain_id_name: string
 
-    constructor(chain_name: string, chain_id: number, chain_id_name: string) {
+    public constructor(chain_name: string, chain_id: number, chain_id_name: string) {
         this.chain_name = chain_name
         this.chain_id = chain_id
         this.chain_id_name = chain_id_name
@@ -15,8 +15,8 @@ export class ChainInfo {
     // EVM
     public static EthereumMainnet = new ChainInfo("Ethereum", 1, "Mainnet");
     public static EthereumGoerli = new ChainInfo("Ethereum", 5, "Goerli");
-    public static BscMainnet = new ChainInfo("BSC", 56, "Mainnet");
-    public static BscTestnet = new ChainInfo("BSC", 97, "Testnet");
+    public static BSCMainnet = new ChainInfo("BSC", 56, "Mainnet");
+    public static BSCTestnet = new ChainInfo("BSC", 97, "Testnet");
     public static PolygonMainnet = new ChainInfo("Polygon", 137, "Mainnet");
     public static PolygonMumbai = new ChainInfo("Polygon", 80001, "Mumbai");
     public static AvalancheMainnet = new ChainInfo("Avalanche", 43114, "Mainnet");
@@ -62,8 +62,8 @@ export class ChainInfo {
     public static KlaytnTestnet = new ChainInfo("Klaytn", 1001, "Testnet");
     public static ScrollTestnetL1 = new ChainInfo("Scroll", 534351, "Testnet L1");
     public static ScrollTestnetL2 = new ChainInfo("Scroll", 534354, "Testnet L2");
-    public static ZkSyncV2Mainnet = new ChainInfo("ZkSyncV2", 324, "Mainnet");
-    public static ZkSyncV2Testnet = new ChainInfo("ZkSyncV2", 280, "Testnet");
+    public static ZkSyncMainnet = new ChainInfo("ZkSync", 324, "Mainnet");
+    public static ZkSyncTestnet = new ChainInfo("ZkSync", 280, "Testnet");
     public static MetisMainnet = new ChainInfo("Metis", 1088, "Mainnet");
     public static MetisTestnet = new ChainInfo("Metis", 599, "Testnet");
     

@@ -274,7 +274,7 @@ PODS:
   - React-jsinspector (0.70.6)
   - React-logger (0.70.6):
     - glog
-  - react-native-particle-connect (0.10.2):
+  - react-native-particle-connect (0.10.3):
     - ConnectCommon
     - ConnectEVMAdapter
     - ConnectPhantomAdapter
@@ -558,7 +558,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: b4a65947391c658450151275aa406f2b8263178f
   React-jsinspector: 60769e5a0a6d4b32294a2456077f59d0266f9a8b
   React-logger: 1623c216abaa88974afce404dc8f479406bbc3a0
-  react-native-particle-connect: ad5a5456933041af0383a468e974f4339672f8bf
+  react-native-particle-connect: 875fc8826534f9684f5a2be1e2ab31c25732078a
   react-native-safe-area-context: 6c12e3859b6f27b25de4fee8201cfb858432d8de
   React-perflogger: 8c79399b0500a30ee8152d0f9f11beae7fc36595
   React-RCTActionSheet: 7316773acabb374642b926c19aef1c115df5c466

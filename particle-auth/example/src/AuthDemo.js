@@ -259,7 +259,7 @@ const data = [
 export default class AuthDemo extends PureComponent {
 
     render = () => {
-        const { navigation, route } = this.props;
+        const { navigation } = this.props;
 
         return (
             <SafeAreaView>
@@ -315,14 +315,6 @@ const Item = ({ item }) => {
 }
 
 const styles = StyleSheet.create({
-    selectChainButtonStyle: {
-        marginTop: 100,
-        width: 300,
-        marginHorizontal: 50,
-        marginVertical: 10,
-        backgroundColor: 'rgba(78, 116, 289, 1)',
-        borderRadius: 3,
-    },
 
     buttonStyle: {
         backgroundColor: 'rgba(78, 116, 289, 1)',

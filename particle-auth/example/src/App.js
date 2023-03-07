@@ -32,10 +32,10 @@ function HomeScreen({ navigation }) {
 
 const Stack = createNativeStackNavigator();
 
-function AuthScreen({ navigation, route }) {
+function AuthScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <AuthDemo navigation={navigation}  route={route}/>
+      <AuthDemo navigation={navigation} />
     </View>
   )
 }

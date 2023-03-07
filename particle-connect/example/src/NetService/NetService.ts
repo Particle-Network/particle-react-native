@@ -53,13 +53,11 @@ export async function JsonRpcRequest(rpcUrl: string, pathname: string, rpcMethod
     Array.isArray(jsonRpcResponseJson) ||
     typeof jsonRpcResponseJson !== 'object'
   ) {
-
     throw new Error(`RPC endpoint ${rpcUrl} returned non-object response.`);
   }
   const { error, result } = jsonRpcResponseJson;
 
   if (error) {
-
     throw new Error(error?.message || error);
   }
   return result;

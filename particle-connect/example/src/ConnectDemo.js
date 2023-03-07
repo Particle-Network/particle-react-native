@@ -14,20 +14,21 @@ import {
 import { ChainInfo } from 'react-native-particle-connect';
 import { ParticleConnectConfig } from 'react-native-particle-connect';
 import { PNAccount } from './Models/PNAccount';
+import { EvmService } from './NetService/EvmService';
 
-const walletType = WalletType.MetaMask;
 var loginSourceMessage = '';
 var loginSignature = '';
 
-var pnaccount;
+var pnaccount = new PNAccount();
 
 getAccounts = async () => {
-    const accounts = await particleConnect.getAccounts(walletType);
+    const accounts = await particleConnect.getAccounts(PNAccount.walletType);
     console.log(accounts);
 };
 
 setChainInfo = async () => {
-    const chainInfo = ChainInfo.EthereumGoerli;
+    console.log('current wallet type', PNAccount.walletType);
+    const chainInfo = EvmService.currentChainInfo;
     const result = await particleConnect.setChainInfo(chainInfo);
     console.log(result);
 };
@@ -38,13 +39,13 @@ getChainInfo = async () => {
 };
 
 setChainInfoAsync = async () => {
-    const chainInfo = ChainInfo.EthereumGoerli;
+    const chainInfo = EvmService.currentChainInfo;
     const result = await particleConnect.setChainInfoAsync(chainInfo);
     console.log(result);
 };
 
 init = async () => {
-    const chainInfo = ChainInfo.EthereumGoerli;
+    const chainInfo = EvmService.currentChainInfo;
     const env = Env.Dev;
     const metadata = {
         name: 'Particle Connect',
@@ -56,7 +57,7 @@ init = async () => {
 };
 
 connect = async () => {
-    const result = await particleConnect.connect(walletType);
+    const result = await particleConnect.connect(PNAccount.walletType);
     if (result.status) {
         console.log('connect success');
         const account = result.data;
@@ -102,8 +103,12 @@ connectWithParticleConfig = async () => {
 };
 
 disconnect = async () => {
-    const publicAddress = TestAccountEVM.publicAddress;
-    const result = await particleConnect.disconnect(walletType, publicAddress);
+    const publicAddress = pnaccount.publicAddress;
+    if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+    }
+    const result = await particleConnect.disconnect(PNAccount.walletType, publicAddress);
     if (result.status) {
         console.log(result.data);
     } else {
@@ -114,18 +119,27 @@ disconnect = async () => {
 
 isConnected = async () => {
     const publicAddress = pnaccount.publicAddress;
+    if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+    }
     const isConnected = await particleConnect.isConnected(
-        walletType,
+        PNAccount.walletType,
         publicAddress
     );
     console.log(isConnected);
 };
 
 signMessage = async () => {
-    const message = 'Hello world!';
+
     const publicAddress = pnaccount.publicAddress;
+    if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+    }
+    const message = 'Hello world!';
     const result = await particleConnect.signMessage(
-        walletType,
+        PNAccount.walletType,
         publicAddress,
         message
     );
@@ -139,10 +153,15 @@ signMessage = async () => {
 };
 
 signTransaction = async () => {
-    const transaction = '';
+
     const publicAddress = pnaccount.publicAddress;
+    if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+    }
+    const transaction = '';
     const result = await particleConnect.signTransaction(
-        walletType,
+        PNAccount.walletType,
         publicAddress,
         transaction
     );
@@ -156,10 +175,15 @@ signTransaction = async () => {
 };
 
 signAllTransactions = async () => {
-    const transactions = ['', ''];
+
     const publicAddress = pnaccount.publicAddress;
+    if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+    }
+    const transactions = ['', ''];
     const result = await particleConnect.signAllTransactions(
-        walletType,
+        PNAccount.walletType,
         publicAddress,
         transactions
     );
@@ -173,14 +197,21 @@ signAllTransactions = async () => {
 };
 
 signAndSendTransaction = async () => {
-    console.log('pnaccount.publicAddress = ' + pnaccount.publicAddress);
+
+
+    const publicAddress = pnaccount.publicAddress;
+
+    if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+    }
+
     const transaction = await Helper.getEthereumTransacion(
         pnaccount.publicAddress
     );
     console.log(transaction);
-    const publicAddress = pnaccount.publicAddress;
     const result = await particleConnect.signAndSendTransaction(
-        walletType,
+        PNAccount.walletType,
         publicAddress,
         transaction
     );
@@ -197,8 +228,12 @@ signTypedData = async () => {
     const typedData =
         '{        "types": {            "EIP712Domain": [                {                    "name": "name",                    "type": "string"                },                {                    "name": "version",                    "type": "string"                },                {                    "name": "chainId",                    "type": "uint256"                },                {                    "name": "verifyingContract",                    "type": "address"                }            ],            "Person": [                {                    "name": "name",                    "type": "string"                },                {                    "name": "wallet",                    "type": "address"                }            ],            "Mail": [                {                    "name": "from",                    "type": "Person"                },                {                    "name": "to",                    "type": "Person"                },                {                    "name": "contents",                    "type": "string"                }            ]        },        "primaryType": "Mail",        "domain": {            "name": "Ether Mail",            "version": "1",            "chainId": 5,            "verifyingContract": "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC"        },        "message": {            "from": {                "name": "Cow",                "wallet": "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826"            },            "to": {                "name": "Bob",                "wallet": "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB"            },            "contents": "Hello, Bob!"        }}        ';
     const publicAddress = pnaccount.publicAddress;
+    if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+    }
     const result = await particleConnect.signTypedData(
-        walletType,
+        PNAccount.walletType,
         publicAddress,
         typedData
     );
@@ -213,10 +248,16 @@ signTypedData = async () => {
 
 login = async () => {
     const publicAddress = pnaccount.publicAddress;
+
+    if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+    }
+
     const domain = 'login.xyz';
     const uri = 'https://login.xyz/demo#login';
     const result = await particleConnect.login(
-        walletType,
+        PNAccount.walletType,
         publicAddress,
         domain,
         uri
@@ -236,12 +277,20 @@ login = async () => {
 
 verify = async () => {
     const publicAddress = pnaccount.publicAddress;
+    if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+    }
     const message = loginSourceMessage;
     const signature = loginSignature;
+    if (message == undefined || signature == undefined) {
+        console.log('message or signature is underfined');
+        return;
+    }
     console.log('verify message:', message);
     console.log('verify signature:', signature);
     const result = await particleConnect.verify(
-        walletType,
+        PNAccount.walletType,
         publicAddress,
         message,
         signature
@@ -256,6 +305,8 @@ verify = async () => {
 };
 
 importPrivateKey = async () => {
+    // this method only support WalletType is SolanaPrivateKey or EvmPrivateKey
+    // we provide a private key for test
     const privateKey = TestAccountEVM.privateKey;
     const result = await particleConnect.importPrivateKey(
         WalletType.EvmPrivateKey,
@@ -271,6 +322,8 @@ importPrivateKey = async () => {
 };
 
 importMnemonic = async () => {
+    // this method only support WalletType is SolanaPrivateKey or EvmPrivateKey
+    // we provide a mnemonic for test
     const mnemonic = TestAccountEVM.mnemonic;
     const result = await particleConnect.importMnemonic(
         WalletType.EvmPrivateKey,
@@ -286,6 +339,7 @@ importMnemonic = async () => {
 };
 
 exportPrivateKey = async () => {
+    // this method only support WalletType is SolanaPrivateKey or EvmPrivateKey
     const publicAddress = TestAccountEVM.publicAddress;
     const result = await particleConnect.exportPrivateKey(
         WalletType.EvmPrivateKey,
@@ -300,15 +354,19 @@ exportPrivateKey = async () => {
     }
 };
 
-// eslint-disable-next-line no-undef
-addEthereumChain = async () => {
-    const publicAddress = pnaccount.publicAddress;//TestAccountEVM.publicAddress;
-    const chainId = 80001; // polygon testnet
 
+addEthereumChain = async () => {
+    const publicAddress = pnaccount.publicAddress;
+    if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+    }
+
+    console.log(publicAddress);
     const result = await particleConnect.addEthereumChain(
-        WalletType.MetaMask,
+        PNAccount.walletType,
         publicAddress,
-        ChainInfo.PolygonMumbai
+        EvmService.currentChainInfo
     );
 
     if (result.status) {
@@ -321,13 +379,17 @@ addEthereumChain = async () => {
 };
 
 switchEthereumChain = async () => {
-    const publicAddress = pnaccount.publicAddress; // TestAccountEVM.publicAddress;
-    const chainId = 137; // polygon mainnet
+    const publicAddress = pnaccount.publicAddress;
+
+    if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+    }
 
     const result = await particleConnect.switchEthereumChain(
-        WalletType.MetaMask,
+        PNAccount.walletType,
         publicAddress,
-        chainId
+        EvmService.currentChainInfo
     );
 
     if (result.status) {
@@ -342,8 +404,13 @@ switchEthereumChain = async () => {
 reconnectIfNeeded = async () => {
     const publicAddress = TestAccountEVM.publicAddress;
 
+    if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+    }
+
     const result = await particleConnect.reconnectIfNeeded(
-        WalletType.MetaMask,
+        PNAccount.walletType,
         publicAddress
     );
 
@@ -357,6 +424,8 @@ reconnectIfNeeded = async () => {
 };
 
 const data = [
+    { key: 'Select Chain Page', function: null },
+    { key: 'Select Wallet Type Page', function: null },
     { key: 'Init', function: this.init },
     { key: 'SetChainInfo', function: this.setChainInfo },
     { key: 'SetChainInfoAsync', function: this.setChainInfoAsync },
@@ -382,34 +451,33 @@ const data = [
 ];
 
 export default class ConnectDemo extends PureComponent {
+
     render = () => {
+        const { navigation, route } = this.props;
+
         return (
             <SafeAreaView>
-                <FlatList data={data} renderItem={({ item }) => <Item item={item} />} />
+                <FlatList data={data} renderItem={
+                    ({ item }) =>
+                        <Button
+                            title={item.key}
+                            onPress={() => {
+                                if (item.key == "Select Chain Page") {
+                                    navigation.push("SelectChainPage");
+                                } else if (item.key == 'Select Wallet Type Page') {
+                                    navigation.push("SelectWalletTypePage");
+                                } else {
+                                    item.function();
+                                }
+                            }}
+                            buttonStyle={styles.buttonStyle}
+                            containerStyle={styles.containerStyle} />
+                } />
             </SafeAreaView>
         );
     };
-}
 
-const Item = ({ item }) => {
-    return (
-        <View
-            style={{
-                flex: 1,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}
-        >
-            <Button
-                title={item.key}
-                onPress={item.function}
-                buttonStyle={styles.buttonStyle}
-                containerStyle={styles.containerStyle}
-            />
-        </View>
-    );
-};
+}
 
 const styles = StyleSheet.create({
     buttonStyle: {

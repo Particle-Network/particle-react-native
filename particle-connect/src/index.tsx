@@ -341,12 +341,12 @@ export function addEthereumChain(
 export function switchEthereumChain(
   walletType: WalletType,
   publicAddress: string,
-  chainId: number
+  chainInfo: ChainInfo,
 ) {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
-    chain_id: chainId,
+    chain_id: chainInfo.chain_id,
   };
   const json = JSON.stringify(obj);
   console.log(json);

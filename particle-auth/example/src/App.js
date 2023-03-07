@@ -4,6 +4,8 @@ import { Button } from '@rneui/themed';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthDemo from './AuthDemo';
+import SelectChainPage from './SelectChain';
+import Toast from 'react-native-toast-message';
 
 const logo = require('../images/ic_round.png');
 
@@ -30,23 +32,34 @@ function HomeScreen({ navigation }) {
 
 const Stack = createNativeStackNavigator();
 
-function AuthScreen() {
+function AuthScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
-      <AuthDemo />
+      <AuthDemo navigation={navigation}  route={route}/>
+    </View>
+  )
+}
+
+function SelectScreen({ navigation}) {
+  return (
+    <View style={styles.container}>
+      <SelectChainPage navigation={navigation}/>
     </View>
   )
 }
 
 export default function App() {
   return (
+    <>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name='Home' component={HomeScreen} />
         <Stack.Screen name='AuthDemo' component={AuthScreen} />
+        <Stack.Screen name='SelectChainPage' component={SelectScreen} />
       </Stack.Navigator>
     </NavigationContainer>
-
+    <Toast/>
+    </>
   );
 }
 

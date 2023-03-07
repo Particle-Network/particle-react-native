@@ -3,12 +3,11 @@ import { AbiEncodeFunction, EVMReqBodyMethod } from "./NetParams";
 import JsonRpcRequest from "./NetService";
 import BigNumber from 'bignumber.js';
 import { Buffer } from 'buffer';
-import * as ParticleAuth from 'react-native-particle-auth';
-import type { ChainInfo } from "react-native-particle-auth";
+import { ChainInfo } from "react-native-particle-auth";
 
 export class EvmService {
-
-    static currentChainInfo: ChainInfo;
+    /// current chain info
+    static currentChainInfo: ChainInfo = ChainInfo.EthereumGoerli;
 
     /**
      * Support evm standard rpc methpd

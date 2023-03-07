@@ -66,9 +66,14 @@ class ParticleAuthPlugin: NSObject {
             callback([false])
             return
         }
+        if !ParticleAuthService.isLogin() {
+            ParticleNetwork.setChainInfo(chainInfo)
+            callback([true])
+            return
+        }
+        
         ParticleAuthService.setChainInfo(chainInfo).subscribe { [weak self] result in
             guard let self = self else { return }
-
             switch result {
             case .failure(let error):
                 let response = self.ResponseFromError(error)

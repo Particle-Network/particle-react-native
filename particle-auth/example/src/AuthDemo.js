@@ -9,21 +9,20 @@ import { TestAccountEVM } from './TestAccount';
 import { EvmService } from './NetService/EvmService';
 
 init = async () => {
-    const chainInfo = ChainInfo.EthereumGoerli;
-    EvmService.currentChainInfo = chainInfo;
+    console.log('init');
+    const chainInfo = EvmService.currentChainInfo;
     const env = Env.Production;
     particleAuth.init(chainInfo, env);
 }
 
 setChainInfo = async () => {
-    const chainInfo = ChainInfo.EthereumGoerli;
-    EvmService.currentChainInfo = chainInfo;
+    const chainInfo = EvmService.currentChainInfo;
     const result = await particleAuth.setChainInfo(chainInfo);
     console.log(result);
 }
 
 setChainInfoAsync = async () => {
-    const chainInfo = ChainInfo.SolanaDevnet;
+    const chainInfo = EvmService.currentChainInfo;
     const result = await particleAuth.setChainInfoAsync(chainInfo);
     console.log(result);
 }
@@ -232,8 +231,8 @@ getChainInfo = async () => {
     console.log(result);
 }
 
-
 const data = [
+    { key: 'Select Chain Page', function: null },
     { key: 'Init', function: this.init },
     { key: 'SetChainInfo', function: this.setChainInfo },
     { key: 'SetChainInfoAsync', function: this.setChainInfoAsync },
@@ -260,16 +259,32 @@ const data = [
 export default class AuthDemo extends PureComponent {
 
     render = () => {
-        return (
+        const { navigation, route } = this.props;
 
+        return (
             <SafeAreaView>
-                <View style={styles.contentView}>
-                    <FlatList data={data} renderItem={({ item }) => <Item item={item} />} />
+                <View>
+                    <FlatList data={data} renderItem={
+                        ({ item }) => 
+                        <Button
+                        title={item.key}
+                        onPress={ () => {
+                            if (item.key == "Select Chain Page") {
+                                this.props.navigation.push("SelectChainPage");
+                            } else {
+                                item.function();
+                            }
+                        }} 
+                        buttonStyle={styles.buttonStyle}
+                        containerStyle={styles.containerStyle} />
+                    }/>
                 </View>
             </SafeAreaView >
         );
     }
+
     componentDidMount = () => {
+        console.log('AuthDemo componentDidMount');
         if (Platform.OS === 'ios') {
             const emitter = new NativeEventEmitter(particleAuth.ParticleAuthEvent);
             this.getBarcodeValue = emitter.addListener("securityFailedCallBack", this.securityFailedCallBack)
@@ -277,9 +292,11 @@ export default class AuthDemo extends PureComponent {
             this.getBarcodeValue = DeviceEventEmitter.addListener('securityFailedCallBack', this.securityFailedCallBack)
         }
     }
+
     componentWillUnmount = () => {
         this.getBarcodeValue.remove();
     }
+
     securityFailedCallBack(result) {
         console.log(result);
     }
@@ -298,6 +315,15 @@ const Item = ({ item }) => {
 }
 
 const styles = StyleSheet.create({
+    selectChainButtonStyle: {
+        marginTop: 100,
+        width: 300,
+        marginHorizontal: 50,
+        marginVertical: 10,
+        backgroundColor: 'rgba(78, 116, 289, 1)',
+        borderRadius: 3,
+    },
+
     buttonStyle: {
         backgroundColor: 'rgba(78, 116, 289, 1)',
         borderRadius: 3,

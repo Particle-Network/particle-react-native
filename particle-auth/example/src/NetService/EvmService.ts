@@ -25,7 +25,7 @@ export class EvmService {
 
     /**
      * Get token price 
-     * @param addresses Token address array
+     * @param addresses Token address array, for native token, pass "native"
      * @param currencies Currencies array, like ["usd", "cny"]
      * @returns Json string
      */

@@ -22,16 +22,18 @@ npm install react-native-particle-wallet
 2. Select chain
 
 3. Init
-​
-3. Login
-​
+
+4. Login
+
+5. Try other methods
+
 <div align="left">
-  <img src="https://user-images.githubusercontent.com/18244874/224209099-1b373f19-9ce9-4bb9-8cf4-a687957dbc43.gif" width=20% height=20%>
+  <img src="https://user-images.githubusercontent.com/18244874/224315719-7c94b6db-3a2f-4ce5-8a40-ea1a11ccc515.gif" width=20% height=20%>
   <br>
   <br>
   <br>
 </div>
-​
+
 ## Docs
 
 [particle-auth](https://docs.particle.network/auth-service/sdks/react-native)
@@ -39,7 +41,8 @@ npm install react-native-particle-wallet
 [particle-connect](https://docs.particle.network/connect-service/sdks/react-native)
 
 [particle-wallet](https://docs.particle.network/wallet-service/sdks/react-native)
-​
+
+
 
 ## License
 

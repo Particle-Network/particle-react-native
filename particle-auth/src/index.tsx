@@ -114,10 +114,10 @@ export function setChainInfoAsync(chainInfo: ChainInfo): Promise<boolean> {
  * @returns Result, userinfo or error
  */
 export function login(
-  type: LoginType,
-  account: string,
-  supportAuthType: [SupportAuthType],
-  loginFormMode: boolean = false
+  type?: LoginType,
+  account?: string,
+  supportAuthType?: [SupportAuthType],
+  loginFormMode?: boolean
 ): Promise<any> {
   const obj = {
     login_type: type,
@@ -157,8 +157,6 @@ export function fastLogout(): Promise<any> {
     });
   });
 }
-
-
 
 /**
  * Is user logged in
@@ -319,3 +317,4 @@ export * from './Models/RpcUrl';
 export * from './Models/Language';
 export * from './Models/WalletDisplay';
 export * from './Models/UserInterfaceStyle';
+export { ParticleProvider } from './provider';

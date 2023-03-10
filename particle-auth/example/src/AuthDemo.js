@@ -7,6 +7,50 @@ import { Button } from '@rneui/themed';
 import * as Helper from './Helper'
 import { TestAccountEVM } from './TestAccount';
 import { EvmService } from './NetService/EvmService';
+import { createWeb3 } from './web3Demo';
+
+const web3 = createWeb3('', '');
+
+const getAccounts = async () => { 
+    const accounts = await web3.eth.getAccounts();
+    console.log('web3.eth.getAccounts', accounts);
+}
+
+const getBalance = async () => {
+    const accounts = await web3.eth.getAccounts();
+    const balance = await web3.eth.getBalance(accounts[0]);
+    console.log('web3.eth.getBalance', balance);
+}
+
+const getChainId = async () => { 
+    const chainId = await web3.eth.getChainId();
+    console.log('web3.eth.getChainId', chainId);
+}
+
+const personalSign = async () => { 
+    const accounts = await web3.eth.getAccounts();
+    const result = await web3.eth.personal.sign('hello world', accounts[0]);
+    console.log('web3.eth.personal.sign', result);
+}
+
+const signTypedData = async () => { 
+    const result = await web3.currentProvider.request({
+        method: 'eth_signTypedData_v4',
+        params: [{}]
+    });
+    console.log('web3 eth_signTypedData_v4', result);
+}
+
+const sendTransaction = async () => { 
+    const result = await web3.eth.sendTransaction(
+        {
+            from: '0x000000000000000000000000000000000000000',
+            to: '0x0000000000000000000000000000000000000000',
+            value: '1000000'
+        }
+    )
+    console.log('web3.eth.sendTransaction', result);
+}
 
 init = async () => {
     console.log('init');

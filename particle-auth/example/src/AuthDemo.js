@@ -9,31 +9,31 @@ import { TestAccountEVM } from './TestAccount';
 import { EvmService } from './NetService/EvmService';
 import { createWeb3 } from './web3Demo';
 
-const web3 = createWeb3('', '');
+const web3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b');
 
-const getAccounts = async () => { 
+const web_getAccounts = async () => { 
     const accounts = await web3.eth.getAccounts();
     console.log('web3.eth.getAccounts', accounts);
 }
 
-const getBalance = async () => {
+const web3_getBalance = async () => {
     const accounts = await web3.eth.getAccounts();
     const balance = await web3.eth.getBalance(accounts[0]);
     console.log('web3.eth.getBalance', balance);
 }
 
-const getChainId = async () => { 
+const web3_getChainId = async () => { 
     const chainId = await web3.eth.getChainId();
     console.log('web3.eth.getChainId', chainId);
 }
 
-const personalSign = async () => { 
+const web3_personalSign = async () => { 
     const accounts = await web3.eth.getAccounts();
     const result = await web3.eth.personal.sign('hello world', accounts[0]);
     console.log('web3.eth.personal.sign', result);
 }
 
-const signTypedData = async () => { 
+const web3_signTypedData = async () => { 
     const result = await web3.currentProvider.request({
         method: 'eth_signTypedData_v4',
         params: [{}]
@@ -41,11 +41,12 @@ const signTypedData = async () => {
     console.log('web3 eth_signTypedData_v4', result);
 }
 
-const sendTransaction = async () => { 
+const web3_sendTransaction = async () => { 
+    const accounts = await web3.eth.getAccounts();
     const result = await web3.eth.sendTransaction(
         {
-            from: '0x000000000000000000000000000000000000000',
-            to: '0x0000000000000000000000000000000000000000',
+            from: accounts[0],
+            to: TestAccountEVM.receiverAddress,
             value: '1000000'
         }
     )
@@ -278,12 +279,20 @@ getChainInfo = async () => {
 const data = [
     { key: 'Select Chain Page', function: null },
     { key: 'Init', function: this.init },
-    { key: 'SetChainInfo', function: this.setChainInfo },
-    { key: 'SetChainInfoAsync', function: this.setChainInfoAsync },
     { key: 'Login', function: this.login },
+    { key: 'web3_getAccounts', function: this.web3_getAccounts },
+    { key: 'web3_getBalance', function: this.web3_getBalance },
+    { key: 'web3_getChainId', function: this.web3_getChainId },
+    { key: 'web3_personalSign', function: this.web3_personalSign },
+    { key: 'web3_signTypedData', function: this.web3_signTypedData},
+    { key: 'web3_sendTransaction', function: this.web3_sendTransaction},
+    
+
     { key: 'Logout', function: this.logout },
     { key: 'FastLogout', function: this.fastLogout },
     { key: 'IsLogin', function: this.isLogin },
+    { key: 'SetChainInfo', function: this.setChainInfo },
+    { key: 'SetChainInfoAsync', function: this.setChainInfoAsync },
     { key: 'SignMessage', function: this.signMessage },
     { key: 'SignTransaction', function: this.signTransaction },
     { key: 'SignAllTransactions', function: this.signAllTransactions },

@@ -57,7 +57,7 @@ class ParticleProvider {
       ) {
         const isLogin = await particleAuth.isLogin();
         if (!isLogin) {
-          await particleAuth.login(null, null, [SupportAuthType.All]);
+          await particleAuth.login(undefined, undefined, [SupportAuthType.All]);
         }
         const account = await particleAuth.getAddress();
         return [account];

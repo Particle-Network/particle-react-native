@@ -4,6 +4,7 @@ import { sendEVMRpc } from './connection';
 import type { ParticleOptions, RequestArguments } from './types';
 import { notSupportMethods, signerMethods } from './types';
 import { ChainInfo } from '../Models/ChainInfo';
+import { SupportAuthType } from '../index';
 
 class ParticleProvider {
   private events = new EventEmitter();
@@ -56,7 +57,7 @@ class ParticleProvider {
       ) {
         const isLogin = await particleAuth.isLogin();
         if (!isLogin) {
-          await particleAuth.login();
+          await particleAuth.login(null, null, [SupportAuthType.All]);
         }
         const account = await particleAuth.getAddress();
         return [account];
@@ -117,7 +118,7 @@ class ParticleProvider {
         payload.method === 'eth_signTypedData' ||
         payload.method === 'eth_signTypedData_v1'
       ) {
-        const typedData = payload.params[0];
+        const typedData = JSON.stringify(payload.params[0]);
         const result: any = await particleAuth.signTypedData(typedData, 'v1');
         if (result.status) {
           return result.data;

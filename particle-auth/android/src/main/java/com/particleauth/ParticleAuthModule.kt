@@ -11,6 +11,7 @@ import com.particle.base.ChainInfo
 import com.particle.base.Env
 import com.particle.base.LanguageEnum
 import com.particle.base.ParticleNetwork
+import com.particle.network.ParticleNetworkAuth.fastLogout
 import com.particle.network.ParticleNetworkAuth.getAddress
 import com.particle.network.ParticleNetworkAuth.getUserInfo
 import com.particle.network.ParticleNetworkAuth.isLogin
@@ -26,10 +27,7 @@ import com.particle.network.ParticleNetworkAuth.signMessage
 import com.particle.network.ParticleNetworkAuth.signTransaction
 import com.particle.network.ParticleNetworkAuth.signTypedData
 import com.particle.network.SignTypedDataVersion
-import com.particle.network.service.ChainChangeCallBack
-import com.particle.network.service.LoginType
-import com.particle.network.service.SupportAuthType
-import com.particle.network.service.WebServiceCallback
+import com.particle.network.service.*
 import com.particle.network.service.model.*
 import com.particleauth.model.*
 import com.particleauth.utils.ChainUtils
@@ -159,6 +157,26 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
       }
     })
   }
+
+  @ReactMethod
+  fun fastLogout(callback: Callback) {
+    if (!ParticleNetwork.isLogin()) {
+      callback.invoke(ReactCallBack.success("success").toGson())
+      return
+    }
+    LogUtils.d("logout")
+    ParticleNetwork.fastLogout(object : FastLogoutCallBack {
+
+      override fun failure() {
+        callback.invoke(ReactCallBack.failed("failed").toGson())
+      }
+
+      override fun success() {
+        callback.invoke(ReactCallBack.success("success").toGson())
+      }
+    })
+  }
+
 
   @ReactMethod
   fun signMessage(message: String, callback: Callback) {
@@ -316,6 +334,7 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
 
 
   }
+
   @ReactMethod
   fun setLanguage(language: String) {
     if (language.isEmpty()) {
@@ -333,7 +352,6 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
       ParticleNetwork.setAppliedLanguage(LanguageEnum.EN)
     }
   }
-
 
 
   override fun getName(): String {

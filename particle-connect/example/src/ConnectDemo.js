@@ -22,15 +22,30 @@ var loginSignature = '';
 var pnaccount = new PNAccount();
 
 // Start with new web3, at this time, you don't connect with this walletType, and dont know any publicAddress
-const newWeb3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', PNAccount.walletType);
+var newWeb3 = undefined;
 
 // After connected a wallet, restoreWeb3 when getAccounts.
 // We need to check if the walletType and publicAddress is connected. 
 var web3 = undefined;
 
+init = async () => {
+    const chainInfo = EvmService.currentChainInfo;
+    const env = Env.Dev;
+    const metadata = {
+        name: 'Particle Connect',
+        icon: 'https://connect.particle.network/icons/512.png',
+        url: 'https://connect.particle.network',
+    };
+    const rpcUrl = { evm_url: null, solana_url: null };
+    particleConnect.init(chainInfo, env, metadata, rpcUrl);
+
+    newWeb3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', PNAccount.walletType);
+};
+
 newWeb3_getAccounts = async () => {
     try {
         const accounts = await newWeb3.eth.getAccounts();
+        pnaccount = new PNAccount("","",accounts[0],"");
         console.log('web3.eth.getAccounts', accounts);
     } catch (error) {
         console.log('web3.eth.getAccounts', error);
@@ -39,11 +54,9 @@ newWeb3_getAccounts = async () => {
 
 restoreWeb3_getAccounts = async () => {
     try {
-        if (web3 == undefined) {
-            web3 = restoreWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', PNAccount.walletType, pnaccount.publicAddress);
-        } else {
-            console.log('web3 is not undefined');
-        }
+        console.log('pnaccount.publicAddress ', pnaccount.publicAddress);
+        web3 = restoreWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', PNAccount.walletType, pnaccount.publicAddress);
+       
         const accounts = await web3.eth.getAccounts();
         console.log('web3.eth.getAccounts', accounts);
     } catch (error) {
@@ -111,7 +124,8 @@ web3_sendTransaction = async () => {
             {
                 from: accounts[0],
                 to: TestAccountEVM.receiverAddress,
-                value: '1000000'
+                value: '1000000',
+                data: '0x'
             }
         )
         console.log('web3.eth.sendTransaction', result);
@@ -131,6 +145,20 @@ web3_wallet_switchEthereumChain = async () => {
         console.log('web3 wallet_switchEthereumChain', result);
     } catch (error) {
         console.log('web3 wallet_switchEthereumChain', error);
+    }
+
+}
+
+web3_wallet_addEthereumChain = async () => {
+    try {
+        const chainId = "0x" + EvmService.currentChainInfo.chain_id.toString(16);
+        const result = await web3.currentProvider.request({
+            method: 'wallet_addEthereumChain',
+            params: [{ chainId: chainId }]
+        })
+        console.log('web3 wallet_addEthereumChain', result);
+    } catch (error) {
+        console.log('web3 wallet_addEthereumChain', error);
     }
 
 }
@@ -158,19 +186,6 @@ setChainInfoAsync = async () => {
     console.log(result);
 };
 
-
-
-init = async () => {
-    const chainInfo = EvmService.currentChainInfo;
-    const env = Env.Dev;
-    const metadata = {
-        name: 'Particle Connect',
-        icon: 'https://connect.particle.network/icons/512.png',
-        url: 'https://connect.particle.network',
-    };
-    const rpcUrl = { evm_url: null, solana_url: null };
-    particleConnect.init(chainInfo, env, metadata, rpcUrl);
-};
 
 connect = async () => {
     const result = await particleConnect.connect(PNAccount.walletType);
@@ -551,7 +566,7 @@ const data = [
     { key: 'web3_signTypedData_v4', function: this.web3_signTypedData_v4 },
     { key: 'web3_sendTransaction', function: this.web3_sendTransaction },
     { key: 'web3_wallet_switchEthereumChain', function: this.web3_wallet_switchEthereumChain },
-
+    { key: 'web3_wallet_addEthereumChain', function: this.web3_wallet_addEthereumChain },
 
     { key: 'SetChainInfo', function: this.setChainInfo },
     { key: 'SetChainInfoAsync', function: this.setChainInfoAsync },

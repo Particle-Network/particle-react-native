@@ -18,7 +18,6 @@ export const notSupportMethods = [
   'eth_sign',
   'eth_sendRawTransaction',
   'wallet_watchAsset', //EIP-747
-  'wallet_addEthereumChain', //EIP-3085
 ];
 
 export const signerMethods = [
@@ -32,6 +31,7 @@ export const signerMethods = [
   'eth_signTypedData_v4',
   'personal_sign',
   'wallet_switchEthereumChain', //EIP-3326
+  'wallet_addEthereumChain', //EIP-3085
 ];
 
 export interface ParticleConnectOptions {

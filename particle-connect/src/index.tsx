@@ -89,7 +89,6 @@ export function connect(walletType: WalletType, config?: ParticleConnectConfig):
     const obj = { login_type: config.loginType, account: config.account, support_auth_type_values: config.supportAuthType, login_form_mode: config.loginFormMode };
     configJson = JSON.stringify(obj);
   }
-  console.log("configJson", configJson);
   return new Promise((resolve) => {
     ParticleConnectPlugin.connect(walletType, configJson, (result: string) => {
       resolve(JSON.parse(result));
@@ -400,3 +399,4 @@ export * from "./Models/RpcUrl"
 export * from "./Models/WalletDisplay"
 export * from "./Models/WalletType"
 export * from "./Models/ConnectConfig"
+export { ParticleConnectProvider } from './provider';

@@ -42,7 +42,7 @@ export default class SelectChainPage extends PureComponent {
     }
 
     selectedChain = async (chainInfo) => {
-        const { navigation } = this.props;
+        const { navigation, route } = this.props;
 
         Toast.show({
             type: 'success',
@@ -50,7 +50,8 @@ export default class SelectChainPage extends PureComponent {
         })
         
         EvmService.currentChainInfo = chainInfo;
-        
+        console.log(chainInfo);
+
         navigation.navigate({
             name: 'ConnectDemo',
             params: { post: chainInfo},

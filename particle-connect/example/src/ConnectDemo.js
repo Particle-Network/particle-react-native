@@ -11,15 +11,129 @@ import {
     SupportAuthType,
     WalletType,
 } from 'react-native-particle-connect';
-import { ChainInfo } from 'react-native-particle-connect';
 import { ParticleConnectConfig } from 'react-native-particle-connect';
 import { PNAccount } from './Models/PNAccount';
 import { EvmService } from './NetService/EvmService';
+import { createWeb3, restoreWeb3 } from './web3Demo';
 
 var loginSourceMessage = '';
 var loginSignature = '';
 
 var pnaccount = new PNAccount();
+
+// Start with new web3, at this time, you don't connect with this walletType, and dont know any publicAddress
+const newWeb3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', PNAccount.walletType);
+
+// After connected a wallet, restoreWeb3 when getAccounts.
+// We need to check if the walletType and publicAddress is connected. 
+var web3 = undefined;
+
+newWeb3_getAccounts = async () => {
+    try {
+        const accounts = await newWeb3.eth.getAccounts();
+        console.log('web3.eth.getAccounts', accounts);
+    } catch (error) {
+        console.log('web3.eth.getAccounts', error);
+    }
+}
+
+restoreWeb3_getAccounts = async () => {
+    try {
+        if (web3 == undefined) {
+            web3 = restoreWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', PNAccount.walletType, pnaccount.publicAddress);
+        } else {
+            console.log('web3 is not undefined');
+        }
+        const accounts = await web3.eth.getAccounts();
+        console.log('web3.eth.getAccounts', accounts);
+    } catch (error) {
+        console.log('web3.eth.getAccounts', error);
+    }
+}
+
+
+web3_getBalance = async () => {
+    try {
+        const accounts = await web3.eth.getAccounts();
+        const balance = await web3.eth.getBalance(accounts[0]);
+        console.log('web3.eth.getBalance', balance);
+    } catch (error) {
+        console.log('web3.eth.getBalance', error);
+    }
+
+}
+
+web3_getChainId = async () => {
+    try {
+        const chainId = await web3.eth.getChainId();
+        console.log('web3.eth.getChainId', chainId);
+    } catch (error) {
+        console.log('web3.eth.getChainId', error);
+    }
+
+}
+
+web3_personalSign = async () => {
+    // for persion_sign
+    // don't use web3.eth.personal.sign
+    try {
+        const accounts = await web3.eth.getAccounts();
+        const result = await web3.currentProvider.request({
+            method: 'personal_sign',
+            params: ['hello world', accounts[0]]
+        });
+
+        console.log('web3.eth.personal.sign', result);
+    } catch (error) {
+        console.log('web3.eth.personal.sign', error);
+    }
+
+}
+
+web3_signTypedData_v4 = async () => {
+    try {
+
+        const accounts = await web3.eth.getAccounts();
+        const result = await web3.currentProvider.request({
+            method: 'eth_signTypedData_v4',
+            params: [accounts[0], { "types": { "OrderComponents": [{ "name": "offerer", "type": "address" }, { "name": "zone", "type": "address" }, { "name": "offer", "type": "OfferItem[]" }, { "name": "consideration", "type": "ConsiderationItem[]" }, { "name": "orderType", "type": "uint8" }, { "name": "startTime", "type": "uint256" }, { "name": "endTime", "type": "uint256" }, { "name": "zoneHash", "type": "bytes32" }, { "name": "salt", "type": "uint256" }, { "name": "conduitKey", "type": "bytes32" }, { "name": "counter", "type": "uint256" }], "OfferItem": [{ "name": "itemType", "type": "uint8" }, { "name": "token", "type": "address" }, { "name": "identifierOrCriteria", "type": "uint256" }, { "name": "startAmount", "type": "uint256" }, { "name": "endAmount", "type": "uint256" }], "ConsiderationItem": [{ "name": "itemType", "type": "uint8" }, { "name": "token", "type": "address" }, { "name": "identifierOrCriteria", "type": "uint256" }, { "name": "startAmount", "type": "uint256" }, { "name": "endAmount", "type": "uint256" }, { "name": "recipient", "type": "address" }], "EIP712Domain": [{ "name": "name", "type": "string" }, { "name": "version", "type": "string" }, { "name": "chainId", "type": "uint256" }, { "name": "verifyingContract", "type": "address" }] }, "domain": { "name": "Seaport", "version": "1.1", "chainId": 5, "verifyingContract": "0x00000000006c3852cbef3e08e8df289169ede581" }, "primaryType": "OrderComponents", "message": { "offerer": "0x6fc702d32e6cb268f7dc68766e6b0fe94520499d", "zone": "0x0000000000000000000000000000000000000000", "offer": [{ "itemType": "2", "token": "0xd15b1210187f313ab692013a2544cb8b394e2291", "identifierOrCriteria": "33", "startAmount": "1", "endAmount": "1" }], "consideration": [{ "itemType": "0", "token": "0x0000000000000000000000000000000000000000", "identifierOrCriteria": "0", "startAmount": "9750000000000000", "endAmount": "9750000000000000", "recipient": "0x6fc702d32e6cb268f7dc68766e6b0fe94520499d" }, { "itemType": "0", "token": "0x0000000000000000000000000000000000000000", "identifierOrCriteria": "0", "startAmount": "250000000000000", "endAmount": "250000000000000", "recipient": "0x66682e752d592cbb2f5a1b49dd1c700c9d6bfb32" }], "orderType": "0", "startTime": "1669188008", "endTime": "115792089237316195423570985008687907853269984665640564039457584007913129639935", "zoneHash": "0x3000000000000000000000000000000000000000000000000000000000000000", "salt": "48774942683212973027050485287938321229825134327779899253702941089107382707469", "conduitKey": "0x0000000000000000000000000000000000000000000000000000000000000000", "counter": "0" } }]
+        });
+        console.log('web3 eth_signTypedData_v4', result);
+    } catch (error) {
+        console.log('web3 eth_signTypedData_v4', error);
+    }
+}
+
+web3_sendTransaction = async () => {
+    try {
+        const accounts = await web3.eth.getAccounts();
+        const result = await web3.eth.sendTransaction(
+            {
+                from: accounts[0],
+                to: TestAccountEVM.receiverAddress,
+                value: '1000000'
+            }
+        )
+        console.log('web3.eth.sendTransaction', result);
+    } catch (error) {
+        console.log('web3.eth.sendTransaction', error);
+    }
+
+}
+
+web3_wallet_switchEthereumChain = async () => {
+    try {
+        const chainId = "0x" + EvmService.currentChainInfo.chain_id.toString(16);
+        const result = await web3.currentProvider.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: chainId }]
+        })
+        console.log('web3 wallet_switchEthereumChain', result);
+    } catch (error) {
+        console.log('web3 wallet_switchEthereumChain', error);
+    }
+
+}
 
 getAccounts = async () => {
     const accounts = await particleConnect.getAccounts(PNAccount.walletType);
@@ -43,6 +157,8 @@ setChainInfoAsync = async () => {
     const result = await particleConnect.setChainInfoAsync(chainInfo);
     console.log(result);
 };
+
+
 
 init = async () => {
     const chainInfo = EvmService.currentChainInfo;
@@ -197,7 +313,6 @@ signAllTransactions = async () => {
 };
 
 signAndSendTransaction = async () => {
-
 
     const publicAddress = pnaccount.publicAddress;
 
@@ -427,6 +542,17 @@ const data = [
     { key: 'Select Chain Page', function: null },
     { key: 'Select Wallet Type Page', function: null },
     { key: 'Init', function: this.init },
+
+    { key: 'newWeb3_getAccounts', function: this.newWeb3_getAccounts },
+    { key: 'restoreWeb3_getAccounts', function: this.restoreWeb3_getAccounts },
+    { key: 'web3_getBalance', function: this.web3_getBalance },
+    { key: 'web3_getChainId', function: this.web3_getChainId },
+    { key: 'web3_personalSign', function: this.web3_personalSign },
+    { key: 'web3_signTypedData_v4', function: this.web3_signTypedData_v4 },
+    { key: 'web3_sendTransaction', function: this.web3_sendTransaction },
+    { key: 'web3_wallet_switchEthereumChain', function: this.web3_wallet_switchEthereumChain },
+
+
     { key: 'SetChainInfo', function: this.setChainInfo },
     { key: 'SetChainInfoAsync', function: this.setChainInfoAsync },
     { key: 'GetChainInfo', function: this.getChainInfo },

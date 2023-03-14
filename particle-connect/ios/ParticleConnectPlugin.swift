@@ -215,7 +215,11 @@ class ParticleConnectPlugin: NSObject {
                 supportAuthTypeArray = [.all]
             } else {
                 array.forEach {
-                    if $0 == "apple" {
+                    if $0 == "email" {
+                        supportAuthTypeArray.append(.email)
+                    } else if $0 == "phone" {
+                        supportAuthTypeArray.append(.phone)
+                    } else if $0 == "apple" {
                         supportAuthTypeArray.append(.apple)
                     } else if $0 == "google" {
                         supportAuthTypeArray.append(.google)
@@ -373,7 +377,7 @@ class ParticleConnectPlugin: NSObject {
     public func signAndSendTransaction(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let data = JSON(parseJSON: json)
         let walletTypeString = data["wallet_type"].stringValue
-        let publicAddress = data["public_address"].stringValue
+        let publicAddress = data["public_address"].stringValue.toChecksumAddress()
         let transaction = data["transaction"].stringValue
         
         guard let walletType = map2WalletType(from: walletTypeString) else {

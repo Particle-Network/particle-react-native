@@ -15,8 +15,8 @@ export class ChainInfo {
   // EVM
   public static EthereumMainnet = new ChainInfo('Ethereum', 1, 'Mainnet');
   public static EthereumGoerli = new ChainInfo('Ethereum', 5, 'Goerli');
-  public static BscMainnet = new ChainInfo('BSC', 56, 'Mainnet');
-  public static BscTestnet = new ChainInfo('BSC', 97, 'Testnet');
+  public static BSCMainnet = new ChainInfo('BSC', 56, 'Mainnet');
+  public static BSCTestnet = new ChainInfo('BSC', 97, 'Testnet');
   public static PolygonMainnet = new ChainInfo('Polygon', 137, 'Mainnet');
   public static PolygonMumbai = new ChainInfo('Polygon', 80001, 'Mumbai');
   public static AvalancheMainnet = new ChainInfo('Avalanche', 43114, 'Mainnet');

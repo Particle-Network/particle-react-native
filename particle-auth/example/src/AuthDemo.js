@@ -71,7 +71,7 @@ web3_sendTransaction = async () => {
         {
             from: accounts[0],
             to: TestAccountEVM.receiverAddress,
-            value: '1000000'
+            value: '1000000',
             data: '0x'
         }
     )

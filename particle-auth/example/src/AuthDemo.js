@@ -11,79 +11,127 @@ import { createWeb3 } from './web3Demo';
 
 const web3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b');
 
-web3_getAccounts = async () => { 
-    const accounts = await web3.eth.getAccounts();
-    console.log('web3.eth.getAccounts', accounts);
+web3_getAccounts = async () => {
+    try {
+        const accounts = await web3.eth.getAccounts();
+        console.log('web3.eth.getAccounts', accounts);
+    } catch (error) {
+        console.log('web3.eth.getAccounts', error);
+    }
+
 }
 
 web3_getBalance = async () => {
-    const accounts = await web3.eth.getAccounts();
-    const balance = await web3.eth.getBalance(accounts[0]);
-    console.log('web3.eth.getBalance', balance);
+    try {
+        const accounts = await web3.eth.getAccounts();
+        const balance = await web3.eth.getBalance(accounts[0]);
+        console.log('web3.eth.getBalance', balance);
+    } catch (error) {
+        console.log('web3.eth.getBalance', error);
+    }
+
 }
 
-web3_getChainId = async () => { 
-    const chainId = await web3.eth.getChainId();
-    console.log('web3.eth.getChainId', chainId);
+web3_getChainId = async () => {
+    try {
+        const chainId = await web3.eth.getChainId();
+        console.log('web3.eth.getChainId', chainId);
+    } catch (error) {
+        console.log('web3.eth.getChainId', error);
+    }
 }
 
-web3_personalSign = async () => { 
-    // for persion_sign
-    // don't use web3.eth.personal.sign
-    const result = await web3.currentProvider.request({
-        method: 'personal_sign',
-        params: ['hello world']
-    });
+web3_personalSign = async () => {
+    try {
+        // for persion_sign
+        // don't use web3.eth.personal.sign
+        const result = await web3.currentProvider.request({
+            method: 'personal_sign',
+            params: ['hello world']
+        });
 
-    console.log('web3.eth.personal.sign', result);
+        console.log('web3.eth.personal.sign', result);
+    } catch (error) {
+        console.log('web3.eth.personal.sign', error);
+    }
+
 }
 
-web3_signTypedData_v1 = async () => { 
-    const accounts = await web3.eth.getAccounts();
-    const result = await web3.currentProvider.request({
-        method: 'eth_signTypedData_v1',
-        params: [[{"type":"string","name":"Message","value":"Hi, Alice!"},{"type":"uint32","name":"A nunmber","value":"1337"}], accounts[0]]
-    });
-    console.log('web3 eth_signTypedData_v1', result);
+web3_signTypedData_v1 = async () => {
+    try {
+
+
+        const accounts = await web3.eth.getAccounts();
+        const result = await web3.currentProvider.request({
+            method: 'eth_signTypedData_v1',
+            params: [[{ "type": "string", "name": "Message", "value": "Hi, Alice!" }, { "type": "uint32", "name": "A nunmber", "value": "1337" }], accounts[0]]
+        });
+        console.log('web3 eth_signTypedData_v1', result);
+    } catch (error) {
+        console.log('web3 eth_signTypedData_v1', error);
+    }
 }
 
-web3_signTypedData_v3 = async () => { 
-    const accounts = await web3.eth.getAccounts();
-    const result = await web3.currentProvider.request({
-        method: 'eth_signTypedData_v3',
-        params: [accounts[0], {"types":{"EIP712Domain":[{"name":"name","type":"string"},{"name":"version","type":"string"},{"name":"chainId","type":"uint256"},{"name":"verifyingContract","type":"address"}],"Person":[{"name":"name","type":"string"},{"name":"wallet","type":"address"}],"Mail":[{"name":"from","type":"Person"},{"name":"to","type":"Person"},{"name":"contents","type":"string"}]},"primaryType":"Mail","domain":{"name":"Ether Mail","version":"1","chainId":5,"verifyingContract":"0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC"},"message":{"from":{"name":"Cow","wallet":"0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826"},"to":{"name":"Bob","wallet":"0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB"},"contents":"Hello, Bob!"}}]
-    });
-    console.log('web3 eth_signTypedData_v3', result);
+web3_signTypedData_v3 = async () => {
+    try {
+
+
+        const accounts = await web3.eth.getAccounts();
+        const result = await web3.currentProvider.request({
+            method: 'eth_signTypedData_v3',
+            params: [accounts[0], { "types": { "EIP712Domain": [{ "name": "name", "type": "string" }, { "name": "version", "type": "string" }, { "name": "chainId", "type": "uint256" }, { "name": "verifyingContract", "type": "address" }], "Person": [{ "name": "name", "type": "string" }, { "name": "wallet", "type": "address" }], "Mail": [{ "name": "from", "type": "Person" }, { "name": "to", "type": "Person" }, { "name": "contents", "type": "string" }] }, "primaryType": "Mail", "domain": { "name": "Ether Mail", "version": "1", "chainId": 5, "verifyingContract": "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC" }, "message": { "from": { "name": "Cow", "wallet": "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826" }, "to": { "name": "Bob", "wallet": "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB" }, "contents": "Hello, Bob!" } }]
+        });
+        console.log('web3 eth_signTypedData_v3', result);
+    } catch (error) {
+        console.log('web3 eth_signTypedData_v3', error);
+    }
 }
 
-web3_signTypedData_v4 = async () => { 
-    const accounts = await web3.eth.getAccounts();
-    const result = await web3.currentProvider.request({
-        method: 'eth_signTypedData_v4',
-        params: [accounts[0], {"types":{"OrderComponents":[{"name":"offerer","type":"address"},{"name":"zone","type":"address"},{"name":"offer","type":"OfferItem[]"},{"name":"consideration","type":"ConsiderationItem[]"},{"name":"orderType","type":"uint8"},{"name":"startTime","type":"uint256"},{"name":"endTime","type":"uint256"},{"name":"zoneHash","type":"bytes32"},{"name":"salt","type":"uint256"},{"name":"conduitKey","type":"bytes32"},{"name":"counter","type":"uint256"}],"OfferItem":[{"name":"itemType","type":"uint8"},{"name":"token","type":"address"},{"name":"identifierOrCriteria","type":"uint256"},{"name":"startAmount","type":"uint256"},{"name":"endAmount","type":"uint256"}],"ConsiderationItem":[{"name":"itemType","type":"uint8"},{"name":"token","type":"address"},{"name":"identifierOrCriteria","type":"uint256"},{"name":"startAmount","type":"uint256"},{"name":"endAmount","type":"uint256"},{"name":"recipient","type":"address"}],"EIP712Domain":[{"name":"name","type":"string"},{"name":"version","type":"string"},{"name":"chainId","type":"uint256"},{"name":"verifyingContract","type":"address"}]},"domain":{"name":"Seaport","version":"1.1","chainId":5,"verifyingContract":"0x00000000006c3852cbef3e08e8df289169ede581"},"primaryType":"OrderComponents","message":{"offerer":"0x6fc702d32e6cb268f7dc68766e6b0fe94520499d","zone":"0x0000000000000000000000000000000000000000","offer":[{"itemType":"2","token":"0xd15b1210187f313ab692013a2544cb8b394e2291","identifierOrCriteria":"33","startAmount":"1","endAmount":"1"}],"consideration":[{"itemType":"0","token":"0x0000000000000000000000000000000000000000","identifierOrCriteria":"0","startAmount":"9750000000000000","endAmount":"9750000000000000","recipient":"0x6fc702d32e6cb268f7dc68766e6b0fe94520499d"},{"itemType":"0","token":"0x0000000000000000000000000000000000000000","identifierOrCriteria":"0","startAmount":"250000000000000","endAmount":"250000000000000","recipient":"0x66682e752d592cbb2f5a1b49dd1c700c9d6bfb32"}],"orderType":"0","startTime":"1669188008","endTime":"115792089237316195423570985008687907853269984665640564039457584007913129639935","zoneHash":"0x3000000000000000000000000000000000000000000000000000000000000000","salt":"48774942683212973027050485287938321229825134327779899253702941089107382707469","conduitKey":"0x0000000000000000000000000000000000000000000000000000000000000000","counter":"0"}}]
-    });
-    console.log('web3 eth_signTypedData_v4', result);
+web3_signTypedData_v4 = async () => {
+    try {
+
+
+        const accounts = await web3.eth.getAccounts();
+        const result = await web3.currentProvider.request({
+            method: 'eth_signTypedData_v4',
+            params: [accounts[0], { "types": { "OrderComponents": [{ "name": "offerer", "type": "address" }, { "name": "zone", "type": "address" }, { "name": "offer", "type": "OfferItem[]" }, { "name": "consideration", "type": "ConsiderationItem[]" }, { "name": "orderType", "type": "uint8" }, { "name": "startTime", "type": "uint256" }, { "name": "endTime", "type": "uint256" }, { "name": "zoneHash", "type": "bytes32" }, { "name": "salt", "type": "uint256" }, { "name": "conduitKey", "type": "bytes32" }, { "name": "counter", "type": "uint256" }], "OfferItem": [{ "name": "itemType", "type": "uint8" }, { "name": "token", "type": "address" }, { "name": "identifierOrCriteria", "type": "uint256" }, { "name": "startAmount", "type": "uint256" }, { "name": "endAmount", "type": "uint256" }], "ConsiderationItem": [{ "name": "itemType", "type": "uint8" }, { "name": "token", "type": "address" }, { "name": "identifierOrCriteria", "type": "uint256" }, { "name": "startAmount", "type": "uint256" }, { "name": "endAmount", "type": "uint256" }, { "name": "recipient", "type": "address" }], "EIP712Domain": [{ "name": "name", "type": "string" }, { "name": "version", "type": "string" }, { "name": "chainId", "type": "uint256" }, { "name": "verifyingContract", "type": "address" }] }, "domain": { "name": "Seaport", "version": "1.1", "chainId": 5, "verifyingContract": "0x00000000006c3852cbef3e08e8df289169ede581" }, "primaryType": "OrderComponents", "message": { "offerer": "0x6fc702d32e6cb268f7dc68766e6b0fe94520499d", "zone": "0x0000000000000000000000000000000000000000", "offer": [{ "itemType": "2", "token": "0xd15b1210187f313ab692013a2544cb8b394e2291", "identifierOrCriteria": "33", "startAmount": "1", "endAmount": "1" }], "consideration": [{ "itemType": "0", "token": "0x0000000000000000000000000000000000000000", "identifierOrCriteria": "0", "startAmount": "9750000000000000", "endAmount": "9750000000000000", "recipient": "0x6fc702d32e6cb268f7dc68766e6b0fe94520499d" }, { "itemType": "0", "token": "0x0000000000000000000000000000000000000000", "identifierOrCriteria": "0", "startAmount": "250000000000000", "endAmount": "250000000000000", "recipient": "0x66682e752d592cbb2f5a1b49dd1c700c9d6bfb32" }], "orderType": "0", "startTime": "1669188008", "endTime": "115792089237316195423570985008687907853269984665640564039457584007913129639935", "zoneHash": "0x3000000000000000000000000000000000000000000000000000000000000000", "salt": "48774942683212973027050485287938321229825134327779899253702941089107382707469", "conduitKey": "0x0000000000000000000000000000000000000000000000000000000000000000", "counter": "0" } }]
+        });
+        console.log('web3 eth_signTypedData_v4', result);
+    } catch (error) {
+        console.log('web3 eth_signTypedData_v4', error);
+    }
 }
 
-web3_sendTransaction = async () => { 
-    const accounts = await web3.eth.getAccounts();
-    const result = await web3.eth.sendTransaction(
-        {
-            from: accounts[0],
-            to: TestAccountEVM.receiverAddress,
-            value: '1000000',
-            data: '0x'
-        }
-    )
-    console.log('web3.eth.sendTransaction', result);
+web3_sendTransaction = async () => {
+    try {
+
+
+        const accounts = await web3.eth.getAccounts();
+        const result = await web3.eth.sendTransaction(
+            {
+                from: accounts[0],
+                to: TestAccountEVM.receiverAddress,
+                value: '1000000',
+                data: '0x'
+            }
+        )
+        console.log('web3.eth.sendTransaction', result);
+    } catch (error) {
+        console.log('web3.eth.sendTransaction', error);
+    }
 }
 
-web3_wallet_switchEthereumChain = async() => {
-    const result = await web3.currentProvider.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{chainId:'0x61'}]
-    })
-    console.log('web3 wallet_switchEthereumChain', result);
+web3_wallet_switchEthereumChain = async () => {
+    try {
+        const result = await web3.currentProvider.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: '0x61' }]
+        })
+        console.log('web3 wallet_switchEthereumChain', result);
+    } catch (error) {
+        console.log('web3 wallet_switchEthereumChain', error);
+    }
+
 }
 
 init = async () => {
@@ -317,12 +365,12 @@ const data = [
     { key: 'web3_getBalance', function: this.web3_getBalance },
     { key: 'web3_getChainId', function: this.web3_getChainId },
     { key: 'web3_personalSign', function: this.web3_personalSign },
-    { key: 'web3_signTypedData_v1', function: this.web3_signTypedData_v1},
-    { key: 'web3_signTypedData_v3', function: this.web3_signTypedData_v3},
-    { key: 'web3_signTypedData_v4', function: this.web3_signTypedData_v4},
-    { key: 'web3_sendTransaction', function: this.web3_sendTransaction},
-    { key: 'web3_wallet_switchEthereumChain', function: this.web3_wallet_switchEthereumChain},
-    
+    { key: 'web3_signTypedData_v1', function: this.web3_signTypedData_v1 },
+    { key: 'web3_signTypedData_v3', function: this.web3_signTypedData_v3 },
+    { key: 'web3_signTypedData_v4', function: this.web3_signTypedData_v4 },
+    { key: 'web3_sendTransaction', function: this.web3_sendTransaction },
+    { key: 'web3_wallet_switchEthereumChain', function: this.web3_wallet_switchEthereumChain },
+
     { key: 'Logout', function: this.logout },
     { key: 'FastLogout', function: this.fastLogout },
     { key: 'IsLogin', function: this.isLogin },
@@ -353,19 +401,19 @@ export default class AuthDemo extends PureComponent {
             <SafeAreaView>
                 <View>
                     <FlatList data={data} renderItem={
-                        ({ item }) => 
-                        <Button
-                        title={item.key}
-                        onPress={ () => {
-                            if (item.key == "Select Chain Page") {
-                                this.props.navigation.push("SelectChainPage");
-                            } else {
-                                item.function();
-                            }
-                        }} 
-                        buttonStyle={styles.buttonStyle}
-                        containerStyle={styles.containerStyle} />
-                    }/>
+                        ({ item }) =>
+                            <Button
+                                title={item.key}
+                                onPress={() => {
+                                    if (item.key == "Select Chain Page") {
+                                        this.props.navigation.push("SelectChainPage");
+                                    } else {
+                                        item.function();
+                                    }
+                                }}
+                                buttonStyle={styles.buttonStyle}
+                                containerStyle={styles.containerStyle} />
+                    } />
                 </View>
             </SafeAreaView >
         );

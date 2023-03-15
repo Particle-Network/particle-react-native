@@ -36,6 +36,8 @@ init = async () => {
         icon: 'https://connect.particle.network/icons/512.png',
         url: 'https://connect.particle.network',
     };
+    // the rpcUrl works for WalletType EvmPrivateKey and SolanaPrivakey
+    // we have default rpc url in native SDK
     const rpcUrl = { evm_url: null, solana_url: null };
     particleConnect.init(chainInfo, env, metadata, rpcUrl);
 

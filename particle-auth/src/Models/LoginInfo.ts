@@ -10,6 +10,7 @@ export enum LoginType {
     Twitch = "Twitch",
     Microsoft = "Microsoft",
     Linkedin = "Linkedin",
+    Twitter = "Twitter",
 }
 
 export enum SupportAuthType {
@@ -24,6 +25,7 @@ export enum SupportAuthType {
     Twitch = "Twitch",
     Microsoft = "Microsoft",
     Linkedin = "Linkedin",
+    Twitter = "Twitter",
     All = "All"
 }
 

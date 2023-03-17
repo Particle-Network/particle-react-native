@@ -7,6 +7,7 @@ import type {
   LoginType,
   SupportAuthType,
 } from './Models/LoginInfo';
+import type { SecurityAccountConfig } from './Models/SecurityAccountConfig';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-auth' doesn't seem to be linked. Make sure: \n\n` +
@@ -129,6 +130,14 @@ export function login(
   console.log('login:', json);
   return new Promise((resolve) => {
     ParticleAuthPlugin.login(json, (result: string) => {
+      resolve(JSON.parse(result));
+    });
+  });
+}
+
+export function setUserInfo(json: string): Promise<any> {
+  return new Promise((resolve) => {
+    ParticleAuthPlugin.setUserInfo(json, (result: string) => {
       resolve(JSON.parse(result));
     });
   });
@@ -310,11 +319,17 @@ export function openWebWallet() {
   ParticleAuthPlugin.openWebWallet();
 }
 
+export function setSecurityAccountConfig(config: SecurityAccountConfig) {
+  const obj = { prompt_setting_when_sign: config.promptSettingWhenSign, prompt_master_password_setting_when_login: config.promptMasterPasswordSettingWhenLogin };
+  const json = JSON.stringify(obj);
+  ParticleAuthPlugin.setSecurityAccountConfig(json);
+  
+}
+
 export * from './Models/LoginInfo';
 export * from './Models/ChainInfo';
-export * from './Models/DappMetaData';
-export * from './Models/RpcUrl';
 export * from './Models/Language';
 export * from './Models/WalletDisplay';
 export * from './Models/UserInterfaceStyle';
+export * from './Models/SecurityAccountConfig';
 export { ParticleProvider } from './provider';

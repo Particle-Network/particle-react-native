@@ -60,6 +60,10 @@ RCT_EXTERN_METHOD(setMediumScreen:(BOOL)json)
 
 RCT_EXTERN_METHOD(openWebWallet)
 
+RCT_EXTERN_METHOD(setUserInfo:(NSString* _Nonnull)json callback: (RCTResponseSenderBlock)callback)
+
+RCT_EXTERN_METHOD(setSecurityAccountConfig:(NSString* _Nonnull)json)
+
 - (dispatch_queue_t)methodQueue {
   return dispatch_get_main_queue();
 }

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, SafeAreaView, FlatList, DeviceEventEmitter, NativeEventEmitter } from 'react-native';
-import { ChainInfo, LoginType, SupportAuthType, iOSModalPresentStyle, Env, Language } from "react-native-particle-auth"
+import { ChainInfo, LoginType, SupportAuthType, iOSModalPresentStyle, Env, Language, SecurityAccountConfig } from "react-native-particle-auth"
 import * as particleAuth from 'react-native-particle-auth';
 
 import { Button } from '@rneui/themed';
@@ -357,6 +357,17 @@ getChainInfo = async () => {
     console.log(result);
 }
 
+setUserInfo = async () => {
+    const json = "";
+    const result = await particleAuth.setUserInfo(json);
+    console.log(result);
+}
+
+setSecurityAccountConfig = async () => {
+    const config = new SecurityAccountConfig(1, 2);
+    particleAuth.setSecurityAccountConfig(config);
+}
+
 const data = [
     { key: 'Select Chain Page', function: null },
     { key: 'Init', function: this.init },
@@ -390,6 +401,9 @@ const data = [
     { key: 'SetDisplayWallet', function: this.setDisplayWallet },
     { key: 'OpenWebWallet', function: this.openWebWallet },
     { key: 'GetChainInfo', function: this.getChainInfo },
+    { key: 'SetUserInfo', function: this.setUserInfo },
+    { key: 'SetSecurityAccountConfig', function: this.setSecurityAccountConfig },
+    
 ];
 
 export default class AuthDemo extends PureComponent {

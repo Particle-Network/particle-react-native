@@ -139,6 +139,8 @@ class ParticleAuthPlugin: NSObject {
                     supportAuthTypeArray.append(.linkedin)
                 } else if $0 == "discord" {
                     supportAuthTypeArray.append(.discord)
+                } else if $0 == "twitter" {
+                    supportAuthTypeArray.append(.twitter)
                 }
             }
         }
@@ -163,6 +165,27 @@ class ParticleAuthPlugin: NSObject {
                 let data = try! JSONEncoder().encode(statusModel)
                 guard let json = String(data: data, encoding: .utf8) else { return }
                 callback([json])
+            }
+        }.disposed(by: bag)
+    }
+    
+    @objc
+    public func setUserInfo(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+        ParticleAuthService.setUserInfo(json: json).subscribe { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure:
+                callback([false])
+            case .success(let userInfo):
+                guard let userInfo = userInfo else {
+                    callback([false])
+                    return
+                }
+                if !userInfo.token.isEmpty, !userInfo.uuid.isEmpty {
+                    callback([true])
+                } else {
+                    callback([false])
+                }
             }
         }.disposed(by: bag)
     }
@@ -423,6 +446,14 @@ class ParticleAuthPlugin: NSObject {
     @objc
     public func openWebWallet() {
         ParticleAuthService.openWebWallet()
+    }
+    
+    @objc
+    public func setSecurityAccountConfig(_ json: String) {
+        let data = JSON(parseJSON: json)
+        let promptSettingWhenSign = data["prompt_setting_when_sign"].intValue
+        let promptMasterPasswordSettingWhenLogin = data["prompt_master_password_setting_when_login"].intValue
+        ParticleAuthService.setSecurityAccountConfig(config: .init(promptSettingWhenSign: promptSettingWhenSign, promptMasterPasswordSettingWhenLogin: promptMasterPasswordSettingWhenLogin))
     }
 }
 

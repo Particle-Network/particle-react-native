@@ -60,7 +60,7 @@ export class ChainInfo {
     public static CeloTestnet = new ChainInfo("Celo", 44787, "Testnet");
     public static KlaytnMainnet = new ChainInfo("Klaytn", 8217, "Mainnet");
     public static KlaytnTestnet = new ChainInfo("Klaytn", 1001, "Testnet");
-    public static ScrollTestnetL1 = new ChainInfo("Scroll", 534353, "Testnet");
+    public static ScrollTestnet = new ChainInfo("Scroll", 534353, "Testnet");
     public static ZkSyncMainnet = new ChainInfo("ZkSync", 324, "Mainnet");
     public static ZkSyncTestnet = new ChainInfo("ZkSync", 280, "Testnet");
     public static MetisMainnet = new ChainInfo("Metis", 1088, "Mainnet");

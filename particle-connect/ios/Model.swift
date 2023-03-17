@@ -158,6 +158,22 @@ extension NSObject {
             } else if chainId == 1001 {
                 chainInfo = .klaytn(.testnet)
             }
+        } else if name == "scroll" {
+            if chainId == 534353 {
+                chainInfo = .scroll(.testnet)
+            }
+        } else if name == "zksync" {
+            if chainId == 324 {
+                chainInfo = .zkSync(.mainnet)
+            } else if chainId == 280 {
+                chainInfo = .zkSync(.testnet)
+            }
+        } else if name == "metis" {
+            if chainId == 1088 {
+                chainInfo = .metis(.mainnet)
+            } else if chainId == 599 {
+                chainInfo = .metis(.goerli)
+            }
         }
         return chainInfo
     }
@@ -211,6 +227,12 @@ extension NSObject {
             chain = .celo
         } else if name == "klaytn" {
             chain = .klaytn
+        } else if name == "scroll" {
+            chain = .scroll
+        } else if name == "zksync" {
+            chain = .zkSync
+        } else if name == "metis" {
+            chain = .metis
         }
         return chain
     }

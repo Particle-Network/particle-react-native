@@ -49,7 +49,7 @@ export class ChainInfo {
   public static OptimismMainnet = new ChainInfo('Optimism', 10, 'Mainnet');
   public static OptimismGoerli = new ChainInfo('Optimism', 420, 'Goerli');
   public static PlatonMainnet = new ChainInfo('Platon', 210425, 'Mainnet');
-  public static PlatonTestnet = new ChainInfo('Platon', 2203181, 'Testnet');
+  public static PlatonTestnet = new ChainInfo('Platon', 2206132, 'Testnet');
 
   public static TronMainnet = new ChainInfo('Tron', 728126428, 'Mainnet');
   public static TronShasta = new ChainInfo('Tron', 2494104990, 'Shasta');
@@ -84,10 +84,9 @@ export class ChainInfo {
   public static CeloTestnet = new ChainInfo('Celo', 44787, 'Testnet');
   public static KlaytnMainnet = new ChainInfo('Klaytn', 8217, 'Mainnet');
   public static KlaytnTestnet = new ChainInfo('Klaytn', 1001, 'Testnet');
-  public static ScrollTestnetL1 = new ChainInfo('Scroll', 534351, 'Testnet L1');
-  public static ScrollTestnetL2 = new ChainInfo('Scroll', 534354, 'Testnet L2');
-  public static ZkSyncV2Mainnet = new ChainInfo('ZkSyncV2', 324, 'Mainnet');
-  public static ZkSyncV2Testnet = new ChainInfo('ZkSyncV2', 280, 'Testnet');
+  public static ScrollTestnet = new ChainInfo('Scroll', 534353, 'Testnet');
+  public static ZkSyncMainnet = new ChainInfo('ZkSync', 324, 'Mainnet');
+  public static ZkSyncTestnet = new ChainInfo('ZkSync', 280, 'Testnet');
   public static MetisMainnet = new ChainInfo('Metis', 1088, 'Mainnet');
   public static MetisTestnet = new ChainInfo('Metis', 599, 'Testnet');
 }

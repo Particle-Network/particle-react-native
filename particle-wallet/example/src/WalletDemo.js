@@ -17,6 +17,11 @@ init = async () => {
     particleWallet.initWallet()
 }
 
+setChainInfo = async () => {
+    const chainInfo = ChainInfo.EthereumMainnet;
+    particleConnect.setChainInfo(chainInfo);
+}
+
 // Wallet Service should use after connected a wallet, so add this method to help test wallet methods.
 // Before this, you'd better login metamask with our testAccount in TestAccount.js
 // TestAccount provides both evm and solana test account with some tokens.
@@ -68,6 +73,12 @@ navigatorBuyCrypto = async () => {
 
     // also support pass public address, crypto symbol and so on.
     const config = new BuyCryptoConfig("0xa0869E99886e1b6737A4364F2cf9Bb454FD637E4", "BNB", "USD", 1000, OpenBuyNetwork.BinanceSmartChain);
+    // these are other parameters, they are optional.
+    config.fixFiatCoin = true;
+    config.fixCryptoCoin = true;
+    config.fixFiatAmt = true;
+    config.theme = "dark";
+    config.language = Language.JA;
     particleWallet.navigatorBuyCrypto(config);
 }
 
@@ -171,6 +182,7 @@ setSupportAddToken = async () => {
 
 const data = [
     { key: 'Init', function: this.init },
+    { key: 'SetChainInfo', function: this.setChainInfo},
     { key: 'ConnectMetamask', function: this.connectMetamask },
     { key: 'NavigatorWallet', function: this.navigatorWallet },
     { key: 'NavigatorTokenReceive', function: this.navigatorTokenReceive },

@@ -28,7 +28,7 @@ const ParticleWalletPlugin = NativeModules.ParticleWalletPlugin
 export function initWallet() {
   if (Platform.OS === 'android') {
     ParticleWalletPlugin.init();
-  } 
+  }
   supportWalletConnect(false);
 }
 
@@ -44,7 +44,9 @@ export function createSelectedWallet(
   publicAddress: string,
   walletType: WalletType
 ) {
-  ParticleWalletPlugin.createSelectedWallet(publicAddress, walletType);
+  if (Platform.OS == 'android') {
+    ParticleWalletPlugin.createSelectedWallet(publicAddress, walletType);
+  }
 }
 
 /**
@@ -103,20 +105,31 @@ export function navigatorNFTDetails(mint: string, tokenId: string) {
  */
 export function navigatorBuyCrypto(config?: BuyCryptoConfig) {
   if (config != null) {
-    const obj = {wallet_address: config.walletAddres, network: config.network, crypto_coin: config.cryptoCoin, fiat_coin: config.fiatCoin, fiat_amt: config.fiatAmt}
+    const obj = {
+      wallet_address: config.walletAddres,
+      network: config.network,
+      crypto_coin: config.cryptoCoin,
+      fiat_coin: config.fiatCoin,
+      fiat_amt: config.fiatAmt,
+      fix_fiat_coin: config.fixFiatCoin,
+      fix_fiat_amt: config.fixFiatAmt,
+      fix_crypto_coin: config.fixCryptoCoin,
+      theme: config.theme,
+      language: config.language
+    }
     const json = JSON.stringify(obj);
     ParticleWalletPlugin.navigatorBuyCrypto(json);
   } else {
     ParticleWalletPlugin.navigatorBuyCrypto(config);
   }
-  
+
 }
 
 /**
  * Navigator login list page
  * @returns  Result, account or eror
  */
-export function navigatorLoginList(): Promise<any>{
+export function navigatorLoginList(): Promise<any> {
   return new Promise((resolve) => {
     ParticleWalletPlugin.navigatorLoginList((result: string) => {
       resolve(JSON.parse(result));

@@ -97,30 +97,48 @@ public class ParticleWalletPlugin: NSObject {
             let walletAddress = data["wallet_address"].string
             let networkString = data["network"].stringValue.lowercased()
             var network: OpenBuyNetwork?
-            /*
-             Solana,
-             Ethereum,
-             BinanceSmartChain,
-             Avalanche,
-             Polygon,
-             */
+            
             if networkString == "solana" {
                 network = .solana
             } else if networkString == "ethereum" {
                 network = .ethereum
             } else if networkString == "binancesmartchain" {
                 network = .binanceSmartChain
-            } else if networkString == "avalanche" {
-                network = .avalanche
+            } else if networkString == "optimism" {
+                network = .optimism
             } else if networkString == "polygon" {
                 network = .polygon
+            } else if networkString == "tron" {
+                network = .tron
+            } else if networkString == "arbitrumOne" {
+                network = .arbitrumOne
             } else {
                 network = nil
             }
             let fiatCoin = data["fiat_coin"].string
             let fiatAmt = data["fiat_amt"].int
             let cryptoCoin = data["crypto_coin"].string
-            PNRouter.navigatorBuy(walletAddress: walletAddress, network: network, cryptoCoin: cryptoCoin, fiatCoin: fiatCoin, fiatAmt: fiatAmt)
+            let fixCryptoCoin = data["fix_crypto_coin"].boolValue
+            let fixFiatAmt = data["fix_fiat_amt"].boolValue
+            let fixFiatCoin = data["fix_fiat_coin"].boolValue
+            let theme = data["theme"].stringValue.lowercased()
+            let language = self.getLanguage(from: data["language"].stringValue.lowercased())
+
+            var buyConfig = BuyCryptoConfig()
+            buyConfig.network = network
+            buyConfig.walletAddress = walletAddress
+            buyConfig.cryptoCoin = cryptoCoin
+            buyConfig.fiatAmt = fiatAmt
+            if fiatCoin != nil {
+                buyConfig.fiatCoin = fiatCoin!
+            }
+            buyConfig.fixCryptoCoin = fixCryptoCoin
+            buyConfig.fixFiatCoin = fixFiatCoin
+            buyConfig.fixFiatAmt = fixFiatAmt
+            buyConfig.theme = theme
+            buyConfig.language = language.webString
+
+            PNRouter.navigatorBuy(buyCryptoConfig: buyConfig)
         }
     }
     
@@ -218,6 +236,11 @@ public class ParticleWalletPlugin: NSObject {
     
     @objc
     public func setLanguage(_ json: String) {
+        let language = self.getLanguage(from: json)
+        ParticleWalletGUI.setLanguage(language)
+    }
+    
+    private func getLanguage(from json: String) -> Language {
         /*
          en,
          zh_hans,
@@ -225,17 +248,19 @@ public class ParticleWalletPlugin: NSObject {
          ja,
          ko
          */
+        var language: Language = .en
         if json.lowercased() == "en" {
-            ParticleWalletGUI.setLanguage(.en)
+            language = .en
         } else if json.lowercased() == "zh_hans" {
-            ParticleWalletGUI.setLanguage(.zh_Hans)
+            language = .zh_Hans
         } else if json.lowercased() == "zh_hant" {
-            ParticleWalletGUI.setLanguage(.zh_Hant)
+            language = .zh_Hant
         } else if json.lowercased() == "ja" {
-            ParticleWalletGUI.setLanguage(.ja)
+            language = .ja
         } else if json.lowercased() == "ko" {
-            ParticleWalletGUI.setLanguage(.ko)
+            language = .ko
         }
+        return language
     }
     
     @objc

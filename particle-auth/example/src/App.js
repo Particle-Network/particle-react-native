@@ -10,92 +10,85 @@ import Toast from 'react-native-toast-message';
 const logo = require('../images/ic_round.png');
 
 function HomeScreen({ navigation }) {
-  return (
+    return (
+        <View style={styles.container}>
+            <View style={styles.content}>
+                <Image style={styles.logo} source={logo} />
 
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <Image style={styles.logo} source={logo} />
-
-        <Button
-          title={"AuthDemo"}
-          onPress={
-            () => navigation.push('AuthDemo')
-          }
-          buttonStyle={styles.buttonStyle}
-          containerStyle={styles.containerStyle}
-        />
-       
-      </View>
-    </View>
-  );
+                <Button
+                    title={'AuthDemo'}
+                    onPress={() => navigation.push('AuthDemo')}
+                    buttonStyle={styles.buttonStyle}
+                    containerStyle={styles.containerStyle}
+                />
+            </View>
+        </View>
+    );
 }
 
 const Stack = createNativeStackNavigator();
 
 function AuthScreen({ navigation }) {
-  return (
-    <View style={styles.container}>
-      <AuthDemo navigation={navigation} />
-    </View>
-  )
+    return (
+        <View style={styles.container}>
+            <AuthDemo navigation={navigation} />
+        </View>
+    );
 }
 
-function SelectScreen({ navigation}) {
-  return (
-    <View style={styles.container}>
-      <SelectChainPage navigation={navigation}/>
-    </View>
-  )
+function SelectScreen({ navigation }) {
+    return (
+        <View style={styles.container}>
+            <SelectChainPage navigation={navigation} />
+        </View>
+    );
 }
 
 export default function App() {
-  return (
-    <>
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name='Home' component={HomeScreen} />
-        <Stack.Screen name='AuthDemo' component={AuthScreen} />
-        <Stack.Screen name='SelectChainPage' component={SelectScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-    <Toast/>
-    </>
-  );
+    return (
+        <>
+            <NavigationContainer>
+                <Stack.Navigator>
+                    <Stack.Screen name="Home" component={HomeScreen} />
+                    <Stack.Screen name="AuthDemo" component={AuthScreen} />
+                    <Stack.Screen name="SelectChainPage" component={SelectScreen} />
+                </Stack.Navigator>
+            </NavigationContainer>
+            <Toast />
+        </>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 
-  content: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    height: '60%',
-    marginTop: -200
-  },
+    content: {
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        height: '60%',
+        marginTop: -200,
+    },
 
-  logo: {
-    width: 100,
-    height: 100,
-    marginTop: 0,
+    logo: {
+        width: 100,
+        height: 100,
+        marginTop: 0,
+    },
 
-  },
+    buttonStyle: {
+        backgroundColor: 'rgba(78, 116, 289, 1)',
+        borderRadius: 3,
+    },
 
-  buttonStyle: {
-    backgroundColor: 'rgba(78, 116, 289, 1)',
-    borderRadius: 3,
-  },
-
-  containerStyle: {
-    width: 200,
-    marginHorizontal: 50,
-    marginVertical: 10,
-  }
-
+    containerStyle: {
+        width: 200,
+        marginHorizontal: 50,
+        marginVertical: 10,
+    },
 });
-

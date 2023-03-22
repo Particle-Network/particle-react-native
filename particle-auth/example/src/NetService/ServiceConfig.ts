@@ -1,6 +1,6 @@
-import { ParticleInfo } from './ParticleInfo'
+import { ParticleInfo } from './ParticleInfo';
 
 export function ServiceConfig(projectId: string, clientKey: string) {
-    ParticleInfo.projectId = projectId
-    ParticleInfo.clientKey = clientKey
+    ParticleInfo.projectId = projectId;
+    ParticleInfo.clientKey = clientKey;
 }

@@ -1,42 +1,36 @@
 import { NativeModules, Platform } from 'react-native';
 import type { ChainInfo } from './Models/ChainInfo';
 import type { Language } from './Models/Language';
-import type {
-  Env,
-  iOSModalPresentStyle,
-  LoginType,
-  SupportAuthType,
-} from './Models/LoginInfo';
+import type { Env, iOSModalPresentStyle, LoginType, SupportAuthType } from './Models/LoginInfo';
 import type { SecurityAccountConfig } from './Models/SecurityAccountConfig';
 
 const LINKING_ERROR =
-  `The package 'react-native-particle-auth' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo Go\n';
+    `The package 'react-native-particle-auth' doesn't seem to be linked. Make sure: \n\n` +
+    Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
+    '- You rebuilt the app after installing the package\n' +
+    '- You are not using Expo Go\n';
 
 const ParticleAuthPlugin = NativeModules.ParticleAuthPlugin
-  ? NativeModules.ParticleAuthPlugin
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    ? NativeModules.ParticleAuthPlugin
+    : new Proxy(
+          {},
+          {
+              get() {
+                  throw new Error(LINKING_ERROR);
+              },
+          }
+      );
 
 export const ParticleAuthEvent = NativeModules.ParticleAuthEvent
-  ? NativeModules.ParticleAuthEvent
-  : new Proxy(
-      {},
-      {
-        get() {
-          // throw new Error(LINKING_ERROR);
-        },
-      }
-    );
-
+    ? NativeModules.ParticleAuthEvent
+    : new Proxy(
+          {},
+          {
+              get() {
+                  // throw new Error(LINKING_ERROR);
+              },
+          }
+      );
 
 /**
  * Init Particle Auth Service.
@@ -44,18 +38,18 @@ export const ParticleAuthEvent = NativeModules.ParticleAuthEvent
  * @param env Env
  */
 export function init(chainInfo: ChainInfo, env: Env) {
-  const obj = {
-    chain_name: chainInfo.chain_name,
-    chain_id: chainInfo.chain_id,
-    chain_id_name: chainInfo.chain_id_name,
-    env: env,
-  };
-  const json = JSON.stringify(obj);
-  if (Platform.OS === 'ios') {
-    ParticleAuthPlugin.initialize(json);
-  } else {
-    ParticleAuthPlugin.init(json);
-  }
+    const obj = {
+        chain_name: chainInfo.chain_name,
+        chain_id: chainInfo.chain_id,
+        chain_id_name: chainInfo.chain_id_name,
+        env: env,
+    };
+    const json = JSON.stringify(obj);
+    if (Platform.OS === 'ios') {
+        ParticleAuthPlugin.initialize(json);
+    } else {
+        ParticleAuthPlugin.init(json);
+    }
 }
 
 /**
@@ -64,28 +58,28 @@ export function init(chainInfo: ChainInfo, env: Env) {
  * @returns Result
  */
 export function setChainInfo(chainInfo: ChainInfo): Promise<boolean> {
-  const obj = {
-    chain_name: chainInfo.chain_name,
-    chain_id: chainInfo.chain_id,
-    chain_id_name: chainInfo.chain_id_name,
-  };
-  const json = JSON.stringify(obj);
-  return new Promise((resolve) => {
-    ParticleAuthPlugin.setChainInfo(json, (result: boolean) => {
-      resolve(result);
+    const obj = {
+        chain_name: chainInfo.chain_name,
+        chain_id: chainInfo.chain_id,
+        chain_id_name: chainInfo.chain_id_name,
+    };
+    const json = JSON.stringify(obj);
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.setChainInfo(json, (result: boolean) => {
+            resolve(result);
+        });
     });
-  });
 }
 /**
  * Get chainInfo
  * @returns ChainInfo
  */
 export function getChainInfo(): Promise<ChainInfo> {
-  return new Promise((resolve) => {
-    ParticleAuthPlugin.getChainInfo((result: string) => {
-      resolve(JSON.parse(result) as ChainInfo);
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.getChainInfo((result: string) => {
+            resolve(JSON.parse(result) as ChainInfo);
+        });
     });
-  });
 }
 /**
  * Set chainInfo async, because ParticleAuthService support both solana and evm, if switch to solana from evm, Auth Service will create a evm address if the user doesn't has a evm address.
@@ -93,17 +87,17 @@ export function getChainInfo(): Promise<ChainInfo> {
  * @returns Result
  */
 export function setChainInfoAsync(chainInfo: ChainInfo): Promise<boolean> {
-  const obj = {
-    chain_name: chainInfo.chain_name,
-    chain_id: chainInfo.chain_id,
-    chain_id_name: chainInfo.chain_id_name,
-  };
-  const json = JSON.stringify(obj);
-  return new Promise((resolve) => {
-    ParticleAuthPlugin.setChainInfoAsync(json, (result: boolean) => {
-      resolve(result);
+    const obj = {
+        chain_name: chainInfo.chain_name,
+        chain_id: chainInfo.chain_id,
+        chain_id_name: chainInfo.chain_id_name,
+    };
+    const json = JSON.stringify(obj);
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.setChainInfoAsync(json, (result: boolean) => {
+            resolve(result);
+        });
     });
-  });
 }
 
 /**
@@ -115,32 +109,32 @@ export function setChainInfoAsync(chainInfo: ChainInfo): Promise<boolean> {
  * @returns Result, userinfo or error
  */
 export function login(
-  type?: LoginType,
-  account?: string,
-  supportAuthType?: [SupportAuthType],
-  loginFormMode?: boolean
+    type?: LoginType,
+    account?: string,
+    supportAuthType?: [SupportAuthType],
+    loginFormMode?: boolean
 ): Promise<any> {
-  const obj = {
-    login_type: type,
-    account: account,
-    support_auth_type_values: supportAuthType,
-    login_form_mode: loginFormMode,
-  };
-  const json = JSON.stringify(obj);
-  console.log('login:', json);
-  return new Promise((resolve) => {
-    ParticleAuthPlugin.login(json, (result: string) => {
-      resolve(JSON.parse(result));
+    const obj = {
+        login_type: type,
+        account: account,
+        support_auth_type_values: supportAuthType,
+        login_form_mode: loginFormMode,
+    };
+    const json = JSON.stringify(obj);
+    console.log('login:', json);
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.login(json, (result: string) => {
+            resolve(JSON.parse(result));
+        });
     });
-  });
 }
 
 export function setUserInfo(json: string): Promise<any> {
-  return new Promise((resolve) => {
-    ParticleAuthPlugin.setUserInfo(json, (result: string) => {
-      resolve(JSON.parse(result));
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.setUserInfo(json, (result: string) => {
+            resolve(JSON.parse(result));
+        });
     });
-  });
 }
 
 /**
@@ -148,11 +142,11 @@ export function setUserInfo(json: string): Promise<any> {
  * @returns Result, success or error
  */
 export function logout(): Promise<any> {
-  return new Promise((resolve) => {
-    ParticleAuthPlugin.logout((result: string) => {
-      resolve(JSON.parse(result));
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.logout((result: string) => {
+            resolve(JSON.parse(result));
+        });
     });
-  });
 }
 
 /**
@@ -160,11 +154,11 @@ export function logout(): Promise<any> {
  * @returns Result, success or error
  */
 export function fastLogout(): Promise<any> {
-  return new Promise((resolve) => {
-    ParticleAuthPlugin.fastLogout((result: string) => {
-      resolve(JSON.parse(result));
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.fastLogout((result: string) => {
+            resolve(JSON.parse(result));
+        });
     });
-  });
 }
 
 /**
@@ -172,11 +166,11 @@ export function fastLogout(): Promise<any> {
  * @returns Result, if user is login return true, otherwise retrun false
  */
 export function isLogin(): Promise<boolean> {
-  return new Promise((resolve) => {
-    ParticleAuthPlugin.isLogin((result: boolean) => {
-      resolve(result);
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.isLogin((result: boolean) => {
+            resolve(result);
+        });
     });
-  });
 }
 
 /**
@@ -185,11 +179,11 @@ export function isLogin(): Promise<boolean> {
  * @returns Result, signed message or error
  */
 export function signMessage(message: string) {
-  return new Promise((resolve) => {
-    ParticleAuthPlugin.signMessage(message, (result: string) => {
-      resolve(JSON.parse(result));
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.signMessage(message, (result: string) => {
+            resolve(JSON.parse(result));
+        });
     });
-  });
 }
 
 /**
@@ -198,11 +192,11 @@ export function signMessage(message: string) {
  * @returns Result, signed transaction or error
  */
 export function signTransaction(transaction: string) {
-  return new Promise((resolve) => {
-    ParticleAuthPlugin.signTransaction(transaction, (result: string) => {
-      resolve(JSON.parse(result));
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.signTransaction(transaction, (result: string) => {
+            resolve(JSON.parse(result));
+        });
     });
-  });
 }
 
 /**
@@ -211,12 +205,12 @@ export function signTransaction(transaction: string) {
  * @returns Result, signed transactions or error
  */
 export function signAllTransactions(transactions: [string]) {
-  const json = JSON.stringify(transactions);
-  return new Promise((resolve) => {
-    ParticleAuthPlugin.signAllTransactions(json, (result: string) => {
-      resolve(JSON.parse(result));
+    const json = JSON.stringify(transactions);
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.signAllTransactions(json, (result: string) => {
+            resolve(JSON.parse(result));
+        });
     });
-  });
 }
 
 /**
@@ -225,11 +219,11 @@ export function signAllTransactions(transactions: [string]) {
  * @returns Result, signature or error
  */
 export function signAndSendTransaction(transaction: string) {
-  return new Promise((resolve) => {
-    ParticleAuthPlugin.signAndSendTransaction(transaction, (result: string) => {
-      resolve(JSON.parse(result));
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.signAndSendTransaction(transaction, (result: string) => {
+            resolve(JSON.parse(result));
+        });
     });
-  });
 }
 
 /**
@@ -239,14 +233,14 @@ export function signAndSendTransaction(transaction: string) {
  * @returns Result, signature or error
  */
 export function signTypedData(typedData: string, version: string) {
-  const obj = { message: typedData, version: version };
-  const json = JSON.stringify(obj);
+    const obj = { message: typedData, version: version };
+    const json = JSON.stringify(obj);
 
-  return new Promise((resolve) => {
-    ParticleAuthPlugin.signTypedData(json, (result: string) => {
-      resolve(JSON.parse(result));
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.signTypedData(json, (result: string) => {
+            resolve(JSON.parse(result));
+        });
     });
-  });
 }
 
 /**
@@ -254,7 +248,7 @@ export function signTypedData(typedData: string, version: string) {
  * use DeviceEventEmitter.addListener('securityFailedCallBack', this.securityFailedCallBack) get securityFailedCallBack
  */
 export function openAccountAndSecurity() {
-  ParticleAuthPlugin.openAccountAndSecurity();
+    ParticleAuthPlugin.openAccountAndSecurity();
 }
 
 /**
@@ -262,7 +256,7 @@ export function openAccountAndSecurity() {
  * @returns Public address
  */
 export function getAddress(): Promise<string> {
-  return ParticleAuthPlugin.getAddress();
+    return ParticleAuthPlugin.getAddress();
 }
 
 /**
@@ -270,7 +264,7 @@ export function getAddress(): Promise<string> {
  * @returns User info
  */
 export function getUserInfo() {
-  return ParticleAuthPlugin.getUserInfo();
+    return ParticleAuthPlugin.getUserInfo();
 }
 
 /**
@@ -278,9 +272,9 @@ export function getUserInfo() {
  * @param style Modal present style
  */
 export function setModalPresentStyle(style: iOSModalPresentStyle) {
-  if (Platform.OS === 'ios') {
-    ParticleAuthPlugin.setModalPresentStyle(style);
-  }
+    if (Platform.OS === 'ios') {
+        ParticleAuthPlugin.setModalPresentStyle(style);
+    }
 }
 
 /**
@@ -291,9 +285,9 @@ export function setModalPresentStyle(style: iOSModalPresentStyle) {
  * @param isMediumScreen Is medium screen
  */
 export function setMediumScreen(isMediumScreen: boolean) {
-  if (Platform.OS === 'ios') {
-    ParticleAuthPlugin.setMediumScreen(isMediumScreen);
-  }
+    if (Platform.OS === 'ios') {
+        ParticleAuthPlugin.setMediumScreen(isMediumScreen);
+    }
 }
 
 /**
@@ -301,7 +295,7 @@ export function setMediumScreen(isMediumScreen: boolean) {
  * @param language Language
  */
 export function setLanguage(language: Language) {
-  ParticleAuthPlugin.setLanguage(language);
+    ParticleAuthPlugin.setLanguage(language);
 }
 
 /**
@@ -309,21 +303,23 @@ export function setLanguage(language: Language) {
  * @param isDisplay
  */
 export function setDisplayWallet(isDisplay: boolean) {
-  ParticleAuthPlugin.setDisplayWallet(isDisplay);
+    ParticleAuthPlugin.setDisplayWallet(isDisplay);
 }
 
 /**
  * Open web wallet
  */
 export function openWebWallet() {
-  ParticleAuthPlugin.openWebWallet();
+    ParticleAuthPlugin.openWebWallet();
 }
 
 export function setSecurityAccountConfig(config: SecurityAccountConfig) {
-  const obj = { prompt_setting_when_sign: config.promptSettingWhenSign, prompt_master_password_setting_when_login: config.promptMasterPasswordSettingWhenLogin };
-  const json = JSON.stringify(obj);
-  ParticleAuthPlugin.setSecurityAccountConfig(json);
-  
+    const obj = {
+        prompt_setting_when_sign: config.promptSettingWhenSign,
+        prompt_master_password_setting_when_login: config.promptMasterPasswordSettingWhenLogin,
+    };
+    const json = JSON.stringify(obj);
+    ParticleAuthPlugin.setSecurityAccountConfig(json);
 }
 
 export * from './Models/LoginInfo';

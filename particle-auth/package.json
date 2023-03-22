@@ -34,6 +34,7 @@
     "release": "release-it",
     "example": "yarn --cwd example",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build",
+    "prettier": "prettier --write './src/**/*.{js,ts,tsx}' './example/src/**/*.{js,ts,tsx}' --no-error-on-unmatched-pattern",
     "bootstrap": "yarn example && yarn install && yarn example pods"
   },
   "keywords": [
@@ -119,11 +120,12 @@
       "prettier/prettier": [
         "error",
         {
-          "quoteProps": "consistent",
-          "singleQuote": true,
-          "tabWidth": 2,
+          "printWidth": 120,
           "trailingComma": "es5",
-          "useTabs": false
+          "tabWidth": 4,
+          "semi": true,
+          "quoteProps": "as-needed",
+          "singleQuote": true
         }
       ]
     }
@@ -133,11 +135,12 @@
     "lib/"
   ],
   "prettier": {
-    "quoteProps": "consistent",
-    "singleQuote": true,
-    "tabWidth": 2,
+    "printWidth": 120,
     "trailingComma": "es5",
-    "useTabs": false
+    "tabWidth": 4,
+    "semi": true,
+    "quoteProps": "as-needed",
+    "singleQuote": true
   },
   "react-native-builder-bob": {
     "source": "src",

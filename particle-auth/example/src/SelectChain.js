@@ -1,15 +1,12 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, SafeAreaView, FlatList, DeviceEventEmitter, NativeEventEmitter } from 'react-native';
-import { ChainInfo } from "react-native-particle-auth"
+import { ChainInfo } from 'react-native-particle-auth';
 import { Button } from '@rneui/themed';
 import { EvmService } from './NetService/EvmService';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
-
 export default class SelectChainPage extends PureComponent {
-
     render = () => {
-
         const data = [
             { key: 'EthereumMainnet', value: ChainInfo.EthereumMainnet },
             { key: 'EthereumGoerli', value: ChainInfo.EthereumGoerli },
@@ -18,49 +15,47 @@ export default class SelectChainPage extends PureComponent {
             { key: 'PolygonMainnet', value: ChainInfo.PolygonMainnet },
             { key: 'PolygonMumbai', value: ChainInfo.PolygonMumbai },
             // available chain is defined in ChainInfo.ts
-            // you can add your network to test  
+            // you can add your network to test
         ];
 
         return (
             <SafeAreaView>
                 <View style={styles.contentView}>
-                    <FlatList data={data} renderItem={
-                        ({ item }) =>
-
+                    <FlatList
+                        data={data}
+                        renderItem={({ item }) => (
                             <Button
                                 title={item.key}
-                                onPress={ () => {
+                                onPress={() => {
                                     this.selectedChain(item.value);
-                                }} 
+                                }}
                                 buttonStyle={styles.buttonStyle}
-                                containerStyle={styles.containerStyle} />
-                    }
+                                containerStyle={styles.containerStyle}
+                            />
+                        )}
                     />
                 </View>
-            </SafeAreaView >
+            </SafeAreaView>
         );
-    }
+    };
 
     selectedChain = async (chainInfo) => {
         const { navigation, route } = this.props;
 
         Toast.show({
             type: 'success',
-            text1: `select chain ${chainInfo.chain_name} ${chainInfo.chain_id_name} ${chainInfo.chain_id}`
-        })
+            text1: `select chain ${chainInfo.chain_name} ${chainInfo.chain_id_name} ${chainInfo.chain_id}`,
+        });
         EvmService.currentChainInfo = chainInfo;
         console.log(chainInfo);
 
         navigation.navigate({
             name: 'AuthDemo',
-            params: { post: chainInfo},
+            params: { post: chainInfo },
             merge: true,
-        })
-       
-    }
-
+        });
+    };
 }
-
 
 const styles = StyleSheet.create({
     buttonStyle: {
@@ -71,6 +66,5 @@ const styles = StyleSheet.create({
         width: 300,
         marginHorizontal: 50,
         marginVertical: 10,
-    }
+    },
 });
-

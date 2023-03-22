@@ -129,14 +129,16 @@ export function login(
     });
 }
 
-export function setUserInfo(json: string): Promise<any> {
-    return new Promise((resolve) => {
-        ParticleAuthPlugin.setUserInfo(json, (result: string) => {
-            resolve(JSON.parse(result));
-        });
+export function setUserInfo(json: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    ParticleAuthPlugin.setUserInfo(json, (result: string) => {
+      resolve(JSON.parse(result));
+      ParticleAuthPlugin.setUserInfo(json, (result: boolean) => {
+        resolve(result);
+      });
     });
+  });
 }
-
 /**
  * Logout
  * @returns Result, success or error

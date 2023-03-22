@@ -182,7 +182,7 @@ setSupportAddToken = async () => {
 
 const data = [
     { key: 'Init', function: this.init },
-    { key: 'SetChainInfo', function: this.setChainInfo},
+    { key: 'SetChainInfo', function: this.setChainInfo },
     { key: 'ConnectMetamask', function: this.connectMetamask },
     { key: 'NavigatorWallet', function: this.navigatorWallet },
     { key: 'NavigatorTokenReceive', function: this.navigatorTokenReceive },

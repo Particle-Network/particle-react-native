@@ -21,6 +21,8 @@ import com.particle.network.ParticleNetworkAuth.openAccountAndSecurity
 import com.particle.network.ParticleNetworkAuth.openWebWallet
 import com.particle.network.ParticleNetworkAuth.setChainInfo
 import com.particle.network.ParticleNetworkAuth.setDisplayWallet
+import com.particle.network.ParticleNetworkAuth.setSecurityAccountConfig
+import com.particle.network.ParticleNetworkAuth.setUserInfo
 import com.particle.network.ParticleNetworkAuth.signAllTransactions
 import com.particle.network.ParticleNetworkAuth.signAndSendTransaction
 import com.particle.network.ParticleNetworkAuth.signMessage
@@ -32,6 +34,7 @@ import com.particle.network.service.model.*
 import com.particleauth.model.*
 import com.particleauth.utils.ChainUtils
 import com.particleauth.utils.EncodeUtils
+import org.json.JSONObject
 
 
 class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
@@ -336,6 +339,28 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
+  fun setUserInfo(json: String, callback: Callback) {
+    callback.invoke(ParticleNetwork.setUserInfo(json))
+  }
+
+  @ReactMethod
+  fun setSecurityAccountConfig(configJson: String) {
+    LogUtils.d("setSecurityAccountConfig", configJson)
+    try {
+      val jobj = JSONObject(configJson)
+      val promptSettingWhenSign = jobj.getInt("prompt_setting_when_sign")
+      val promptMasterPasswordSettingWhenLogin = jobj.getInt("prompt_master_password_setting_when_login")
+      val config = SecurityAccountConfig(
+        promptSettingWhenSign,
+        promptMasterPasswordSettingWhenLogin
+      )
+      ParticleNetwork.setSecurityAccountConfig(config)
+    } catch (e: Exception) {
+      e.printStackTrace()
+    }
+  }
+
+  @ReactMethod
   fun setLanguage(language: String) {
     if (language.isEmpty()) {
       return
@@ -357,5 +382,6 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
   override fun getName(): String {
     return "ParticleAuthPlugin"
   }
+
 
 }

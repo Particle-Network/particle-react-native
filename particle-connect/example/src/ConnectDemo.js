@@ -25,7 +25,7 @@ var pnaccount = new PNAccount();
 var newWeb3 = undefined;
 
 // After connected a wallet, restoreWeb3 when getAccounts.
-// We need to check if the walletType and publicAddress is connected. 
+// We need to check if the walletType and publicAddress is connected.
 var web3 = undefined;
 
 init = async () => {
@@ -47,7 +47,7 @@ init = async () => {
 newWeb3_getAccounts = async () => {
     try {
         const accounts = await newWeb3.eth.getAccounts();
-        pnaccount = new PNAccount("","",accounts[0],"");
+        pnaccount = new PNAccount("", "", accounts[0], "");
         console.log('web3.eth.getAccounts', accounts);
     } catch (error) {
         console.log('web3.eth.getAccounts', error);
@@ -58,7 +58,7 @@ restoreWeb3_getAccounts = async () => {
     try {
         console.log('pnaccount.publicAddress ', pnaccount.publicAddress);
         web3 = restoreWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', PNAccount.walletType, pnaccount.publicAddress);
-       
+
         const accounts = await web3.eth.getAccounts();
         console.log('web3.eth.getAccounts', accounts);
     } catch (error) {

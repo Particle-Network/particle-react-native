@@ -44,6 +44,7 @@ import com.particle.gui.ParticleWallet.displayTokenAddresses
 import com.particle.gui.ParticleWallet.navigatorBuy
 import com.particle.gui.ParticleWallet.supportWalletConnect
 import com.particle.gui.ui.swap.SwapConfig
+import com.particle.network.ParticleNetworkAuth.openBuy
 
 class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
   companion object {
@@ -309,33 +310,32 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
 
   @ReactMethod
   fun navigatorBuyCrypto(jsonParams: String?) {
-    if (jsonParams == null) {
-      ParticleNetwork.navigatorBuy()
-    } else {
-      try {
-        val jobj = JSONObject(jsonParams)
-        val address = jobj.optString("wallet_address")
-        val network = jobj.optString("network")
-        var netInfo: ChainName? = null
-        try {
-          netInfo = ChainName.valueOf(network)
-        } catch (e: Exception) {
-        }
-        val cryptoCoin = jobj.optString("crypto_coin")
-        val fiatCoin = jobj.optString("fiat_coin")
-        val fiatAmt = jobj.optInt("fiat_amt")
-        ParticleNetwork.navigatorBuy(
-          if (TextUtils.isEmpty(address)) null else address,
-          netInfo,
-          if (TextUtils.isEmpty(cryptoCoin)) null else cryptoCoin,
-          if (TextUtils.isEmpty(fiatCoin)) null else fiatCoin,
-          if (fiatAmt == 0) null else fiatAmt
-        )
-      } catch (e: Exception) {
-        e.printStackTrace()
-      }
-    }
-
+    LogUtils.d("navigatorBuyCrypto", jsonParams)
+    LogUtils.d("navigatorBuyCrypto", jsonParams)
+    if (!isUIModuleInit()) return;
+    val jsonObject = JSONObject(jsonParams)
+    val walletAddress = jsonObject.optString("wallet_address")
+    val chainName = jsonObject.optString("network")
+    val cryptoCoin = jsonObject.optString("crypto_coin")
+    val fiatCoin = jsonObject.optString("fiat_coin")
+    val fiatAmt = jsonObject.optInt("fiat_amt")
+    val fixCryptoCoin = jsonObject.optBoolean("fix_crypto_coin")
+    val fixFiatAmt = jsonObject.optBoolean("fix_fiat_amt")
+    val fixFiatCoin = jsonObject.optBoolean("fix_fiat_coin")
+    val theme = jsonObject.optString("theme")
+    val language = jsonObject.optString("language")
+    ParticleNetwork.openBuy(
+      walletAddress = walletAddress,
+      amount = fiatAmt,
+      fiatCoin = fiatCoin,
+      cryptoCoin = cryptoCoin,
+      fixFiatCoin = fixFiatCoin,
+      fixFiatAmt = fixFiatAmt,
+      fixCryptoCoin = fixCryptoCoin,
+      theme = theme,
+      language = language,
+      chainName = chainName
+    )
   }
 
   @ReactMethod
@@ -364,6 +364,8 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
   fun setSupportAddToken(isShow: Boolean){
     ParticleWallet.setSupportAddToken(isShow)
   }
+
+
 
   override fun getName(): String {
     return "ParticleWalletPlugin"

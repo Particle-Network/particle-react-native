@@ -58,7 +58,8 @@ navigatorNFTSend = async () => {
     const mint = TestAccountEVM.nftContractAddress;
     const receiverAddress = TestAccountEVM.receiverAddress;
     const tokenId = TestAccountEVM.nftTokenId;
-    particleWallet.navigatorNFTSend(receiverAddress, mint, tokenId);
+    const amount = "1";
+    particleWallet.navigatorNFTSend(receiverAddress, mint, tokenId, amount);
 }
 
 navigatorNFTDetails = async () => {

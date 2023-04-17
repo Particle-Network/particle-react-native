@@ -198,3 +198,4 @@ export async function getEvmTokenTransactionLegacy(from, to, amount, contractAdd
     const serialized = Buffer.from(json).toString('hex');
     return '0x' + serialized;
 }
+

@@ -22,6 +22,11 @@ export async function JsonRpcRequest(
         'Content-Type': 'application/json',
         Authorization: '',
     };
+
+    if (ParticleInfo.projectId == "" || ParticleInfo.clientKey == "") {
+        throw new Error('You need set project info');
+    }
+    
     // URLs containing username and password needs special processing
     const username = ParticleInfo.projectId;
     const password = ParticleInfo.clientKey;

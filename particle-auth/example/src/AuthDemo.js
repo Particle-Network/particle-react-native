@@ -16,6 +16,7 @@ import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
 import { EvmService } from './NetService/EvmService';
 import { createWeb3 } from './web3Demo';
+import { ParticleInfo } from './NetService/ParticleInfo';
 
 const web3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b');
 
@@ -253,6 +254,15 @@ web3_wallet_switchEthereumChain = async () => {
 };
 
 init = async () => {
+    // Get your project id and client from dashboard,  
+    // https://dashboard.particle.network/
+    ParticleInfo.projectId = ''; // your project id
+    ParticleInfo.clientKey = ''; // your client key 
+
+    if (ParticleInfo.projectId == "" || ParticleInfo.clientKey == "") {
+        throw new Error('You need set project info');
+    }
+    
     console.log('init');
     const chainInfo = EvmService.currentChainInfo;
     const env = Env.Production;
@@ -263,7 +273,7 @@ setChainInfo = async () => {
     const chainInfo = EvmService.currentChainInfo;
     const result = await particleAuth.setChainInfo(chainInfo);
     console.log(result);
-};
+};const chainInfo = ChainInfo.EthereumGoerli;
 
 setChainInfoAsync = async () => {
     const chainInfo = EvmService.currentChainInfo;
@@ -307,6 +317,17 @@ fastLogout = async () => {
 isLogin = async () => {
     const result = await particleAuth.isLogin();
     console.log(result);
+};
+
+isLoginAsync = async () => {
+    const result = await particleAuth.isLoginAsync();
+    if (result.status) {
+        const userInfo = result.data;
+        console.log(userInfo);
+    } else {
+        const error = result.data;
+        console.log(error);
+    }
 };
 
 signMessage = async () => {
@@ -500,6 +521,7 @@ const data = [
     { key: 'Logout', function: this.logout },
     { key: 'FastLogout', function: this.fastLogout },
     { key: 'IsLogin', function: this.isLogin },
+    { key: 'IsLoginAsync', function: this.isLoginAsync },
     { key: 'SetChainInfo', function: this.setChainInfo },
     { key: 'SetChainInfoAsync', function: this.setChainInfoAsync },
     { key: 'SignMessage', function: this.signMessage },

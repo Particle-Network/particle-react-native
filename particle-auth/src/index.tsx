@@ -164,12 +164,24 @@ export function fastLogout(): Promise<any> {
 }
 
 /**
- * Is user logged in
+ * Is user logged in, check locally.
  * @returns Result, if user is login return true, otherwise retrun false
  */
 export function isLogin(): Promise<boolean> {
     return new Promise((resolve) => {
         ParticleAuthPlugin.isLogin((result: boolean) => {
+            resolve(result);
+        });
+    });
+}
+
+/**
+ * Is user logged in, check from server. recommended.
+ * @returns Result, if user is login return userinfo, otherwise retrun error
+ */
+export function isLoginAsync(): Promise<boolean> {
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.isLoginAsync((result: boolean) => {
             resolve(result);
         });
     });
@@ -315,6 +327,10 @@ export function openWebWallet() {
     ParticleAuthPlugin.openWebWallet();
 }
 
+/**
+ * Set security account config
+ * @param config 
+ */
 export function setSecurityAccountConfig(config: SecurityAccountConfig) {
     const obj = {
         prompt_setting_when_sign: config.promptSettingWhenSign,

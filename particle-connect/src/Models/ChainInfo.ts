@@ -1,12 +1,12 @@
 export class ChainInfo {
-  chain_name: string;
-  chain_id: number;
-  chain_id_name: string;
+  public chain_name: string;
+  public chain_id: number;
+  public chain_id_name: string;
 
-  constructor(chain_name: string, chain_id: number, chain_id_name: string) {
-    this.chain_name = chain_name;
-    this.chain_id = chain_id;
-    this.chain_id_name = chain_id_name;
+  public constructor(chain_name: string, chain_id: number, chain_id_name: string) {
+      this.chain_name = chain_name;
+      this.chain_id = chain_id;
+      this.chain_id_name = chain_id_name;
   }
   public static SolanaMainnet = new ChainInfo('Solana', 101, 'Mainnet');
   public static SolanaTestnet = new ChainInfo('Solana', 102, 'Testnet');
@@ -15,6 +15,8 @@ export class ChainInfo {
   // EVM
   public static EthereumMainnet = new ChainInfo('Ethereum', 1, 'Mainnet');
   public static EthereumGoerli = new ChainInfo('Ethereum', 5, 'Goerli');
+  public static EthereumSepolia = new ChainInfo('Ethereum', 11155111, 'Sepolia');
+  
   public static BSCMainnet = new ChainInfo('BSC', 56, 'Mainnet');
   public static BSCTestnet = new ChainInfo('BSC', 97, 'Testnet');
   public static PolygonMainnet = new ChainInfo('Polygon', 137, 'Mainnet');
@@ -34,16 +36,8 @@ export class ChainInfo {
   public static HecoTestnet = new ChainInfo('Heco', 256, 'Testnet');
   public static AuroraMainnet = new ChainInfo('Aurora', 1313161554, 'Mainnet');
   public static AuroraTestnet = new ChainInfo('Aurora', 1313161555, 'Testnet');
-  public static HarmonyMainnet = new ChainInfo(
-    'Harmony',
-    1666600000,
-    'Mainnet'
-  );
-  public static HarmonyTestnet = new ChainInfo(
-    'Harmony',
-    1666700000,
-    'Testnet'
-  );
+  public static HarmonyMainnet = new ChainInfo('Harmony', 1666600000, 'Mainnet');
+  public static HarmonyTestnet = new ChainInfo('Harmony', 1666700000, 'Testnet');
   public static KCCMainnet = new ChainInfo('KCC', 321, 'Mainnet');
   public static KCCTestnet = new ChainInfo('KCC', 322, 'Testnet');
   public static OptimismMainnet = new ChainInfo('Optimism', 10, 'Mainnet');
@@ -55,28 +49,12 @@ export class ChainInfo {
   public static TronShasta = new ChainInfo('Tron', 2494104990, 'Shasta');
   public static TronNile = new ChainInfo('Tron', 3448148188, 'Shasta');
 
-  public static ThunderCoreMainnet = new ChainInfo(
-    'ThunderCore',
-    108,
-    'Mainnet'
-  );
-  public static ThunderCoreTestnet = new ChainInfo(
-    'ThunderCore',
-    18,
-    'Testnet'
-  );
+  public static ThunderCoreMainnet = new ChainInfo('ThunderCore', 108, 'Mainnet');
+  public static ThunderCoreTestnet = new ChainInfo('ThunderCore', 18, 'Testnet');
   public static CronosMainnet = new ChainInfo('Cronos', 25, 'Mainnet');
   public static CronosTestnet = new ChainInfo('Cronos', 338, 'Testnet');
-  public static OasisEmeraldMainnet = new ChainInfo(
-    'OasisEmerald',
-    42262,
-    'Mainnet'
-  );
-  public static OasisEmeraldTestnet = new ChainInfo(
-    'OasisEmerald',
-    42261,
-    'Testnet'
-  );
+  public static OasisEmeraldMainnet = new ChainInfo('OasisEmerald', 42262, 'Mainnet');
+  public static OasisEmeraldTestnet = new ChainInfo('OasisEmerald', 42261, 'Testnet');
   public static GnosisMainnet = new ChainInfo('Gnosis', 100, 'Mainnet');
   public static GnosisTestnet = new ChainInfo('Gnosis', 10200, 'Testnet');
 
@@ -89,4 +67,13 @@ export class ChainInfo {
   public static ZkSyncTestnet = new ChainInfo('ZkSync', 280, 'Testnet');
   public static MetisMainnet = new ChainInfo('Metis', 1088, 'Mainnet');
   public static MetisTestnet = new ChainInfo('Metis', 599, 'Testnet');
+
+  public static ConfluxESpaceMainnet = new ChainInfo('ConfluxESpace', 1030, 'Mainnet');
+  public static ConfluxESpaceTestnet = new ChainInfo('ConfluxESpace', 71, 'Testnet');
+  public static MapoMainnet = new ChainInfo('Mapo', 22776, 'Mainnet');
+  public static MapoTestnet = new ChainInfo('Mapo', 212, 'Testnet');
+  public static PolygonZkEVMMainnet = new ChainInfo('PolygonZkEVM', 1101, 'Mainnet');
+  public static PolygonZkEVMTestnet = new ChainInfo('PolygonZkEVM', 1442, 'Testnet');
+
+  public static BaseTestnet = new ChainInfo('Base', 84531, 'Testnet');
 }

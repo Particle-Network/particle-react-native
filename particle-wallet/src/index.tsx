@@ -79,12 +79,14 @@ export function navigatorTokenTransactionRecords(tokenAddress?: string) {
 
 /**
  * Navigator NFT send page
- * @param receiverAddress Optional, receiver address
+ * 
  * @param mint NFT contract/mint address
  * @param tokenId NFT token id, for solana nft, pass ""
+ * @param receiverAddress Optional, receiver address
+ * @param amount Optional, for solana nft, pass null, for erc721 nft, it is a useless parameter, pass null, for erc1155 nft, you can pass amount string, such as "1", "100", "10000"
  */
-export function navigatorNFTSend(mint: string, tokenId: string, receiverAddress?: string) {
-  const obj = { mint: mint, receiver_address: receiverAddress, token_id: tokenId };
+export function navigatorNFTSend(mint: string, tokenId: string, receiverAddress?: string, amount?: string) {
+  const obj = { mint: mint, receiver_address: receiverAddress, token_id: tokenId, amount: amount};
   const json = JSON.stringify(obj);
   ParticleWalletPlugin.navigatorNFTSend(json);
 }

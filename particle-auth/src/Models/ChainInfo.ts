@@ -15,6 +15,8 @@ export class ChainInfo {
     // EVM
     public static EthereumMainnet = new ChainInfo('Ethereum', 1, 'Mainnet');
     public static EthereumGoerli = new ChainInfo('Ethereum', 5, 'Goerli');
+    public static EthereumSepolia = new ChainInfo('Ethereum', 11155111, 'Sepolia');
+    
     public static BSCMainnet = new ChainInfo('BSC', 56, 'Mainnet');
     public static BSCTestnet = new ChainInfo('BSC', 97, 'Testnet');
     public static PolygonMainnet = new ChainInfo('Polygon', 137, 'Mainnet');
@@ -65,4 +67,13 @@ export class ChainInfo {
     public static ZkSyncTestnet = new ChainInfo('ZkSync', 280, 'Testnet');
     public static MetisMainnet = new ChainInfo('Metis', 1088, 'Mainnet');
     public static MetisTestnet = new ChainInfo('Metis', 599, 'Testnet');
+
+    public static ConfluxESpaceMainnet = new ChainInfo('ConfluxESpace', 1030, 'Mainnet');
+    public static ConfluxESpaceTestnet = new ChainInfo('ConfluxESpace', 71, 'Testnet');
+    public static MapoMainnet = new ChainInfo('Mapo', 22776, 'Mainnet');
+    public static MapoTestnet = new ChainInfo('Mapo', 212, 'Testnet');
+    public static PolygonZkEVMMainnet = new ChainInfo('PolygonZkEVM', 1101, 'Mainnet');
+    public static PolygonZkEVMTestnet = new ChainInfo('PolygonZkEVM', 1442, 'Testnet');
+
+    public static BaseTestnet = new ChainInfo('Base', 84531, 'Testnet');
 }

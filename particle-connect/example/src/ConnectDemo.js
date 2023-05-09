@@ -15,6 +15,7 @@ import { ParticleConnectConfig } from 'react-native-particle-connect';
 import { PNAccount } from './Models/PNAccount';
 import { EvmService } from './NetService/EvmService';
 import { createWeb3, restoreWeb3 } from './web3Demo';
+import { ParticleInfo } from './NetService/ParticleInfo';
 
 var loginSourceMessage = '';
 var loginSignature = '';
@@ -31,6 +32,7 @@ var web3 = undefined;
 init = async () => {
     // Get your project id and client from dashboard,  
     // https://dashboard.particle.network/
+
     ParticleInfo.projectId = ''; // your project id
     ParticleInfo.clientKey = ''; // your client key 
 
@@ -100,18 +102,19 @@ web3_getChainId = async () => {
 web3_personalSign = async () => {
     // for persion_sign
     // don't use web3.eth.personal.sign
+
     try {
         const accounts = await web3.eth.getAccounts();
         const result = await web3.currentProvider.request({
             method: 'personal_sign',
-            params: ['hello world', accounts[0]]
+            params: ['Hello world', accounts[0]]
         });
+
 
         console.log('web3.eth.personal.sign', result);
     } catch (error) {
         console.log('web3.eth.personal.sign', error);
     }
-
 }
 
 web3_signTypedData_v4 = async () => {

@@ -11,10 +11,10 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		33113C5F4983AD6274D1CCBC /* Pods_ParticleConnectExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 678921E9AC7A3771B7320884 /* Pods_ParticleConnectExample.framework */; };
+		3D43C5D64B5A7F7D5D41D5E3 /* Pods_ParticleConnectExample_ParticleConnectExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73E2DD1263C154128D5699FA /* Pods_ParticleConnectExample_ParticleConnectExampleTests.framework */; };
 		5F4E5EDB2927684400082EA3 /* ParticleNetwork-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F4E5EDA2927684400082EA3 /* ParticleNetwork-Info.plist */; };
+		6DB4ED1476FBA55B3C4A5C60 /* Pods_ParticleConnectExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E375F5CD72874C5359791732 /* Pods_ParticleConnectExample.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		89BDC93D7FCD738939E466F1 /* Pods_ParticleConnectExample_ParticleConnectExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B23F79E0033372AD96E98358 /* Pods_ParticleConnectExample_ParticleConnectExampleTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,10 +41,10 @@
 		5709B34CF0A7D63546082F79 /* Pods-ParticleConnectExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParticleConnectExample.release.xcconfig"; path = "Target Support Files/Pods-ParticleConnectExample/Pods-ParticleConnectExample.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-ParticleConnectExample-ParticleConnectExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParticleConnectExample-ParticleConnectExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-ParticleConnectExample-ParticleConnectExampleTests/Pods-ParticleConnectExample-ParticleConnectExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5F4E5EDA2927684400082EA3 /* ParticleNetwork-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ParticleNetwork-Info.plist"; sourceTree = "<group>"; };
-		678921E9AC7A3771B7320884 /* Pods_ParticleConnectExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ParticleConnectExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		73E2DD1263C154128D5699FA /* Pods_ParticleConnectExample_ParticleConnectExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ParticleConnectExample_ParticleConnectExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ParticleConnectExample/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-ParticleConnectExample-ParticleConnectExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParticleConnectExample-ParticleConnectExampleTests.release.xcconfig"; path = "Target Support Files/Pods-ParticleConnectExample-ParticleConnectExampleTests/Pods-ParticleConnectExample-ParticleConnectExampleTests.release.xcconfig"; sourceTree = "<group>"; };
-		B23F79E0033372AD96E98358 /* Pods_ParticleConnectExample_ParticleConnectExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ParticleConnectExample_ParticleConnectExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E375F5CD72874C5359791732 /* Pods_ParticleConnectExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ParticleConnectExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -53,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89BDC93D7FCD738939E466F1 /* Pods_ParticleConnectExample_ParticleConnectExampleTests.framework in Frameworks */,
+				3D43C5D64B5A7F7D5D41D5E3 /* Pods_ParticleConnectExample_ParticleConnectExampleTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33113C5F4983AD6274D1CCBC /* Pods_ParticleConnectExample.framework in Frameworks */,
+				6DB4ED1476FBA55B3C4A5C60 /* Pods_ParticleConnectExample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,8 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				678921E9AC7A3771B7320884 /* Pods_ParticleConnectExample.framework */,
-				B23F79E0033372AD96E98358 /* Pods_ParticleConnectExample_ParticleConnectExampleTests.framework */,
+				E375F5CD72874C5359791732 /* Pods_ParticleConnectExample.framework */,
+				73E2DD1263C154128D5699FA /* Pods_ParticleConnectExample_ParticleConnectExampleTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

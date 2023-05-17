@@ -3,8 +3,9 @@ import * as particleAuth from '../index';
 import { sendEVMRpc } from './connection';
 import type { ParticleOptions, RequestArguments } from './types';
 import { notSupportMethods, signerMethods } from './types';
-import { ChainInfo } from '../Models/ChainInfo';
+import { ChainInfo } from '../index';
 import { SupportAuthType } from '../index';
+import { LoginType } from '../index';
 
 class ParticleProvider {
     private events = new EventEmitter();
@@ -54,7 +55,7 @@ class ParticleProvider {
             } else if (payload.method === 'eth_accounts' || payload.method === 'eth_requestAccounts') {
                 const isLogin = await particleAuth.isLogin();
                 if (!isLogin) {
-                    await particleAuth.login(undefined, undefined, [SupportAuthType.All]);
+                    await particleAuth.login(LoginType.Email, undefined, [SupportAuthType.All]);
                 }
                 const account = await particleAuth.getAddress();
                 return [account];

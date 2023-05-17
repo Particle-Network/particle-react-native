@@ -275,7 +275,7 @@ export function getAddress(): Promise<string> {
 
 /**
  * Get user info
- * @returns User info
+ * @returns User info json string
  */
 export function getUserInfo() {
     return ParticleAuthPlugin.getUserInfo();

@@ -37,7 +37,7 @@ init = () => {
     ParticleInfo.clientKey = ''; // your client key 
 
     if (ParticleInfo.projectId == "" || ParticleInfo.clientKey == "") {
-        throw new Error('You need set project info');
+        throw new Error('You need set project info, Get your project id and client from dashboard, https://dashboard.particle.network');
     }
 
     const chainInfo = EvmService.currentChainInfo;

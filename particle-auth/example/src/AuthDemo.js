@@ -255,11 +255,11 @@ web3_wallet_switchEthereumChain = async () => {
 
 init = () => {
     // Get your project id and client from dashboard, https://dashboard.particle.network
-    ParticleInfo.projectId = '1'; // your project id
-    ParticleInfo.clientKey = '1'; // your client key 
+    ParticleInfo.projectId = ''; // your project id
+    ParticleInfo.clientKey = ''; // your client key 
     if (ParticleInfo.projectId == "" || ParticleInfo.clientKey == "") {
         throw new Error(
-            'You need set project info,Get your project id and client from dashboard, https://dashboard.particle.network'
+            'You need set project info, get your project id and client from dashboard, https://dashboard.particle.network'
         );
     }
 
@@ -273,7 +273,7 @@ setChainInfo = async () => {
     const chainInfo = EvmService.currentChainInfo;
     const result = await particleAuth.setChainInfo(chainInfo);
     console.log(result);
-}; const chainInfo = ChainInfo.EthereumGoerli;
+};
 
 setChainInfoAsync = async () => {
     const chainInfo = EvmService.currentChainInfo;

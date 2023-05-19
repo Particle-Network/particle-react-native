@@ -29,7 +29,7 @@ var newWeb3 = undefined;
 // We need to check if the walletType and publicAddress is connected.
 var web3 = undefined;
 
-init = async () => {
+init = () => {
     // Get your project id and client from dashboard,  
     // https://dashboard.particle.network/
 

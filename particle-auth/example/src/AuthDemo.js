@@ -253,16 +253,16 @@ web3_wallet_switchEthereumChain = async () => {
     }
 };
 
-init = async () => {
-    // Get your project id and client from dashboard,  
-    // https://dashboard.particle.network/
-    ParticleInfo.projectId = ''; // your project id
-    ParticleInfo.clientKey = ''; // your client key 
-
+init = () => {
+    // Get your project id and client from dashboard, https://dashboard.particle.network
+    ParticleInfo.projectId = '1'; // your project id
+    ParticleInfo.clientKey = '1'; // your client key 
     if (ParticleInfo.projectId == "" || ParticleInfo.clientKey == "") {
-        throw new Error('You need set project info');
+        throw new Error(
+            'You need set project info,Get your project id and client from dashboard, https://dashboard.particle.network'
+        );
     }
-    
+
     console.log('init');
     const chainInfo = EvmService.currentChainInfo;
     const env = Env.Production;
@@ -273,7 +273,7 @@ setChainInfo = async () => {
     const chainInfo = EvmService.currentChainInfo;
     const result = await particleAuth.setChainInfo(chainInfo);
     console.log(result);
-};const chainInfo = ChainInfo.EthereumGoerli;
+}; const chainInfo = ChainInfo.EthereumGoerli;
 
 setChainInfoAsync = async () => {
     const chainInfo = EvmService.currentChainInfo;
@@ -283,7 +283,12 @@ setChainInfoAsync = async () => {
 
 login = async () => {
     const type = LoginType.Phone;
-    const supportAuthType = [SupportAuthType.Email, SupportAuthType.Apple, SupportAuthType.Discord];
+    const supportAuthType = [
+        SupportAuthType.Email,
+        SupportAuthType.Apple,
+        SupportAuthType.Google,
+        SupportAuthType.Discord,
+    ];
     const result = await particleAuth.login(type, '', supportAuthType, undefined);
     if (result.status) {
         const userInfo = result.data;

@@ -130,14 +130,14 @@ export function login(
 }
 
 export function setUserInfo(json: string): Promise<boolean> {
-  return new Promise((resolve) => {
-    ParticleAuthPlugin.setUserInfo(json, (result: string) => {
-      resolve(JSON.parse(result));
-      ParticleAuthPlugin.setUserInfo(json, (result: boolean) => {
-        resolve(result);
-      });
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.setUserInfo(json, (result: string) => {
+            resolve(JSON.parse(result));
+            ParticleAuthPlugin.setUserInfo(json, (result: boolean) => {
+                resolve(result);
+            });
+        });
     });
-  });
 }
 /**
  * Logout
@@ -329,7 +329,7 @@ export function openWebWallet() {
 
 /**
  * Set security account config
- * @param config 
+ * @param config
  */
 export function setSecurityAccountConfig(config: SecurityAccountConfig) {
     const obj = {

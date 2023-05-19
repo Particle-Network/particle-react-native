@@ -11,6 +11,10 @@ import com.particle.base.ChainInfo
 import com.particle.base.Env
 import com.particle.base.LanguageEnum
 import com.particle.base.ParticleNetwork
+import com.particle.base.data.SignOutput
+import com.particle.base.data.WebOutput
+import com.particle.base.data.WebServiceCallback
+import com.particle.base.data.WebServiceError
 import com.particle.network.ParticleNetworkAuth.fastLogout
 import com.particle.network.ParticleNetworkAuth.getAddress
 import com.particle.network.ParticleNetworkAuth.getUserInfo

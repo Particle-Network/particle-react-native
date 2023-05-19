@@ -6,6 +6,10 @@ import com.blankj.utilcode.util.LogUtils
 import com.facebook.react.bridge.*
 import com.google.gson.reflect.TypeToken
 import com.particle.base.ParticleNetwork
+import com.particle.base.data.SignOutput
+import com.particle.base.data.WebOutput
+import com.particle.base.data.WebServiceCallback
+import com.particle.base.data.WebServiceError
 import com.particle.network.ParticleNetworkAuth.getAddress
 import com.particle.network.ParticleNetworkAuth.getUserInfo
 import com.particle.network.ParticleNetworkAuth.isLogin
@@ -23,11 +27,7 @@ import com.particle.network.SignTypedDataVersion
 import com.particle.network.service.ChainChangeCallBack
 import com.particle.network.service.LoginType
 import com.particle.network.service.SupportAuthType
-import com.particle.network.service.WebServiceCallback
 import com.particle.network.service.model.LoginOutput
-import com.particle.network.service.model.SignOutput
-import com.particle.network.service.model.WebOutput
-import com.particle.network.service.model.WebServiceError
 import com.particlewallet.model.ChainData
 import com.particlewallet.model.LoginData
 import com.particlewallet.model.ReactCallBack

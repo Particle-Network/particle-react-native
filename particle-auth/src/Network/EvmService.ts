@@ -1,12 +1,12 @@
+
 import { AbiEncodeFunction, EVMReqBodyMethod } from './NetParams';
 import JsonRpcRequest from './NetService';
 import BigNumber from 'bignumber.js';
 import { Buffer } from 'buffer';
-import { ChainInfo } from 'react-native-particle-auth';
+import * as particleAuth from '../index';
+import type { BiconomyVersion } from '../Models/BiconomyVersion';
 
 export class EvmService {
-    /// current chain info
-    static currentChainInfo: ChainInfo = ChainInfo.EthereumGoerli;
 
     /**
      * Support evm standard rpc methpd
@@ -17,7 +17,7 @@ export class EvmService {
     static async rpc(method: string, params: any) {
         const rpcUrl = 'https://rpc.particle.network/';
         const path = 'evm-chain';
-        const chainId = EvmService.currentChainInfo.chain_id;
+        const chainId = await particleAuth.getChainId();
         const result = await JsonRpcRequest(rpcUrl, path, method, params, chainId);
         return result;
     }
@@ -252,7 +252,7 @@ export class EvmService {
 
         const maxPriorityFeePerGas = gasFeesResult.high.maxPriorityFeePerGas;
         const maxPriorityFeePerGasHex = '0x' + BigNumber(maxPriorityFeePerGas * Math.pow(10, 9)).toString(16);
-        const chainId = EvmService.currentChainInfo.chain_id;
+        const chainId = await particleAuth.getChainId();
 
         const transaction = {
             from: from,
@@ -296,7 +296,7 @@ export class EvmService {
         const maxFeePerGas = gasFeesResult.high.maxFeePerGas;
         const maxFeePerGasHex = '0x' + BigNumber(maxFeePerGas * Math.pow(10, 9)).toString(16);
 
-        const chainId = EvmService.currentChainInfo.chain_id;
+        const chainId = await particleAuth.getChainId();
 
         const transaction = {
             from: from,
@@ -313,5 +313,15 @@ export class EvmService {
         const json = JSON.stringify(transaction);
         const serialized = Buffer.from(json).toString('hex');
         return '0x' + serialized;
+    }
+
+    /**
+     * Get smart account
+     * @param eoaAddresses Eoa addresses
+     * @param version Biconomy version
+     * @returns Smart account json object
+     */
+    static async getSmartAccount(eoaAddresses: string[], version: BiconomyVersion) {
+        return await this.rpc(EVMReqBodyMethod.particleBiconomyGetSmartAccount, [version, eoaAddresses]);
     }
 }

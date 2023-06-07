@@ -1,6 +1,7 @@
-import * as particleAuth from 'react-native-particle-auth';
+
 import { SerializeTransactionParams, SolanaReqBodyMethod } from './NetParams';
 import JsonRpcRequest from './NetService';
+import * as particleAuth from '../index';
 
 export class SolanaService {
     static async rpc(method: string, params: any) {

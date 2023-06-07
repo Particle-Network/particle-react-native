@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View, SafeAreaView, FlatList, DeviceEventEmitter, NativeEventEmitter } from 'react-native';
 import { ChainInfo } from 'react-native-particle-auth';
 import { Button } from '@rneui/themed';
-import { EvmService } from './NetService/EvmService';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 export default class SelectChainPage extends PureComponent {
@@ -46,14 +45,14 @@ export default class SelectChainPage extends PureComponent {
             type: 'success',
             text1: `select chain ${chainInfo.chain_name} ${chainInfo.chain_id_name} ${chainInfo.chain_id}`,
         });
-        EvmService.currentChainInfo = chainInfo;
         console.log(chainInfo);
-
-        navigation.navigate({
-            name: 'AuthDemo',
-            params: { post: chainInfo },
-            merge: true,
-        });
+        this.props.navigation.getParam('onGoBack')(chainInfo);
+        this.props.navigation.goBack()
+        // navigation.navigate({
+        //     name: 'AuthDemo',
+        //     params: { post: chainInfo },
+        //     merge: true,
+        // });
     };
 }
 

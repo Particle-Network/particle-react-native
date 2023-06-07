@@ -76,4 +76,8 @@ export class ChainInfo {
     public static PolygonZkEVMTestnet = new ChainInfo('PolygonZkEVM', 1442, 'Testnet');
 
     public static BaseTestnet = new ChainInfo('Base', 84531, 'Testnet');
+    public static LineaGoerli = new ChainInfo('Linea', 59140, 'Goerli');
+    public static ComboTestnet = new ChainInfo('Combo', 91715, 'Testnet');
+    public static MantleTestnet = new ChainInfo('Mantle', 5001, 'Testnet');
+    public static ZkMetaTestnet = new ChainInfo('ZkMeta', 23122, 'Testnet');
 }

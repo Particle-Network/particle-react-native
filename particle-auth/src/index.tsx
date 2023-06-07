@@ -3,6 +3,7 @@ import type { ChainInfo } from './Models/ChainInfo';
 import type { Language } from './Models/Language';
 import type { Env, iOSModalPresentStyle, LoginType, SupportAuthType } from './Models/LoginInfo';
 import type { SecurityAccountConfig } from './Models/SecurityAccountConfig';
+import type { BiconomyFeeMode } from './Models/BiconomyFeeMode';
 
 const LINKING_ERROR =
     `The package 'react-native-particle-auth' doesn't seem to be linked. Make sure: \n\n` +
@@ -78,6 +79,18 @@ export function getChainInfo(): Promise<ChainInfo> {
     return new Promise((resolve) => {
         ParticleAuthPlugin.getChainInfo((result: string) => {
             resolve(JSON.parse(result) as ChainInfo);
+        });
+    });
+}
+
+/**
+ * Get chainId
+ * @returns ChainId
+ */
+export function getChainId(): Promise<number> {
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.getChainInfo((result: string) => {
+            resolve((JSON.parse(result) as ChainInfo).chain_id);
         });
     });
 }
@@ -388,5 +401,7 @@ export * from './Models/UserInterfaceStyle';
 export * from './Models/SecurityAccountConfig';
 export * from './Models/BiconomyVersion';
 export * from './Models/BiconomyFeeMode';
+export * from './Network/EvmService';
+export * from './Network/SolanaService';
 
 export { ParticleProvider } from './provider';

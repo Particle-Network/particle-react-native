@@ -8,17 +8,20 @@ import {
     Env,
     Language,
     SecurityAccountConfig,
+    EvmService,
+    ParticleInfo
 } from 'react-native-particle-auth';
 import * as particleAuth from 'react-native-particle-auth';
 
 import { Button } from '@rneui/themed';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
-import { EvmService } from './NetService/EvmService';
 import { createWeb3 } from './web3Demo';
-import { ParticleInfo } from './NetService/ParticleInfo';
 
 const web3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b');
+
+
+let currentChainInfo = ChainInfo.EthereumMainnet;
 
 web3_getAccounts = async () => {
     try {
@@ -381,19 +384,19 @@ init = () => {
     }
 
     console.log('init');
-    const chainInfo = EvmService.currentChainInfo;
+    const chainInfo = ChainInfo.PolygonMumbai;
     const env = Env.Production;
     particleAuth.init(chainInfo, env);
 };
 
 setChainInfo = async () => {
-    const chainInfo = EvmService.currentChainInfo;
+    const chainInfo = currentChainInfo;
     const result = await particleAuth.setChainInfo(chainInfo);
     console.log(result);
 };
 
 setChainInfoAsync = async () => {
-    const chainInfo = EvmService.currentChainInfo;
+    const chainInfo = currentChainInfo;
     const result = await particleAuth.setChainInfoAsync(chainInfo);
     console.log(result);
 };
@@ -638,6 +641,11 @@ setSecurityAccountConfig = async () => {
     particleAuth.setSecurityAccountConfig(config);
 };
 
+getSmartAccount = async () => {
+    const eoaAddress = await particleAuth.getAddress();
+    const result = await EvmService.getSmartAccount([eoaAddress], BiconomyVersion.v1_0_0);
+}
+
 const data = [
     { key: 'Select Chain Page', function: null },
     { key: 'Init', function: this.init },
@@ -677,6 +685,7 @@ const data = [
     { key: 'GetChainInfo', function: this.getChainInfo },
     { key: 'SetUserInfo', function: this.setUserInfo },
     { key: 'SetSecurityAccountConfig', function: this.setSecurityAccountConfig },
+    { key: 'GetSmartAccount', function: this.getSmartAccount }
 ];
 
 export default class AuthDemo extends PureComponent {
@@ -693,7 +702,9 @@ export default class AuthDemo extends PureComponent {
                                 title={item.key}
                                 onPress={() => {
                                     if (item.key == 'Select Chain Page') {
-                                        this.props.navigation.push('SelectChainPage');
+                                        this.props.navigation.navigate('SelectChainPage',{
+                                            onGoBack: (chainInfo) => this.handleChainInfo(chainInfo)
+                                        });
                                     } else {
                                         item.function();
                                     }
@@ -708,6 +719,10 @@ export default class AuthDemo extends PureComponent {
         );
     };
 
+    handleChainInfo = (chainInfo) => {
+        console.log('get chainInfo from select page', chainInfo);
+        currentChainInfo = chainInfo
+    }
     componentDidMount = () => {
         console.log('AuthDemo componentDidMount');
         if (Platform.OS === 'ios') {

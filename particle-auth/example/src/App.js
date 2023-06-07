@@ -36,10 +36,10 @@ function AuthScreen({ navigation }) {
     );
 }
 
-function SelectScreen({ navigation }) {
+function SelectScreen({ route, navigation }) {
     return (
         <View style={styles.container}>
-            <SelectChainPage navigation={navigation} />
+            <SelectChainPage navigation={navigation} route = {route} />
         </View>
     );
 }

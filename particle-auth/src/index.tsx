@@ -403,5 +403,6 @@ export * from './Models/BiconomyVersion';
 export * from './Models/BiconomyFeeMode';
 export * from './Network/EvmService';
 export * from './Network/SolanaService';
+export * from './Network/ParticleInfo';
 
 export { ParticleProvider } from './provider';

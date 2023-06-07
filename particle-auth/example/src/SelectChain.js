@@ -46,7 +46,7 @@ export default class SelectChainPage extends PureComponent {
             text1: `select chain ${chainInfo.chain_name} ${chainInfo.chain_id_name} ${chainInfo.chain_id}`,
         });
         console.log(chainInfo);
-        this.props.navigation.getParam('onGoBack')(chainInfo);
+        this.props.navigation.route.getParam.onGoBack(chainInfo);
         this.props.navigation.goBack()
         // navigation.navigate({
         //     name: 'AuthDemo',

@@ -385,6 +385,62 @@ class ParticleAuthPlugin: NSObject {
     }
     
     @objc
+    public func batchSendTransactions(_ message: String, callback: @escaping RCTResponseSenderBlock) {
+        let data = JSON(parseJSON: message)
+        let transactions = data["transactions"].arrayValue.map {
+            $0.stringValue
+        }
+        let mode = data["fee_mode"]["option"].stringValue
+        var feeMode: Biconomy.FeeMode = .auto
+        if mode == "auto" {
+            feeMode = .auto
+        } else if mode == "gasless" {
+            feeMode = .gasless
+        } else if mode == "custom" {
+            let feeQuoteJson = JSON(data["fee_mode"]["fee_quote"].dictionaryValue)
+            let feeQuote = Biconomy.FeeQuote(json: feeQuoteJson)
+            feeMode = .custom(feeQuote)
+        }
+        
+        guard let biconomy = ParticleNetwork.getBiconomyService() else {
+            let response = ReactResponseError(code: nil, message: "biconomy is not init", data: nil)
+            let statusModel = ReactStatusModel(status: false, data: response)
+            let data = try! JSONEncoder().encode(statusModel)
+            guard let json = String(data: data, encoding: .utf8) else { return }
+            callback([json])
+            return
+        }
+        
+        guard biconomy.isBiconomyModeEnable() else {
+            let response = ReactResponseError(code: nil, message: "biconomy is not enable", data: nil)
+            let statusModel = ReactStatusModel(status: false, data: response)
+            let data = try! JSONEncoder().encode(statusModel)
+            guard let json = String(data: data, encoding: .utf8) else { return }
+            callback([json])
+            return
+        }
+        
+        biconomy.quickSendTransactions(transactions, feeMode: feeMode, messageSigner: self).subscribe {
+            [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    let response = self.ResponseFromError(error)
+                    let statusModel = ReactStatusModel(status: false, data: response)
+                    let data = try! JSONEncoder().encode(statusModel)
+                    guard let json = String(data: data, encoding: .utf8) else { return }
+                    callback([json])
+                case .success(let signature):
+                    let statusModel = ReactStatusModel(status: true, data: signature)
+                    let data = try! JSONEncoder().encode(statusModel)
+                    guard let json = String(data: data, encoding: .utf8) else { return }
+                    callback([json])
+                }
+                
+        }.disposed(by: bag)
+    }
+    
+    @objc
     public func signTypedData(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let data = JSON(parseJSON: json)
         let message = data["message"].stringValue
@@ -577,5 +633,19 @@ class ParticleAuthEvent: RCTEventEmitter {
     
     override func removeListeners(_ count: Double) {
         super.removeListeners(count)
+    }
+}
+
+extension ParticleAuthPlugin: MessageSigner {
+    public func signTypedData(_ message: String) -> RxSwift.Single<String> {
+        return ParticleAuthService.signTypedData(message, version: .v4)
+    }
+    
+    public func signMessage(_ message: String) -> RxSwift.Single<String> {
+        return ParticleAuthService.signMessage(message)
+    }
+    
+    public func getEoaAddress() -> String {
+        ParticleAuthService.getAddress()
     }
 }

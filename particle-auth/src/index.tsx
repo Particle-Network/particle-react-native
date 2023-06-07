@@ -231,7 +231,7 @@ export function signTransaction(transaction: string) {
  * @param transactions Transactions that you want user to sign
  * @returns Result, signed transactions or error
  */
-export function signAllTransactions(transactions: [string]) {
+export function signAllTransactions(transactions: string[]) {
     const json = JSON.stringify(transactions);
     return new Promise((resolve) => {
         ParticleAuthPlugin.signAllTransactions(json, (result: string) => {
@@ -255,6 +255,26 @@ export function signAndSendTransaction(transaction: string, feeMode?: BiconomyFe
 
     return new Promise((resolve) => {
         ParticleAuthPlugin.signAndSendTransaction(json, (result: string) => {
+            resolve(JSON.parse(result));
+        });
+    });
+}
+
+/**
+ * Batch send transactions, works with particle biconomy service 
+ * @param transactions Transactions that you want user to sign and send
+ * @param feeMode Optional, default is auto 
+ * @returns Result, signature or error
+ */
+export function batchSendTransactions(transactions: string[], feeMode?: BiconomyFeeMode) {
+    const obj = {
+        transactions: transactions,
+        fee_mode: feeMode
+    };
+    const json = JSON.stringify(obj);
+
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.batchSendTransactions(json, (result: string) => {
             resolve(JSON.parse(result));
         });
     });
@@ -366,4 +386,7 @@ export * from './Models/Language';
 export * from './Models/WalletDisplay';
 export * from './Models/UserInterfaceStyle';
 export * from './Models/SecurityAccountConfig';
+export * from './Models/BiconomyVersion';
+export * from './Models/BiconomyFeeMode';
+
 export { ParticleProvider } from './provider';

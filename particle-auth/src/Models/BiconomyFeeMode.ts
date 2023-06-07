@@ -1,19 +1,31 @@
 
 
-interface BiconomyFeeMode {
+export interface BiconomyFeeMode {
   option: "auto" | "gasless" | "custom";
   feeQuote?: any; 
 }
 
-function auto(): BiconomyFeeMode {
+/**
+ * Auto fee mode
+ * @returns Auto fee mode, use native to pay gas fee.
+ */
+export function auto(): BiconomyFeeMode {
   return { option: "auto" };
 }
 
-function gasless(): BiconomyFeeMode {
+/**
+ * Gasless fee mode
+ * @returns Gasless fee mode, user dont need to pay gas fee.
+ */
+export function gasless(): BiconomyFeeMode {
   return { option: "gasless" };
 }
 
-function custom(feeQuote: any): BiconomyFeeMode {
+/**
+ * Custom fee mode
+ * @returns Custom fee mode, works with particle-biconomy rpcGetFeeQuotes method, pick one token or native to pay gas fee.
+ */
+export function custom(feeQuote: any): BiconomyFeeMode {
   return { option: "custom", feeQuote };
 }
 

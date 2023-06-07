@@ -15,13 +15,13 @@ const LINKING_ERROR =
 const ParticleConnectPlugin = NativeModules.ParticleConnectPlugin
   ? NativeModules.ParticleConnectPlugin
   : new Proxy(
-    {},
-    {
-      get() {
-        throw new Error(LINKING_ERROR);
-      },
-    }
-  );
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
 
 /**
  * Init Particle Connect Service
@@ -30,8 +30,20 @@ const ParticleConnectPlugin = NativeModules.ParticleConnectPlugin
  * @param metadata Dapp meta data
  * @param rpcUrl Custom RpcUrl
  */
-export function init(chainInfo: ChainInfo, env: Env, metadata: DappMetaData, rpcUrl?: RpcUrl) {
-  const obj = { chain_name: chainInfo.chain_name, chain_id: chainInfo.chain_id, chain_id_name: chainInfo.chain_id_name, env: env, metadata: metadata, rpc_url: rpcUrl };
+export function init(
+  chainInfo: ChainInfo,
+  env: Env,
+  metadata: DappMetaData,
+  rpcUrl?: RpcUrl
+) {
+  const obj = {
+    chain_name: chainInfo.chain_name,
+    chain_id: chainInfo.chain_id,
+    chain_id_name: chainInfo.chain_id_name,
+    env: env,
+    metadata: metadata,
+    rpc_url: rpcUrl,
+  };
   const json = JSON.stringify(obj);
   ParticleConnectPlugin.initialize(json);
 }
@@ -39,10 +51,14 @@ export function init(chainInfo: ChainInfo, env: Env, metadata: DappMetaData, rpc
 /**
  * Set chain info
  * @param chainInfo ChainInfo
- * @returns Result 
+ * @returns Result
  */
 export function setChainInfo(chainInfo: ChainInfo): Promise<boolean> {
-  const obj = { chain_name: chainInfo.chain_name, chain_id: chainInfo.chain_id, chain_id_name: chainInfo.chain_id_name };
+  const obj = {
+    chain_name: chainInfo.chain_name,
+    chain_id: chainInfo.chain_id,
+    chain_id_name: chainInfo.chain_id_name,
+  };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
     ParticleConnectPlugin.setChainInfo(json, (result: boolean) => {
@@ -56,10 +72,14 @@ export function setChainInfo(chainInfo: ChainInfo): Promise<boolean> {
  * Particle will automaticlly created wallet when call this method.
  * for example, when switch solana to ethereum, Particle will create ethereum account if needed.
  * @param chainInfo ChainInfo
- * @returns Result 
+ * @returns Result
  */
 export function setChainInfoAsync(chainInfo: ChainInfo): Promise<boolean> {
-  const obj = { chain_name: chainInfo.chain_name, chain_id: chainInfo.chain_id, chain_id_name: chainInfo.chain_id_name };
+  const obj = {
+    chain_name: chainInfo.chain_name,
+    chain_id: chainInfo.chain_id,
+    chain_id_name: chainInfo.chain_id_name,
+  };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
     ParticleConnectPlugin.setChainInfoAsync(json, (result: boolean) => {
@@ -83,10 +103,18 @@ export function getAccounts(walletType: WalletType): Promise<string> {
  * @param config Optional, works when connect with partile
  * @returns Result, account or error
  */
-export function connect(walletType: WalletType, config?: ParticleConnectConfig): Promise<any> {
-  let configJson = "";
+export function connect(
+  walletType: WalletType,
+  config?: ParticleConnectConfig
+): Promise<any> {
+  let configJson = '';
   if (config) {
-    const obj = { login_type: config.loginType, account: config.account, support_auth_type_values: config.supportAuthType, login_form_mode: config.loginFormMode };
+    const obj = {
+      login_type: config.loginType,
+      account: config.account,
+      support_auth_type_values: config.supportAuthType,
+      login_form_mode: config.loginFormMode,
+    };
     configJson = JSON.stringify(obj);
   }
   return new Promise((resolve) => {
@@ -102,7 +130,10 @@ export function connect(walletType: WalletType, config?: ParticleConnectConfig):
  * @param publicAddress Public address
  * @returns Result, success or error
  */
-export function disconnect(walletType: WalletType, publicAddress: string): Promise<any> {
+export function disconnect(
+  walletType: WalletType,
+  publicAddress: string
+): Promise<any> {
   const obj = { wallet_type: walletType, public_address: publicAddress };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
@@ -113,12 +144,15 @@ export function disconnect(walletType: WalletType, publicAddress: string): Promi
 }
 
 /**
- * Is connected 
+ * Is connected
  * @param walletType Wallet type
  * @param publicAddress Public address
  * @returns Result, success or failure or error
  */
-export function isConnected(walletType: WalletType, publicAddress: string): Promise<any> {
+export function isConnected(
+  walletType: WalletType,
+  publicAddress: string
+): Promise<any> {
   const obj = { wallet_type: walletType, public_address: publicAddress };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
@@ -134,8 +168,16 @@ export function isConnected(walletType: WalletType, publicAddress: string): Prom
  * @param message Message that you want user to sign
  * @returns Result, signed message or error
  */
-export function signMessage(walletType: WalletType, publicAddress: string, message: string): Promise<any> {
-  const obj = { wallet_type: walletType, public_address: publicAddress, message: message };
+export function signMessage(
+  walletType: WalletType,
+  publicAddress: string,
+  message: string
+): Promise<any> {
+  const obj = {
+    wallet_type: walletType,
+    public_address: publicAddress,
+    message: message,
+  };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
     ParticleConnectPlugin.signMessage(json, (result: string) => {
@@ -151,8 +193,16 @@ export function signMessage(walletType: WalletType, publicAddress: string, messa
  * @param transaction Transaction that you want user to sign
  * @returns Result, signed transaction or error
  */
-export function signTransaction(walletType: WalletType, publicAddress: string, transaction: string): Promise<any> {
-  const obj = { wallet_type: walletType, public_address: publicAddress, transaction: transaction };
+export function signTransaction(
+  walletType: WalletType,
+  publicAddress: string,
+  transaction: string
+): Promise<any> {
+  const obj = {
+    wallet_type: walletType,
+    public_address: publicAddress,
+    transaction: transaction,
+  };
   const json = JSON.stringify(obj);
 
   return new Promise((resolve) => {
@@ -169,8 +219,16 @@ export function signTransaction(walletType: WalletType, publicAddress: string, t
  * @param transactions Transactions that you want user to sign
  * @returns Result, signed transactions or error
  */
-export function signAllTransactions(walletType: WalletType, publicAddress: string, transactions: [string]): Promise<any> {
-  const obj = { wallet_type: walletType, public_address: publicAddress, transactions: transactions };
+export function signAllTransactions(
+  walletType: WalletType,
+  publicAddress: string,
+  transactions: [string]
+): Promise<any> {
+  const obj = {
+    wallet_type: walletType,
+    public_address: publicAddress,
+    transactions: transactions,
+  };
   const json = JSON.stringify(obj);
 
   return new Promise((resolve) => {
@@ -187,8 +245,16 @@ export function signAllTransactions(walletType: WalletType, publicAddress: strin
  * @param transaction Transaction that you want user to sign and send
  * @returns Result, signature or error
  */
-export function signAndSendTransaction(walletType: WalletType, publicAddress: string, transaction: string): Promise<any> {
-  const obj = { wallet_type: walletType, public_address: publicAddress, transaction: transaction };
+export function signAndSendTransaction(
+  walletType: WalletType,
+  publicAddress: string,
+  transaction: string
+): Promise<any> {
+  const obj = {
+    wallet_type: walletType,
+    public_address: publicAddress,
+    transaction: transaction,
+  };
   const json = JSON.stringify(obj);
 
   return new Promise((resolve) => {
@@ -201,12 +267,20 @@ export function signAndSendTransaction(walletType: WalletType, publicAddress: st
 /**
  * Sign typed data
  * @param walletType Wallet type
- * @param publicAddress Public address 
+ * @param publicAddress Public address
  * @param typedData Typed data that you want user to sign and send, support typed data version v4
  * @returns Result, signature or error
  */
-export function signTypedData(walletType: WalletType, publicAddress: string, typedData: string): Promise<any> {
-  const obj = { wallet_type: walletType, public_address: publicAddress, message: typedData };
+export function signTypedData(
+  walletType: WalletType,
+  publicAddress: string,
+  typedData: string
+): Promise<any> {
+  const obj = {
+    wallet_type: walletType,
+    public_address: publicAddress,
+    message: typedData,
+  };
   const json = JSON.stringify(obj);
 
   return new Promise((resolve) => {
@@ -219,13 +293,23 @@ export function signTypedData(walletType: WalletType, publicAddress: string, typ
 /**
  * Sign in with Ethereum/Solana
  * @param walletType Wallet type
- * @param publicAddress Public address 
+ * @param publicAddress Public address
  * @param domain Domain, example "particle.network"
  * @param uri Uri, example "https://particle.network/demo#login"
  * @returns Result, source message and signature or error
  */
-export function login(walletType: WalletType, publicAddress: string, domain: string, uri: string): Promise<any> {
-  const obj = { wallet_type: walletType, public_address: publicAddress, domain: domain, uri: uri };
+export function login(
+  walletType: WalletType,
+  publicAddress: string,
+  domain: string,
+  uri: string
+): Promise<any> {
+  const obj = {
+    wallet_type: walletType,
+    public_address: publicAddress,
+    domain: domain,
+    uri: uri,
+  };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
     ParticleConnectPlugin.login(json, (result: string) => {
@@ -235,15 +319,25 @@ export function login(walletType: WalletType, publicAddress: string, domain: str
 }
 
 /**
- * Verify 
+ * Verify
  * @param walletType Wallet type
- * @param publicAddress Public address 
+ * @param publicAddress Public address
  * @param message Source message
  * @param signature Signature
  * @returns Result, bool or error
  */
-export function verify(walletType: WalletType, publicAddress: string, message: string, signature: string): Promise<any> {
-  const obj = { wallet_type: walletType, public_address: publicAddress, message: message, signature: signature };
+export function verify(
+  walletType: WalletType,
+  publicAddress: string,
+  message: string,
+  signature: string
+): Promise<any> {
+  const obj = {
+    wallet_type: walletType,
+    public_address: publicAddress,
+    message: message,
+    signature: signature,
+  };
   const json = JSON.stringify(obj);
 
   return new Promise((resolve) => {
@@ -259,7 +353,10 @@ export function verify(walletType: WalletType, publicAddress: string, message: s
  * @param privateKey Private key
  * @returns Result, account or error
  */
-export function importPrivateKey(walletType: WalletType, privateKey: string): Promise<any> {
+export function importPrivateKey(
+  walletType: WalletType,
+  privateKey: string
+): Promise<any> {
   const obj = { wallet_type: walletType, private_key: privateKey };
   const json = JSON.stringify(obj);
 
@@ -276,7 +373,10 @@ export function importPrivateKey(walletType: WalletType, privateKey: string): Pr
  * @param mnemonic Mnemonic, example "word1 work2 ... " at least 12 words.
  * @returns Result, account or error
  */
-export function importMnemonic(walletType: WalletType, mnemonic: string): Promise<any> {
+export function importMnemonic(
+  walletType: WalletType,
+  mnemonic: string
+): Promise<any> {
   const obj = { wallet_type: walletType, mnemonic: mnemonic };
   const json = JSON.stringify(obj);
 
@@ -293,7 +393,10 @@ export function importMnemonic(walletType: WalletType, mnemonic: string): Promis
  * @param publicAddress Public address
  * @returns Result, private key or error
  */
-export function exportPrivateKey(walletType: WalletType, publicAddress: string): Promise<any> {
+export function exportPrivateKey(
+  walletType: WalletType,
+  publicAddress: string
+): Promise<any> {
   const obj = { wallet_type: walletType, public_address: publicAddress };
   const json = JSON.stringify(obj);
 
@@ -340,7 +443,7 @@ export function addEthereumChain(
 export function switchEthereumChain(
   walletType: WalletType,
   publicAddress: string,
-  chainInfo: ChainInfo,
+  chainInfo: ChainInfo
 ) {
   const obj = {
     wallet_type: walletType,
@@ -358,26 +461,29 @@ export function switchEthereumChain(
 
 /**
  * Only support iOS
- * 
+ *
  * Reconnect wallet connect, works with walletconnect, not support wallet type Particle, EvmPrivateKey or SolanaPrivateKey
  * @param walletType Wallet type
  * @param publicAddress Public address
  * @returns Result
  */
 
-export function reconnectIfNeeded(walletType: WalletType, publicAddress: string) {
+export function reconnectIfNeeded(
+  walletType: WalletType,
+  publicAddress: string
+) {
   if (Platform.OS === 'ios') {
     const obj = { wallet_type: walletType, public_address: publicAddress };
     const json = JSON.stringify(obj);
 
     return new Promise((resolve) => {
-
       ParticleConnectPlugin.reconnectIfNeeded(json, (result: string) => {
         resolve(JSON.parse(result));
       });
-
     });
-  } else { return }
+  } else {
+    return;
+  }
 }
 
 /**
@@ -392,11 +498,11 @@ export function getChainInfo(): Promise<ChainInfo> {
   });
 }
 
-export * from "./Models/LoginInfo"
-export * from "./Models/ChainInfo"
-export * from "./Models/DappMetaData"
-export * from "./Models/RpcUrl"
-export * from "./Models/WalletDisplay"
-export * from "./Models/WalletType"
-export * from "./Models/ConnectConfig"
+export * from './Models/LoginInfo';
+export * from './Models/ChainInfo';
+export * from './Models/DappMetaData';
+export * from './Models/RpcUrl';
+export * from './Models/WalletDisplay';
+export * from './Models/WalletType';
+export * from './Models/ConnectConfig';
 export { ParticleConnectProvider } from './provider';

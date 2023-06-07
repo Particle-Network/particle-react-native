@@ -375,7 +375,7 @@ web3_wallet_switchEthereumChain = async () => {
 init = () => {
     // Get your project id and client from dashboard, https://dashboard.particle.network
     ParticleInfo.projectId = '5479798b-26a9-4943-b848-649bb104fdc3'; // your project id
-    ParticleInfo.clientKey = 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b'; // your client key 
+    ParticleInfo.clientKey = 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b'; // your client key
 
     if (ParticleInfo.projectId == "" || ParticleInfo.clientKey == "") {
         throw new Error(
@@ -702,7 +702,7 @@ export default class AuthDemo extends PureComponent {
                                 title={item.key}
                                 onPress={() => {
                                     if (item.key == 'Select Chain Page') {
-                                        this.props.navigation.navigate('SelectChainPage',{
+                                        this.props.navigation.navigate('SelectChainPage', {
                                             onGoBack: (chainInfo) => this.handleChainInfo(chainInfo)
                                         });
                                     } else {

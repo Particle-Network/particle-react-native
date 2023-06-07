@@ -114,10 +114,7 @@ class ParticleProvider {
                 }
             } else if (payload.method === 'eth_signTypedData_v4_unique') {
                 const typedData = JSON.stringify(payload.params[1]);
-                const result: any = await particleAuth.signTypedData(
-                    typedData,
-                    payload.method = 'v4Unique'
-                );
+                const result: any = await particleAuth.signTypedData(typedData, (payload.method = 'v4Unique'));
                 if (result.status) {
                     return result.data;
                 } else {

@@ -1,5 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
-import type { BiconomyVersion } from './Biconomy';
+import type  { BiconomyVersion } from 'react-native-particle-auth';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-biconomy' doesn't seem to be linked. Make sure: \n\n` +
@@ -78,3 +78,4 @@ export function rpcGetFeeQuotes(eoaAddress: string, transactions: string[]): Pro
     });
   });
 }
+ 

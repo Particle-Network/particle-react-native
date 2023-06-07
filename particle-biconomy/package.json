@@ -156,5 +156,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "react-native-particle-auth": "file:../particle-auth"
   }
 }

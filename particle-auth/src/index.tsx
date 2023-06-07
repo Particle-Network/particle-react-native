@@ -201,6 +201,19 @@ export function signMessage(message: string) {
 }
 
 /**
+ * Sign message unique
+ * @param message Message that you want user to sign.
+ * @returns Result, signed message or error
+ */
+export function signMessageUnique(message: string) {
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.signMessageUnique(message, (result: string) => {
+            resolve(JSON.parse(result));
+        });
+    });
+}
+
+/**
  * Sign transaction, only solana chain support!
  * @param transaction Transaction that you want user to sign.
  * @returns Result, signed transaction or error
@@ -230,11 +243,18 @@ export function signAllTransactions(transactions: [string]) {
 /**
  * Sign and send transaction
  * @param transaction Transaction that you want user to sign and send
+ * @param feeMode Optional, works with particle biconomy service
  * @returns Result, signature or error
  */
-export function signAndSendTransaction(transaction: string) {
+export function signAndSendTransaction(transaction: string, feeMode?: BiconomyFeeMode) {
+    const obj = {
+        transaction: transaction,
+        fee_mode: feeMode
+    };
+    const json = JSON.stringify(obj);
+
     return new Promise((resolve) => {
-        ParticleAuthPlugin.signAndSendTransaction(transaction, (result: string) => {
+        ParticleAuthPlugin.signAndSendTransaction(json, (result: string) => {
             resolve(JSON.parse(result));
         });
     });
@@ -243,10 +263,10 @@ export function signAndSendTransaction(transaction: string) {
 /**
  * Sign typed data, only evm chain support sign typed data!
  * @param typedData TypedData string
- * @param version TypedData version, support v1, v3, v4
+ * @param version TypedData version, support v1, v3, v4, v4Unique
  * @returns Result, signature or error
  */
-export function signTypedData(typedData: string, version: string) {
+export function signTypedData(typedData: string, version: "v1"| "v3" |"v4" | "v4Unique") {
     const obj = { message: typedData, version: version };
     const json = JSON.stringify(obj);
 
@@ -269,7 +289,7 @@ export function openAccountAndSecurity() {
  * Get public address
  * @returns Public address
  */
-export function getAddress(): Promise<string> {
+export function getAddress(): string {
     return ParticleAuthPlugin.getAddress();
 }
 
@@ -277,7 +297,7 @@ export function getAddress(): Promise<string> {
  * Get user info
  * @returns User info json string
  */
-export function getUserInfo() {
+export function getUserInfo(): string {
     return ParticleAuthPlugin.getUserInfo();
 }
 

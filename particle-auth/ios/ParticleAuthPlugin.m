@@ -34,6 +34,8 @@ RCT_EXTERN_METHOD(isLoginAsync: (RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(signMessage: (NSString* _Nonnull)message callback:(RCTResponseSenderBlock)callback)
 
+RCT_EXTERN_METHOD(signMessageUnique: (NSString* _Nonnull)message callback:(RCTResponseSenderBlock)callback)
+
 RCT_EXTERN_METHOD(signTransaction: (NSString* _Nonnull)transaction callback:(RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(signAllTransactions: (NSString* _Nonnull)transactions callback:(RCTResponseSenderBlock)callback)

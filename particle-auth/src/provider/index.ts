@@ -79,6 +79,13 @@ class ParticleProvider {
                 } else {
                     return Promise.reject(result.data);
                 }
+            } else if (payload.method === 'personal_sign_unique') {
+                const result: any = await particleAuth.signMessageUnique(payload.params[0]);
+                if (result.status) {
+                    return result.data;
+                } else {
+                    return Promise.reject(result.data);
+                }
             } else if (payload.method === 'wallet_switchEthereumChain') {
                 const chainId = Number(payload.params[0].chainId);
                 const chainInfo = Object.values(ChainInfo).find((chain: any) => chain.chain_id === chainId);
@@ -99,6 +106,17 @@ class ParticleProvider {
                 const result: any = await particleAuth.signTypedData(
                     typedData,
                     payload.method === 'eth_signTypedData_v3' ? 'v3' : 'v4'
+                );
+                if (result.status) {
+                    return result.data;
+                } else {
+                    return Promise.reject(result.data);
+                }
+            } else if (payload.method === 'eth_signTypedData_v4_unique') {
+                const typedData = JSON.stringify(payload.params[1]);
+                const result: any = await particleAuth.signTypedData(
+                    typedData,
+                    payload.method = 'v4Unique'
                 );
                 if (result.status) {
                     return result.data;

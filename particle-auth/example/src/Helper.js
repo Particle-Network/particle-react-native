@@ -87,7 +87,7 @@ export async function getEthereumTransacion(from, to, amount) {
         maxFeePerGas: maxFeePerGasHex,
     };
 
-    console.log(transaction);
+    console.log('transaction', transaction);
     const json = JSON.stringify(transaction);
     const serialized = Buffer.from(json).toString('hex');
     return '0x' + serialized;
@@ -103,7 +103,7 @@ export async function getEthereumTransacionLegacy(from, to, amount) {
     const gasLimit = await EvmService.estimateGas(from, to, '0x0', data);
     console.log(`gasLimit = ${gasLimit}`);
     const gasFeesResult = await EvmService.suggeseGasFee();
-    console.log(`gasFeesResult = ${gasFeesResult}`);
+    console.log(`gasFeesResult = ${JSON.stringify(gasFeesResult)}`);
     const maxFeePerGas = gasFeesResult.high.maxFeePerGas;
     const maxFeePerGasHex = '0x' + BigNumber(maxFeePerGas * Math.pow(10, 9)).toString(16);
 

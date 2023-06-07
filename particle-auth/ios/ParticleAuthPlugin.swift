@@ -25,7 +25,7 @@ class ParticleAuthPlugin: NSObject {
         let data = JSON(parseJSON: json)
         let name = data["chain_name"].stringValue.lowercased()
         let chainId = data["chain_id"].intValue
-        guard let chainInfo = matchChain(name: name, chainId: chainId) else {
+        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId) else {
             return print("initialize error, can't find right chain for \(name), chainId \(chainId)")
         }
         
@@ -47,9 +47,8 @@ class ParticleAuthPlugin: NSObject {
     @objc
     public func setChainInfo(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let data = JSON(parseJSON: json)
-        let name = data["chain_name"].stringValue.lowercased()
         let chainId = data["chain_id"].intValue
-        guard let chainInfo = matchChain(name: name, chainId: chainId) else {
+        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId) else {
             callback([false])
             return
         }
@@ -60,9 +59,9 @@ class ParticleAuthPlugin: NSObject {
     @objc
     public func setChainInfoAsync(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let data = JSON(parseJSON: json)
-        let name = data["chain_name"].stringValue.lowercased()
+
         let chainId = data["chain_id"].intValue
-        guard let chainInfo = matchChain(name: name, chainId: chainId) else {
+        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId) else {
             callback([false])
             return
         }
@@ -72,20 +71,20 @@ class ParticleAuthPlugin: NSObject {
             return
         }
         
-        ParticleAuthService.setChainInfo(chainInfo).subscribe { [weak self] result in
-            guard let self = self else { return }
+        ParticleAuthService.setChainInfo(chainInfo).subscribe { result in
+            
             switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
+            case .failure:
+//                let response = self.ResponseFromError(error)
+//                let statusModel = ReactStatusModel(status: false, data: response)
+//                let data = try! JSONEncoder().encode(statusModel)
+//                guard let json = String(data: data, encoding: .utf8) else { return }
                 callback([false])
-            case .success(let userInfo):
-                guard let userInfo = userInfo else { return }
-                let statusModel = ReactStatusModel(status: true, data: userInfo)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
+            case .success:
+//                guard let userInfo = userInfo else { return }
+//                let statusModel = ReactStatusModel(status: true, data: userInfo)
+//                let data = try! JSONEncoder().encode(statusModel)
+//                guard let json = String(data: data, encoding: .utf8) else { return }
                 callback([true])
             }
         }.disposed(by: bag)
@@ -171,8 +170,7 @@ class ParticleAuthPlugin: NSObject {
     
     @objc
     public func setUserInfo(_ json: String, callback: @escaping RCTResponseSenderBlock) {
-        ParticleAuthService.setUserInfo(json: json).subscribe { [weak self] result in
-            guard let self = self else { return }
+        ParticleAuthService.setUserInfo(json: json).subscribe { result in
             switch result {
             case .failure:
                 callback([false])
@@ -262,10 +260,38 @@ class ParticleAuthPlugin: NSObject {
         case .solana:
             serializedMessage = Base58.encode(message.data(using: .utf8)!)
         default:
-            serializedMessage = "0x" + message.data(using: .utf8)!.map { String(format: "%02x", $0) }.joined()
+            serializedMessage = message
         }
         
         ParticleAuthService.signMessage(serializedMessage).subscribe { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                let response = self.ResponseFromError(error)
+                let statusModel = ReactStatusModel(status: false, data: response)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            case .success(let signedMessage):
+                let statusModel = ReactStatusModel(status: true, data: signedMessage)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            }
+        }.disposed(by: bag)
+    }
+    
+    @objc
+    public func signMessageUnique(_ message: String, callback: @escaping RCTResponseSenderBlock) {
+        var serializedMessage = ""
+        switch ParticleNetwork.getChainInfo().chain {
+        case .solana:
+            serializedMessage = Base58.encode(message.data(using: .utf8)!)
+        default:
+            serializedMessage = message
+        }
+        
+        ParticleAuthService.signMessageUnique(serializedMessage).subscribe { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
@@ -326,7 +352,21 @@ class ParticleAuthPlugin: NSObject {
     
     @objc
     public func signAndSendTransaction(_ message: String, callback: @escaping RCTResponseSenderBlock) {
-        ParticleAuthService.signAndSendTransaction(message).subscribe { [weak self] result in
+        let data = JSON(parseJSON: message)
+        let transaction = data["transaction"].stringValue
+        let mode = data["fee_mode"]["option"].stringValue
+        var feeMode: Biconomy.FeeMode = .auto
+        if mode == "auto" {
+            feeMode = .auto
+        } else if mode == "gasless" {
+            feeMode = .gasless
+        } else if mode == "custom" {
+            let feeQuoteJson = JSON(data["fee_mode"]["fee_quote"].dictionaryValue)
+            let feeQuote = Biconomy.FeeQuote(json: feeQuoteJson)
+            feeMode = .custom(feeQuote)
+        }
+        
+        ParticleAuthService.signAndSendTransaction(transaction, feeMode: feeMode).subscribe { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
@@ -348,11 +388,24 @@ class ParticleAuthPlugin: NSObject {
     public func signTypedData(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let data = JSON(parseJSON: json)
         let message = data["message"].stringValue
-        let version = data["version"].stringValue.lowercased()
         
-        let hexString = "0x" + message.data(using: .utf8)!.map { String(format: "%02x", $0) }.joined()
+        let version = data["version"].stringValue.lowercased()
+        var signTypedDataVersion: EVMSignTypedDataVersion?
+        if version == "v1" {
+            signTypedDataVersion = .v1
+        } else if version == "v3" {
+            signTypedDataVersion = .v3
+        } else if version == "v4" {
+            signTypedDataVersion = .v4
+        } else if version == "v4unique" {
+            signTypedDataVersion = .v4Unique
+        }
+        
+        guard let signTypedDataVersion = signTypedDataVersion else {
+            return
+        }
        
-        ParticleAuthService.signTypedData(hexString, version: EVMSignTypedDataVersion(rawValue: version) ?? .v1).subscribe { [weak self] result in
+        ParticleAuthService.signTypedData(message, version: signTypedDataVersion).subscribe { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):

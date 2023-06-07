@@ -28,7 +28,9 @@ export const signerMethods = [
     'eth_signTypedData_v1',
     'eth_signTypedData_v3',
     'eth_signTypedData_v4',
+    'eth_signTypedData_v4_unique',
     'personal_sign',
+    'personal_sign_unique',
     'wallet_switchEthereumChain', //EIP-3326
 ];
 

@@ -262,7 +262,7 @@ export function signAllTransactions(transactions: string[]) {
 export function signAndSendTransaction(transaction: string, feeMode?: BiconomyFeeMode) {
     const obj = {
         transaction: transaction,
-        fee_mode: feeMode
+        fee_mode: feeMode,
     };
     const json = JSON.stringify(obj);
 
@@ -274,9 +274,9 @@ export function signAndSendTransaction(transaction: string, feeMode?: BiconomyFe
 }
 
 /**
- * Batch send transactions, works with particle biconomy service 
+ * Batch send transactions, works with particle biconomy service
  * @param transactions Transactions that you want user to sign and send
- * @param feeMode Optional, default is auto 
+ * @param feeMode Optional, default is auto
  * @returns Result, signature or error
  */
 export function batchSendTransactions(transactions: string[], feeMode?: BiconomyFeeMode) {

@@ -3,8 +3,8 @@ buildscript {
   def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['ParticleAuth_kotlinVersion']
 
   repositories {
-      google()
-      mavenCentral()
+    google()
+    mavenCentral()
   }
 
   dependencies {
@@ -15,7 +15,7 @@ buildscript {
 }
 
 def isNewArchitectureEnabled() {
-  return rootProject.hasProperty("newArchEnabled") &&  rootProject.getProperty("newArchEnabled") == "true"
+  return rootProject.hasProperty("newArchEnabled") && rootProject.getProperty("newArchEnabled") == "true"
 }
 
 apply plugin: 'com.android.library'
@@ -124,7 +124,7 @@ repositories {
   if (!found) {
     throw new GradleException(
       "${project.name}: unable to locate React Native android sources. " +
-      "Ensure you have you installed React Native as a dependency in your project and try again."
+        "Ensure you have you installed React Native as a dependency in your project and try again."
     )
   }
 }
@@ -132,16 +132,16 @@ repositories {
 def kotlin_version = getExtOrDefault('kotlinVersion')
 
 dependencies {
-    //noinspection GradleDynamicVersion
+  //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 // From node_modules
 
-    def sdkVersion = "0.13.2"
-    implementation("network.particle:auth-service:$sdkVersion")
-    implementation("com.blankj:utilcodex:1.31.0")
-    implementation("commons-codec:commons-codec:1.15")
-    implementation("com.google.code.gson:gson:2.8.5")
+  def sdkVersion = "0.13.4"
+  implementation("network.particle:auth-service:$sdkVersion")
+  implementation("com.blankj:utilcodex:1.31.0")
+  implementation("commons-codec:commons-codec:1.15")
+  implementation("com.google.code.gson:gson:2.8.5")
 }
 
 if (isNewArchitectureEnabled()) {

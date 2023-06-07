@@ -3,8 +3,8 @@ import { AbiEncodeFunction, EVMReqBodyMethod } from './NetParams';
 import JsonRpcRequest from './NetService';
 import BigNumber from 'bignumber.js';
 import { Buffer } from 'buffer';
-import * as particleAuth from '../index';
 import type { BiconomyVersion } from '../Models/BiconomyVersion';
+import { getChainId } from 'react-native-particle-auth';
 
 export class EvmService {
 
@@ -17,7 +17,7 @@ export class EvmService {
     static async rpc(method: string, params: any) {
         const rpcUrl = 'https://rpc.particle.network/';
         const path = 'evm-chain';
-        const chainId = await particleAuth.getChainId();
+        const chainId = await getChainId();
         const result = await JsonRpcRequest(rpcUrl, path, method, params, chainId);
         return result;
     }
@@ -252,7 +252,7 @@ export class EvmService {
 
         const maxPriorityFeePerGas = gasFeesResult.high.maxPriorityFeePerGas;
         const maxPriorityFeePerGasHex = '0x' + BigNumber(maxPriorityFeePerGas * Math.pow(10, 9)).toString(16);
-        const chainId = await particleAuth.getChainId();
+        const chainId = await getChainId();
 
         const transaction = {
             from: from,
@@ -296,7 +296,7 @@ export class EvmService {
         const maxFeePerGas = gasFeesResult.high.maxFeePerGas;
         const maxFeePerGasHex = '0x' + BigNumber(maxFeePerGas * Math.pow(10, 9)).toString(16);
 
-        const chainId = await particleAuth.getChainId();
+        const chainId = await getChainId();
 
         const transaction = {
             from: from,

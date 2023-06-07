@@ -28,10 +28,10 @@ function HomeScreen({ navigation }) {
 
 const Stack = createNativeStackNavigator();
 
-function AuthScreen({ navigation }) {
+function AuthScreen({ route, navigation }) {
     return (
         <View style={styles.container}>
-            <AuthDemo navigation={navigation} />
+            <AuthDemo navigation={navigation} route={route} />
         </View>
     );
 }
@@ -39,7 +39,7 @@ function AuthScreen({ navigation }) {
 function SelectScreen({ route, navigation }) {
     return (
         <View style={styles.container}>
-            <SelectChainPage navigation={navigation} route = {route} />
+            <SelectChainPage navigation={navigation} route={route} />
         </View>
     );
 }

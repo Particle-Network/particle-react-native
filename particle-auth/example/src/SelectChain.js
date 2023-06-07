@@ -45,14 +45,12 @@ export default class SelectChainPage extends PureComponent {
             type: 'success',
             text1: `select chain ${chainInfo.chain_name} ${chainInfo.chain_id_name} ${chainInfo.chain_id}`,
         });
-        console.log(chainInfo);
-        this.props.navigation.route.getParam.onGoBack(chainInfo);
-        this.props.navigation.goBack()
-        // navigation.navigate({
-        //     name: 'AuthDemo',
-        //     params: { post: chainInfo },
-        //     merge: true,
-        // });
+
+        navigation.navigate({
+            name: 'AuthDemo',
+            params: { chainInfo: chainInfo },
+            merge: true,
+        });
     };
 }
 

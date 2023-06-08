@@ -1,14 +1,24 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, SafeAreaView, FlatList, DeviceEventEmitter, NativeEventEmitter } from 'react-native';
-import { ChainInfo, Env } from 'react-native-particle-auth';
+import { ChainInfo, Env, BiconomyVersion, EvmService} from 'react-native-particle-auth';
 import * as particleBiconomy from 'react-native-particle-biconomy';
 import * as particleAuth from 'react-native-particle-auth';
+import * as Helper from './Helper';
+import { TestAccountEVM } from './TestAccount';
 
 init = () => {
+    // should init particle auth
     const chainInfo = EvmService.currentChainInfo;
     const env = Env.Production;
+
     particleAuth.init(chainInfo, env);
 
+    // then init particle biconomy
+    const dappAppKeys = {
+        1: 'your ethereum mainnet key',
+        80001: 'hYZIwIsf2.e18c790b-cafb-4c4e-a438-0289fc25dba1'
+    }
+    particleBiconomy.init(BiconomyVersion.v1_0_0, dappAppKeys);
 };
 
 setChainInfo = async () => {
@@ -35,14 +45,52 @@ login = async () => {
     }
 };
 
+
+enable = async () => {
+    particleBiconomy.enableBiconomyMode();
+}
+
+disable = async() => {
+    particleBiconomy.disableBiconomyMode();
+}
+
+isEnable = async() => {
+    const result = particleBiconomy.isBiconomyModeEnable();
+    console.log('is enable', result);
+}
+
+rpcGetFeeQuotes = async () => {
+    const eoaAddress =  particleAuth.getAddress();
+
+    const receiver = TestAccountEVM.receiverAddress;
+    const amount = TestAccountEVM.amount;
+    const transaction = await Helper.getEthereumTransacion(eoaAddress, receiver, amount);
+
+    const result = await particleBiconomy.rpcGetFeeQuotes(eoaAddress, [transaction]);
+    console.log('rpcGetFeeQuotes result', result);
+}
+
+isDeploy  = async () => {
+    const eoaAddress =  particleAuth.getAddress();
+
+    const receiver = TestAccountEVM.receiverAddress;
+    const amount = TestAccountEVM.amount;
+    const transaction = await Helper.getEthereumTransacion(eoaAddress, receiver, amount);
+
+    const result = await particleBiconomy.rpcGetFeeQuotes(eoaAddress, [transaction]);
+    console.log('rpcGetFeeQuotes result', result);
+}
+
 const data = [
     { key: 'Init', function: this.init },
-    { key: 'Enable', function: this.login },
-    { key: 'Disable', function: this.web3_getAccounts },
-    { key: 'IsEnable', function: this.web3_getBalance },
-    { key: 'rpcGetFeeQuotes', function: this.web3_getChainId },
-    { key: 'isDeploy', function: this.web3_personalSign },
-    { key: 'isSupportChainInfo', function: this.web3_signTypedData_v1 },
+    { key: 'SetChainInfo', function: this.setChainInfo },
+    { key: 'Login', function: this.login },
+    { key: 'Enable', function: this.enable },
+    { key: 'Disable', function: this.disable },
+    { key: 'IsEnable', function: this.isEnable },
+    { key: 'rpcGetFeeQuotes', function: this.rpcGetFeeQuotes },
+    { key: 'isDeploy', function: this.isDeploy },
+    { key: 'isSupportChainInfo', function: this.isSupportChainInfo },
 ];
 
 export default class BiconomyDemo extends PureComponent {

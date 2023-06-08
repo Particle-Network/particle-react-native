@@ -160,7 +160,9 @@ class ParticleAuthPlugin: NSObject {
                 callback([json])
             case .success(let userInfo):
                 guard let userInfo = userInfo else { return }
-                let statusModel = ReactStatusModel(status: true, data: userInfo)
+                let userInfoJsonString = userInfo.jsonStringFullSnake()
+                let newUserInfo = JSON(parseJSON: userInfoJsonString)
+                let statusModel = ReactStatusModel(status: true, data: newUserInfo)
                 let data = try! JSONEncoder().encode(statusModel)
                 guard let json = String(data: data, encoding: .utf8) else { return }
                 callback([json])

@@ -352,8 +352,8 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun openWebWallet() {
-    ParticleNetwork.openWebWallet()
+  fun openWebWallet(jsonConfig:String?) {
+    ParticleNetwork.openWebWallet(jsonConfig)
   }
 
   @ReactMethod

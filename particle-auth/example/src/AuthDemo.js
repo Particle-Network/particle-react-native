@@ -627,7 +627,22 @@ export default class AuthDemo extends PureComponent {
     };
 
     openWebWallet = async () => {
-        particleAuth.openWebWallet();
+        let webConfig = {
+            supportAddToken: false,
+            supportChains: [
+                {
+                    id: 1,
+                    name: 'Ethereum',
+                },
+                {
+                    id: 5,
+                    name: 'Ethereum',
+                },
+            ],
+        };
+        const webConfigJSON = JSON.stringify(webConfig);
+        //https://docs.particle.network/developers/wallet-service/sdks/web
+        particleAuth.openWebWallet(webConfigJSON);
     };
 
     setUserInfo = async () => {
@@ -683,7 +698,7 @@ export default class AuthDemo extends PureComponent {
         { key: 'SetLanguage', function: this.setLanguage },
         { key: 'SetDisplayWallet', function: this.setDisplayWallet },
         { key: 'OpenWebWallet', function: this.openWebWallet },
-       
+
         { key: 'SetUserInfo', function: this.setUserInfo },
         { key: 'SetSecurityAccountConfig', function: this.setSecurityAccountConfig },
         { key: 'GetSmartAccount', function: this.getSmartAccount }

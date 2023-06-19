@@ -376,8 +376,13 @@ export function setDisplayWallet(isDisplay: boolean) {
 /**
  * Open web wallet
  */
-export function openWebWallet() {
-    ParticleAuthPlugin.openWebWallet();
+export function openWebWallet(webStyle?: string) {
+    console.log('openWebWallet', webStyle);
+    if (Platform.OS === 'ios') {
+        ParticleAuthPlugin.openWebWallet();
+    } else {
+        ParticleAuthPlugin.openWebWallet(webStyle);
+    }
 }
 
 /**

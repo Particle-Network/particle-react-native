@@ -1,6 +1,6 @@
 {
   "name": "react-native-particle-auth",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "Particle Auth Service in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

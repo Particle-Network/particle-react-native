@@ -2,6 +2,7 @@ import { TestAccountSolana, TestAccountEVM } from './TestAccount';
 import BigNumber from 'bignumber.js';
 import { Buffer } from 'buffer';
 import { EvmService, SolanaService, SerializeTransactionParams, SolanaReqBodyMethod, JsonRpcRequest} from 'react-native-particle-auth';
+import * as particleAuth from 'react-native-particle-auth';
 
 export async function getSolanaTransaction() {
     // mock a solana native transaction
@@ -67,7 +68,7 @@ export async function getEthereumTransacion(from, to, amount) {
     const maxPriorityFeePerGas = gasFeesResult.high.maxPriorityFeePerGas;
     const maxPriorityFeePerGasHex = '0x' + BigNumber(maxPriorityFeePerGas * Math.pow(10, 9)).toString(16);
 
-    const chainId = EvmService.currentChainInfo.chain_id;
+    const chainId = await particleAuth.getChainId();
 
     console.log(`chainid = ${chainId}`);
     const value = '0x' + BigNumber(amount).toString(16);
@@ -103,7 +104,7 @@ export async function getEthereumTransacionLegacy(from, to, amount) {
     const maxFeePerGas = gasFeesResult.high.maxFeePerGas;
     const maxFeePerGasHex = '0x' + BigNumber(maxFeePerGas * Math.pow(10, 9)).toString(16);
 
-    const chainId = EvmService.currentChainInfo.chain_id;
+    const chainId = await particleAuth.getChainId();
 
     const value = '0x' + BigNumber(amount).toString(16);
     const transaction = {
@@ -141,7 +142,7 @@ export async function getEvmTokenTransaction(from, to, amount, contractAddress) 
     const maxPriorityFeePerGas = gasFeesResult.high.maxPriorityFeePerGas;
     const maxPriorityFeePerGasHex = '0x' + BigNumber(maxPriorityFeePerGas * Math.pow(10, 9)).toString(16);
 
-    const chainId = EvmService.currentChainInfo.chain_id;
+    const chainId = await particleAuth.getChainId();
 
     const transaction = {
         from: from,
@@ -176,7 +177,7 @@ export async function getEvmTokenTransactionLegacy(from, to, amount, contractAdd
     const maxFeePerGas = gasFeesResult.high.maxFeePerGas;
     const maxFeePerGasHex = '0x' + BigNumber(maxFeePerGas * Math.pow(10, 9)).toString(16);
 
-    const chainId = EvmService.currentChainInfo.chain_id;
+    const chainId = await particleAuth.getChainId();
 
     const transaction = {
         from: from,

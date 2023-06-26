@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, Image } from 'react-native';
-import { Button } from '@rneui/themed';
+import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import BiconomyDemo from './BiconomyDemo';
+import BiconomyAuthDemo from './BiconomyAuthDemo';
 
 import Toast from 'react-native-toast-message';
 
@@ -15,12 +14,11 @@ function HomeScreen({ navigation }) {
       <View style={styles.content}>
         <Image style={styles.logo} source={logo} />
 
-        <Button
-          title={'BiconomyDemo'}
-          onPress={() => navigation.push('BiconomyDemo')}
-          buttonStyle={styles.buttonStyle}
-          containerStyle={styles.containerStyle}
-        />
+        <TouchableOpacity style={styles.buttonStyle}
+          onPress={() => navigation.push('BiconomyAuthDemo')}>
+          <Text style={styles.textStyle}>BiconomyAuthDemo</Text>
+        </TouchableOpacity>
+
       </View>
     </View>
   );
@@ -28,10 +26,10 @@ function HomeScreen({ navigation }) {
 
 const Stack = createNativeStackNavigator();
 
-function BiconomyScreen({ navigation }) {
+function BiconomyAuthScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <BiconomyDemo navigation={navigation} />
+      <BiconomyAuthDemo navigation={navigation} />
     </View>
   );
 }
@@ -42,7 +40,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="BiconomyDemo" component={BiconomyScreen} />
+          <Stack.Screen name="BiconomyAuthDemo" component={BiconomyAuthScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       <Toast />
@@ -75,6 +73,10 @@ const styles = StyleSheet.create({
   buttonStyle: {
     backgroundColor: 'rgba(78, 116, 289, 1)',
     borderRadius: 3,
+    margin: 10,
+    height: 30,
+    width: 300,
+    justifyContent: 'center',
   },
 
   containerStyle: {
@@ -82,4 +84,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 50,
     marginVertical: 10,
   },
+
+  textStyle: {
+    color: 'white',
+    textAlign: 'center'
+  }
 });

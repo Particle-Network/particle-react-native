@@ -158,6 +158,6 @@
     ]
   },
   "dependencies": {
-    "react-native-particle-auth": "file:../particle-auth"
+    "react-native-particle-auth": "file:/Users/link2/Documents/particle-react-native-github/particle-auth"
   }
 }

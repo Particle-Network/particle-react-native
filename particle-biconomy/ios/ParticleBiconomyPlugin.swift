@@ -13,7 +13,7 @@ import SwiftyJSON
 @objc(ParticleBiconomyPlugin)
 class ParticleBiconomyPlugin: NSObject {
     let bag = DisposeBag()
-    let biconomyService = BiconomyService()
+    let biconomy = BiconomyService()
     
     @objc
     static func requiresMainQueueSetup() -> Bool {
@@ -40,56 +40,67 @@ class ParticleBiconomyPlugin: NSObject {
             return print("Biconomy initialize error, version is not existed, \(version)")
         }
         
-        // for test to init ParticleNetwork
-        ParticleNetwork.initialize(config: .init(chainInfo: .polygon(.mumbai), devEnv: .debug))
-        
         BiconomyService.initialize(version: biconomyVersion, dappApiKeys: dappApiKeys)
+        ParticleNetwork.setBiconomyService(biconomy)
     }
     
     @objc
     public func isSupportChainInfo(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let data = JSON(parseJSON: json)
-        let name = data["chain_name"].stringValue.lowercased()
         let chainId = data["chain_id"].intValue
-        guard let chainInfo = matchChain(name: name, chainId: chainId) else {
+        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId) else {
             callback([false])
             return
         }
-        let isSupport = BiconomyService().isSupportChainInfo(chainInfo)
+        let isSupport = biconomy.isSupportChainInfo(chainInfo)
         callback([isSupport])
     }
     
     @objc
-    public func isBiconomyModeEnable(callback: @escaping RCTResponseSenderBlock) {
-        callback([BiconomyService().isBiconomyModeEnable()])
+    public func isBiconomyModeEnable(_ callback: @escaping RCTResponseSenderBlock) {
+        callback([biconomy.isBiconomyModeEnable()])
     }
     
     @objc
     public func enableBiconomyMode() {
-        biconomyService.enableBiconomyMode()
+        biconomy.enableBiconomyMode()
     }
     
     @objc
     public func disableBiconomyMode() {
-        biconomyService.disableBiconomyMode()
+        biconomy.disableBiconomyMode()
     }
     
     @objc
-    public func isDeploy(eoaAddress: String, callback: @escaping RCTResponseSenderBlock) {
-        biconomyService.isDeploy(eoaAddress: eoaAddress).subscribe { result in
+    public func isDeploy(_ eoaAddress: String, callback: @escaping RCTResponseSenderBlock) {
+        biconomy.isDeploy(eoaAddress: eoaAddress).subscribe { result in
                 switch result {
                 case .failure(let error):
-                    print("isDeploy rpc error, \(error)")
-                    callback([false])
+                    let response = self.ResponseFromError(error)
+                    let statusModel = ReactStatusModel(status: false, data: response)
+                    let data = try! JSONEncoder().encode(statusModel)
+                    guard let json = String(data: data, encoding: .utf8) else { return }
+                    callback([json])
                 case .success(let isDeploy):
-                    callback([isDeploy])
+                    let statusModel = ReactStatusModel(status: true, data: isDeploy)
+                    let data = try! JSONEncoder().encode(statusModel)
+                    guard let json = String(data: data, encoding: .utf8) else { return }
+                    callback([json])
                 }
         }.disposed(by: bag)
     }
     
+    
     @objc
-    public func rpcGetFeeQuotes(eoaAddress: String, transactions: [String], callback: @escaping RCTResponseSenderBlock) {
-        biconomyService.rpcGetFeeQuotes(eoaAddress: eoaAddress, transactions: transactions).subscribe { result in
+    public func rpcGetFeeQuotes(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+        
+        let data = JSON(parseJSON: json)
+        let eoaAddress = data["eoa_address"].stringValue
+        let transactions = data["transactions"].arrayValue.map {
+            $0.stringValue
+        }
+        
+        biconomy.rpcGetFeeQuotes(eoaAddress: eoaAddress, transactions: transactions).subscribe { result in
             switch result {
             case .failure(let error):
                 let response = self.ResponseFromError(error)

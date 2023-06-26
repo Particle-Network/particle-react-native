@@ -205,7 +205,7 @@ export function isLoginAsync(): Promise<boolean> {
  * @param message Message that you want user to sign.
  * @returns Result, signed message or error
  */
-export function signMessage(message: string) {
+export function signMessage(message: string): Promise<any> {
     return new Promise((resolve) => {
         ParticleAuthPlugin.signMessage(message, (result: string) => {
             resolve(JSON.parse(result));
@@ -218,7 +218,7 @@ export function signMessage(message: string) {
  * @param message Message that you want user to sign.
  * @returns Result, signed message or error
  */
-export function signMessageUnique(message: string) {
+export function signMessageUnique(message: string): Promise<any> {
     return new Promise((resolve) => {
         ParticleAuthPlugin.signMessageUnique(message, (result: string) => {
             resolve(JSON.parse(result));
@@ -231,7 +231,7 @@ export function signMessageUnique(message: string) {
  * @param transaction Transaction that you want user to sign.
  * @returns Result, signed transaction or error
  */
-export function signTransaction(transaction: string) {
+export function signTransaction(transaction: string): Promise<any> {
     return new Promise((resolve) => {
         ParticleAuthPlugin.signTransaction(transaction, (result: string) => {
             resolve(JSON.parse(result));
@@ -244,7 +244,7 @@ export function signTransaction(transaction: string) {
  * @param transactions Transactions that you want user to sign
  * @returns Result, signed transactions or error
  */
-export function signAllTransactions(transactions: string[]) {
+export function signAllTransactions(transactions: string[]): Promise<any> {
     const json = JSON.stringify(transactions);
     return new Promise((resolve) => {
         ParticleAuthPlugin.signAllTransactions(json, (result: string) => {
@@ -259,10 +259,13 @@ export function signAllTransactions(transactions: string[]) {
  * @param feeMode Optional, works with particle biconomy service
  * @returns Result, signature or error
  */
-export function signAndSendTransaction(transaction: string, feeMode?: BiconomyFeeMode) {
+export function signAndSendTransaction(transaction: string, feeMode?: BiconomyFeeMode): Promise<any> {
     const obj = {
         transaction: transaction,
-        fee_mode: feeMode,
+        fee_mode: {
+            option: feeMode?.getOption(),
+            fee_quote: feeMode?.getFeeQuote(),
+        }
     };
     const json = JSON.stringify(obj);
 
@@ -279,10 +282,13 @@ export function signAndSendTransaction(transaction: string, feeMode?: BiconomyFe
  * @param feeMode Optional, default is auto
  * @returns Result, signature or error
  */
-export function batchSendTransactions(transactions: string[], feeMode?: BiconomyFeeMode) {
+export function batchSendTransactions(transactions: string[], feeMode?: BiconomyFeeMode): Promise<any>{
     const obj = {
         transactions: transactions,
-        fee_mode: feeMode
+        fee_mode: {
+            option: feeMode?.getOption(),
+            fee_quote: feeMode?.getFeeQuote(),
+        }
     };
     const json = JSON.stringify(obj);
 
@@ -299,7 +305,7 @@ export function batchSendTransactions(transactions: string[], feeMode?: Biconomy
  * @param version TypedData version, support v1, v3, v4, v4Unique
  * @returns Result, signature or error
  */
-export function signTypedData(typedData: string, version: "v1"| "v3" |"v4" | "v4Unique") {
+export function signTypedData(typedData: string, version: "v1"| "v3" |"v4" | "v4Unique"): Promise<any> {
     const obj = { message: typedData, version: version };
     const json = JSON.stringify(obj);
 
@@ -322,16 +328,16 @@ export function openAccountAndSecurity() {
  * Get public address
  * @returns Public address
  */
-export function getAddress(): string {
-    return ParticleAuthPlugin.getAddress();
+export async function getAddress(): Promise<string> {
+    return await ParticleAuthPlugin.getAddress();
 }
 
 /**
  * Get user info
  * @returns User info json string
  */
-export function getUserInfo(): string {
-    return ParticleAuthPlugin.getUserInfo();
+export async function getUserInfo(): Promise<string> {
+    return await ParticleAuthPlugin.getUserInfo();
 }
 
 /**

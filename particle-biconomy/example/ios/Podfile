@@ -27,8 +27,9 @@ target 'ParticleBiconomyExample' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
-  pod 'ParticleNetworkBase', '0.13.4'
-  pod 'ParticleBiconomy', '0.13.4'
+  pod 'ParticleNetworkBase', '0.13.5'
+  pod 'ParticleAuthService', '0.13.5'
+  pod 'ParticleBiconomy', '0.13.5'
 
   target 'ParticleBiconomyExampleTests' do
     inherit! :complete

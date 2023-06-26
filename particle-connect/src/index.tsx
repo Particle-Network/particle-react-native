@@ -15,13 +15,13 @@ const LINKING_ERROR =
 const ParticleConnectPlugin = NativeModules.ParticleConnectPlugin
   ? NativeModules.ParticleConnectPlugin
   : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    {},
+    {
+      get() {
+        throw new Error(LINKING_ERROR);
+      },
+    }
+  );
 
 /**
  * Init Particle Connect Service
@@ -417,7 +417,7 @@ export function addEthereumChain(
   walletType: WalletType,
   publicAddress: string,
   chainInfo: ChainInfo
-) {
+): Promise<any> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -444,7 +444,7 @@ export function switchEthereumChain(
   walletType: WalletType,
   publicAddress: string,
   chainInfo: ChainInfo
-) {
+): Promise<any> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -471,7 +471,7 @@ export function switchEthereumChain(
 export function reconnectIfNeeded(
   walletType: WalletType,
   publicAddress: string
-) {
+) : Promise<any> {
   if (Platform.OS === 'ios') {
     const obj = { wallet_type: walletType, public_address: publicAddress };
     const json = JSON.stringify(obj);
@@ -482,7 +482,7 @@ export function reconnectIfNeeded(
       });
     });
   } else {
-    return;
+    return Promise.resolve();
   }
 }
 

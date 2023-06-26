@@ -1,5 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
-import type  { BiconomyVersion } from 'react-native-particle-auth';
+import type  { BiconomyVersion, ChainInfo } from 'react-native-particle-auth';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-biconomy' doesn't seem to be linked. Make sure: \n\n` +
@@ -32,12 +32,8 @@ export function init(version: BiconomyVersion, dappAppKeys: { [key: number]: str
   }
 }
 
-export function isSupportChainInfo(chainId: string, chainName: string, chainIdName: string): Promise<boolean> {
-  const obj = {
-    chain_name: chainName,
-    chain_id: chainId,
-    chain_id_name: chainIdName,
-  };
+export function isSupportChainInfo(chainInfo: ChainInfo): Promise<boolean> {
+  const obj = chainInfo;
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
     ParticleBiconomyPlugin.isSupportChainInfo(json, (result: boolean) => {
@@ -46,16 +42,20 @@ export function isSupportChainInfo(chainId: string, chainName: string, chainIdNa
   });
 }
 
-export function isDeploy(eoaAddress: string): Promise<boolean> {
+export function isDeploy(eoaAddress: string): Promise<string> {
   return new Promise((resolve) => {
-    ParticleBiconomyPlugin.isDeploy(eoaAddress, (result: boolean) => {
-      resolve(result);
+    ParticleBiconomyPlugin.isDeploy(eoaAddress, (result: string) => {
+      resolve(JSON.parse(result));
     });
   });
 }
 
-export function isBiconomyModeEnable() {
-  return ParticleBiconomyPlugin.isBiconomyModeEnable();
+export function isBiconomyModeEnable(): Promise<boolean> {
+  return new Promise((resolve) => {
+    ParticleBiconomyPlugin.isBiconomyModeEnable((result: boolean) => {
+      resolve(result);
+    });
+  });
 }
 
 export function enableBiconomyMode() {
@@ -66,16 +66,23 @@ export function disableBiconomyMode() {
   ParticleBiconomyPlugin.disableBiconomyMode()
 }
 
-export function rpcGetFeeQuotes(eoaAddress: string, transactions: string[]): Promise<any[]> {
+export async function rpcGetFeeQuotes(eoaAddress: string, transactions: string[]): Promise<any[]> {
   const obj = {
-    eoaAddress: eoaAddress,
+    eoa_address: eoaAddress,
     transactions: transactions
   };
   const json = JSON.stringify(obj);
-  return new Promise((resolve) => {
+  const result: any = await new Promise((resolve) => {
     ParticleBiconomyPlugin.rpcGetFeeQuotes(json, (result: any) => {
       resolve(JSON.parse(result));
     });
   });
+
+  if (result.status) {
+    const data = result.data
+    return data as any[]
+  } else {
+    return Promise.reject(result.data)
+  }
 }
  

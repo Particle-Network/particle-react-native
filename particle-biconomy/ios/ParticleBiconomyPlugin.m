@@ -4,12 +4,20 @@
 
 RCT_EXTERN_METHOD(initialize: (NSString* _Nonnull)json)
 
-RCT_EXTERN_METHOD(setChainInfo: (NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
+RCT_EXTERN_METHOD(isSupportChainInfo: (NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
+RCT_EXTERN_METHOD(isBiconomyModeEnable:(RCTResponseSenderBlock)callback)
 
-+ (BOOL)requiresMainQueueSetup
-{
-  return NO;
+RCT_EXTERN_METHOD(enableBiconomyMode)
+
+RCT_EXTERN_METHOD(disableBiconomyMode)
+
+RCT_EXTERN_METHOD(isDeploy: (NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
+
+RCT_EXTERN_METHOD(rpcGetFeeQuotes: (NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
+
+- (dispatch_queue_t)methodQueue {
+  return dispatch_get_main_queue();
 }
 
 @end

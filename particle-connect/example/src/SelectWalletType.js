@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, SafeAreaView, FlatList, DeviceEventEmitter, NativeEventEmitter } from 'react-native';
-import { ChainInfo, WalletType } from "react-native-particle-connect"
-import { Button } from '@rneui/themed';
-import { EvmService } from './NetService/EvmService';
+import { StyleSheet, View, SafeAreaView, FlatList, TouchableOpacity, Text } from 'react-native';
+import { WalletType } from "react-native-particle-connect"
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { PNAccount } from './Models/PNAccount';
 
@@ -29,13 +27,12 @@ export default class SelectWalletTypePage extends PureComponent {
                     <FlatList data={data} renderItem={
                         ({ item }) =>
 
-                            <Button
-                                title={item.key}
-                                onPress={ () => {
-                                    this.selectedWalletType(item.value);
-                                }} 
-                                buttonStyle={styles.buttonStyle}
-                                containerStyle={styles.containerStyle} />
+                        <TouchableOpacity style={styles.buttonStyle}
+                        onPress={() => {
+                            this.selectedWalletType(item.value);
+                        }}>
+                        <Text style={styles.textStyle}>{item.key}</Text>
+                    </TouchableOpacity>
                     }
                     />
                 </View>
@@ -58,7 +55,6 @@ export default class SelectWalletTypePage extends PureComponent {
         })
        
     }
-
 }
 
 
@@ -66,11 +62,15 @@ const styles = StyleSheet.create({
     buttonStyle: {
         backgroundColor: 'rgba(78, 116, 289, 1)',
         borderRadius: 3,
-    },
-    containerStyle: {
+        margin: 10,
+        height: 30,
         width: 300,
-        marginHorizontal: 50,
-        marginVertical: 10,
+        justifyContent: 'center',
+    },
+
+    textStyle: {
+        color: 'white',
+        textAlign: 'center'
     }
 });
 

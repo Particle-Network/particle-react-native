@@ -558,7 +558,8 @@ class ParticleAuthPlugin: NSObject {
         }
     }
     
-    @objc func openAccountAndSecurity() {
+    @objc
+    public func openAccountAndSecurity() {
         ParticleAuthService.openAccountAndSecurity().subscribe { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -572,6 +573,11 @@ class ParticleAuthPlugin: NSObject {
                 break
             }
         }.disposed(by: bag)
+    }
+    
+    @objc
+    public func setCustomStyle(_ json: String) {
+        ParticleAuthService.setCustomStyle(string: json)
     }
     
     @objc

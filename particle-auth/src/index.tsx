@@ -385,6 +385,7 @@ export function setDisplayWallet(isDisplay: boolean) {
 export function openWebWallet(webStyle?: string) {
     console.log('openWebWallet', webStyle);
     if (Platform.OS === 'ios') {
+        ParticleAuthPlugin.setCustomStyle(webStyle);
         ParticleAuthPlugin.openWebWallet();
     } else {
         ParticleAuthPlugin.openWebWallet(webStyle);

@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, SafeAreaView, FlatList, DeviceEventEmitter, NativeEventEmitter } from 'react-native';
-import { ChainInfo } from "react-native-particle-connect"
-import { Button } from '@rneui/themed';
-import { EvmService } from './NetService/EvmService';
+import { StyleSheet, View, SafeAreaView, FlatList, TouchableOpacity, Text } from 'react-native';
+import { ChainInfo } from "react-native-particle-auth"
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 
@@ -27,13 +25,13 @@ export default class SelectChainPage extends PureComponent {
                     <FlatList data={data} renderItem={
                         ({ item }) =>
 
-                            <Button
-                                title={item.key}
-                                onPress={ () => {
+                            <TouchableOpacity style={styles.buttonStyle}
+                                onPress={() => {
                                     this.selectedChain(item.value);
-                                }} 
-                                buttonStyle={styles.buttonStyle}
-                                containerStyle={styles.containerStyle} />
+                                }}>
+                                <Text style={styles.textStyle}>{item.key}</Text>
+                            </TouchableOpacity>
+
                     }
                     />
                 </View>
@@ -41,24 +39,21 @@ export default class SelectChainPage extends PureComponent {
         );
     }
 
+    
     selectedChain = async (chainInfo) => {
         const { navigation, route } = this.props;
 
         Toast.show({
             type: 'success',
-            text1: `select chain ${chainInfo.chain_name} ${chainInfo.chain_id_name} ${chainInfo.chain_id}`
-        })
-        
-        EvmService.currentChainInfo = chainInfo;
-        console.log(chainInfo);
+            text1: `select chain ${chainInfo.chain_name} ${chainInfo.chain_id_name} ${chainInfo.chain_id}`,
+        });
 
         navigation.navigate({
             name: 'ConnectDemo',
-            params: { post: chainInfo},
+            params: { chainInfo: chainInfo },
             merge: true,
-        })
-       
-    }
+        });
+    };
 
 }
 
@@ -67,11 +62,15 @@ const styles = StyleSheet.create({
     buttonStyle: {
         backgroundColor: 'rgba(78, 116, 289, 1)',
         borderRadius: 3,
-    },
-    containerStyle: {
+        margin: 10,
+        height: 30,
         width: 300,
-        marginHorizontal: 50,
-        marginVertical: 10,
+        justifyContent: 'center',
+    },
+
+    textStyle: {
+        color: 'white',
+        textAlign: 'center'
     }
 });
 

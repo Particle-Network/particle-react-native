@@ -1,10 +1,10 @@
 import { NativeModules, Platform } from 'react-native';
-import type { ChainInfo } from './Models/ChainInfo';
+
 import type { ParticleConnectConfig } from './Models/ConnectConfig';
 import type { DappMetaData } from './Models/DappMetaData';
-import type { Env } from './Models/LoginInfo';
 import type { RpcUrl } from './Models/RpcUrl';
 import type { WalletType } from './Models/WalletType';
+import type { BiconomyFeeMode, ChainInfo, Env} from 'react-native-particle-auth';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-connect' doesn't seem to be linked. Make sure: \n\n` +
@@ -46,46 +46,6 @@ export function init(
   };
   const json = JSON.stringify(obj);
   ParticleConnectPlugin.initialize(json);
-}
-
-/**
- * Set chain info
- * @param chainInfo ChainInfo
- * @returns Result
- */
-export function setChainInfo(chainInfo: ChainInfo): Promise<boolean> {
-  const obj = {
-    chain_name: chainInfo.chain_name,
-    chain_id: chainInfo.chain_id,
-    chain_id_name: chainInfo.chain_id_name,
-  };
-  const json = JSON.stringify(obj);
-  return new Promise((resolve) => {
-    ParticleConnectPlugin.setChainInfo(json, (result: boolean) => {
-      resolve(result);
-    });
-  });
-}
-
-/**
- * Set chain info async, used when logged in with wallet type Particle.
- * Particle will automaticlly created wallet when call this method.
- * for example, when switch solana to ethereum, Particle will create ethereum account if needed.
- * @param chainInfo ChainInfo
- * @returns Result
- */
-export function setChainInfoAsync(chainInfo: ChainInfo): Promise<boolean> {
-  const obj = {
-    chain_name: chainInfo.chain_name,
-    chain_id: chainInfo.chain_id,
-    chain_id_name: chainInfo.chain_id_name,
-  };
-  const json = JSON.stringify(obj);
-  return new Promise((resolve) => {
-    ParticleConnectPlugin.setChainInfoAsync(json, (result: boolean) => {
-      resolve(result);
-    });
-  });
 }
 
 /**
@@ -259,6 +219,32 @@ export function signAndSendTransaction(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.signAndSendTransaction(json, (result: string) => {
+      resolve(JSON.parse(result));
+    });
+  });
+}
+
+/**
+ * Batch send transactions, works with particle biconomy service
+ * @param transactions Transactions that you want user to sign and send
+ * @param feeMode Optional, default is auto
+ * @returns Result, signature or error
+ */
+export function batchSendTransactions(walletType: WalletType,
+  publicAddress: string, transactions: string[], feeMode?: BiconomyFeeMode): Promise<any> {
+  const obj = {
+    wallet_type: walletType,
+    public_address: publicAddress,
+    transactions: transactions,
+    fee_mode: {
+      option: feeMode?.getOption(),
+      fee_quote: feeMode?.getFeeQuote(),
+    }
+  };
+  const json = JSON.stringify(obj);
+
+  return new Promise((resolve) => {
+    ParticleConnectPlugin.batchSendTransactions(json, (result: string) => {
       resolve(JSON.parse(result));
     });
   });
@@ -471,7 +457,7 @@ export function switchEthereumChain(
 export function reconnectIfNeeded(
   walletType: WalletType,
   publicAddress: string
-) : Promise<any> {
+): Promise<any> {
   if (Platform.OS === 'ios') {
     const obj = { wallet_type: walletType, public_address: publicAddress };
     const json = JSON.stringify(obj);
@@ -486,23 +472,10 @@ export function reconnectIfNeeded(
   }
 }
 
-/**
- * Get chainInfo
- * @returns ChainInfo
- */
-export function getChainInfo(): Promise<ChainInfo> {
-  return new Promise((resolve) => {
-    ParticleConnectPlugin.getChainInfo((result: string) => {
-      resolve(JSON.parse(result) as ChainInfo);
-    });
-  });
-}
 
-export * from './Models/LoginInfo';
-export * from './Models/ChainInfo';
+
 export * from './Models/DappMetaData';
 export * from './Models/RpcUrl';
-export * from './Models/WalletDisplay';
 export * from './Models/WalletType';
 export * from './Models/ConnectConfig';
 export { ParticleConnectProvider } from './provider';

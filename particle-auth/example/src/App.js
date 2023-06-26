@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
-import { Button } from '@rneui/themed';
+import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthDemo from './AuthDemo';
@@ -15,12 +14,14 @@ function HomeScreen({ navigation }) {
             <View style={styles.content}>
                 <Image style={styles.logo} source={logo} />
 
-                <Button
-                    title={'AuthDemo'}
-                    onPress={() => navigation.push('AuthDemo')}
-                    buttonStyle={styles.buttonStyle}
-                    containerStyle={styles.containerStyle}
-                />
+                <TouchableOpacity style={styles.buttonStyle}
+                    onPress={() => {
+
+                        navigation.push('AuthDemo')
+
+                    }}>
+                    <Text style={styles.textStyle}>AuthDemo</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -84,11 +85,14 @@ const styles = StyleSheet.create({
     buttonStyle: {
         backgroundColor: 'rgba(78, 116, 289, 1)',
         borderRadius: 3,
+        margin: 10,
+        height: 30,
+        width: 300,
+        justifyContent: 'center',
     },
 
-    containerStyle: {
-        width: 200,
-        marginHorizontal: 50,
-        marginVertical: 10,
-    },
+    textStyle: {
+        color: 'white',
+        textAlign: 'center'
+    }
 });

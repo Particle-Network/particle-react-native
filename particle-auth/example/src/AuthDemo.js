@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, SafeAreaView, FlatList, DeviceEventEmitter, NativeEventEmitter } from 'react-native';
+import { StyleSheet, View, SafeAreaView, FlatList, DeviceEventEmitter, NativeEventEmitter, TouchableOpacity, Text } from 'react-native';
 import {
     ChainInfo,
     LoginType,
@@ -13,7 +13,6 @@ import {
 } from 'react-native-particle-auth';
 import * as particleAuth from 'react-native-particle-auth';
 
-import { Button } from '@rneui/themed';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
 import { createWeb3 } from './web3Demo';
@@ -713,18 +712,16 @@ export default class AuthDemo extends PureComponent {
                     <FlatList
                         data={this.data}
                         renderItem={({ item }) => (
-                            <Button
-                                title={item.key}
+                            <TouchableOpacity style={styles.buttonStyle}
                                 onPress={() => {
-                                    if (item.key == 'Select Chain Page') {
-                                        this.props.navigation.navigate('SelectChainPage');
+                                    if (item.key == "Select Chain Page") {
+                                        navigation.push("SelectChainPage");
                                     } else {
                                         item.function();
                                     }
-                                }}
-                                buttonStyle={styles.buttonStyle}
-                                containerStyle={styles.containerStyle}
-                            />
+                                }}>
+                                <Text style={styles.textStyle}>{item.key}</Text>
+                            </TouchableOpacity>
                         )}
                     />
                 </View>
@@ -756,27 +753,18 @@ export default class AuthDemo extends PureComponent {
 
 }
 
-const Item = ({ item }) => {
-    return (
-        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-            <Button
-                title={item.key}
-                onPress={item.function}
-                buttonStyle={styles.buttonStyle}
-                containerStyle={styles.containerStyle}
-            />
-        </View>
-    );
-};
-
 const styles = StyleSheet.create({
     buttonStyle: {
         backgroundColor: 'rgba(78, 116, 289, 1)',
         borderRadius: 3,
-    },
-    containerStyle: {
+        margin: 10,
+        height: 30,
         width: 300,
-        marginHorizontal: 50,
-        marginVertical: 10,
+        justifyContent: 'center',
     },
+
+    textStyle: {
+        color: 'white',
+        textAlign: 'center'
+    }
 });

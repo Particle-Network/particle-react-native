@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, SafeAreaView, FlatList, DeviceEventEmitter, NativeEventEmitter } from 'react-native';
+import { StyleSheet, View, SafeAreaView, FlatList, TouchableOpacity, Text } from 'react-native';
 import { ChainInfo } from 'react-native-particle-auth';
-import { Button } from '@rneui/themed';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 export default class SelectChainPage extends PureComponent {
@@ -23,14 +22,13 @@ export default class SelectChainPage extends PureComponent {
                     <FlatList
                         data={data}
                         renderItem={({ item }) => (
-                            <Button
-                                title={item.key}
+                            <TouchableOpacity style={styles.buttonStyle}
                                 onPress={() => {
                                     this.selectedChain(item.value);
-                                }}
-                                buttonStyle={styles.buttonStyle}
-                                containerStyle={styles.containerStyle}
-                            />
+                                }}>
+                                <Text style={styles.textStyle}>{item.key}</Text>
+                            </TouchableOpacity>
+
                         )}
                     />
                 </View>
@@ -58,10 +56,14 @@ const styles = StyleSheet.create({
     buttonStyle: {
         backgroundColor: 'rgba(78, 116, 289, 1)',
         borderRadius: 3,
-    },
-    containerStyle: {
+        margin: 10,
+        height: 30,
         width: 300,
-        marginHorizontal: 50,
-        marginVertical: 10,
+        justifyContent: 'center',
     },
+
+    textStyle: {
+        color: 'white',
+        textAlign: 'center'
+    }
 });

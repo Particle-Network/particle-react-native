@@ -3,7 +3,8 @@ import * as particleConnect from '../index';
 import { sendEVMRpc } from './connection';
 import type { ParticleConnectOptions, RequestArguments } from './types';
 import { notSupportMethods, signerMethods } from './types';
-import { ChainInfo } from '../Models/ChainInfo';
+import { ChainInfo } from 'react-native-particle-auth';
+import * as particleAuth from 'react-native-particle-auth';
 import { WalletType } from '../index';
 
 class ParticleConnectProvider {
@@ -49,7 +50,7 @@ class ParticleConnectProvider {
     }
     if (signerMethods.includes(payload.method)) {
       if (payload.method === 'eth_chainId') {
-        const chainInfo = await particleConnect.getChainInfo();
+        const chainInfo = await particleAuth.getChainInfo();
         return Promise.resolve(`0x${chainInfo.chain_id.toString(16)}`);
       } else if (
         payload.method === 'eth_accounts' ||
@@ -75,7 +76,7 @@ class ParticleConnectProvider {
       } else if (payload.method === 'eth_sendTransaction') {
         const txData = payload.params[0];
         if (!txData.chainId) {
-          const chainInfo = await particleConnect.getChainInfo();
+          const chainInfo = await particleAuth.getChainInfo();
           txData.chainId = `0x${chainInfo.chain_id.toString(16)}`;
         }
         const tx = Buffer.from(JSON.stringify(txData)).toString('hex');
@@ -119,7 +120,7 @@ class ParticleConnectProvider {
             message: 'The Provider does not support the chain',
           });
         }
-        const result = await particleConnect.setChainInfo(chainInfo);
+        const result = await particleAuth.setChainInfo(chainInfo);
         if (!result) {
           return Promise.reject({ message: 'switch chain failed' });
         }
@@ -172,7 +173,7 @@ class ParticleConnectProvider {
         });
       }
     } else {
-      const chainInfo = await particleConnect.getChainInfo();
+      const chainInfo = await particleAuth.getChainInfo();
       return sendEVMRpc(payload, {
         ...this.options,
         chainId: chainInfo.chain_id,

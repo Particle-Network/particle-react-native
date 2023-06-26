@@ -32,6 +32,9 @@ import SwiftyJSON
 class ParticleConnectPlugin: NSObject {
     let bag = DisposeBag()
     
+    var latestPublicAddress: String?
+    var latestWalletType: WalletType?
+    
     @objc
     public static func requiresMainQueueSetup() -> Bool {
         return true
@@ -42,7 +45,7 @@ class ParticleConnectPlugin: NSObject {
         let data = JSON(parseJSON: json)
         let chainName = data["chain_name"].stringValue.lowercased()
         let chainId = data["chain_id"].intValue
-        guard let chainInfo = matchChain(name: chainName, chainId: chainId) else {
+        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId) else {
             return print("initialize error, can't find right chain for \(chainName), chainId \(chainId)")
         }
         let env = data["env"].stringValue.lowercased()
@@ -114,66 +117,6 @@ class ParticleConnectPlugin: NSObject {
         ParticleConnect.initialize(env: devEnv, chainInfo: chainInfo, dAppData: dAppData) {
             adapters
         }
-    }
-    
-    @objc
-    public func setChainInfo(_ json: String, callback: @escaping RCTResponseSenderBlock) {
-        let data = JSON(parseJSON: json)
-        let name = data["chain_name"].stringValue.lowercased()
-        let chainId = data["chain_id"].intValue
-        guard let chainInfo = matchChain(name: name, chainId: chainId) else {
-            callback([false])
-            return
-        }
-        ParticleNetwork.setChainInfo(chainInfo)
-        callback([true])
-    }
-
-    @objc
-    public func setChainInfoAsync(_ json: String, callback: @escaping RCTResponseSenderBlock) {
-        let data = JSON(parseJSON: json)
-        let name = data["chain_name"].stringValue.lowercased()
-        let chainId = data["chain_id"].intValue
-        guard let chainInfo = matchChain(name: name, chainId: chainId) else {
-            callback([false])
-            return
-        }
-        if ParticleAuthService.isLogin() {
-            ParticleAuthService.setChainInfo(chainInfo).subscribe { [weak self] result in
-                guard let self = self else { return }
-
-                switch result {
-                case .failure(let error):
-                    let response = self.ResponseFromError(error)
-                    let statusModel = ReactStatusModel(status: false, data: response)
-                    let data = try! JSONEncoder().encode(statusModel)
-                    guard let json = String(data: data, encoding: .utf8) else { return }
-                    callback([json])
-                    
-                case .success(let userInfo):
-                    guard let userInfo = userInfo else { return }
-                    let statusModel = ReactStatusModel(status: true, data: true)
-                    let data = try! JSONEncoder().encode(statusModel)
-                    guard let json = String(data: data, encoding: .utf8) else { return }
-                    callback([json])
-                }
-            }.disposed(by: bag)
-        } else {
-            ParticleNetwork.setChainInfo(chainInfo)
-            let statusModel = ReactStatusModel(status: true, data: true)
-            let data = try! JSONEncoder().encode(statusModel)
-            guard let json = String(data: data, encoding: .utf8) else { return }
-            callback([json])
-        }
-    }
-    
-    @objc
-    public func getChainInfo(_ callback: @escaping RCTResponseSenderBlock) {
-        let chainInfo = ParticleNetwork.getChainInfo()
-        
-        let jsonString = ["chain_name": chainInfo.name, "chain_id": chainInfo.chainId, "chain_id_name": chainInfo.network].jsonString() ?? ""
-        
-        callback([jsonString])
     }
     
     @objc
@@ -381,7 +324,19 @@ class ParticleConnectPlugin: NSObject {
         let walletTypeString = data["wallet_type"].stringValue
         let publicAddress = data["public_address"].stringValue.toChecksumAddress()
         let transaction = data["transaction"].stringValue
-        
+        let mode = data["fee_mode"]["option"].stringValue
+
+        var feeMode: Biconomy.FeeMode = .auto
+        if mode == "auto" {
+            feeMode = .auto
+        } else if mode == "gasless" {
+            feeMode = .gasless
+        } else if mode == "custom" {
+            let feeQuoteJson = JSON(data["fee_mode"]["fee_quote"].dictionaryValue)
+            let feeQuote = Biconomy.FeeQuote(json: feeQuoteJson)
+            feeMode = .custom(feeQuote)
+        }
+
         guard let walletType = map2WalletType(from: walletTypeString) else {
             print("walletType \(walletTypeString) is not existed ")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
@@ -402,7 +357,7 @@ class ParticleConnectPlugin: NSObject {
             return
         }
         
-        adapter.signAndSendTransaction(publicAddress: publicAddress, transaction: transaction).subscribe { [weak self] result in
+        adapter.signAndSendTransaction(publicAddress: publicAddress, transaction: transaction, feeMode: feeMode).subscribe { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
@@ -417,6 +372,64 @@ class ParticleConnectPlugin: NSObject {
                 guard let json = String(data: data, encoding: .utf8) else { return }
                 callback([json])
             }
+        }.disposed(by: bag)
+    }
+
+    @objc
+    func batchSendTransactions(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+        let data = JSON(parseJSON: json)
+        let walletTypeString = data["wallet_type"].stringValue
+        let publicAddress = data["public_address"].stringValue.toChecksumAddress()
+        let transactions = data["transactions"].arrayValue.map {
+            $0.stringValue
+        }
+        let mode = data["fee_mode"]["option"].stringValue
+
+        var feeMode: Biconomy.FeeMode = .auto
+        if mode == "auto" {
+            feeMode = .auto
+        } else if mode == "gasless" {
+            feeMode = .gasless
+        } else if mode == "custom" {
+            let feeQuoteJson = JSON(data["fee_mode"]["fee_quote"].dictionaryValue)
+            let feeQuote = Biconomy.FeeQuote(json: feeQuoteJson)
+            feeMode = .custom(feeQuote)
+        }
+        
+        guard let biconomy = ParticleNetwork.getBiconomyService() else {
+            let response = ReactResponseError(code: nil, message: "biconomy is not init", data: nil)
+            let statusModel = ReactStatusModel(status: false, data: response)
+            let data = try! JSONEncoder().encode(statusModel)
+            guard let json = String(data: data, encoding: .utf8) else { return }
+            callback([json])
+            return
+        }
+        
+        guard biconomy.isBiconomyModeEnable() else {
+            let response = ReactResponseError(code: nil, message: "biconomy is not enable", data: nil)
+            let statusModel = ReactStatusModel(status: false, data: response)
+            let data = try! JSONEncoder().encode(statusModel)
+            guard let json = String(data: data, encoding: .utf8) else { return }
+            callback([json])
+            return
+        }
+        
+        biconomy.quickSendTransactions(transactions, feeMode: feeMode, messageSigner: self).subscribe {
+            [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    let response = self.ResponseFromError(error)
+                    let statusModel = ReactStatusModel(status: false, data: response)
+                    let data = try! JSONEncoder().encode(statusModel)
+                    guard let json = String(data: data, encoding: .utf8) else { return }
+                    callback([json])
+                case .success(let signature):
+                    let statusModel = ReactStatusModel(status: true, data: signature)
+                    let data = try! JSONEncoder().encode(statusModel)
+                    guard let json = String(data: data, encoding: .utf8) else { return }
+                    callback([json])
+                }
         }.disposed(by: bag)
     }
     
@@ -1000,5 +1013,37 @@ public extension Dictionary {
         let options = (prettify == true) ? JSONSerialization.WritingOptions.prettyPrinted : JSONSerialization.WritingOptions()
         guard let jsonData = try? JSONSerialization.data(withJSONObject: self, options: options) else { return nil }
         return String(data: jsonData, encoding: .utf8)
+    }
+}
+
+extension ParticleConnectPlugin: MessageSigner {
+    public func signTypedData(_ message: String) -> RxSwift.Single<String> {
+        guard let walletType = latestWalletType else {
+            print("walletType is nil")
+            return .error(ParticleNetwork.ResponseError(code: nil, message: "walletType is nil"))
+        }
+        
+        guard let adapter = map2ConnectAdapter(from: walletType) else {
+            print("adapter for \(walletType) is not init")
+            return .error(ParticleNetwork.ResponseError(code: nil, message: "adapter for \(walletType) is not init"))
+        }
+        return adapter.signTypedData(publicAddress: getEoaAddress(), data: message)
+    }
+    
+    public func signMessage(_ message: String) -> RxSwift.Single<String> {
+        guard let walletType = latestWalletType else {
+            print("walletType is nil")
+            return .error(ParticleNetwork.ResponseError(code: nil, message: "walletType is nil"))
+        }
+        
+        guard let adapter = map2ConnectAdapter(from: walletType) else {
+            print("adapter for \(walletType) is not init")
+            return .error(ParticleNetwork.ResponseError(code: nil, message: "adapter for \(walletType) is not init"))
+        }
+        return adapter.signMessage(publicAddress: getEoaAddress(), message: message)
+    }
+    
+    public func getEoaAddress() -> String {
+        return latestPublicAddress ?? ""
     }
 }

@@ -68,6 +68,8 @@ RCT_EXTERN_METHOD(openWebWallet)
 
 RCT_EXTERN_METHOD(setUserInfo:(NSString* _Nonnull)json callback: (RCTResponseSenderBlock)callback)
 
+RCT_EXTERN_METHOD(setCustomStyle:(NSString* _Nonnull)json)
+
 RCT_EXTERN_METHOD(setSecurityAccountConfig:(NSString* _Nonnull)json)
 
 - (dispatch_queue_t)methodQueue {

@@ -1,4 +1,4 @@
-import type { LoginType, SupportAuthType } from "./LoginInfo"
+import type { LoginType, SupportAuthType } from "react-native-particle-auth"
 
 export class ParticleConnectConfig {
     loginType: LoginType

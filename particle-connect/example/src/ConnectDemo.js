@@ -634,7 +634,6 @@ export default class ConnectDemo extends PureComponent {
 }
 
 const styles = StyleSheet.create({
-
     buttonStyle: {
         backgroundColor: 'rgba(78, 116, 289, 1)',
         borderRadius: 3,

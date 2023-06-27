@@ -4,7 +4,7 @@ import type { ParticleConnectConfig } from './Models/ConnectConfig';
 import type { DappMetaData } from './Models/DappMetaData';
 import type { RpcUrl } from './Models/RpcUrl';
 import type { WalletType } from './Models/WalletType';
-import type { BiconomyFeeMode, ChainInfo, Env} from 'react-native-particle-auth';
+import type { BiconomyFeeMode, ChainInfo, Env } from 'react-native-particle-auth';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-connect' doesn't seem to be linked. Make sure: \n\n` +
@@ -205,16 +205,18 @@ export function signAllTransactions(
  * @param transaction Transaction that you want user to sign and send
  * @returns Result, signature or error
  */
-export function signAndSendTransaction(
-  walletType: WalletType,
-  publicAddress: string,
-  transaction: string
+export function signAndSendTransaction(walletType: WalletType, publicAddress: string, transaction: string, feeMode?: BiconomyFeeMode,
 ): Promise<any> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
     transaction: transaction,
+    fee_mode: {
+      option: feeMode?.getOption(),
+      fee_quote: feeMode?.getFeeQuote(),
+    }
   };
+  
   const json = JSON.stringify(obj);
 
   return new Promise((resolve) => {

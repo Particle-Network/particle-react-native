@@ -18,6 +18,11 @@ const ParticleBiconomyPlugin = NativeModules.ParticleBiconomyPlugin
     }
   );
 
+  /**
+   * Init particle biconomy service
+   * @param version Biconomy Version
+   * @param dappAppKeys Biconomy dapp keys
+   */
 export function init(version: BiconomyVersion, dappAppKeys: { [key: number]: string }) {
   const obj = {
     version: version,
@@ -32,6 +37,11 @@ export function init(version: BiconomyVersion, dappAppKeys: { [key: number]: str
   }
 }
 
+/**
+ * Is support chain info
+ * @param chainInfo ChainInfo
+ * @returns 
+ */
 export function isSupportChainInfo(chainInfo: ChainInfo): Promise<boolean> {
   const obj = chainInfo;
   const json = JSON.stringify(obj);
@@ -42,6 +52,12 @@ export function isSupportChainInfo(chainInfo: ChainInfo): Promise<boolean> {
   });
 }
 
+
+/**
+ * Has eoa address deployed conract in current chain.
+ * @param eoaAddress Eoa address
+ * @returns 
+ */
 export function isDeploy(eoaAddress: string): Promise<string> {
   return new Promise((resolve) => {
     ParticleBiconomyPlugin.isDeploy(eoaAddress, (result: string) => {
@@ -50,6 +66,10 @@ export function isDeploy(eoaAddress: string): Promise<string> {
   });
 }
 
+/**
+ * Is biconomy mode enable
+ * @returns 
+ */
 export function isBiconomyModeEnable(): Promise<boolean> {
   return new Promise((resolve) => {
     ParticleBiconomyPlugin.isBiconomyModeEnable((result: boolean) => {
@@ -58,14 +78,27 @@ export function isBiconomyModeEnable(): Promise<boolean> {
   });
 }
 
+/**
+ * Enable biconomy mode
+ */
 export function enableBiconomyMode() {
   ParticleBiconomyPlugin.enableBiconomyMode()
 }
 
+/**
+ * Disable biconomy mode
+ */
 export function disableBiconomyMode() {
   ParticleBiconomyPlugin.disableBiconomyMode()
 }
 
+/**
+ * Rpc get fee quotes
+ * Pick one fee quote, then send with BiconomyFeeMode.custom
+ * @param eoaAddress Eoa address
+ * @param transactions transactions
+ * @returns 
+ */
 export async function rpcGetFeeQuotes(eoaAddress: string, transactions: string[]): Promise<any[]> {
   const obj = {
     eoa_address: eoaAddress,

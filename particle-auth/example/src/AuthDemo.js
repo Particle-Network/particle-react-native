@@ -533,7 +533,7 @@ export default class AuthDemo extends PureComponent {
         // 2. send evm native in BSC testnet, the transacion is type 0x0, for blockchians don't supoort EIP1559
         // 3. send evm token in Ethereum goerli, the transacion is type 0x2, for blockchains support EIP1559
         // 4. send evm token in BSC testnet, the transacion is type 0x0, for blockchians don't supoort EIP1559
-        let testCase = 1;
+        let testCase = 2;
 
         if (chainInfo.chain_name.toLowerCase() == 'solana') {
             transaction = await Helper.getSolanaTransaction(sender);
@@ -658,6 +658,68 @@ export default class AuthDemo extends PureComponent {
     getSmartAccount = async () => {
         const eoaAddress = await particleAuth.getAddress();
         const result = await EvmService.getSmartAccount([eoaAddress], BiconomyVersion.v1_0_0);
+        console.log(result);
+    }
+
+    readContract = async () => {
+        try {
+            const address = await particleAuth.getAddress();
+            const contractAddress = "0x326C977E6efc84E512bB9C30f76E30c160eD06FB";
+            const methodName = "balanceOf"; // this is your contract method name, like balanceOf, mint.
+            const params = [address]; // this is the method params.
+            const abiJsonString = "";
+
+            const result = await EvmService.readContract(contractAddress, methodName, params, abiJsonString);
+            console.log(result);
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
+    writeContract = async () => {
+        try {
+            const from = await particleAuth.getAddress()
+            const contractAddress = "0x326C977E6efc84E512bB9C30f76E30c160eD06FB";
+            const methodName = "transfer"; // this is your contract method name, like balanceOf, mint.
+            const params = ["0xa0869E99886e1b6737A4364F2cf9Bb454FD637E4", "1000000000000000"]; // this is the method params.
+            const abiJsonString = "";
+            const transaction = await EvmService.writeContract(from, contractAddress, methodName, params, abiJsonString);
+            console.log(transaction);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    writeContractAndSend = async () => {
+        try {
+            const from = await particleAuth.getAddress()
+            const contractAddress = "0x326C977E6efc84E512bB9C30f76E30c160eD06FB";
+            const methodName = "transfer"; // this is your contract method name, like balanceOf, mint.
+            const params = ["0xa0869E99886e1b6737A4364F2cf9Bb454FD637E4", "1000000000000000"]; // this is the method params.
+            const abiJsonString = "";
+            const transaction = await EvmService.writeContract(from, contractAddress, methodName, params, abiJsonString);
+            console.log(transaction);
+            const result = await particleAuth.signAndSendTransaction(transaction);
+            if (result.status) {
+                const signature = result.data;
+                console.log(signature);
+            } else {
+                const error = result.data;
+                console.log(error);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    otherMathodExample = async () => {
+        const result1 = await EvmService.estimateGas(from, to, value, data)
+        const result2 = await EvmService.suggeseGasFee();
+        // EvmService.getTokensAndNFTs(address);
+        const result4 = await EvmService.getTokenByTokenAddress(publicAddress, tokenAddresses)
+        const result5 = await EvmService.getTransactionsByAddress(publicAddress);
+        EvmService.getPrice()
     }
 
     data = [
@@ -700,7 +762,12 @@ export default class AuthDemo extends PureComponent {
 
         { key: 'SetUserInfo', function: this.setUserInfo },
         { key: 'SetSecurityAccountConfig', function: this.setSecurityAccountConfig },
-        { key: 'GetSmartAccount', function: this.getSmartAccount }
+        { key: 'GetSmartAccount', function: this.getSmartAccount },
+        { key: 'ReadContract', function: this.readContract },
+        { key: 'WriteContract', function: this.writeContract },
+
+        { key: 'WriteContractAndSend', function: this.writeContractAndSend }
+
     ];
 
     render = () => {

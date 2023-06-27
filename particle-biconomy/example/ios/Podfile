@@ -27,23 +27,14 @@ target 'ParticleBiconomyExample' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
-  pod 'ConnectWalletConnectAdapter', '0.1.53'
-  pod 'ConnectPhantomAdapter','0.1.53'
-  pod 'ConnectEVMAdapter', '0.1.53'
-  pod 'ConnectSolanaAdapter', '0.1.53'
-  pod 'ParticleConnect', '0.1.53'
-  pod 'ConnectCommon', '0.1.53'
   
   pod 'ParticleNetworkBase', '0.13.5'
   pod 'ParticleAuthService', '0.13.5'
   
-  pod 'WalletConnectSwift', :git => 'https://github.com/SunZhiC/WalletConnectSwift', :branch => 'master'
-  pod 'SwiftMessages', :git => 'https://github.com/SunZhiC/SwiftMessages', :branch => 'master'
-  
   
   pod 'ParticleBiconomy', '0.13.5'
   
-  pod
+ 
 
   target 'ParticleBiconomyExampleTests' do
     inherit! :complete

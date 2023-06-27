@@ -192,10 +192,10 @@ export function isLogin(): Promise<boolean> {
  * Is user logged in, check from server. recommended.
  * @returns Result, if user is login return userinfo, otherwise retrun error
  */
-export function isLoginAsync(): Promise<boolean> {
+export function isLoginAsync(): Promise<any> {
     return new Promise((resolve) => {
-        ParticleAuthPlugin.isLoginAsync((result: boolean) => {
-            resolve(result);
+        ParticleAuthPlugin.isLoginAsync((result: string) => {
+            resolve(JSON.parse(result));
         });
     });
 }
@@ -416,5 +416,6 @@ export * from './Models/BiconomyFeeMode';
 export * from './Network/EvmService';
 export * from './Network/SolanaService';
 export * from './Network/ParticleInfo';
+export * from './Models/GasFeeLevel';
 
 export { ParticleProvider } from './provider';

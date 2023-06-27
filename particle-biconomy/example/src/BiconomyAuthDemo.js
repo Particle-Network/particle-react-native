@@ -86,10 +86,6 @@ rpcGetFeeQuotes = async () => {
 
 isDeploy = async () => {
     const eoaAddress = await particleAuth.getAddress();
-    const receiver = TestAccountEVM.receiverAddress;
-    const amount = TestAccountEVM.amount;
-    const transaction = await Helper.getEthereumTransacion(eoaAddress, receiver, amount);
-
     const result = await particleBiconomy.isDeploy(eoaAddress);
 
     if (result.status) {
@@ -166,7 +162,8 @@ batchSendTransactions = async () => {
     const amount = TestAccountEVM.amount;
     const transaction = await Helper.getEthereumTransacion(eoaAddress, receiver, amount);
 
-    const result = await particleAuth.batchSendTransactions([transaction, transaction]);
+    const transactions = [transaction, transaction];
+    const result = await particleAuth.batchSendTransactions(transactions, BiconomyFeeMode.auto());
     if (result.status) {
         const signature = result.data;
         console.log('batchSendTransactions result', signature);

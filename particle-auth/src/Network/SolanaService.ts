@@ -4,7 +4,7 @@ import { SerializeTransactionParams, SolanaReqBodyMethod } from './NetParams';
 import JsonRpcRequest from './NetService';
 
 export class SolanaService {
-    static async rpc(method: string, params: any) {
+    static async rpc(method: string, params: any): Promise<any> {
         const rpcUrl = 'https://rpc.particle.network/';
         const path = 'solana';
         const chainInfo = await getChainInfo();
@@ -13,24 +13,24 @@ export class SolanaService {
         return result;
     }
 
-    static async getPrice(addresses: [string], currencies: [string]) {
+    static async getPrice(addresses: [string], currencies: [string]): Promise<any> {
         return await this.rpc(SolanaReqBodyMethod.enhancedGetPrice, [addresses, currencies]);
     }
 
-    static async getTokensAndNFTs(address: string) {
+    static async getTokensAndNFTs(address: string): Promise<any> {
         return await this.rpc(SolanaReqBodyMethod.enhancedGetTokensAndNFTs, [address]);
     }
-    static async getTransactionsByAddress(address: string) {
+    static async getTransactionsByAddress(address: string): Promise<any> {
         const obj = { parseMetadataUri: true };
         return await this.rpc(SolanaReqBodyMethod.enhancedGetTransactionsByAddress, [address, obj]);
     }
 
-    static async getTokenTransactionsByAddress(address: string, mintAddress: string) {
+    static async getTokenTransactionsByAddress(address: string, mintAddress: string): Promise<any> {
         const obj = { address: address, mint: mintAddress };
         return await this.rpc(SolanaReqBodyMethod.enhancedGetTokenTransactionsByAddress, [obj]);
     }
 
-    static async serializeSolTransction(from: string, to: string, amount: string) {
+    static async serializeSolTransction(from: string, to: string, amount: string): Promise<any> {
         const obj = { sender: from, receiver: to, lamports: amount };
         return await this.rpc(SolanaReqBodyMethod.enhancedSerializeTransaction, [
             SerializeTransactionParams.transferSol,
@@ -38,7 +38,7 @@ export class SolanaService {
         ]);
     }
 
-    static async serializeSplTokenTransction(from: string, to: string, mint: string, amount: string) {
+    static async serializeSplTokenTransction(from: string, to: string, mint: string, amount: string): Promise<any> {
         const obj = { sender: from, receiver: to, mint: mint, amount: amount };
         return await this.rpc(SolanaReqBodyMethod.enhancedSerializeTransaction, [
             SerializeTransactionParams.transferToken,

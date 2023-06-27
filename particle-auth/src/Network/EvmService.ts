@@ -5,6 +5,7 @@ import BigNumber from 'bignumber.js';
 import { Buffer } from 'buffer';
 import type { BiconomyVersion } from '../Models/BiconomyVersion';
 import { getChainId } from 'react-native-particle-auth';
+import { GasFeeLevel } from '../Models/GasFeeLevel';
 
 export class EvmService {
 
@@ -14,7 +15,7 @@ export class EvmService {
      * @param params Parameters requested by method
      * @returns Json string
      */
-    static async rpc(method: string, params: any) {
+    static async rpc(method: string, params: any): Promise<any> {
         const rpcUrl = 'https://rpc.particle.network/';
         const path = 'evm-chain';
         const chainId = await getChainId();
@@ -28,7 +29,7 @@ export class EvmService {
      * @param currencies Currencies array, like ["usd", "cny"]
      * @returns Json string
      */
-    static async getPrice(addresses: [string], currencies: [string]) {
+    static async getPrice(addresses: [string], currencies: [string]): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleGetPrice, [addresses, currencies]);
     }
 
@@ -37,7 +38,7 @@ export class EvmService {
      * @param address Public address
      * @returns Json string, contains native amount, tokens, nfts
      */
-    static async getTokensAndNFTs(address: string) {
+    static async getTokensAndNFTs(address: string): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleGetTokensAndNFTs, [address]);
     }
 
@@ -46,7 +47,7 @@ export class EvmService {
      * @param address Public address
      * @returns Json string, contains native amount, tokens
      */
-    static async getTokens(address: string) {
+    static async getTokens(address: string): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleGetTokens, [address]);
     }
 
@@ -55,7 +56,7 @@ export class EvmService {
      * @param address Public address
      * @returns Json string, contains NFTs
      */
-    static async getNFTs(address: string) {
+    static async getNFTs(address: string): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleGetNFTs, [address]);
     }
 
@@ -64,7 +65,7 @@ export class EvmService {
      * @param address Public address
      * @returns Json string
      */
-    static async getTransactionsByAddress(address: string) {
+    static async getTransactionsByAddress(address: string): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleGetTransactionsByAddress, [address]);
     }
 
@@ -72,7 +73,7 @@ export class EvmService {
      * Get suggest gas fee
      * @returns Json string, contains base fee, high, medium, low fee.
      */
-    static async suggeseGasFee() {
+    static async suggeseGasFee(): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleSuggestedGasFees, []);
     }
 
@@ -84,7 +85,7 @@ export class EvmService {
      * @param data Data
      * @returns
      */
-    static async estimateGas(from: string, to: string, value: string, data: string) {
+    static async estimateGas(from: string, to: string, value: string, data: string): Promise<any> {
         const obj = { from: from, to: to, value: value, data: data };
         return await this.rpc(EVMReqBodyMethod.ethEstimateGas, [obj]);
     }
@@ -96,7 +97,7 @@ export class EvmService {
      * @param amount Token amount
      * @returns The `data` field in Transacion
      */
-    static async erc20Transfer(contractAddress: string, to: string, amount: string) {
+    static async erc20Transfer(contractAddress: string, to: string, amount: string): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleAbiEncodeFunctionCall, [
             contractAddress,
             AbiEncodeFunction.erc20Transfer,
@@ -111,7 +112,7 @@ export class EvmService {
      * @param amount Token amount
      * @returns The `data` field in Transacion
      */
-    static async erc20Approve(contractAddress: string, spender: string, amount: string) {
+    static async erc20Approve(contractAddress: string, spender: string, amount: string): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleAbiEncodeFunctionCall, [
             contractAddress,
             AbiEncodeFunction.erc20Approve,
@@ -127,7 +128,7 @@ export class EvmService {
      * @param amount Token amount
      * @returns The `data` field in Transacion
      */
-    static async erc20TransferFrom(contractAddress: string, from: string, to: string, amount: string) {
+    static async erc20TransferFrom(contractAddress: string, from: string, to: string, amount: string): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleAbiEncodeFunctionCall, [
             contractAddress,
             AbiEncodeFunction.erc20TransferFrom,
@@ -143,7 +144,7 @@ export class EvmService {
      * @param tokenId Token id
      * @returns The `data` field in Transacion
      */
-    static async erc721SafeTransferFrom(contractAddress: string, from: string, to: string, tokenId: string) {
+    static async erc721SafeTransferFrom(contractAddress: string, from: string, to: string, tokenId: string): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleAbiEncodeFunctionCall, [
             contractAddress,
             AbiEncodeFunction.erc721SafeTransferFrom,
@@ -168,7 +169,7 @@ export class EvmService {
         id: string,
         amount: string,
         data: Uint8Array
-    ) {
+    ): Promise<any> {
         const params = [from, to, id, amount, data].filter(function (element) {
             return element !== undefined;
         });
@@ -192,7 +193,7 @@ export class EvmService {
         methodName: string,
         params: string,
         abiJsonString: string
-    ) {
+    ): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleAbiEncodeFunctionCall, [
             contractAddress,
             `custom_${methodName}`,
@@ -207,7 +208,7 @@ export class EvmService {
      * @param tokenAddresses Token address array
      * @returns Json string, tokens
      */
-    static async getTokenByTokenAddress(address: string, tokenAddresses: string) {
+    static async getTokenByTokenAddress(address: string, tokenAddresses: string[]): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleGetTokensByTokenAddresses, [address, tokenAddresses]);
     }
 
@@ -219,7 +220,7 @@ export class EvmService {
      * @param abiJsonString ABI json string
      * @returns Json string
      */
-    static async readContract(contractAddress: string, methodName: string, params: string, abiJsonString: string) {
+    static async readContract(contractAddress: string, methodName: string, params: string, abiJsonString: string): Promise<any> {
         const data = await this.abiEncodeFunctionCall(contractAddress, methodName, params, abiJsonString);
         const callParams = { data: data, to: contractAddress };
         const result = this.rpc('eth_call', [callParams, 'latest']);
@@ -233,6 +234,8 @@ export class EvmService {
      * @param methodName Method name, like `mint`, `balanceOf` or other methods that are defined in your contract
      * @param params Parameters request by method
      * @param abiJsonString ABI json string
+     * @param isSupportEIP1559 If your chain support EIP1559, pass true to get a EIP 1559 transaction, otherwise pass false to get a legacy transaction.
+     * @param gasFeeLevel Gas fee level, default is high.
      * @returns Serialized transacion
      */
     static async writeContract(
@@ -240,79 +243,88 @@ export class EvmService {
         contractAddress: string,
         methodName: string,
         params: string,
-        abiJsonString: string
-    ) {
+        abiJsonString: string,
+        isSupportEIP1559: boolean,
+        gasFeeLevel: GasFeeLevel = GasFeeLevel.high
+
+    ): Promise<any> {
         const data = await this.abiEncodeFunctionCall(contractAddress, methodName, params, abiJsonString);
 
-        const gasLimit = await this.estimateGas(from, contractAddress, '0x0', data);
-        const gasFeesResult = await this.suggeseGasFee();
-
-        const maxFeePerGas = gasFeesResult.high.maxFeePerGas;
-        const maxFeePerGasHex = '0x' + BigNumber(maxFeePerGas * Math.pow(10, 9)).toString(16);
-
-        const maxPriorityFeePerGas = gasFeesResult.high.maxPriorityFeePerGas;
-        const maxPriorityFeePerGasHex = '0x' + BigNumber(maxPriorityFeePerGas * Math.pow(10, 9)).toString(16);
-        const chainId = await getChainId();
-
-        const transaction = {
-            from: from,
-            to: contractAddress,
-            data: data,
-            gasLimit: gasLimit,
-            value: '0x0',
-            type: '0x2',
-            chainId: '0x' + chainId.toString(16),
-            maxPriorityFeePerGas: maxPriorityFeePerGasHex,
-            maxFeePerGas: maxFeePerGasHex,
-        };
-
-        console.log(transaction);
-        const json = JSON.stringify(transaction);
-        const serialized = Buffer.from(json).toString('hex');
-        return '0x' + serialized;
+        return await this.createTransaction(from, data, BigNumber(0), contractAddress, isSupportEIP1559, gasFeeLevel);
     }
 
-    /**
-     * Write contract, it works for blockchain which doesn't support EIP1559.
-     * @param from From address
-     * @param contractAddress Contract address
-     * @param methodName Method name, like `mint`, `balanceOf` or other methods that are defined in your contract
-     * @param params Parameters request by method
-     * @param abiJsonString ABI json string
-     * @returns Serialized transacion
-     */
-    static async writeContractLegacy(
-        from: string,
-        contractAddress: string,
-        methodName: string,
-        params: string,
-        abiJsonString: string
-    ) {
-        const data = await this.abiEncodeFunctionCall(contractAddress, methodName, params, abiJsonString);
 
-        const gasLimit = await this.estimateGas(from, contractAddress, '0x0', data);
+    /**
+     * Create transaction
+     * @param from From address
+     * @param data Contract transaction parameter, if you want to send native, pass 0x
+     * @param value Native amount
+     * @param to If it is a contract transaction, to is contract address, if it is a native transaciton, to is receiver address.
+     * @param isSupportEIP1559 If your chain support EIP1559, pass true to get a EIP 1559 transaction, otherwise pass false to get a legacy transaction.
+     * @param gasFeeLevel Gas fee level, default is high.
+     * @returns 
+     */
+    static async createTransaction(from: string, data: string, value: BigNumber, to: string, isSupportEIP1559: boolean, gasFeeLevel: GasFeeLevel = GasFeeLevel.high): Promise<any> {
+
+        const valueHex = '0x' + value.toString(16);
+        const gasLimit = await this.estimateGas(from, to, valueHex, data);
         const gasFeesResult = await this.suggeseGasFee();
 
-        const maxFeePerGas = gasFeesResult.high.maxFeePerGas;
-        const maxFeePerGasHex = '0x' + BigNumber(maxFeePerGas * Math.pow(10, 9)).toString(16);
+        let gasFee;
+        switch (gasFeeLevel) {
+            case GasFeeLevel.high:
+                gasFee = gasFeesResult.high;
+                break;
+            case GasFeeLevel.medium:
+                gasFee = gasFeesResult.medium;
+                break;
+
+            case GasFeeLevel.low:
+                gasFee = gasFeesResult.low;
+                break;
+        }
+
+        const maxFeePerGas = gasFee.maxFeePerGas;
+        console.log('maxFeePerGas', maxFeePerGas);
+        const maxFeePerGasHex = '0x' + BigNumber(Math.floor(maxFeePerGas * Math.pow(10, 9))).toString(16);
+
+        console.log('maxFeePerGasHex', maxFeePerGasHex);
+        const maxPriorityFeePerGas = gasFee.maxPriorityFeePerGas;
+        const maxPriorityFeePerGasHex = '0x' + BigNumber(Math.floor(maxPriorityFeePerGas * Math.pow(10, 9))).toString(16);
 
         const chainId = await getChainId();
 
-        const transaction = {
-            from: from,
-            to: contractAddress,
-            data: data,
-            gasLimit: gasLimit,
-            value: '0x0',
-            type: '0x0',
-            chainId: '0x' + chainId.toString(16),
-            gasPrice: maxFeePerGasHex,
-        };
+        let transaction;
 
+        if (isSupportEIP1559) {
+            transaction = {
+                from: from,
+                to: to,
+                data: data,
+                gasLimit: gasLimit,
+                value: valueHex,
+                type: '0x2',
+                chainId: '0x' + chainId.toString(16),
+                maxPriorityFeePerGas: maxPriorityFeePerGasHex,
+                maxFeePerGas: maxFeePerGasHex,
+            };
+        } else {
+            transaction = {
+                from: from,
+                to: to,
+                data: data,
+                gasLimit: gasLimit,
+                value: valueHex,
+                type: '0x0',
+                chainId: '0x' + chainId.toString(16),
+                gasPrice: maxFeePerGasHex,
+            };
+        }
         console.log(transaction);
         const json = JSON.stringify(transaction);
         const serialized = Buffer.from(json).toString('hex');
         return '0x' + serialized;
+
     }
 
     /**
@@ -321,7 +333,7 @@ export class EvmService {
      * @param version Biconomy version
      * @returns Smart account json object
      */
-    static async getSmartAccount(eoaAddresses: string[], version: BiconomyVersion) {
+    static async getSmartAccount(eoaAddresses: string[], version: BiconomyVersion) : Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleBiconomyGetSmartAccount, [version, eoaAddresses]);
     }
 }

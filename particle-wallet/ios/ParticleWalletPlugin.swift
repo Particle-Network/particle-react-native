@@ -10,6 +10,7 @@ import ParticleNetworkBase
 import ParticleWalletGUI
 import RxSwift
 import SwiftyJSON
+import ParticleWalletConnect
 
 @objc(ParticleWalletPlugin)
 public class ParticleWalletPlugin: NSObject {
@@ -173,7 +174,7 @@ public class ParticleWalletPlugin: NSObject {
         let chains = JSON(parseJSON: json).arrayValue.map {
             $0["chain_id"].intValue
         }.compactMap {
-            return ParticleNetwork.searchChainInfo(by: $0)?.chain
+            ParticleNetwork.searchChainInfo(by: $0)?.chain
         }
         ParticleWalletGUI.supportChain(chains)
     }
@@ -208,7 +209,7 @@ public class ParticleWalletPlugin: NSObject {
                 guard let json = String(data: data, encoding: .utf8) else { return }
                 callback([json])
             }
-        }.disposed(by: bag)
+        }.disposed(by: self.bag)
     }
     
     @objc
@@ -332,5 +333,31 @@ public class ParticleWalletPlugin: NSObject {
          */
         ParticleNetwork.setFiatCoin(.init(rawValue: json) ?? .usd)
     }
+    
+    @objc
+    func initializeWalletMetaData(_ json: String) {
+        let data = JSON(parseJSON: json)
+
+        let walletName = data["name"].stringValue
+        let walletIconString = data["icon"].stringValue
+        let walletUrlString = data["url"].stringValue
+        let walletDescription = data["description"].stringValue
+        
+        let walletConnectV2ProjectId = data["walletConnectProjectId"].stringValue
+
+        let walletIconUrl = URL(string: walletIconString) != nil ? URL(string: walletIconString)! : URL(string: "https://connect.particle.network/icons/512.png")!
+
+        let walletUrl = URL(string: walletUrlString) != nil ? URL(string: walletUrlString)! : URL(string: "https://connect.particle.network")!
+
+        ParticleWalletConnect.initialize(.init(name: walletName, icon: walletIconUrl, url: walletUrl, description: walletDescription))
+        
+        ParticleWalletConnect.setWalletConnectV2ProjectId(walletConnectV2ProjectId)
+        
+        // there is a bug, without new object, scan qrcode meet 'disconnected' error
+        // new object could solve this bug.
+        // the bug did not happen in flutter and native.
+        let _ = ParticleWalletConnect()
+    }
+
     
 }

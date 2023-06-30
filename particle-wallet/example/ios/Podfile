@@ -12,18 +12,21 @@ target 'ParticleWalletExample' do
   flags = get_default_flags()
 
 
-    pod 'ParticleWalletGUI', '0.13.4'
-    pod 'ParticleWalletAPI', '0.13.4'
-    pod 'ParticleNetworkBase', '0.13.4'
-    pod 'ParticleAuthService', '0.13.4'
-    pod 'ParticleWalletConnect', '0.13.4'
+    pod 'ParticleWalletGUI', '0.14.3'
+    pod 'ParticleWalletAPI', '0.14.3'
+    pod 'ParticleNetworkBase', '0.14.3'
+    pod 'ParticleAuthService', '0.14.3'
+#    pod 'ParticleWalletConnect', '0.14.3'
+    pod 'ParticleBiconomy', '0.14.3'
     
-    pod 'ParticleConnect', '0.1.53'
-    pod 'ConnectWalletConnectAdapter', '0.1.53'
-    pod 'ConnectEVMAdapter', '0.1.53'
-    pod 'ConnectSolanaAdapter', '0.1.53'
-    pod 'ConnectPhantomAdapter', '0.1.53'
-    pod 'ConnectCommon', '0.1.53'
+    pod 'ParticleWalletConnect', :path => '/Users/link2/Documents/particle-ios-gitlab/ParticleNetwork'
+    
+    pod 'ParticleConnect', '0.2.3'
+    pod 'ConnectWalletConnectAdapter', '0.2.3'
+    pod 'ConnectEVMAdapter', '0.2.3'
+    pod 'ConnectSolanaAdapter', '0.2.3'
+    pod 'ConnectPhantomAdapter', '0.2.3'
+    pod 'ConnectCommon', '0.2.3'
 
     pod 'SkeletonView', :git => 'https://github.com/SunZhiC/SkeletonView.git', :branch => 'main'
     pod 'WalletConnectSwift', :git => 'https://github.com/SunZhiC/WalletConnectSwift', :branch => 'master'

@@ -62,12 +62,13 @@ class ParticleConnectPlugin: NSObject {
         let dAppName = data["metadata"]["name"].stringValue
         let dAppIconString = data["metadata"]["icon"].stringValue
         let dAppUrlString = data["metadata"]["url"].stringValue
+        let description = data["metadata"]["description"].stringValue
         
         let dAppIconUrl = URL(string: dAppIconString) != nil ? URL(string: dAppIconString)! : URL(string: "https://connect.particle.network/icons/512.png")!
         
         let dAppUrl = URL(string: dAppUrlString) != nil ? URL(string: dAppUrlString)! : URL(string: "https://connect.particle.network")!
         
-        let dAppData = DAppMetaData(name: dAppName, icon: dAppIconUrl, url: dAppUrl)
+        let dAppData = DAppMetaData(name: dAppName, icon: dAppIconUrl, url: dAppUrl, description: description)
         
         var adapters: [ConnectAdapter] = [ParticleConnectAdapter()]
 #if canImport(ConnectEVMAdapter)
@@ -1002,6 +1003,21 @@ class ParticleConnectPlugin: NSObject {
         let nullData = try! JSONEncoder().encode(statusModel)
         guard let json = String(data: nullData, encoding: .utf8) else { return }
         callback([json])
+    }
+    
+    @objc
+    func setWalletConnectV2ProjectId(_ json: String) {
+        ParticleConnect.setWalletConnectV2ProjectId(json)
+    }
+    
+    @objc
+    func setWalletConnectV2SupportChainInfos(_ json: String) {
+        let chainInfos = JSON(parseJSON: json).arrayValue.map {
+            $0["chain_id"].intValue
+        }.compactMap {
+            ParticleNetwork.searchChainInfo(by: $0)
+        }
+        ParticleConnect.setWalletConnectV2SupportChainInfos(chainInfos)
     }
 }
 

@@ -20,7 +20,7 @@ export default class ConnectDemo extends PureComponent {
 
     pnaccount = new PNAccount();
 
-    // Start with new web3, at this time, you don't connect with this walletType, and dont know any publicAddress
+    // Start with new web3, at this time, you don't connect with this walletType, and don't know any publicAddress
     newWeb3 = undefined;
 
     // After connected a wallet, restoreWeb3 when getAccounts.
@@ -52,6 +52,10 @@ export default class ConnectDemo extends PureComponent {
         particleConnect.init(chainInfo, env, metadata, rpcUrl);
 
         this.newWeb3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', PNAccount.walletType);
+
+        particleConnect.setWalletConnectV2ProjectId('75ac08814504606fc06126541ace9df6');
+        const chainInfos = [ChainInfo.EthereumMainnet, ChainInfo.PolygonMainnet, ChainInfo.EthereumGoerli, ChainInfo.EthereumSepolia];
+        particleConnect.setWalletConnectV2SupportChainInfos(chainInfos);
     };
 
     newWeb3_getAccounts = async () => {
@@ -70,6 +74,7 @@ export default class ConnectDemo extends PureComponent {
             this.web3 = restoreWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', PNAccount.walletType, this.pnaccount.publicAddress);
 
             const accounts = await this.web3.eth.getAccounts();
+            this.pnaccount = new PNAccount("", "", accounts[0], "");
             console.log('web3.eth.getAccounts', accounts);
         } catch (error) {
             console.log('web3.eth.getAccounts', error);
@@ -108,7 +113,6 @@ export default class ConnectDemo extends PureComponent {
                 method: 'personal_sign',
                 params: ['Hello world', accounts[0]]
             });
-
 
             console.log('web3.eth.personal.sign', result);
         } catch (error) {
@@ -182,8 +186,7 @@ export default class ConnectDemo extends PureComponent {
     };
 
     setChainInfo = async () => {
-        console.log('current wallet type', PNAccount.walletType);
-        const chainInfo = ChainInfo.PolygonMumbai;
+        const chainInfo = this.props.route.params?.chainInfo || ChainInfo.EthereumMainnet;
         const result = await particleAuth.setChainInfo(chainInfo);
         console.log(result);
     };
@@ -194,7 +197,7 @@ export default class ConnectDemo extends PureComponent {
     };
 
     setChainInfoAsync = async () => {
-        const chainInfo = ChainInfo.PolygonMainnet;
+        const chainInfo = this.props.route.params?.chainInfo || ChainInfo.EthereumMainnet;
         const result = await particleAuth.setChainInfoAsync(chainInfo);
         console.log(result);
     };
@@ -298,17 +301,30 @@ export default class ConnectDemo extends PureComponent {
 
     signTransaction = async () => {
 
+        const chainInfo = this.props.route.params?.chainInfo || ChainInfo.SolanaDevnet;
+
+        if (chainInfo.chain_name.toLowerCase() != 'solana') {
+            console.log('signTransaction only supports solana');
+            return;
+        }
+
         const publicAddress = this.pnaccount.publicAddress;
         if (publicAddress == undefined) {
             console.log('publicAddress is underfined, you need connect');
             return;
         }
-        const transaction = '';
+
+        const sender = await particleAuth.getAddress();
+        console.log('sender: ', sender);
+        const transaction = await Helper.getSolanaTransaction(sender);
+        console.log('transaction:', transaction);
+
         const result = await particleConnect.signTransaction(
             PNAccount.walletType,
             publicAddress,
             transaction
         );
+
         if (result.status) {
             const signedTransaction = result.data;
             console.log(signedTransaction);
@@ -320,12 +336,24 @@ export default class ConnectDemo extends PureComponent {
 
     signAllTransactions = async () => {
 
+        const chainInfo = this.props.route.params?.chainInfo || ChainInfo.SolanaDevnet;
+
+        if (chainInfo.chain_name.toLowerCase() != 'solana') {
+            console.log('signAllTransactions only supports solana');
+            return;
+        }
+
         const publicAddress = this.pnaccount.publicAddress;
         if (publicAddress == undefined) {
             console.log('publicAddress is underfined, you need connect');
             return;
         }
-        const transactions = ['', ''];
+        const sender = await particleAuth.getAddress();
+        console.log('sender: ', sender);
+        const transaction = await Helper.getSolanaTransaction(sender);
+        console.log('transaction:', transaction);
+
+        const transactions = [transaction, transaction];
         const result = await particleConnect.signAllTransactions(
             PNAccount.walletType,
             publicAddress,
@@ -342,6 +370,9 @@ export default class ConnectDemo extends PureComponent {
 
     signAndSendTransaction = async () => {
 
+        const sender = await particleAuth.getAddress();
+        const chainInfo = this.props.route.params?.chainInfo || ChainInfo.PolygonMumbai;
+
         const publicAddress = this.pnaccount.publicAddress;
 
         if (publicAddress == undefined) {
@@ -349,9 +380,17 @@ export default class ConnectDemo extends PureComponent {
             return;
         }
 
-        const transaction = await Helper.getEthereumTransacion(
-            this.pnaccount.publicAddress
-        );
+        let transaction = '';
+        if (chainInfo.chain_name.toLowerCase() == 'solana') {
+            transaction = await Helper.getSolanaTransaction(sender);
+        } else {
+            const receiver = TestAccountEVM.receiverAddress;
+            const amount = TestAccountEVM.amount;
+            transaction = await Helper.getEthereumTransacion(
+                this.pnaccount.publicAddress, receiver, amount
+            );
+        }
+
         console.log(transaction);
         const result = await particleConnect.signAndSendTransaction(
             PNAccount.walletType,
@@ -365,6 +404,7 @@ export default class ConnectDemo extends PureComponent {
             const error = result.data;
             console.log(error);
         }
+
     };
 
     signTypedData = async () => {
@@ -609,7 +649,7 @@ export default class ConnectDemo extends PureComponent {
 
         return (
             <SafeAreaView>
-                <FlatList data={data} renderItem={
+                <FlatList data={this.data} renderItem={
                     ({ item }) =>
 
                         <TouchableOpacity style={styles.buttonStyle}

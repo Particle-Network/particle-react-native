@@ -1,7 +1,7 @@
 import { NativeModules, Platform } from 'react-native';
 import type { ChainInfo } from './Models/ChainInfo';
 import type { Language } from './Models/Language';
-import type { Env, iOSModalPresentStyle, LoginType, SupportAuthType } from './Models/LoginInfo';
+import type { Env, iOSModalPresentStyle, LoginAuthorization, LoginType, SocialLoginPrompt, SupportAuthType } from './Models/LoginInfo';
 import type { SecurityAccountConfig } from './Models/SecurityAccountConfig';
 import type { BiconomyFeeMode } from './Models/BiconomyFeeMode';
 
@@ -14,24 +14,24 @@ const LINKING_ERROR =
 const ParticleAuthPlugin = NativeModules.ParticleAuthPlugin
     ? NativeModules.ParticleAuthPlugin
     : new Proxy(
-          {},
-          {
-              get() {
-                  throw new Error(LINKING_ERROR);
-              },
-          }
-      );
+        {},
+        {
+            get() {
+                throw new Error(LINKING_ERROR);
+            },
+        }
+    );
 
 export const ParticleAuthEvent = NativeModules.ParticleAuthEvent
     ? NativeModules.ParticleAuthEvent
     : new Proxy(
-          {},
-          {
-              get() {
-                  // throw new Error(LINKING_ERROR);
-              },
-          }
-      );
+        {},
+        {
+            get() {
+                // throw new Error(LINKING_ERROR);
+            },
+        }
+    );
 
 /**
  * Init Particle Auth Service.
@@ -119,20 +119,27 @@ export function setChainInfoAsync(chainInfo: ChainInfo): Promise<boolean> {
  * @param account When login type is email, phone or jwt, you could pass email address, phone number or jwt.
  * @param supportAuthType Controls whether third-party login buttons are displayed. default will show all third-party login buttons.
  * @param loginFormMode Controls whether show light UI in web, default is false.
+ * @param socialLoginPrompt Social login prompt, optional.
+ * @param authorization message:evm->hex sign message . solana is base58, uniq:unique sign,only support evm
  * @returns Result, userinfo or error
  */
 export function login(
     type?: LoginType,
     account?: string,
     supportAuthType?: [SupportAuthType],
-    loginFormMode?: boolean
+    loginFormMode?: boolean,
+    socialLoginPrompt?: SocialLoginPrompt,
+    authorization?: LoginAuthorization
 ): Promise<any> {
     const obj = {
         login_type: type,
         account: account,
         support_auth_type_values: supportAuthType,
         login_form_mode: loginFormMode,
+        social_login_prompt: socialLoginPrompt,
+        authorization: authorization,
     };
+
     const json = JSON.stringify(obj);
     console.log('login:', json);
     return new Promise((resolve) => {
@@ -282,7 +289,7 @@ export function signAndSendTransaction(transaction: string, feeMode?: BiconomyFe
  * @param feeMode Optional, default is auto
  * @returns Result, signature or error
  */
-export function batchSendTransactions(transactions: string[], feeMode?: BiconomyFeeMode): Promise<any>{
+export function batchSendTransactions(transactions: string[], feeMode?: BiconomyFeeMode): Promise<any> {
     const obj = {
         transactions: transactions,
         fee_mode: {
@@ -305,7 +312,7 @@ export function batchSendTransactions(transactions: string[], feeMode?: Biconomy
  * @param version TypedData version, support v1, v3, v4, v4Unique
  * @returns Result, signature or error
  */
-export function signTypedData(typedData: string, version: "v1"| "v3" |"v4" | "v4Unique"): Promise<any> {
+export function signTypedData(typedData: string, version: "v1" | "v3" | "v4" | "v4Unique"): Promise<any> {
     const obj = { message: typedData, version: version };
     const json = JSON.stringify(obj);
 
@@ -403,6 +410,57 @@ export function setSecurityAccountConfig(config: SecurityAccountConfig) {
     };
     const json = JSON.stringify(obj);
     ParticleAuthPlugin.setSecurityAccountConfig(json);
+}
+
+/**
+ * Has master password, get value from local user info.
+ */
+export async function hasMasterPassword(): Promise<boolean> {
+    const result = await getUserInfo();
+
+    const userInfo = JSON.parse(result);
+    const hasMasterPassword = userInfo.security_account.has_set_master_password;
+    return hasMasterPassword;
+}
+
+/**
+ * Has payment password, get value from local user info.
+ */
+export async function hasPaymentPassword(): Promise<boolean> {
+    const result = await getUserInfo();
+
+    const userInfo = JSON.parse(result);
+    const hasPaymentPassword = userInfo.security_account.has_set_payment_password;
+    return hasPaymentPassword;
+}
+
+/**
+ * Has security account, get value from local user info.
+ */
+export async function hasSecurityAccount(): Promise<boolean> {
+    const result = await getUserInfo();
+
+    const userInfo = JSON.parse(result);
+    const email = userInfo.security_account.email;
+    const phone = userInfo.security_account.phone;
+    return !email || !phone;
+}
+
+/**
+ * Get security account from remote server, contains hasMasterPassword, hasPaymentPassword and hasSecurityAccount.
+ */
+export async function getSecurityAccount(): Promise<string> {
+    if (Platform.OS === 'ios') {
+        return new Promise((resolve) => {
+            ParticleAuthPlugin.getSecurityAccount((result: string) => {
+                resolve(JSON.parse(result));
+            });
+        });
+    } else {
+        // todo
+        return Promise.resolve('');
+    }
+
 }
 
 export * from './Models/LoginInfo';

@@ -9,7 +9,8 @@ import {
     Language,
     SecurityAccountConfig,
     EvmService,
-    ParticleInfo
+    ParticleInfo,
+    LoginAuthorization
 } from 'react-native-particle-auth';
 import * as particleAuth from 'react-native-particle-auth';
 
@@ -412,7 +413,9 @@ export default class AuthDemo extends PureComponent {
             SupportAuthType.Google,
             SupportAuthType.Discord,
         ];
-        const result = await particleAuth.login(type, '', supportAuthType, undefined);
+        // authrization is optional, used to login and sign a message.
+        const authrization = new LoginAuthorization("0xa0869E99886e1b6737A4364F2cf9Bb454FD637E4", false);
+        const result = await particleAuth.login(type, '', supportAuthType, undefined, undefined, authrization);
         if (result.status) {
             const userInfo = result.data;
             console.log(userInfo);
@@ -713,13 +716,35 @@ export default class AuthDemo extends PureComponent {
         }
     }
 
-    otherMathodExample = async () => {
-        const result1 = await EvmService.estimateGas(from, to, value, data)
-        const result2 = await EvmService.suggeseGasFee();
-        // EvmService.getTokensAndNFTs(address);
-        const result4 = await EvmService.getTokenByTokenAddress(publicAddress, tokenAddresses)
-        const result5 = await EvmService.getTransactionsByAddress(publicAddress);
-        EvmService.getPrice()
+    hasMasterPassword = async () => {
+        const hasMasterPassword = await particleAuth.hasMasterPassword();
+        console.log('hasMasterPassword', hasMasterPassword);
+    }
+
+    hasPaymentPassword = async () => {
+        const hasPaymentPassword = await particleAuth.hasPaymentPassword();
+        console.log('hasPaymentPassword', hasPaymentPassword);
+    }
+
+    hasSecurityAccount = async () => {
+        const hasSecurityAccount = await particleAuth.hasSecurityAccount();
+        console.log('hasSecurityAccount', hasSecurityAccount);
+    }
+
+    getSecurityAccount = async () => {
+        const result = await particleAuth.getSecurityAccount();
+        if (result.status) {
+            const secuirtyAccount = result.data;
+            const hasMasterPassword = secuirtyAccount.has_set_master_password;
+            const hasPaymentPassword = secuirtyAccount.has_set_payment_password;
+            const email = secuirtyAccount.email;
+            const phone = secuirtyAccount.phont;
+            const hasSecurityAccount = !email || !phone;
+            console.log('hasMasterPassword', hasMasterPassword, 'hasPaymentPassword', hasPaymentPassword, 'hasSecurityAccount', hasSecurityAccount);
+        } else {
+            const error = result.data;
+            console.log(error);
+        }
     }
 
     data = [
@@ -766,8 +791,11 @@ export default class AuthDemo extends PureComponent {
         { key: 'ReadContract', function: this.readContract },
         { key: 'WriteContract', function: this.writeContract },
 
-        { key: 'WriteContractAndSend', function: this.writeContractAndSend }
-
+        { key: 'WriteContractAndSend', function: this.writeContractAndSend },
+        { key: 'HasMasterPassword', function: this.hasMasterPassword },
+        { key: 'HasPaymentPassword', function: this.hasPaymentPassword },
+        { key: 'HasSecurityAccount', function: this.hasSecurityAccount },
+        { key: 'getSecurityAccount', function: this.getSecurityAccount },
     ];
 
     render = () => {

@@ -15,6 +15,7 @@ export default class SelectWalletTypePage extends PureComponent {
             { key: 'Trust', value: WalletType.Trust },
             { key: 'BitKeep', value: WalletType.BitKeep },
             { key: 'Rainbow', value: WalletType.Rainbow },
+            { key: 'Imtoken', value: WalletType.ImToken },
             { key: 'EvmPrivateKey', value: WalletType.EvmPrivateKey },
             { key: 'SoalnaPrivateKey', value: WalletType.SolanaPrivateKey },
             // available walletType is defined in WalletType.ts

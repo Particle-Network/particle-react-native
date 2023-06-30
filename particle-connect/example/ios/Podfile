@@ -10,15 +10,16 @@ target 'ParticleConnectExample' do
   use_frameworks! :linkage => :static
   # Flags change depending on the env values.
   flags = get_default_flags()
-  pod 'ConnectWalletConnectAdapter', '0.1.53'
-  pod 'ConnectPhantomAdapter','0.1.53'
-  pod 'ConnectEVMAdapter', '0.1.53'
-  pod 'ConnectSolanaAdapter', '0.1.53'
-  pod 'ParticleConnect', '0.1.53'
-  pod 'ConnectCommon', '0.1.53'
-  
-  pod 'ParticleNetworkBase', '0.13.5'
-  pod 'ParticleAuthService', '0.13.5'
+  pod 'ConnectWalletConnectAdapter', '0.2.3'
+  pod 'ConnectPhantomAdapter','0.2.3'
+  pod 'ConnectEVMAdapter', '0.2.3'
+  pod 'ConnectSolanaAdapter', '0.2.3'
+  pod 'ParticleConnect', '0.2.3'
+  pod 'ConnectCommon', '0.2.3'
+
+
+  pod 'ParticleNetworkBase', '0.14.3'
+  pod 'ParticleAuthService', '0.14.3'
   
   pod 'WalletConnectSwift', :git => 'https://github.com/SunZhiC/WalletConnectSwift', :branch => 'master'
   pod 'SwiftMessages', :git => 'https://github.com/SunZhiC/SwiftMessages', :branch => 'master'

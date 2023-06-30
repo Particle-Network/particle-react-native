@@ -1,10 +1,10 @@
 import { NativeModules, Platform } from 'react-native';
 
-import type { ParticleConnectConfig } from './Models/ConnectConfig';
 import type { DappMetaData } from './Models/DappMetaData';
 import type { RpcUrl } from './Models/RpcUrl';
 import type { WalletType } from './Models/WalletType';
 import type { BiconomyFeeMode, ChainInfo, Env } from 'react-native-particle-auth';
+import type { ParticleConnectConfig } from './Models/ConnectConfig';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-connect' doesn't seem to be linked. Make sure: \n\n` +
@@ -46,6 +46,31 @@ export function init(
   };
   const json = JSON.stringify(obj);
   ParticleConnectPlugin.initialize(json);
+}
+
+/**
+ * Set wallet connect v2 project id, required by WalletConnectV2
+ * @param walletConnectV2ProjectId Wallet connect v2 project id
+ */
+export function setWalletConnectV2ProjectId(walletConnectV2ProjectId: string) {
+  if (Platform.OS === 'ios') {
+    ParticleConnectPlugin.setWalletConnectV2ProjectId(walletConnectV2ProjectId);
+  } else {
+    // todo
+  }
+}
+
+/**
+ * Set the required chains for wallet connect v2. If not set, the current chain connection will be used.
+ * @param chainInfos Chain info list
+ */
+export function setWalletConnectV2SupportChainInfos(chainInfos: ChainInfo[]) {
+  if (Platform.OS === 'ios') {
+    const json = JSON.stringify(chainInfos);
+    ParticleConnectPlugin.setWalletConnectV2SupportChainInfos(json);
+  } else {
+    // to do
+  }
 }
 
 /**
@@ -216,7 +241,7 @@ export function signAndSendTransaction(walletType: WalletType, publicAddress: st
       fee_quote: feeMode?.getFeeQuote(),
     }
   };
-  
+
   const json = JSON.stringify(obj);
 
   return new Promise((resolve) => {

@@ -30,8 +30,6 @@ target 'ParticleBiconomyExample' do
   
   pod 'ParticleNetworkBase', '0.13.5'
   pod 'ParticleAuthService', '0.13.5'
-  
-  
   pod 'ParticleBiconomy', '0.13.5'
   
  

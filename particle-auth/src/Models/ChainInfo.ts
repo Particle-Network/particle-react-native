@@ -33,7 +33,6 @@ export class ChainInfo {
     public static MoonriverMainnet = new ChainInfo('Moonriver', 1285, 'Mainnet');
     public static MoonriverTestnet = new ChainInfo('Moonriver', 1287, 'Testnet');
     public static HecoMainnet = new ChainInfo('Heco', 128, 'Mainnet');
-    public static HecoTestnet = new ChainInfo('Heco', 256, 'Testnet');
     public static AuroraMainnet = new ChainInfo('Aurora', 1313161554, 'Mainnet');
     public static AuroraTestnet = new ChainInfo('Aurora', 1313161555, 'Testnet');
     public static HarmonyMainnet = new ChainInfo('Harmony', 1666600000, 'Mainnet');
@@ -79,5 +78,9 @@ export class ChainInfo {
     public static LineaGoerli = new ChainInfo('Linea', 59140, 'Goerli');
     public static ComboTestnet = new ChainInfo('Combo', 91715, 'Testnet');
     public static MantleTestnet = new ChainInfo('Mantle', 5001, 'Testnet');
-    public static ZkMetaTestnet = new ChainInfo('ZkMeta', 23122, 'Testnet');
+    public static ZkMetaTestnet = new ChainInfo('ZkMeta', 12009, 'Testnet');
+
+    public static OpBNBTestnet = new ChainInfo('OpBNB', 5611, 'Testnet');
+    public static OKBCTestnet = new ChainInfo('OKBC', 195, 'Testnet');
+    public static TaikoTestnet = new ChainInfo('Taiko', 167005, 'Testnet');
 }

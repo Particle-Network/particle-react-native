@@ -29,6 +29,23 @@ export enum SupportAuthType {
     All = 'All',
 }
 
+export enum SocialLoginPrompt {
+    None = 'none',
+    Consent = 'Sconsent',
+    SelectAccount = 'select_account'
+}
+
+export class LoginAuthorization {
+    public message: string;
+    public uniq: boolean;
+
+    constructor(message: string, uniq: boolean = false) {
+        this.message = message;
+        this.uniq = uniq;
+    }
+}
+
+
 export enum iOSModalPresentStyle {
     FullScreen = 'fullScreen',
     FormSheet = 'formSheet',

@@ -1,9 +1,9 @@
 import { NativeModules, Platform } from 'react-native';
-
-import type { WalletDisplay, ChainInfo, WalletType } from 'react-native-particle-connect';
-import type { Language } from 'react-native-particle-auth';
+import type { ChainInfo, WalletDisplay, Language } from 'react-native-particle-auth';
+import type { WalletType } from 'react-native-particle-connect';
 import type { BuyCryptoConfig } from './Models/BuyCryptoConfig';
 import type { FaitCoin } from './Models/FaitCoin';
+import type { WalletMetaData } from './Models/WalletMetaData';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-wallet' doesn't seem to be linked. Make sure: \n\n` +
@@ -25,11 +25,15 @@ const ParticleWalletPlugin = NativeModules.ParticleWalletPlugin
 /**
  * Init Particle Wallet Service
  */
-export function initWallet() {
+export function initWallet(walletMetaData: WalletMetaData) {
   if (Platform.OS === 'android') {
     ParticleWalletPlugin.init();
   }
-  supportWalletConnect(false);
+
+  if (Platform.OS === 'ios') {
+    const json = JSON.stringify(walletMetaData);
+    ParticleWalletPlugin.initializeWalletMetaData(json)
+  }
 }
 
 /**
@@ -40,6 +44,7 @@ export function navigatorWallet(display: WalletDisplay) {
   console.log('navigatorWallet', display);
   ParticleWalletPlugin.navigatorWallet(display);
 }
+
 export function createSelectedWallet(
   publicAddress: string,
   walletType: WalletType
@@ -86,7 +91,7 @@ export function navigatorTokenTransactionRecords(tokenAddress?: string) {
  * @param amount Optional, for solana nft, pass null, for erc721 nft, it is a useless parameter, pass null, for erc1155 nft, you can pass amount string, such as "1", "100", "10000"
  */
 export function navigatorNFTSend(mint: string, tokenId: string, receiverAddress?: string, amount?: string) {
-  const obj = { mint: mint, receiver_address: receiverAddress, token_id: tokenId, amount: amount};
+  const obj = { mint: mint, receiver_address: receiverAddress, token_id: tokenId, amount: amount };
   const json = JSON.stringify(obj);
   ParticleWalletPlugin.navigatorNFTSend(json);
 }
@@ -171,7 +176,7 @@ export function showManageWallet(isShow: boolean) {
  * Support chainInfos
  * @param chainInfos ChainInfos
  */
-export function supportChain(chainInfos: [ChainInfo]) {
+export function supportChain(chainInfos: ChainInfo[]) {
   const json = JSON.stringify(chainInfos);
   ParticleWalletPlugin.supportChain(json);
 }
@@ -239,15 +244,6 @@ export function switchWallet(walletType: string, publicAddress: string): Promise
  */
 export function setLanguage(language: Language) {
   ParticleWalletPlugin.setLanguage(language);
-}
-
-/**
- * Set wallet if support wallet connect as a wallet
- * not support for now, coming soon.
- * @param isEnable 
- */
-export function supportWalletConnect(isEnable: boolean) {
-  ParticleWalletPlugin.supportWalletConnect(isEnable);
 }
 
 /**
@@ -328,5 +324,22 @@ export function setSupportAddToken(isShow: boolean) {
   ParticleWalletPlugin.setSupportAddToken(isShow);
 }
 
+
+/**
+ * Set wallet if support wallet connect as a wallet
+ * not support for now, coming soon.
+ * @param isEnable 
+ */
+export function supportWalletConnect(isEnable: boolean) {
+  ParticleWalletPlugin.supportWalletConnect(isEnable);
+}
+
+export function setWalletConnectV2ProjectId(walletConnectV2ProjectId: string) {
+  if (Platform.OS == 'ios') {
+    ParticleWalletPlugin.setWalletConnectV2ProjectId(walletConnectV2ProjectId);
+  }
+}
+
 export * from './Models/BuyCryptoConfig';
 export * from './Models/FaitCoin';
+export * from './Models/WalletMetaData';

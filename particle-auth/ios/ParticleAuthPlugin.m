@@ -72,6 +72,8 @@ RCT_EXTERN_METHOD(setCustomStyle:(NSString* _Nonnull)json)
 
 RCT_EXTERN_METHOD(setSecurityAccountConfig:(NSString* _Nonnull)json)
 
+RCT_EXTERN_METHOD(getSecurityAccount: (RCTResponseSenderBlock)callback)
+
 - (dispatch_queue_t)methodQueue {
   return dispatch_get_main_queue();
 }

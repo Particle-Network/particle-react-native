@@ -5,16 +5,11 @@ import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 export default class SelectChainPage extends PureComponent {
     render = () => {
-        const data = [
-            { key: 'EthereumMainnet', value: ChainInfo.EthereumMainnet },
-            { key: 'EthereumGoerli', value: ChainInfo.EthereumGoerli },
-            { key: 'BSCMainnet', value: ChainInfo.BSCMainnet },
-            { key: 'BSCTestnet', value: ChainInfo.BSCTestnet },
-            { key: 'PolygonMainnet', value: ChainInfo.PolygonMainnet },
-            { key: 'PolygonMumbai', value: ChainInfo.PolygonMumbai },
-            // available chain is defined in ChainInfo.ts
-            // you can add your network to test
-        ];
+        const data = Object.values(ChainInfo).map((chainInfo) => {
+
+            return { key: chainInfo.chain_name + chainInfo.chain_id_name, value: chainInfo };
+
+        });
 
         return (
             <SafeAreaView>

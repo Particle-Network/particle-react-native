@@ -107,6 +107,18 @@ class ParticleAuthPlugin: NSObject {
         let supportAuthType = data["support_auth_type_values"].arrayValue
         let loginFormMode = data["login_form_mode"].bool ?? false
         
+        let socialLoginPromptString = data["social_login_prompt"].stringValue.lowercased()
+        let socialLoginPrompt: SocialLoginPrompt? = SocialLoginPrompt(rawValue: socialLoginPromptString)
+        
+        let message: String? = data["authorization"]["message"].string
+        let isUnique: Bool = data["authorization"]["uniq"].bool ?? false
+        
+        var loginAuthorization: LoginAuthorization?
+        
+        if message != nil {
+            loginAuthorization = .init(message: message!, isUnique: isUnique)
+        }
+        
         let loginType = LoginType(rawValue: type) ?? .email
         var supportAuthTypeArray: [SupportAuthType] = []
         
@@ -149,7 +161,7 @@ class ParticleAuthPlugin: NSObject {
             acc = nil
         }
         
-        ParticleAuthService.login(type: loginType, account: acc, supportAuthType: supportAuthTypeArray, loginFormMode: loginFormMode).subscribe { [weak self] result in
+        ParticleAuthService.login(type: loginType, account: acc, supportAuthType: supportAuthTypeArray, loginFormMode: loginFormMode, socialLoginPrompt: socialLoginPrompt, authorization: loginAuthorization).subscribe { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
@@ -492,7 +504,10 @@ class ParticleAuthPlugin: NSObject {
             rejecter("", "user is not login", nil)
             return
         }
-        let data = try! JSONEncoder().encode(userInfo)
+        let userInfoJsonString = userInfo.jsonStringFullSnake()
+        let newUserInfo = JSON(parseJSON: userInfoJsonString)
+        
+        let data = try! JSONEncoder().encode(newUserInfo)
         let json = String(data: data, encoding: .utf8)
         resolve(json ?? "")
     }
@@ -591,6 +606,34 @@ class ParticleAuthPlugin: NSObject {
         let promptSettingWhenSign = data["prompt_setting_when_sign"].intValue
         let promptMasterPasswordSettingWhenLogin = data["prompt_master_password_setting_when_login"].intValue
         ParticleAuthService.setSecurityAccountConfig(config: .init(promptSettingWhenSign: promptSettingWhenSign, promptMasterPasswordSettingWhenLogin: promptMasterPasswordSettingWhenLogin))
+    }
+        
+    @objc
+    public func getSecurityAccount(_ callback: @escaping RCTResponseSenderBlock) {
+        ParticleAuthService.getSecurityAccount().subscribe { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                let response = self.ResponseFromError(error)
+                let statusModel = ReactStatusModel(status: false, data: response)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            case .success(let securityAccountInfo):
+                
+                let dict = ["phone": securityAccountInfo.phone,
+                            "email": securityAccountInfo.email,
+                            "has_set_master_password": securityAccountInfo.hasSetMasterPassword,
+                            "has_set_payment_password": securityAccountInfo.hasSetPaymentPassword] as [String: Any?]
+                
+                let json = JSON(dict)
+                
+                let statusModel = ReactStatusModel(status: true, data: json)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            }
+        }.disposed(by: bag)
     }
 }
 

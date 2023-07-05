@@ -21,6 +21,8 @@ RCT_EXTERN_METHOD(signAllTransactions:(NSString* _Nonnull)transactions callback:
 
 RCT_EXTERN_METHOD(signAndSendTransaction:(NSString* _Nonnull)message callback:(RCTResponseSenderBlock)callback)
 
+RCT_EXTERN_METHOD(batchSendTransactions: (NSString* _Nonnull)message callback:(RCTResponseSenderBlock)callback)
+
 RCT_EXTERN_METHOD(signTypedData:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(login:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)

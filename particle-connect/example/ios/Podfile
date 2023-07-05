@@ -1,7 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '13.0'
+platform :ios, '14.0'
 source 'https://github.com/CocoaPods/Specs.git'
 install! 'cocoapods', :deterministic_uuids => false
 
@@ -10,18 +10,18 @@ target 'ParticleConnectExample' do
   use_frameworks! :linkage => :static
   # Flags change depending on the env values.
   flags = get_default_flags()
-  pod 'ConnectWalletConnectAdapter', '0.2.3'
-  pod 'ConnectPhantomAdapter','0.2.3'
-  pod 'ConnectEVMAdapter', '0.2.3'
-  pod 'ConnectSolanaAdapter', '0.2.3'
-  pod 'ParticleConnect', '0.2.3'
-  pod 'ConnectCommon', '0.2.3'
+  pod 'ConnectWalletConnectAdapter', '0.2.4'
+  pod 'ConnectPhantomAdapter','0.2.4'
+  pod 'ConnectEVMAdapter', '0.2.4'
+  pod 'ConnectSolanaAdapter', '0.2.4'
+  pod 'ParticleConnect', '0.2.4'
+  pod 'ConnectCommon', '0.2.4'
 
 
-  pod 'ParticleNetworkBase', '0.14.3'
-  pod 'ParticleAuthService', '0.14.3'
+  pod 'ParticleNetworkBase', '0.14.5'
+  pod 'ParticleAuthService', '0.14.5'
   
-  pod 'WalletConnectSwift', :git => 'https://github.com/SunZhiC/WalletConnectSwift', :branch => 'master'
+  pod 'WalletConnectSwiftV2', '1.6.10'
   pod 'SwiftMessages', :git => 'https://github.com/SunZhiC/SwiftMessages', :branch => 'master'
   
   use_react_native!(

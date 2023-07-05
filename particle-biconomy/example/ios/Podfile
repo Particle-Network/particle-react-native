@@ -1,7 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '13.0'
+platform :ios, '14.0'
 source 'https://github.com/CocoaPods/Specs.git'
 install! 'cocoapods', :deterministic_uuids => false
 
@@ -28,10 +28,18 @@ target 'ParticleBiconomyExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
   
-  pod 'ParticleNetworkBase', '0.13.5'
-  pod 'ParticleAuthService', '0.13.5'
-  pod 'ParticleBiconomy', '0.13.5'
+  pod 'ParticleNetworkBase', '0.14.5'
+  pod 'ParticleAuthService', '0.14.5'
+  pod 'ParticleBiconomy', '0.14.5'
   
+  pod 'ParticleConnect', '0.2.4'
+ pod 'ConnectWalletConnectAdapter', '0.2.4'
+ pod 'ConnectSolanaAdapter', '0.2.4'
+ pod 'ConnectEVMAdapter', '0.2.4'
+ pod 'ConnectCommon', '0.2.4'
+ pod 'ConnectPhantomAdapter', '0.2.4'
+ 
+ pod 'WalletConnectSwiftV2', '1.6.10'
  
 
   target 'ParticleBiconomyExampleTests' do

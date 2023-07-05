@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BiconomyAuthDemo from './BiconomyAuthDemo';
+import BiconomyConnectDemo from './BiconomyConnectDemo';
 import Toast from 'react-native-toast-message';
 
 const logo = require('../images/ic_round.png');
@@ -16,6 +17,11 @@ function HomeScreen({ navigation }) {
         <TouchableOpacity style={styles.buttonStyle}
           onPress={() => navigation.push('BiconomyAuthDemo')}>
           <Text style={styles.textStyle}>BiconomyAuthDemo</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.buttonStyle}
+          onPress={() => navigation.push('BiconomyConnectDemo')}>
+          <Text style={styles.textStyle}>BiconomyConnectDemo</Text>
         </TouchableOpacity>
 
       </View>
@@ -33,6 +39,14 @@ function BiconomyAuthScreen({ navigation }) {
   );
 }
 
+function BiconomyConnectScreen({ navigation }) {
+  return (
+    <View style={styles.container}>
+      <BiconomyConnectDemo navigation={navigation} />
+    </View>
+  );
+}
+
 
 export default function App() {
   return (
@@ -41,6 +55,7 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="BiconomyAuthDemo" component={BiconomyAuthScreen} />
+          <Stack.Screen name="BiconomyConnectDemo" component={BiconomyConnectScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       <Toast />

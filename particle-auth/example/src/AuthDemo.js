@@ -374,7 +374,7 @@ export default class AuthDemo extends PureComponent {
     init = () => {
         // Get your project id and client from dashboard, https://dashboard.particle.network
         ParticleInfo.projectId = '5479798b-26a9-4943-b848-649bb104fdc3'; // your project id
-        ParticleInfo.clientKey = 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b'; // your client key 
+        ParticleInfo.clientKey = 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b'; // your client key
 
         if (ParticleInfo.projectId == "" || ParticleInfo.clientKey == "") {
             throw new Error(
@@ -629,6 +629,7 @@ export default class AuthDemo extends PureComponent {
     };
 
     openWebWallet = async () => {
+        //https://docs.particle.network/developers/wallet-service/sdks/web
         let webConfig = {
             supportAddToken: false,
             supportChains: [
@@ -643,7 +644,6 @@ export default class AuthDemo extends PureComponent {
             ],
         };
         const webConfigJSON = JSON.stringify(webConfig);
-        //https://docs.particle.network/developers/wallet-service/sdks/web
         particleAuth.openWebWallet(webConfigJSON);
     };
 

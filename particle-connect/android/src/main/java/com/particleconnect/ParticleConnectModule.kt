@@ -1,5 +1,6 @@
 package com.particleconnect
 
+import android.app.Application
 import android.text.TextUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
@@ -7,14 +8,14 @@ import com.connect.common.*
 import com.connect.common.eip4361.Eip4361Message
 import com.connect.common.model.Account
 import com.connect.common.model.ConnectError
-import com.connect.common.model.DAppMetadata
 import com.evm.adapter.EVMConnectAdapter
 import com.facebook.react.bridge.*
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.particle.base.ChainInfo
+import com.particle.base.ChainName
 import com.particle.base.Env
 import com.particle.base.ParticleNetwork
-import com.particle.base.getRpcUrl
 import com.particle.connect.ParticleConnect
 import com.particle.connect.ParticleConnect.setChain
 import com.particle.connect.ParticleConnectAdapter
@@ -51,15 +52,16 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
     LogUtils.d("init", initParams)
     val initData: InitData = GsonUtils.fromJson(initParams, InitData::class.java)
     val chainInfo: ChainInfo = ChainUtils.getChainInfo(initData.chainName, initData.chainIdName)
-    val (name, icon, url) = initData.metadata
+    val dAppMetadata = initData.metadata
     val rpcUrl: RpcUrl? = initData.rpcUrl
-    val dAppMetadata = DAppMetadata(
-      name, icon, url
-    )
+
     val adapter: MutableList<IConnectAdapter> = ArrayList()
     initAdapter(adapter, rpcUrl)
     ParticleConnect.init(
-      reactApplicationContext, Env.valueOf(initData.env.uppercase()), chainInfo, dAppMetadata
+      reactApplicationContext.applicationContext as Application,
+      Env.valueOf(initData.env.uppercase()),
+      chainInfo,
+      dAppMetadata
     ) { adapter }
   }
 
@@ -120,6 +122,16 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
     LogUtils.d("getChainInfo", result)
     callback.invoke(result)
   }
+  @ReactMethod
+  fun setWalletConnectV2SupportChainInfos(chainsString: String?) {
+    LogUtils.d("setWalletConnectV2SupportChainInfos", chainsString)
+    val initData: List<InitData> = GsonUtils.fromJson(chainsString, object : TypeToken<List<InitData>>() {}.type)
+    val chainInfos = mutableListOf<ChainInfo>()
+    initData.forEach {
+      chainInfos.add(getChainInfo(it.chainName, it.chainIdName))
+    }
+    ParticleConnect.setWalletConnectV2SupportChainInfos(chainInfos)
+  }
 
   @ReactMethod
   fun connect(walletType: String, loginParams: String, callback: Callback) {
@@ -128,8 +140,7 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
     try {
       if (!TextUtils.isEmpty(loginParams)) {
         val loginData = GsonUtils.fromJson(
-          loginParams,
-          LoginData::class.java
+          loginParams, LoginData::class.java
         )
         val account: String
         account = if (TextUtils.isEmpty(loginData.account)) {
@@ -260,8 +271,7 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
         override fun onError(error: ConnectError) {
           LogUtils.d("onError", error.toString())
           callback.invoke(
-            ReactCallBack.failed(ReactErrorMessage.parseConnectError(error))
-              .toGson()
+            ReactCallBack.failed(ReactErrorMessage.parseConnectError(error)).toGson()
           )
         }
       })
@@ -324,15 +334,15 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
       )
       return
     }
-    connectAdapter.signAndSendTransaction(signData.publicAddress,
+    connectAdapter.signAndSendTransaction(
+      signData.publicAddress,
       transaction,
       object : TransactionCallback {
 
         override fun onError(error: ConnectError) {
           LogUtils.d("onError", error.toString())
           callback.invoke(
-            ReactCallBack.failed(ReactErrorMessage.parseConnectError(error))
-              .toGson()
+            ReactCallBack.failed(ReactErrorMessage.parseConnectError(error)).toGson()
           )
 
         }
@@ -391,15 +401,15 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
       )
       return
     }
-    connectAdapter.signAllTransactions(signData.publicAddress,
+    connectAdapter.signAllTransactions(
+      signData.publicAddress,
       signData.transactions.toTypedArray(),
       object : SignAllCallback {
 
         override fun onError(error: ConnectError) {
           LogUtils.d("onError", error.toString())
           callback.invoke(
-            ReactCallBack.failed(ReactErrorMessage.parseConnectError(error))
-              .toGson()
+            ReactCallBack.failed(ReactErrorMessage.parseConnectError(error)).toGson()
           )
         }
 
@@ -430,22 +440,19 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
     } else {
       signData.message
     }
-    connectAdapter.signTypedData(signData.publicAddress,
-      typedData,
-      object : SignCallback {
-        override fun onError(error: ConnectError) {
-          LogUtils.d("onError", error.toString())
-          callback.invoke(
-            ReactCallBack.failed(ReactErrorMessage.parseConnectError(error))
-              .toGson()
-          )
-        }
+    connectAdapter.signTypedData(signData.publicAddress, typedData, object : SignCallback {
+      override fun onError(error: ConnectError) {
+        LogUtils.d("onError", error.toString())
+        callback.invoke(
+          ReactCallBack.failed(ReactErrorMessage.parseConnectError(error)).toGson()
+        )
+      }
 
-        override fun onSigned(signature: String) {
-          LogUtils.d("onSigned", signature)
-          callback.invoke(ReactCallBack.success(signature).toGson())
-        }
-      })
+      override fun onSigned(signature: String) {
+        LogUtils.d("onSigned", signature)
+        callback.invoke(ReactCallBack.success(signature).toGson())
+      }
+    })
   }
 
   @ReactMethod
@@ -546,9 +553,7 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
       return
     }
     val message = Eip4361Message.createWithRequiredParameter(
-      signData.domain,
-      signData.uri,
-      signData.publicAddress
+      signData.domain, signData.uri, signData.publicAddress
     )
 
     connectAdapter.login(signData.publicAddress, message, object : SignCallback {
@@ -556,8 +561,7 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
       override fun onError(error: ConnectError) {
         LogUtils.d("onError", error.toString())
         callback.invoke(
-          ReactCallBack.failed(ReactErrorMessage.parseConnectError(error))
-            .toGson()
+          ReactCallBack.failed(ReactErrorMessage.parseConnectError(error)).toGson()
         )
       }
 
@@ -585,9 +589,7 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
       return
     }
     if (connectAdapter.verify(
-        signData.publicAddress,
-        signData.signature,
-        signData.message
+        signData.publicAddress, signData.signature, signData.message
       )
     ) {
       callback.invoke(ReactCallBack.success(true).toGson())
@@ -599,39 +601,47 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
   @ReactMethod
   fun addEthereumChain(jsonParams: String, callback: Callback) {
     val connectSignData = GsonUtils.fromJson(jsonParams, ConnectSignData::class.java)
-    val connectAdapter = getConnectAdapter(connectSignData.publicAddress, connectSignData.walletType)
+    val connectAdapter =
+      getConnectAdapter(connectSignData.publicAddress, connectSignData.walletType)
     if (connectAdapter == null) {
       callback.invoke(ReactCallBack.failed("failed").toGson())
       return
     }
-    val chainInfo: ChainInfo = ChainUtils.getChainInfo(connectSignData.chainName, connectSignData.chainIdName)
-    connectAdapter.addEthereumChain(connectSignData.publicAddress, chainInfo, object : AddETHChainCallback {
-      override fun onAdded() {
-        callback.invoke(ReactCallBack.success("add success").toGson())
-      }
+    val chainInfo: ChainInfo =
+      ChainUtils.getChainInfo(connectSignData.chainName, connectSignData.chainIdName)
+    connectAdapter.addEthereumChain(connectSignData.publicAddress,
+      chainInfo,
+      object : AddETHChainCallback {
+        override fun onAdded() {
+          callback.invoke(ReactCallBack.success("add success").toGson())
+        }
 
-      override fun onError(error: ConnectError) {
-        callback.invoke(ReactCallBack.failed(error.toString()).toGson())
-      }
-    })
+        override fun onError(error: ConnectError) {
+          callback.invoke(ReactCallBack.failed(error.toString()).toGson())
+        }
+      })
   }
+
   @ReactMethod
   fun switchEthereumChain(jsonParams: String, callback: Callback) {
     val connectSignData = GsonUtils.fromJson(jsonParams, ConnectSignData::class.java)
-    val connectAdapter = getConnectAdapter(connectSignData.publicAddress, connectSignData.walletType)
+    val connectAdapter =
+      getConnectAdapter(connectSignData.publicAddress, connectSignData.walletType)
     if (connectAdapter == null) {
       callback.invoke(ReactCallBack.failed("failed").toGson())
       return
     }
-    connectAdapter.switchEthereumChain(connectSignData.publicAddress, connectSignData.chainId, object : SwitchETHChainCallback {
-      override fun onError(error: ConnectError) {
-        callback.invoke(ReactCallBack.failed(error.toString()).toGson())
-      }
+    connectAdapter.switchEthereumChain(connectSignData.publicAddress,
+      connectSignData.chainId,
+      object : SwitchETHChainCallback {
+        override fun onError(error: ConnectError) {
+          callback.invoke(ReactCallBack.failed(error.toString()).toGson())
+        }
 
-      override fun onSwitched() {
-        callback.invoke(ReactCallBack.success("switch success").toGson())
-      }
-    })
+        override fun onSwitched() {
+          callback.invoke(ReactCallBack.success("switch success").toGson())
+        }
+      })
   }
 
 
@@ -719,6 +729,19 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
     return "ParticleConnectPlugin"
   }
 
-
+  private fun getChainInfo(chainName: String, chainIdName: String?): ChainInfo {
+    var chainNameTmp = chainName
+    if (ChainName.BSC.toString() == chainName) {
+      chainNameTmp = "Bsc"
+    }
+    return try {
+      val clazz1 = Class.forName("com.particle.base." + chainNameTmp + "Chain")
+      val cons = clazz1.getConstructor(String::class.java)
+      cons.newInstance(chainIdName) as ChainInfo
+    } catch (e: java.lang.Exception) {
+      e.printStackTrace()
+      throw RuntimeException(e.message)
+    }
+  }
 }
 

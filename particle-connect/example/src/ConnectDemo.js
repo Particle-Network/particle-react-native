@@ -38,13 +38,14 @@ export default class ConnectDemo extends PureComponent {
             throw new Error('You need set project info, Get your project id and client from dashboard, https://dashboard.particle.network');
         }
 
-        const chainInfo = ChainInfo.PolygonMumbai;
+        const chainInfo = ChainInfo.EthereumMainnet;
         const env = Env.Dev;
         const metadata = {
+            walletConnectProjectId: '75ac08814504606fc06126541ace9df6',
             name: 'Particle Connect',
             icon: 'https://connect.particle.network/icons/512.png',
             url: 'https://connect.particle.network',
-            descrtiption: 'Particle Wallet'
+            description: 'Particle Wallet',
         };
         // the rpcUrl works for WalletType EvmPrivateKey and SolanaPrivakey
         // we have default rpc url in native SDK
@@ -53,9 +54,9 @@ export default class ConnectDemo extends PureComponent {
 
         this.newWeb3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', PNAccount.walletType);
 
-        particleConnect.setWalletConnectV2ProjectId('75ac08814504606fc06126541ace9df6');
-        const chainInfos = [ChainInfo.EthereumMainnet, ChainInfo.PolygonMainnet, ChainInfo.EthereumGoerli, ChainInfo.EthereumSepolia];
-        particleConnect.setWalletConnectV2SupportChainInfos(chainInfos);
+        // particleConnect.setWalletConnectV2ProjectId('75ac08814504606fc06126541ace9df6');
+        // const chainInfos = [ChainInfo.EthereumMainnet, ChainInfo.PolygonMainnet, ChainInfo.EthereumGoerli, ChainInfo.EthereumSepolia];
+        // particleConnect.setWalletConnectV2SupportChainInfos(chainInfos);
     };
 
     newWeb3_getAccounts = async () => {

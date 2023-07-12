@@ -3,7 +3,11 @@ import { NativeModules, Platform } from 'react-native';
 import type { DappMetaData } from './Models/DappMetaData';
 import type { RpcUrl } from './Models/RpcUrl';
 import type { WalletType } from './Models/WalletType';
-import type { BiconomyFeeMode, ChainInfo, Env } from 'react-native-particle-auth';
+import type {
+  BiconomyFeeMode,
+  ChainInfo,
+  Env,
+} from 'react-native-particle-auth';
 import type { ParticleConnectConfig } from './Models/ConnectConfig';
 
 const LINKING_ERROR =
@@ -15,13 +19,13 @@ const LINKING_ERROR =
 const ParticleConnectPlugin = NativeModules.ParticleConnectPlugin
   ? NativeModules.ParticleConnectPlugin
   : new Proxy(
-    {},
-    {
-      get() {
-        throw new Error(LINKING_ERROR);
-      },
-    }
-  );
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
 
 /**
  * Init Particle Connect Service
@@ -65,12 +69,8 @@ export function setWalletConnectV2ProjectId(walletConnectV2ProjectId: string) {
  * @param chainInfos Chain info list
  */
 export function setWalletConnectV2SupportChainInfos(chainInfos: ChainInfo[]) {
-  if (Platform.OS === 'ios') {
-    const json = JSON.stringify(chainInfos);
-    ParticleConnectPlugin.setWalletConnectV2SupportChainInfos(json);
-  } else {
-    // to do
-  }
+  const json = JSON.stringify(chainInfos);
+  ParticleConnectPlugin.setWalletConnectV2SupportChainInfos(json);
 }
 
 /**
@@ -230,7 +230,11 @@ export function signAllTransactions(
  * @param transaction Transaction that you want user to sign and send
  * @returns Result, signature or error
  */
-export function signAndSendTransaction(walletType: WalletType, publicAddress: string, transaction: string, feeMode?: BiconomyFeeMode,
+export function signAndSendTransaction(
+  walletType: WalletType,
+  publicAddress: string,
+  transaction: string,
+  feeMode?: BiconomyFeeMode
 ): Promise<any> {
   const obj = {
     wallet_type: walletType,
@@ -239,7 +243,7 @@ export function signAndSendTransaction(walletType: WalletType, publicAddress: st
     fee_mode: {
       option: feeMode?.getOption(),
       fee_quote: feeMode?.getFeeQuote(),
-    }
+    },
   };
 
   const json = JSON.stringify(obj);
@@ -257,8 +261,12 @@ export function signAndSendTransaction(walletType: WalletType, publicAddress: st
  * @param feeMode Optional, default is auto
  * @returns Result, signature or error
  */
-export function batchSendTransactions(walletType: WalletType,
-  publicAddress: string, transactions: string[], feeMode?: BiconomyFeeMode): Promise<any> {
+export function batchSendTransactions(
+  walletType: WalletType,
+  publicAddress: string,
+  transactions: string[],
+  feeMode?: BiconomyFeeMode
+): Promise<any> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -266,7 +274,7 @@ export function batchSendTransactions(walletType: WalletType,
     fee_mode: {
       option: feeMode?.getOption(),
       fee_quote: feeMode?.getFeeQuote(),
-    }
+    },
   };
   const json = JSON.stringify(obj);
 
@@ -498,8 +506,6 @@ export function reconnectIfNeeded(
     return Promise.resolve();
   }
 }
-
-
 
 export * from './Models/DappMetaData';
 export * from './Models/RpcUrl';

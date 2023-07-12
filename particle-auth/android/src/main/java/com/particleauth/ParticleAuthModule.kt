@@ -22,6 +22,7 @@ import com.particle.base.ibiconomy.FeeModeGasless
 import com.particle.base.ibiconomy.MessageSigner
 import com.particle.network.ParticleNetworkAuth.fastLogout
 import com.particle.network.ParticleNetworkAuth.getAddress
+import com.particle.network.ParticleNetworkAuth.getSecurityAccount
 import com.particle.network.ParticleNetworkAuth.getUserInfo
 import com.particle.network.ParticleNetworkAuth.isLogin
 import com.particle.network.ParticleNetworkAuth.login
@@ -347,12 +348,32 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
+  fun getSecurityAccount(callback: Callback) {
+    LogUtils.d("getSecurityAccount")
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        val securityAccount = ParticleNetwork.getSecurityAccount()
+        val result = ReactCallBack.success(securityAccount).toGson()
+        LogUtils.d("getSecurityAccount:",result)
+        callback.invoke(result)
+      } catch (e: Exception) {
+        e.printStackTrace()
+        val result = ReactCallBack.failed(e.message).toGson()
+        LogUtils.d("getSecurityAccount:",result)
+        callback.invoke(result)
+      }
+    }
+  }
+
+
+
+  @ReactMethod
   fun setDisplayWallet(isDisplayWallet: Boolean) {
     ParticleNetwork.setDisplayWallet(isDisplayWallet)
   }
 
   @ReactMethod
-  fun openWebWallet(jsonConfig:String?) {
+  fun openWebWallet(jsonConfig: String?) {
     ParticleNetwork.openWebWallet(jsonConfig)
   }
 
@@ -382,7 +403,8 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
     try {
       val jobj = JSONObject(configJson)
       val promptSettingWhenSign = jobj.getInt("prompt_setting_when_sign")
-      val promptMasterPasswordSettingWhenLogin = jobj.getInt("prompt_master_password_setting_when_login")
+      val promptMasterPasswordSettingWhenLogin =
+        jobj.getInt("prompt_master_password_setting_when_login")
       val config = SecurityAccountConfig(
         promptSettingWhenSign,
         promptMasterPasswordSettingWhenLogin
@@ -428,45 +450,49 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
     }
     CoroutineScope(Dispatchers.IO).launch {
       try {
-        ParticleNetwork.getBiconomyService().quickSendTransaction(transParams.transactions, feeMode, object : MessageSigner {
-          override fun signTypedData(message: String, callback: WebServiceCallback<SignOutput>) {
+        ParticleNetwork.getBiconomyService()
+          .quickSendTransaction(transParams.transactions, feeMode, object : MessageSigner {
+            override fun signTypedData(message: String, callback: WebServiceCallback<SignOutput>) {
 
-            ParticleNetwork.signTypedData(message, SignTypedDataVersion.V4, object : WebServiceCallback<SignOutput> {
-              override fun success(output: SignOutput) {
-                callback.success(output)
-              }
+              ParticleNetwork.signTypedData(
+                message,
+                SignTypedDataVersion.V4,
+                object : WebServiceCallback<SignOutput> {
+                  override fun success(output: SignOutput) {
+                    callback.success(output)
+                  }
 
-              override fun failure(errMsg: WebServiceError) {
-                callback.failure(errMsg)
-              }
-            })
-          }
+                  override fun failure(errMsg: WebServiceError) {
+                    callback.failure(errMsg)
+                  }
+                })
+            }
 
-          override fun signMessage(message: String, callback: WebServiceCallback<SignOutput>) {
-            ParticleNetwork.signMessage(message, object : WebServiceCallback<SignOutput> {
-              override fun success(output: SignOutput) {
-                callback.success(output)
-              }
+            override fun signMessage(message: String, callback: WebServiceCallback<SignOutput>) {
+              ParticleNetwork.signMessage(message, object : WebServiceCallback<SignOutput> {
+                override fun success(output: SignOutput) {
+                  callback.success(output)
+                }
 
-              override fun failure(errMsg: WebServiceError) {
-                callback.failure(errMsg)
-              }
-            })
-          }
+                override fun failure(errMsg: WebServiceError) {
+                  callback.failure(errMsg)
+                }
+              })
+            }
 
-          override fun eoaAddress(): String {
-            return ParticleNetwork.getAddress()
-          }
+            override fun eoaAddress(): String {
+              return ParticleNetwork.getAddress()
+            }
 
-        }, object : WebServiceCallback<SignOutput> {
-          override fun success(output: SignOutput) {
-            callback.invoke(ReactCallBack.success(output.signature!!).toGson())
-          }
+          }, object : WebServiceCallback<SignOutput> {
+            override fun success(output: SignOutput) {
+              callback.invoke(ReactCallBack.success(output.signature!!).toGson())
+            }
 
-          override fun failure(errMsg: WebServiceError) {
-            callback.invoke(ReactCallBack.failed(errMsg).toGson())
-          }
-        })
+            override fun failure(errMsg: WebServiceError) {
+              callback.invoke(ReactCallBack.failed(errMsg).toGson())
+            }
+          })
       } catch (e: Exception) {
         e.printStackTrace()
         callback.invoke(ReactCallBack.failed("failed").toGson())

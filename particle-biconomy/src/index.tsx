@@ -18,11 +18,11 @@ const ParticleBiconomyPlugin = NativeModules.ParticleBiconomyPlugin
     }
   );
 
-  /**
-   * Init particle biconomy service
-   * @param version Biconomy Version
-   * @param dappAppKeys Biconomy dapp keys
-   */
+/**
+ * Init particle biconomy service
+ * @param version Biconomy Version
+ * @param dappAppKeys Biconomy dapp keys
+ */
 export function init(version: BiconomyVersion, dappAppKeys: { [key: number]: string }) {
   const obj = {
     version: version,
@@ -40,7 +40,7 @@ export function init(version: BiconomyVersion, dappAppKeys: { [key: number]: str
 /**
  * Is support chain info
  * @param chainInfo ChainInfo
- * @returns 
+ * @returns
  */
 export function isSupportChainInfo(chainInfo: ChainInfo): Promise<boolean> {
   const obj = chainInfo;
@@ -56,7 +56,7 @@ export function isSupportChainInfo(chainInfo: ChainInfo): Promise<boolean> {
 /**
  * Has eoa address deployed conract in current chain.
  * @param eoaAddress Eoa address
- * @returns 
+ * @returns
  */
 export function isDeploy(eoaAddress: string): Promise<string> {
   return new Promise((resolve) => {
@@ -68,7 +68,7 @@ export function isDeploy(eoaAddress: string): Promise<string> {
 
 /**
  * Is biconomy mode enable
- * @returns 
+ * @returns
  */
 export function isBiconomyModeEnable(): Promise<boolean> {
   return new Promise((resolve) => {
@@ -97,7 +97,7 @@ export function disableBiconomyMode() {
  * Pick one fee quote, then send with BiconomyFeeMode.custom
  * @param eoaAddress Eoa address
  * @param transactions transactions
- * @returns 
+ * @returns
  */
 export async function rpcGetFeeQuotes(eoaAddress: string, transactions: string[]): Promise<any[]> {
   const obj = {
@@ -118,4 +118,3 @@ export async function rpcGetFeeQuotes(eoaAddress: string, transactions: string[]
     return Promise.reject(result.data)
   }
 }
- 

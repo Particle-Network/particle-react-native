@@ -1,7 +1,14 @@
 import { NativeModules, Platform } from 'react-native';
 import type { ChainInfo } from './Models/ChainInfo';
 import type { Language } from './Models/Language';
-import type { Env, iOSModalPresentStyle, LoginAuthorization, LoginType, SocialLoginPrompt, SupportAuthType } from './Models/LoginInfo';
+import type {
+    Env,
+    iOSModalPresentStyle,
+    LoginAuthorization,
+    LoginType,
+    SocialLoginPrompt,
+    SupportAuthType,
+} from './Models/LoginInfo';
 import type { SecurityAccountConfig } from './Models/SecurityAccountConfig';
 import type { BiconomyFeeMode } from './Models/BiconomyFeeMode';
 
@@ -14,24 +21,24 @@ const LINKING_ERROR =
 const ParticleAuthPlugin = NativeModules.ParticleAuthPlugin
     ? NativeModules.ParticleAuthPlugin
     : new Proxy(
-        {},
-        {
-            get() {
-                throw new Error(LINKING_ERROR);
-            },
-        }
-    );
+          {},
+          {
+              get() {
+                  throw new Error(LINKING_ERROR);
+              },
+          }
+      );
 
 export const ParticleAuthEvent = NativeModules.ParticleAuthEvent
     ? NativeModules.ParticleAuthEvent
     : new Proxy(
-        {},
-        {
-            get() {
-                // throw new Error(LINKING_ERROR);
-            },
-        }
-    );
+          {},
+          {
+              get() {
+                  // throw new Error(LINKING_ERROR);
+              },
+          }
+      );
 
 /**
  * Init Particle Auth Service.
@@ -272,7 +279,7 @@ export function signAndSendTransaction(transaction: string, feeMode?: BiconomyFe
         fee_mode: {
             option: feeMode?.getOption(),
             fee_quote: feeMode?.getFeeQuote(),
-        }
+        },
     };
     const json = JSON.stringify(obj);
 
@@ -295,7 +302,7 @@ export function batchSendTransactions(transactions: string[], feeMode?: Biconomy
         fee_mode: {
             option: feeMode?.getOption(),
             fee_quote: feeMode?.getFeeQuote(),
-        }
+        },
     };
     const json = JSON.stringify(obj);
 
@@ -312,7 +319,7 @@ export function batchSendTransactions(transactions: string[], feeMode?: Biconomy
  * @param version TypedData version, support v1, v3, v4, v4Unique
  * @returns Result, signature or error
  */
-export function signTypedData(typedData: string, version: "v1" | "v3" | "v4" | "v4Unique"): Promise<any> {
+export function signTypedData(typedData: string, version: 'v1' | 'v3' | 'v4' | 'v4Unique'): Promise<any> {
     const obj = { message: typedData, version: version };
     const json = JSON.stringify(obj);
 
@@ -450,17 +457,11 @@ export async function hasSecurityAccount(): Promise<boolean> {
  * Get security account from remote server, contains hasMasterPassword, hasPaymentPassword and hasSecurityAccount.
  */
 export async function getSecurityAccount(): Promise<string> {
-    if (Platform.OS === 'ios') {
-        return new Promise((resolve) => {
-            ParticleAuthPlugin.getSecurityAccount((result: string) => {
-                resolve(JSON.parse(result));
-            });
+    return new Promise((resolve) => {
+        ParticleAuthPlugin.getSecurityAccount((result: string) => {
+            resolve(JSON.parse(result));
         });
-    } else {
-        // todo
-        return Promise.resolve('');
-    }
-
+    });
 }
 
 export * from './Models/LoginInfo';

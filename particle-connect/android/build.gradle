@@ -136,16 +136,16 @@ dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 // From node_modules
 
-    def connectVersion = "0.13.2"
-    implementation("network.particle:base-service:0.13.2")
-    implementation("network.particle:auth-service:0.13.2")
+    def sdkVersion = "0.14.4"
+    implementation("network.particle:base-service:$sdkVersion")
+    implementation("network.particle:auth-service:$sdkVersion")
 
-    implementation("network.particle:connect-common:$connectVersion")
-    implementation("network.particle:connect:$connectVersion")
-    implementation("network.particle:connect-evm-adapter:$connectVersion")
-    implementation("network.particle:connect-solana-adapter:$connectVersion")
-    implementation("network.particle:connect-phantom-adapter:$connectVersion")
-    implementation("network.particle:connect-wallet-connect-adapter:$connectVersion")
+    implementation("network.particle:connect-common:$sdkVersion")
+    implementation("network.particle:connect:$sdkVersion")
+    implementation("network.particle:connect-evm-adapter:$sdkVersion")
+    implementation("network.particle:connect-solana-adapter:$sdkVersion")
+    implementation("network.particle:connect-phantom-adapter:$sdkVersion")
+    implementation("network.particle:connect-wallet-connect-adapter:$sdkVersion")
 
     implementation("com.blankj:utilcodex:1.31.0")
     implementation("commons-codec:commons-codec:1.15")

@@ -63,6 +63,7 @@ class ParticleConnectPlugin: NSObject {
         let dAppIconString = data["metadata"]["icon"].stringValue
         let dAppUrlString = data["metadata"]["url"].stringValue
         let description = data["metadata"]["description"].stringValue
+        let walletConnectProjectId = data["metadata"]["walletConnectProjectId"].stringValue
         
         let dAppIconUrl = URL(string: dAppIconString) != nil ? URL(string: dAppIconString)! : URL(string: "https://connect.particle.network/icons/512.png")!
         
@@ -118,6 +119,9 @@ class ParticleConnectPlugin: NSObject {
         ParticleConnect.initialize(env: devEnv, chainInfo: chainInfo, dAppData: dAppData) {
             adapters
         }
+        
+        ParticleConnect.setWalletConnectV2ProjectId(walletConnectProjectId)
+        
     }
     
     @objc
@@ -1003,11 +1007,6 @@ class ParticleConnectPlugin: NSObject {
         let nullData = try! JSONEncoder().encode(statusModel)
         guard let json = String(data: nullData, encoding: .utf8) else { return }
         callback([json])
-    }
-    
-    @objc
-    func setWalletConnectV2ProjectId(_ json: String) {
-        ParticleConnect.setWalletConnectV2ProjectId(json)
     }
     
     @objc

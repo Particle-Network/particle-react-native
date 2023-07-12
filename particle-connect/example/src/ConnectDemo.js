@@ -54,7 +54,6 @@ export default class ConnectDemo extends PureComponent {
 
         this.newWeb3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', PNAccount.walletType);
 
-        // particleConnect.setWalletConnectV2ProjectId('75ac08814504606fc06126541ace9df6');
         // const chainInfos = [ChainInfo.EthereumMainnet, ChainInfo.PolygonMainnet, ChainInfo.EthereumGoerli, ChainInfo.EthereumSepolia];
         // particleConnect.setWalletConnectV2SupportChainInfos(chainInfos);
     };

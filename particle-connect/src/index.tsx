@@ -53,18 +53,6 @@ export function init(
 }
 
 /**
- * Set wallet connect v2 project id, required by WalletConnectV2
- * @param walletConnectV2ProjectId Wallet connect v2 project id
- */
-export function setWalletConnectV2ProjectId(walletConnectV2ProjectId: string) {
-  if (Platform.OS === 'ios') {
-    ParticleConnectPlugin.setWalletConnectV2ProjectId(walletConnectV2ProjectId);
-  } else {
-    // todo
-  }
-}
-
-/**
  * Set the required chains for wallet connect v2. If not set, the current chain connection will be used.
  * @param chainInfos Chain info list
  */

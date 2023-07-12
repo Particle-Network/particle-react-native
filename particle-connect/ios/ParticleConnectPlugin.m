@@ -41,8 +41,6 @@ RCT_EXTERN_METHOD(addEthereumChain:(NSString* _Nonnull)json callback:(RCTRespons
 
 RCT_EXTERN_METHOD(reconnectIfNeeded:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
-RCT_EXTERN_METHOD(setWalletConnectV2ProjectId:(NSString* _Nonnull)json)
-
 RCT_EXTERN_METHOD(setWalletConnectV2SupportChainInfos:(NSString* _Nonnull)json)
 
 - (dispatch_queue_t)methodQueue {

@@ -1,13 +1,13 @@
 package network.particle.flutter.bridge.module
 
 import android.app.Activity
+import android.app.Application
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.connect.common.*
 import com.connect.common.eip4361.Eip4361Message
 import com.connect.common.model.Account
 import com.connect.common.model.ConnectError
-import com.connect.common.model.DAppMetadata
 import com.evm.adapter.EVMConnectAdapter
 import com.facebook.react.bridge.Callback
 import com.facebook.react.bridge.Promise
@@ -46,15 +46,12 @@ class BridgeConnect(reactContext: ReactApplicationContext) :
         LogUtils.d("init", initParams)
         val initData: InitData = GsonUtils.fromJson(initParams, InitData::class.java)
         val chainInfo: ChainInfo = ChainUtils.getChainInfo(initData.chainName, initData.chainIdName)
-        val (name, icon, url) = initData.metadata
+        val dAppMetadata= initData.metadata
         val rpcUrl: RpcUrl? = initData.rpcUrl
-        val dAppMetadata = DAppMetadata(
-            name, icon, url
-        )
         val adapter: MutableList<IConnectAdapter> = ArrayList()
         initAdapter(adapter, rpcUrl)
         ParticleConnect.init(
-            reactApplicationContext, Env.valueOf(initData.env.uppercase()), chainInfo, dAppMetadata
+            reactApplicationContext.applicationContext as Application, Env.valueOf(initData.env.uppercase()), chainInfo, dAppMetadata
         ) { adapter }
     }
 

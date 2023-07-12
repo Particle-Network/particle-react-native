@@ -12,8 +12,8 @@
     "react": "18.1.0",
     "react-native": "0.70.6",
     "react-native-particle-wallet": "file:..",
-    "react-native-particle-auth": "0.14.1",
-    "react-native-particle-connect": "0.14.1"
+    "react-native-particle-auth": "0.14.3",
+    "react-native-particle-connect": "0.14.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

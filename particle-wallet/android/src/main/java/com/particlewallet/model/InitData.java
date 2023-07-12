@@ -1,7 +1,7 @@
 package com.particlewallet.model;
 
-import com.connect.common.model.DAppMetadata;
 import com.google.gson.annotations.SerializedName;
+import com.particle.base.model.DAppMetadata;
 
 
 public class InitData {

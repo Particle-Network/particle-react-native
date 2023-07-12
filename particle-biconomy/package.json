@@ -1,6 +1,6 @@
 {
   "name": "react-native-particle-biconomy",
-  "version": "0.14.2",
+  "version": "0.14.3",
   "description": "Particle Account Abstraction Biconomy in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -158,6 +158,6 @@
     ]
   },
   "dependencies": {
-    "react-native-particle-auth": "^0.14.1"
+    "react-native-particle-auth": "^0.14.3"
   }
 }

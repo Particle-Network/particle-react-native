@@ -1,6 +1,6 @@
 {
   "name": "react-native-particle-wallet",
-  "version": "0.14.1",
+  "version": "0.14.3",
   "description": "Particle Wallet in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -52,8 +52,8 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "react-native-particle-auth": "^0.14.1",
-    "react-native-particle-connect": "^0.14.1"
+    "react-native-particle-auth": "^0.14.3",
+    "react-native-particle-connect": "^0.14.3"
   },
   "devDependencies": {
     "@arkweid/lefthook": "^0.7.7",

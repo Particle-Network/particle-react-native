@@ -1,7 +1,7 @@
 package com.particlewallet.utils;
 
-import com.connect.common.utils.Base58Utils
 import com.particle.base.ParticleNetwork
+import com.particle.base.utils.Base58Utils
 
 object EncodeUtils {
     fun encode(message: String): String {

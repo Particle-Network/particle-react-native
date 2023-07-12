@@ -1,11 +1,9 @@
-package network.particle.flutter.bridge.module
+package com.particlewallet
 
 import android.content.Intent
-import android.text.TextUtils
 import android.util.Log
+import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
-import com.connect.common.IConnectAdapter
-import com.connect.common.utils.GsonUtils
 import com.facebook.react.bridge.Callback
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -26,7 +24,6 @@ import com.particle.gui.ui.receive.ReceiveData
 import com.particle.gui.ui.send.WalletSendParams
 import com.particle.gui.ui.token_detail.TokenTransactionRecordsParams
 import com.particle.gui.utils.WalletUtils
-import com.particle.network.ParticleNetworkAuth.getAddress
 import com.particlewallet.model.InitData
 import com.particlewallet.ui.RNLoginOptActivity
 import com.particlewallet.utils.BridgeScope
@@ -35,13 +32,10 @@ import com.particlewallet.utils.WalletTypeParser
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.math.BigInteger
-import com.particle.api.infrastructure.db.table.WalletType
 import com.particle.api.service.DBService
-import com.particle.base.ChainName
 import com.particle.base.LanguageEnum
 import com.particle.gui.ParticleWallet.displayNFTContractAddresses
 import com.particle.gui.ParticleWallet.displayTokenAddresses
-import com.particle.gui.ParticleWallet.navigatorBuy
 import com.particle.gui.ParticleWallet.supportWalletConnect
 import com.particle.gui.ui.swap.SwapConfig
 import com.particle.network.ParticleNetworkAuth.openBuy

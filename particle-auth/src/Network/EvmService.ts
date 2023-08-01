@@ -4,8 +4,9 @@ import JsonRpcRequest from './NetService';
 import BigNumber from 'bignumber.js';
 import { Buffer } from 'buffer';
 import type { BiconomyVersion } from '../Models/BiconomyVersion';
-import { getChainId } from 'react-native-particle-auth';
+import { getChainId, getChainInfo } from 'react-native-particle-auth';
 import { GasFeeLevel } from '../Models/GasFeeLevel';
+import { chains } from '@particle-network/chains';
 
 export class EvmService {
 
@@ -191,7 +192,7 @@ export class EvmService {
     static async abiEncodeFunctionCall(
         contractAddress: string,
         methodName: string,
-        params: string,
+        params: string[],
         abiJsonString: string
     ): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleAbiEncodeFunctionCall, [
@@ -220,7 +221,7 @@ export class EvmService {
      * @param abiJsonString ABI json string
      * @returns Json string
      */
-    static async readContract(contractAddress: string, methodName: string, params: string, abiJsonString: string): Promise<any> {
+    static async readContract(contractAddress: string, methodName: string, params: string[], abiJsonString: string): Promise<any> {
         const data = await this.abiEncodeFunctionCall(contractAddress, methodName, params, abiJsonString);
         const callParams = { data: data, to: contractAddress };
         const result = this.rpc('eth_call', [callParams, 'latest']);
@@ -234,7 +235,6 @@ export class EvmService {
      * @param methodName Method name, like `mint`, `balanceOf` or other methods that are defined in your contract
      * @param params Parameters request by method
      * @param abiJsonString ABI json string
-     * @param isSupportEIP1559 If your chain support EIP1559, pass true to get a EIP 1559 transaction, otherwise pass false to get a legacy transaction.
      * @param gasFeeLevel Gas fee level, default is high.
      * @returns Serialized transacion
      */
@@ -242,15 +242,13 @@ export class EvmService {
         from: string,
         contractAddress: string,
         methodName: string,
-        params: string,
+        params: string[],
         abiJsonString: string,
-        isSupportEIP1559: boolean,
         gasFeeLevel: GasFeeLevel = GasFeeLevel.high
 
     ): Promise<any> {
         const data = await this.abiEncodeFunctionCall(contractAddress, methodName, params, abiJsonString);
-
-        return await this.createTransaction(from, data, BigNumber(0), contractAddress, isSupportEIP1559, gasFeeLevel);
+        return await this.createTransaction(from, data, BigNumber(0), contractAddress, gasFeeLevel);
     }
 
 
@@ -260,11 +258,10 @@ export class EvmService {
      * @param data Contract transaction parameter, if you want to send native, pass 0x
      * @param value Native amount
      * @param to If it is a contract transaction, to is contract address, if it is a native transaciton, to is receiver address.
-     * @param isSupportEIP1559 If your chain support EIP1559, pass true to get a EIP 1559 transaction, otherwise pass false to get a legacy transaction.
      * @param gasFeeLevel Gas fee level, default is high.
      * @returns 
      */
-    static async createTransaction(from: string, data: string, value: BigNumber, to: string, isSupportEIP1559: boolean, gasFeeLevel: GasFeeLevel = GasFeeLevel.high): Promise<any> {
+    static async createTransaction(from: string, data: string, value: BigNumber, to: string, gasFeeLevel: GasFeeLevel = GasFeeLevel.high): Promise<any> {
 
         const valueHex = '0x' + value.toString(16);
         const gasLimit = await this.estimateGas(from, to, valueHex, data);
@@ -292,7 +289,9 @@ export class EvmService {
         const maxPriorityFeePerGas = gasFee.maxPriorityFeePerGas;
         const maxPriorityFeePerGasHex = '0x' + BigNumber(Math.floor(maxPriorityFeePerGas * Math.pow(10, 9))).toString(16);
 
-        const chainId = await getChainId();
+        const chainInfo = await getChainInfo();
+        const chainId = chainInfo.id;
+        const isSupportEIP1559 = chains.isChainSupportEIP1559({ id: chainInfo.id, name: chainInfo.name });
 
         let transaction;
 
@@ -333,7 +332,7 @@ export class EvmService {
      * @param version Biconomy version
      * @returns Smart account json object
      */
-    static async getSmartAccount(eoaAddresses: string[], version: BiconomyVersion) : Promise<any> {
+    static async getSmartAccount(eoaAddresses: string[], version: BiconomyVersion): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleBiconomyGetSmartAccount, [version, eoaAddresses]);
     }
 }

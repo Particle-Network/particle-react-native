@@ -7,10 +7,10 @@
 
 import Foundation
 import ParticleNetworkBase
+import ParticleWalletConnect
 import ParticleWalletGUI
 import RxSwift
 import SwiftyJSON
-import ParticleWalletConnect
 
 @objc(ParticleWalletPlugin)
 public class ParticleWalletPlugin: NSObject {
@@ -22,13 +22,13 @@ public class ParticleWalletPlugin: NSObject {
     }
     
     @objc
-    public func enablePay(_ enable: Bool) {
-        ParticleWalletGUI.enablePay(enable)
+    public func setPayDisabled(_ disabled: Bool) {
+        ParticleWalletGUI.setPayDisabled(disabled)
     }
     
     @objc
-    public func getEnablePay(_ callback: @escaping RCTResponseSenderBlock) {
-        callback([ParticleWalletGUI.getEnablePay()])
+    public func getPayDisabled(_ callback: @escaping RCTResponseSenderBlock) {
+        callback([ParticleWalletGUI.getPayDisabled()])
     }
     
     @objc
@@ -160,33 +160,33 @@ public class ParticleWalletPlugin: NSObject {
     }
     
     @objc
-    public func showTestNetwork(_ show: Bool) {
-        ParticleWalletGUI.showTestNetwork(show)
+    public func setShowTestNetwork(_ show: Bool) {
+        ParticleWalletGUI.setShowTestNetwork(show)
     }
     
     @objc
-    public func showManageWallet(_ show: Bool) {
-        ParticleWalletGUI.showManageWallet(show)
+    public func setShowManageWallet(_ show: Bool) {
+        ParticleWalletGUI.setShowManageWallet(show)
     }
     
     @objc
-    public func supportChain(_ json: String) {
+    public func setSupportChain(_ json: String) {
         let chains = JSON(parseJSON: json).arrayValue.map {
             $0["chain_id"].intValue
         }.compactMap {
             ParticleNetwork.searchChainInfo(by: $0)?.chain
         }
-        ParticleWalletGUI.supportChain(chains)
+        ParticleWalletGUI.setSupportChain(chains)
     }
     
     @objc
-    public func enableSwap(_ enable: Bool) {
-        ParticleWalletGUI.enableSwap(enable)
+    public func setSwapDisabled(_ disabled: Bool) {
+        ParticleWalletGUI.setSwapDisabled(disabled)
     }
     
     @objc
-    public func getEnableSwap(_ callback: @escaping RCTResponseSenderBlock) {
-        callback([ParticleWalletGUI.getEnableSwap()])
+    public func getSwapDisabled(_ callback: @escaping RCTResponseSenderBlock) {
+        callback([ParticleWalletGUI.getSwapDisabled()])
     }
     
     @objc
@@ -236,12 +236,6 @@ public class ParticleWalletPlugin: NSObject {
         }
     }
     
-    @objc
-    public func setLanguage(_ json: String) {
-        let language = self.getLanguage(from: json)
-        ParticleWalletGUI.setLanguage(language)
-    }
-    
     private func getLanguage(from json: String) -> Language {
         /*
          en,
@@ -266,8 +260,8 @@ public class ParticleWalletPlugin: NSObject {
     }
     
     @objc
-    public func supportWalletConnect(_ enable: Bool) {
-        ParticleWalletGUI.supportWalletConnect(enable)
+    public func setSupportWalletConnect(_ enable: Bool) {
+        ParticleWalletGUI.setSupportWalletConnect(enable)
     }
     
     @objc
@@ -307,31 +301,18 @@ public class ParticleWalletPlugin: NSObject {
     }
     
     @objc
-    public func showLanguageSetting(_ isShow: Bool) {
-        ParticleWalletGUI.showLanguageSetting(isShow)
+    public func setShowLanguageSetting(_ isShow: Bool) {
+        ParticleWalletGUI.setShowLanguageSetting(isShow)
     }
     
     @objc
-    public func showAppearanceSetting(_ isShow: Bool) {
-        ParticleWalletGUI.showAppearanceSetting(isShow)
+    public func setShowAppearanceSetting(_ isShow: Bool) {
+        ParticleWalletGUI.setShowAppearanceSetting(isShow)
     }
     
     @objc
     public func setSupportAddToken(_ isShow: Bool) {
         ParticleWalletGUI.setSupportAddToken(isShow)
-    }
-    
-    @objc
-    public func setFiatCoin(_ json: String) {
-        /*
-         USD,
-         CNY,
-         JPY,
-         HKD,
-         INR,
-         KRW
-         */
-        ParticleNetwork.setFiatCoin(.init(rawValue: json) ?? .usd)
     }
     
     @objc
@@ -352,12 +333,5 @@ public class ParticleWalletPlugin: NSObject {
         ParticleWalletConnect.initialize(.init(name: walletName, icon: walletIconUrl, url: walletUrl, description: walletDescription))
         
         ParticleWalletConnect.setWalletConnectV2ProjectId(walletConnectV2ProjectId)
-        
-        // there is a bug, without new object, scan qrcode meet 'disconnected' error
-        // new object could solve this bug.
-        // the bug did not happen in flutter and native.
-        let _ = ParticleWalletConnect()
     }
-
-    
 }

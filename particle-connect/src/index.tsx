@@ -3,10 +3,13 @@ import { NativeModules, Platform } from 'react-native';
 import type { DappMetaData } from './Models/DappMetaData';
 import type { RpcUrl } from './Models/RpcUrl';
 import type { WalletType } from './Models/WalletType';
-import type {
-  BiconomyFeeMode,
-  ChainInfo,
-  Env,
+import type { ChainInfo } from '@particle-network/chains';
+
+import {
+  isHexString,
+  type BiconomyFeeMode,
+  type Env,
+  getChainInfo,
 } from 'react-native-particle-auth';
 import type { ParticleConnectConfig } from './Models/ConnectConfig';
 
@@ -19,13 +22,13 @@ const LINKING_ERROR =
 const ParticleConnectPlugin = NativeModules.ParticleConnectPlugin
   ? NativeModules.ParticleConnectPlugin
   : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    {},
+    {
+      get() {
+        throw new Error(LINKING_ERROR);
+      },
+    }
+  );
 
 /**
  * Init Particle Connect Service
@@ -38,12 +41,12 @@ export function init(
   chainInfo: ChainInfo,
   env: Env,
   metadata: DappMetaData,
-  rpcUrl?: RpcUrl
+  rpcUrl?: RpcUrl | null
 ) {
   const obj = {
-    chain_name: chainInfo.chain_name,
-    chain_id: chainInfo.chain_id,
-    chain_id_name: chainInfo.chain_id_name,
+    chain_name: chainInfo.name,
+    chain_id: chainInfo.id,
+    chain_id_name: chainInfo.network,
     env: env,
     metadata: metadata,
     rpc_url: rpcUrl,
@@ -57,7 +60,13 @@ export function init(
  * @param chainInfos Chain info list
  */
 export function setWalletConnectV2SupportChainInfos(chainInfos: ChainInfo[]) {
-  const json = JSON.stringify(chainInfos);
+  const chainInfoObjects = chainInfos.map(info => ({
+    chain_name: info.name,
+    chain_id_name: info.network,
+    chain_id: info.id,
+  }));
+
+  const json = JSON.stringify(chainInfoObjects);
   ParticleConnectPlugin.setWalletConnectV2SupportChainInfos(json);
 }
 
@@ -66,7 +75,7 @@ export function setWalletConnectV2SupportChainInfos(chainInfos: ChainInfo[]) {
  * @param walletType Wallet type
  * @returns Account
  */
-export function getAccounts(walletType: WalletType): Promise<string> {
+export async function getAccounts(walletType: WalletType): Promise<string> {
   return ParticleConnectPlugin.getAccounts(walletType);
 }
 
@@ -76,7 +85,7 @@ export function getAccounts(walletType: WalletType): Promise<string> {
  * @param config Optional, works when connect with partile
  * @returns Result, account or error
  */
-export function connect(
+export async function connect(
   walletType: WalletType,
   config?: ParticleConnectConfig
 ): Promise<any> {
@@ -103,7 +112,7 @@ export function connect(
  * @param publicAddress Public address
  * @returns Result, success or error
  */
-export function disconnect(
+export async function disconnect(
   walletType: WalletType,
   publicAddress: string
 ): Promise<any> {
@@ -122,7 +131,7 @@ export function disconnect(
  * @param publicAddress Public address
  * @returns Result, success or failure or error
  */
-export function isConnected(
+export async function isConnected(
   walletType: WalletType,
   publicAddress: string
 ): Promise<any> {
@@ -141,15 +150,25 @@ export function isConnected(
  * @param message Message that you want user to sign
  * @returns Result, signed message or error
  */
-export function signMessage(
-  walletType: WalletType,
-  publicAddress: string,
-  message: string
-): Promise<any> {
+export async function signMessage(walletType: WalletType, publicAddress: string, message: string): Promise<any> {
+
+  let serializedMessage: string;
+
+  let chainInfo = await getChainInfo();
+  if (chainInfo.name.toLowerCase() == "solana") {
+    serializedMessage = message;
+  } else {
+    if (isHexString(message)) {
+      serializedMessage = message;
+    } else {
+      serializedMessage = '0x' + Buffer.from(message).toString('hex');
+    }
+  }
+
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
-    message: message,
+    message: serializedMessage,
   };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
@@ -166,7 +185,7 @@ export function signMessage(
  * @param transaction Transaction that you want user to sign
  * @returns Result, signed transaction or error
  */
-export function signTransaction(
+export async function signTransaction(
   walletType: WalletType,
   publicAddress: string,
   transaction: string
@@ -192,10 +211,10 @@ export function signTransaction(
  * @param transactions Transactions that you want user to sign
  * @returns Result, signed transactions or error
  */
-export function signAllTransactions(
+export async function signAllTransactions(
   walletType: WalletType,
   publicAddress: string,
-  transactions: [string]
+  transactions: string[]
 ): Promise<any> {
   const obj = {
     wallet_type: walletType,
@@ -218,7 +237,7 @@ export function signAllTransactions(
  * @param transaction Transaction that you want user to sign and send
  * @returns Result, signature or error
  */
-export function signAndSendTransaction(
+export async function signAndSendTransaction(
   walletType: WalletType,
   publicAddress: string,
   transaction: string,
@@ -249,7 +268,7 @@ export function signAndSendTransaction(
  * @param feeMode Optional, default is auto
  * @returns Result, signature or error
  */
-export function batchSendTransactions(
+export async function batchSendTransactions(
   walletType: WalletType,
   publicAddress: string,
   transactions: string[],
@@ -280,15 +299,19 @@ export function batchSendTransactions(
  * @param typedData Typed data that you want user to sign and send, support typed data version v4
  * @returns Result, signature or error
  */
-export function signTypedData(
-  walletType: WalletType,
-  publicAddress: string,
-  typedData: string
-): Promise<any> {
+export async function signTypedData(walletType: WalletType, publicAddress: string, typedData: string): Promise<any> {
+  let serializedMessage: string;
+
+  if (isHexString(typedData)) {
+    serializedMessage = typedData;
+  } else {
+    serializedMessage = '0x' + Buffer.from(typedData).toString('hex');
+  }
+
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
-    message: typedData,
+    message: serializedMessage,
   };
   const json = JSON.stringify(obj);
 
@@ -430,9 +453,9 @@ export function addEthereumChain(
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
-    chain_name: chainInfo.chain_name,
-    chain_id: chainInfo.chain_id,
-    chain_id_name: chainInfo.chain_id_name,
+    chain_name: chainInfo.name,
+    chain_id: chainInfo.id,
+    chain_id_name: chainInfo.network,
   };
   const json = JSON.stringify(obj);
   console.log(json);
@@ -457,7 +480,7 @@ export function switchEthereumChain(
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
-    chain_id: chainInfo.chain_id,
+    chain_id: chainInfo.id,
   };
   const json = JSON.stringify(obj);
   console.log(json);

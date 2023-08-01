@@ -1,4 +1,4 @@
-export enum FaitCoin {
+export enum FiatCoin {
     USD = "USD",
     CNY = "CNY",
     JPY = "JPY",

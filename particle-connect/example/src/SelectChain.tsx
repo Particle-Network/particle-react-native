@@ -1,29 +1,31 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, SafeAreaView, FlatList, TouchableOpacity, Text } from 'react-native';
-import { ChainInfo } from 'react-native-particle-auth';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { chains, ChainInfo } from '@particle-network/chains';
+import Toast from 'react-native-toast-message';
 
-export default class SelectChainPage extends PureComponent {
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
+
+interface SelectChainPageProps {
+    navigation: NavigationProp<any>;
+    route: RouteProp<any, any>;
+}
+
+export default class SelectChainPage extends PureComponent<SelectChainPageProps> {
     render = () => {
-        const data = Object.values(ChainInfo).map((chainInfo) => {
-
-            return { key: chainInfo.chain_name + chainInfo.chain_id_name, value: chainInfo };
-
-        });
+        const data = chains.getAllChainInfos();
 
         return (
             <SafeAreaView>
-                <View style={styles.contentView}>
+                <View>
                     <FlatList
                         data={data}
                         renderItem={({ item }) => (
                             <TouchableOpacity style={styles.buttonStyle}
                                 onPress={() => {
-                                    this.selectedChain(item.value);
+                                    this.selectedChain(item);
                                 }}>
-                                <Text style={styles.textStyle}>{item.key}</Text>
+                                <Text style={styles.textStyle}>{item.name + " " + item.network + " " + item.id }</Text>
                             </TouchableOpacity>
-
                         )}
                     />
                 </View>
@@ -31,16 +33,16 @@ export default class SelectChainPage extends PureComponent {
         );
     };
 
-    selectedChain = async (chainInfo) => {
+    selectedChain = async (chainInfo: ChainInfo) => {
         const { navigation, route } = this.props;
 
         Toast.show({
             type: 'success',
-            text1: `select chain ${chainInfo.chain_name} ${chainInfo.chain_id_name} ${chainInfo.chain_id}`,
+            text1: `select chain ${chainInfo.name} ${chainInfo.network} ${chainInfo.id}`,
         });
 
         navigation.navigate({
-            name: 'AuthDemo',
+            name: 'ConnectDemo',
             params: { chainInfo: chainInfo },
             merge: true,
         });

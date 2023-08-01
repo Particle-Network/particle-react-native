@@ -40,7 +40,7 @@ export class BuyCryptoConfig {
   /**
    * Language
    */
-  language?: Language; 
+  language?: Language;
 
   /**
    *
@@ -72,5 +72,9 @@ export enum OpenBuyNetwork {
   Optimism = 'Optimism',
   Polygon = 'Polygon',
   Tron = 'Tron',
-  ArbitrumOne = 'ArbitrumOne'
+  ArbitrumOne = 'ArbitrumOne',
+  Avalanche = 'Avalanche',
+  Celo = 'Celo',
+  ZkSync = 'ZkSync'
+
 }

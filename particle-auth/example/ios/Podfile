@@ -28,8 +28,8 @@ target 'ParticleAuthExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'ParticleAuthService', '0.14.5'
-  pod 'ParticleNetworkBase', '0.14.5'
+  pod 'ParticleAuthService', '1.0.1'
+  pod 'ParticleNetworkBase', '1.0.1'
   
   target 'ParticleAuthExampleTests' do
     inherit! :complete

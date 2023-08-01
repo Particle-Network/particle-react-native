@@ -60,13 +60,15 @@ RCT_EXTERN_METHOD(setInterfaceStyle:(NSString* _Nonnull)json)
 
 RCT_EXTERN_METHOD(setLanguage:(NSString* _Nonnull)json)
 
-RCT_EXTERN_METHOD(setDisplayWallet:(BOOL)json)
+RCT_EXTERN_METHOD(setAppearance:(NSString* _Nonnull)json)
+
+RCT_EXTERN_METHOD(setFiatCoin:(NSString* _Nonnull)json)
+
+RCT_EXTERN_METHOD(setWebAuthConfig:(NSString* _Nonnull)json)
 
 RCT_EXTERN_METHOD(setMediumScreen:(BOOL)json)
 
-RCT_EXTERN_METHOD(openWebWallet)
-
-RCT_EXTERN_METHOD(setUserInfo:(NSString* _Nonnull)json callback: (RCTResponseSenderBlock)callback)
+RCT_EXTERN_METHOD(openWebWallet:(NSString* _Nonnull)json)
 
 RCT_EXTERN_METHOD(setCustomStyle:(NSString* _Nonnull)json)
 

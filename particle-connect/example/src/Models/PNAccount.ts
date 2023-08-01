@@ -3,13 +3,13 @@ import { WalletType } from 'react-native-particle-connect';
 export class PNAccount {
   static walletType: WalletType = WalletType.Particle;
 
-  icons: [string];
+  icons: string[];
   name: string;
   publicAddress: string;
   url: string;
 
   constructor(
-    icons: [string],
+    icons: string[],
     name: string,
     publicAddress: string,
     url: string

@@ -5,6 +5,7 @@
 //  Created by link on 2022/9/28.
 //
 
+import Base58_swift
 import Foundation
 import ParticleConnect
 import ParticleNetworkBase
@@ -23,8 +24,14 @@ import ConnectPhantomAdapter
 #if canImport(ConnectWalletConnectAdapter)
 import ConnectWalletConnectAdapter
 #endif
+
+#if canImport(AuthCoreAdapter)
+import AuthCoreAdapter
+#endif
+
+import ParticleAuthAdapter
+
 import ConnectCommon
-import ParticleAuthService
 import RxSwift
 import SwiftyJSON
 
@@ -71,7 +78,11 @@ class ParticleConnectPlugin: NSObject {
         
         let dAppData = DAppMetaData(name: dAppName, icon: dAppIconUrl, url: dAppUrl, description: description)
         
-        var adapters: [ConnectAdapter] = [ParticleConnectAdapter()]
+        var adapters: [ConnectAdapter] = []
+        
+#if canImport(ParticleAuthAdapter)
+        adapters.append(ParticleAuthAdapter())
+#endif
 #if canImport(ConnectEVMAdapter)
         let evmRpcUrl = data["rpc_url"]["evm_url"].stringValue
         if evmRpcUrl.isEmpty {
@@ -92,6 +103,10 @@ class ParticleConnectPlugin: NSObject {
         
 #if canImport(ConnectPhantomAdapter)
         adapters.append(PhantomConnectAdapter())
+#endif
+        
+#if canImport(AuthCoreAdapter)
+        adapters.append(AuthCoreAdapter())
 #endif
         
 #if canImport(ConnectWalletConnectAdapter)
@@ -121,7 +136,6 @@ class ParticleConnectPlugin: NSObject {
         }
         
         ParticleConnect.setWalletConnectV2ProjectId(walletConnectProjectId)
-        
     }
     
     @objc
@@ -150,7 +164,7 @@ class ParticleConnectPlugin: NSObject {
     public func connect(_ json: String, configJson: String, callback: @escaping RCTResponseSenderBlock) {
         let walletTypeString = json
         
-        var connectConfig: ParticleConnectConfig?
+        var connectConfig: ParticleAuthConfig?
         if !configJson.isEmpty {
             let data = JSON(parseJSON: configJson)
             let loginType = LoginType(rawValue: data["login_type"].stringValue.lowercased()) ?? .email
@@ -195,8 +209,7 @@ class ParticleConnectPlugin: NSObject {
                 account = nil
             }
             
-            let loginFormMode = data["login_form_mode"].boolValue
-            connectConfig = ParticleConnectConfig(loginType: loginType, supportAuthType: supportAuthTypeArray, loginFormMode: loginFormMode, phoneOrEmailAccount: account)
+            connectConfig = ParticleAuthConfig(loginType: loginType, supportAuthType: supportAuthTypeArray, phoneOrEmailAccount: account)
         }
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
@@ -327,7 +340,7 @@ class ParticleConnectPlugin: NSObject {
     public func signAndSendTransaction(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let data = JSON(parseJSON: json)
         let walletTypeString = data["wallet_type"].stringValue
-        let publicAddress = data["public_address"].stringValue.toChecksumAddress()
+        let publicAddress = data["public_address"].stringValue
         let transaction = data["transaction"].stringValue
         let mode = data["fee_mode"]["option"].stringValue
 
@@ -384,7 +397,20 @@ class ParticleConnectPlugin: NSObject {
     func batchSendTransactions(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let data = JSON(parseJSON: json)
         let walletTypeString = data["wallet_type"].stringValue
-        let publicAddress = data["public_address"].stringValue.toChecksumAddress()
+        
+        guard let walletType = map2WalletType(from: walletTypeString) else {
+            print("walletType \(walletTypeString) is not existed ")
+            let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
+            let statusModel = ReactStatusModel(status: false, data: response)
+            let data = try! JSONEncoder().encode(statusModel)
+            guard let json = String(data: data, encoding: .utf8) else { return }
+            callback([json])
+            return
+        }
+        
+        latestWalletType = walletType
+        let publicAddress = data["public_address"].stringValue
+        latestPublicAddress = publicAddress
         let transactions = data["transactions"].arrayValue.map {
             $0.stringValue
         }

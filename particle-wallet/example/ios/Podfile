@@ -12,23 +12,22 @@ target 'ParticleWalletExample' do
   flags = get_default_flags()
 
 
-    pod 'ParticleWalletGUI', '0.14.5'
-    pod 'ParticleWalletAPI', '0.14.5'
-    pod 'ParticleNetworkBase', '0.14.5'
-    pod 'ParticleAuthService', '0.14.5'
-    pod 'ParticleWalletConnect', '0.14.5'
-    pod 'ParticleBiconomy', '0.14.5'
+    pod 'ParticleWalletGUI', '1.0.1'
+    pod 'ParticleWalletAPI', '1.0.1'
+    pod 'ParticleNetworkBase', '1.0.1'
+    pod 'ParticleAuthService', '1.0.1'
+    pod 'ParticleWalletConnect', '1.0.1'
+    pod 'ParticleBiconomy', '1.0.1'
     
-    pod 'ParticleConnect', '0.2.4'
-    pod 'ConnectWalletConnectAdapter', '0.2.4'
-    pod 'ConnectEVMAdapter', '0.2.4'
-    pod 'ConnectSolanaAdapter', '0.2.4'
-    pod 'ConnectPhantomAdapter', '0.2.4'
-    pod 'ConnectCommon', '0.2.4'
-
-    pod 'WalletConnectSwiftV2', '1.6.10'
+    pod 'ParticleConnect', '0.2.7'
+    pod 'ConnectWalletConnectAdapter', '0.2.7'
+    pod 'ConnectEVMAdapter', '0.2.7'
+    pod 'ConnectSolanaAdapter', '0.2.7'
+    pod 'ConnectPhantomAdapter', '0.2.7'
+    pod 'ConnectCommon', '0.2.7'
+    pod 'ParticleAuthAdapter', '0.2.7'
+    
     pod 'SkeletonView', :git => 'https://github.com/SunZhiC/SkeletonView.git', :branch => 'main'
-    pod 'WalletConnectSwift', :git => 'https://github.com/SunZhiC/WalletConnectSwift', :branch => 'master'
     pod 'SwiftMessages', :git => 'https://github.com/SunZhiC/SwiftMessages', :branch => 'master'
     
   use_react_native!(

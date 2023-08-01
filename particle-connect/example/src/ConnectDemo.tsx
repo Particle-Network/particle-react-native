@@ -1,31 +1,38 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, SafeAreaView, FlatList, TouchableOpacity, Text } from 'react-native';
-
+import { StyleSheet, SafeAreaView, FlatList, TouchableOpacity, Text } from 'react-native';
+import { ChainInfo, PolygonMumbai, SolanaDevnet } from '@particle-network/chains';
 import * as particleConnect from 'react-native-particle-connect';
 import * as particleAuth from 'react-native-particle-auth';
 import { TestAccountEVM, TestAccountSolana } from './TestAccount';
 import * as Helper from './Helper';
 import { WalletType } from 'react-native-particle-connect';
-import { ParticleConnectConfig } from 'react-native-particle-connect';
+import { ParticleConnectConfig, DappMetaData, RpcUrl } from 'react-native-particle-connect';
 import { PNAccount } from './Models/PNAccount';
-import { ParticleInfo, Env, LoginType, SupportAuthType, ChainInfo } from 'react-native-particle-auth';
+import { ParticleInfo, Env, LoginType, SupportAuthType } from 'react-native-particle-auth';
 import { createWeb3, restoreWeb3 } from './web3Demo';
+import BigNumber from 'bignumber.js';
+
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
+
+interface ConnectDemoProps {
+    navigation: NavigationProp<any>;
+    route: RouteProp<any, any>;
+}
 
 
-
-export default class ConnectDemo extends PureComponent {
+export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
 
     loginSourceMessage = '';
     loginSignature = '';
 
-    pnaccount = new PNAccount();
+    pnaccount = new PNAccount([], '', '', '');
 
     // Start with new web3, at this time, you don't connect with this walletType, and don't know any publicAddress
-    newWeb3 = undefined;
+    newWeb3: any;
 
     // After connected a wallet, restoreWeb3 when getAccounts.
     // We need to check if the walletType and publicAddress is connected.
-    web3 = undefined;
+    web3: any;
 
     init = () => {
         // Get your project id and client from dashboard,  
@@ -38,19 +45,17 @@ export default class ConnectDemo extends PureComponent {
             throw new Error('You need set project info, Get your project id and client from dashboard, https://dashboard.particle.network');
         }
 
-        const chainInfo = ChainInfo.EthereumMainnet;
+        const chainInfo: ChainInfo = PolygonMumbai;
         const env = Env.Dev;
-        const metadata = {
-            walletConnectProjectId: '75ac08814504606fc06126541ace9df6',
-            name: 'Particle Connect',
-            icon: 'https://connect.particle.network/icons/512.png',
-            url: 'https://connect.particle.network',
-            description: 'Particle Wallet',
-        };
+        const metadata = new DappMetaData('75ac08814504606fc06126541ace9df6',
+            'Particle Connect',
+            'https://connect.particle.network/icons/512.png',
+            'https://connect.particle.network',
+            'Particle Wallet', "", "");
+
         // the rpcUrl works for WalletType EvmPrivateKey and SolanaPrivakey
         // we have default rpc url in native SDK
-        const rpcUrl = { evm_url: null, solana_url: null };
-        particleConnect.init(chainInfo, env, metadata, rpcUrl);
+        particleConnect.init(chainInfo, env, metadata, null);
 
         this.newWeb3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', PNAccount.walletType);
 
@@ -61,7 +66,7 @@ export default class ConnectDemo extends PureComponent {
     newWeb3_getAccounts = async () => {
         try {
             const accounts = await this.newWeb3.eth.getAccounts();
-            this.pnaccount = new PNAccount("", "", accounts[0], "");
+            this.pnaccount = new PNAccount([], "", accounts[0], "");
             console.log('web3.eth.getAccounts', accounts);
         } catch (error) {
             console.log('web3.eth.getAccounts', error);
@@ -74,7 +79,7 @@ export default class ConnectDemo extends PureComponent {
             this.web3 = restoreWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', PNAccount.walletType, this.pnaccount.publicAddress);
 
             const accounts = await this.web3.eth.getAccounts();
-            this.pnaccount = new PNAccount("", "", accounts[0], "");
+            this.pnaccount = new PNAccount([], "", accounts[0], "");
             console.log('web3.eth.getAccounts', accounts);
         } catch (error) {
             console.log('web3.eth.getAccounts', error);
@@ -122,11 +127,13 @@ export default class ConnectDemo extends PureComponent {
 
     web3_signTypedData_v4 = async () => {
         try {
-
-            const accounts = await this.web3.eth.getAccounts();
-            const result = await this.web3.currentProvider.request({
+            // @ts-ignore
+            const accounts = await this.web3!.eth.getAccounts();
+            const chainId = await this.web3.eth.getChainId();
+            // @ts-ignore
+            const result = await this.web3!.currentProvider.request({
                 method: 'eth_signTypedData_v4',
-                params: [accounts[0], { "types": { "OrderComponents": [{ "name": "offerer", "type": "address" }, { "name": "zone", "type": "address" }, { "name": "offer", "type": "OfferItem[]" }, { "name": "consideration", "type": "ConsiderationItem[]" }, { "name": "orderType", "type": "uint8" }, { "name": "startTime", "type": "uint256" }, { "name": "endTime", "type": "uint256" }, { "name": "zoneHash", "type": "bytes32" }, { "name": "salt", "type": "uint256" }, { "name": "conduitKey", "type": "bytes32" }, { "name": "counter", "type": "uint256" }], "OfferItem": [{ "name": "itemType", "type": "uint8" }, { "name": "token", "type": "address" }, { "name": "identifierOrCriteria", "type": "uint256" }, { "name": "startAmount", "type": "uint256" }, { "name": "endAmount", "type": "uint256" }], "ConsiderationItem": [{ "name": "itemType", "type": "uint8" }, { "name": "token", "type": "address" }, { "name": "identifierOrCriteria", "type": "uint256" }, { "name": "startAmount", "type": "uint256" }, { "name": "endAmount", "type": "uint256" }, { "name": "recipient", "type": "address" }], "EIP712Domain": [{ "name": "name", "type": "string" }, { "name": "version", "type": "string" }, { "name": "chainId", "type": "uint256" }, { "name": "verifyingContract", "type": "address" }] }, "domain": { "name": "Seaport", "version": "1.1", "chainId": 5, "verifyingContract": "0x00000000006c3852cbef3e08e8df289169ede581" }, "primaryType": "OrderComponents", "message": { "offerer": "0x6fc702d32e6cb268f7dc68766e6b0fe94520499d", "zone": "0x0000000000000000000000000000000000000000", "offer": [{ "itemType": "2", "token": "0xd15b1210187f313ab692013a2544cb8b394e2291", "identifierOrCriteria": "33", "startAmount": "1", "endAmount": "1" }], "consideration": [{ "itemType": "0", "token": "0x0000000000000000000000000000000000000000", "identifierOrCriteria": "0", "startAmount": "9750000000000000", "endAmount": "9750000000000000", "recipient": "0x6fc702d32e6cb268f7dc68766e6b0fe94520499d" }, { "itemType": "0", "token": "0x0000000000000000000000000000000000000000", "identifierOrCriteria": "0", "startAmount": "250000000000000", "endAmount": "250000000000000", "recipient": "0x66682e752d592cbb2f5a1b49dd1c700c9d6bfb32" }], "orderType": "0", "startTime": "1669188008", "endTime": "115792089237316195423570985008687907853269984665640564039457584007913129639935", "zoneHash": "0x3000000000000000000000000000000000000000000000000000000000000000", "salt": "48774942683212973027050485287938321229825134327779899253702941089107382707469", "conduitKey": "0x0000000000000000000000000000000000000000000000000000000000000000", "counter": "0" } }]
+                params: [accounts[0], { "types": { "OrderComponents": [{ "name": "offerer", "type": "address" }, { "name": "zone", "type": "address" }, { "name": "offer", "type": "OfferItem[]" }, { "name": "consideration", "type": "ConsiderationItem[]" }, { "name": "orderType", "type": "uint8" }, { "name": "startTime", "type": "uint256" }, { "name": "endTime", "type": "uint256" }, { "name": "zoneHash", "type": "bytes32" }, { "name": "salt", "type": "uint256" }, { "name": "conduitKey", "type": "bytes32" }, { "name": "counter", "type": "uint256" }], "OfferItem": [{ "name": "itemType", "type": "uint8" }, { "name": "token", "type": "address" }, { "name": "identifierOrCriteria", "type": "uint256" }, { "name": "startAmount", "type": "uint256" }, { "name": "endAmount", "type": "uint256" }], "ConsiderationItem": [{ "name": "itemType", "type": "uint8" }, { "name": "token", "type": "address" }, { "name": "identifierOrCriteria", "type": "uint256" }, { "name": "startAmount", "type": "uint256" }, { "name": "endAmount", "type": "uint256" }, { "name": "recipient", "type": "address" }], "EIP712Domain": [{ "name": "name", "type": "string" }, { "name": "version", "type": "string" }, { "name": "chainId", "type": "uint256" }, { "name": "verifyingContract", "type": "address" }] }, "domain": { "name": "Seaport", "version": "1.1", "chainId": `${chainId}`, "verifyingContract": "0x00000000006c3852cbef3e08e8df289169ede581" }, "primaryType": "OrderComponents", "message": { "offerer": "0x6fc702d32e6cb268f7dc68766e6b0fe94520499d", "zone": "0x0000000000000000000000000000000000000000", "offer": [{ "itemType": "2", "token": "0xd15b1210187f313ab692013a2544cb8b394e2291", "identifierOrCriteria": "33", "startAmount": "1", "endAmount": "1" }], "consideration": [{ "itemType": "0", "token": "0x0000000000000000000000000000000000000000", "identifierOrCriteria": "0", "startAmount": "9750000000000000", "endAmount": "9750000000000000", "recipient": "0x6fc702d32e6cb268f7dc68766e6b0fe94520499d" }, { "itemType": "0", "token": "0x0000000000000000000000000000000000000000", "identifierOrCriteria": "0", "startAmount": "250000000000000", "endAmount": "250000000000000", "recipient": "0x66682e752d592cbb2f5a1b49dd1c700c9d6bfb32" }], "orderType": "0", "startTime": "1669188008", "endTime": "115792089237316195423570985008687907853269984665640564039457584007913129639935", "zoneHash": "0x3000000000000000000000000000000000000000000000000000000000000000", "salt": "48774942683212973027050485287938321229825134327779899253702941089107382707469", "conduitKey": "0x0000000000000000000000000000000000000000000000000000000000000000", "counter": "0" } }]
             });
             console.log('web3 eth_signTypedData_v4', result);
         } catch (error) {
@@ -136,8 +143,10 @@ export default class ConnectDemo extends PureComponent {
 
     web3_sendTransaction = async () => {
         try {
-            const accounts = await this.web3.eth.getAccounts();
-            const result = await this.web3.eth.sendTransaction(
+            // @ts-ignore
+            const accounts = await this.web3!.eth.getAccounts();
+            // @ts-ignore
+            const result = await this.web3!.eth.sendTransaction(
                 {
                     from: accounts[0],
                     to: TestAccountEVM.receiverAddress,
@@ -154,8 +163,10 @@ export default class ConnectDemo extends PureComponent {
 
     web3_wallet_switchEthereumChain = async () => {
         try {
-            const chainId = "0x" + ChainInfo.PolygonMainnet.chain_id.toString(16);
-            const result = await this.web3.currentProvider.request({
+            const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
+            const chainId = '0x' + chainInfo.id.toString(16)
+            // @ts-ignore
+            const result = await this.web3!.currentProvider.request({
                 method: 'wallet_switchEthereumChain',
                 params: [{ chainId: chainId }]
             })
@@ -168,8 +179,10 @@ export default class ConnectDemo extends PureComponent {
 
     web3_wallet_addEthereumChain = async () => {
         try {
-            const chainId = "0x" + ChainInfo.PolygonMainnet.chain_id.toString(16);
-            const result = await this.web3.currentProvider.request({
+            const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
+            const chainId = '0x' + chainInfo.id.toString(16)
+            // @ts-ignore
+            const result = await this.web3!.currentProvider.request({
                 method: 'wallet_addEthereumChain',
                 params: [{ chainId: chainId }]
             })
@@ -186,18 +199,18 @@ export default class ConnectDemo extends PureComponent {
     };
 
     setChainInfo = async () => {
-        const chainInfo = this.props.route.params?.chainInfo || ChainInfo.EthereumMainnet;
+        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
         const result = await particleAuth.setChainInfo(chainInfo);
         console.log(result);
     };
 
     getChainInfo = async () => {
-        const chainInfo = await particleAuth.getChainInfo();
+        const chainInfo: ChainInfo = await particleAuth.getChainInfo();
         console.log(chainInfo);
     };
 
     setChainInfoAsync = async () => {
-        const chainInfo = this.props.route.params?.chainInfo || ChainInfo.EthereumMainnet;
+        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
         const result = await particleAuth.setChainInfoAsync(chainInfo);
         console.log(result);
     };
@@ -228,6 +241,7 @@ export default class ConnectDemo extends PureComponent {
             SupportAuthType.Google,
             SupportAuthType.Apple,
         ]);
+
         const result = await particleConnect.connect(
             WalletType.Particle,
             connectConfig
@@ -301,9 +315,9 @@ export default class ConnectDemo extends PureComponent {
 
     signTransaction = async () => {
 
-        const chainInfo = this.props.route.params?.chainInfo || ChainInfo.SolanaDevnet;
+        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || SolanaDevnet;
 
-        if (chainInfo.chain_name.toLowerCase() != 'solana') {
+        if (chainInfo.name.toLowerCase() != 'solana') {
             console.log('signTransaction only supports solana');
             return;
         }
@@ -336,9 +350,9 @@ export default class ConnectDemo extends PureComponent {
 
     signAllTransactions = async () => {
 
-        const chainInfo = this.props.route.params?.chainInfo || ChainInfo.SolanaDevnet;
+        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || SolanaDevnet;
 
-        if (chainInfo.chain_name.toLowerCase() != 'solana') {
+        if (chainInfo.name.toLowerCase() != 'solana') {
             console.log('signAllTransactions only supports solana');
             return;
         }
@@ -371,7 +385,7 @@ export default class ConnectDemo extends PureComponent {
     signAndSendTransaction = async () => {
 
         const sender = await particleAuth.getAddress();
-        const chainInfo = this.props.route.params?.chainInfo || ChainInfo.PolygonMumbai;
+        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
 
         const publicAddress = this.pnaccount.publicAddress;
 
@@ -381,13 +395,13 @@ export default class ConnectDemo extends PureComponent {
         }
 
         let transaction = '';
-        if (chainInfo.chain_name.toLowerCase() == 'solana') {
+        if (chainInfo.name.toLowerCase() == 'solana') {
             transaction = await Helper.getSolanaTransaction(sender);
         } else {
             const receiver = TestAccountEVM.receiverAddress;
             const amount = TestAccountEVM.amount;
             transaction = await Helper.getEthereumTransacion(
-                this.pnaccount.publicAddress, receiver, amount
+                this.pnaccount.publicAddress, receiver, BigNumber(amount)
             );
         }
 
@@ -408,8 +422,13 @@ export default class ConnectDemo extends PureComponent {
     };
 
     signTypedData = async () => {
-        const typedData =
-            '{        "types": {            "EIP712Domain": [                {                    "name": "name",                    "type": "string"                },                {                    "name": "version",                    "type": "string"                },                {                    "name": "chainId",                    "type": "uint256"                },                {                    "name": "verifyingContract",                    "type": "address"                }            ],            "Person": [                {                    "name": "name",                    "type": "string"                },                {                    "name": "wallet",                    "type": "address"                }            ],            "Mail": [                {                    "name": "from",                    "type": "Person"                },                {                    "name": "to",                    "type": "Person"                },                {                    "name": "contents",                    "type": "string"                }            ]        },        "primaryType": "Mail",        "domain": {            "name": "Ether Mail",            "version": "1",            "chainId": 5,            "verifyingContract": "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC"        },        "message": {            "from": {                "name": "Cow",                "wallet": "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826"            },            "to": {                "name": "Bob",                "wallet": "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB"            },            "contents": "Hello, Bob!"        }}        ';
+        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
+        if (chainInfo.name.toLowerCase() == 'solana') {
+            console.log('signTypedData only supports evm');
+            return;
+        }
+
+        const typedData = `{"types":{"OrderComponents":[{"name":"offerer","type":"address"},{"name":"zone","type":"address"},{"name":"offer","type":"OfferItem[]"},{"name":"consideration","type":"ConsiderationItem[]"},{"name":"orderType","type":"uint8"},{"name":"startTime","type":"uint256"},{"name":"endTime","type":"uint256"},{"name":"zoneHash","type":"bytes32"},{"name":"salt","type":"uint256"},{"name":"conduitKey","type":"bytes32"},{"name":"counter","type":"uint256"}],"OfferItem":[{"name":"itemType","type":"uint8"},{"name":"token","type":"address"},{"name":"identifierOrCriteria","type":"uint256"},{"name":"startAmount","type":"uint256"},{"name":"endAmount","type":"uint256"}],"ConsiderationItem":[{"name":"itemType","type":"uint8"},{"name":"token","type":"address"},{"name":"identifierOrCriteria","type":"uint256"},{"name":"startAmount","type":"uint256"},{"name":"endAmount","type":"uint256"},{"name":"recipient","type":"address"}],"EIP712Domain":[{"name":"name","type":"string"},{"name":"version","type":"string"},{"name":"chainId","type":"uint256"},{"name":"verifyingContract","type":"address"}]},"domain":{"name":"Seaport","version":"1.1","chainId":${chainInfo.id},"verifyingContract":"0x00000000006c3852cbef3e08e8df289169ede581"},"primaryType":"OrderComponents","message":{"offerer":"0x6fc702d32e6cb268f7dc68766e6b0fe94520499d","zone":"0x0000000000000000000000000000000000000000","offer":[{"itemType":"2","token":"0xd15b1210187f313ab692013a2544cb8b394e2291","identifierOrCriteria":"33","startAmount":"1","endAmount":"1"}],"consideration":[{"itemType":"0","token":"0x0000000000000000000000000000000000000000","identifierOrCriteria":"0","startAmount":"9750000000000000","endAmount":"9750000000000000","recipient":"0x6fc702d32e6cb268f7dc68766e6b0fe94520499d"},{"itemType":"0","token":"0x0000000000000000000000000000000000000000","identifierOrCriteria":"0","startAmount":"250000000000000","endAmount":"250000000000000","recipient":"0x66682e752d592cbb2f5a1b49dd1c700c9d6bfb32"}],"orderType":"0","startTime":"1669188008","endTime":"115792089237316195423570985008687907853269984665640564039457584007913129639935","zoneHash":"0x3000000000000000000000000000000000000000000000000000000000000000","salt":"48774942683212973027050485287938321229825134327779899253702941089107382707469","conduitKey":"0x0000000000000000000000000000000000000000000000000000000000000000","counter":"0"}}`;
         const publicAddress = this.pnaccount.publicAddress;
         if (publicAddress == undefined) {
             console.log('publicAddress is underfined, you need connect');
@@ -549,7 +568,7 @@ export default class ConnectDemo extends PureComponent {
         const result = await particleConnect.addEthereumChain(
             PNAccount.walletType,
             publicAddress,
-            ChainInfo.PolygonMainnet
+            PolygonMumbai
         );
 
         if (result.status) {
@@ -572,7 +591,7 @@ export default class ConnectDemo extends PureComponent {
         const result = await particleConnect.switchEthereumChain(
             PNAccount.walletType,
             publicAddress,
-            ChainInfo.PolygonMainnet
+            PolygonMumbai
         );
 
         if (result.status) {
@@ -655,10 +674,13 @@ export default class ConnectDemo extends PureComponent {
                         <TouchableOpacity style={styles.buttonStyle}
                             onPress={() => {
                                 if (item.key == "Select Chain Page") {
+                                    // @ts-ignore
                                     navigation.push("SelectChainPage");
                                 } else if (item.key == 'Select Wallet Type Page') {
+                                    // @ts-ignore
                                     navigation.push("SelectWalletTypePage");
                                 } else {
+                                    // @ts-ignore
                                     item.function();
                                 }
                             }}>

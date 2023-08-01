@@ -1,9 +1,9 @@
 import { NativeModules, Platform } from 'react-native';
-import type { ChainInfo, WalletDisplay, Language } from 'react-native-particle-auth';
+import type { WalletDisplay } from 'react-native-particle-auth';
 import type { WalletType } from 'react-native-particle-connect';
 import type { BuyCryptoConfig } from './Models/BuyCryptoConfig';
-import type { FaitCoin } from './Models/FaitCoin';
 import type { WalletMetaData } from './Models/WalletMetaData';
+import type { ChainInfo } from '@particle-network/chains';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-wallet' doesn't seem to be linked. Make sure: \n\n` +
@@ -160,65 +160,99 @@ export function navigatorSwap(fromTokenAddress?: string, toTokenAddress?: string
  * Show test network, default is false
  * @param isShow 
  */
-export function showTestNetwork(isShow: boolean) {
-  ParticleWalletPlugin.showTestNetwork(isShow);
+export function setShowTestNetwork(isShow: boolean) {
+  
+  if (Platform.OS == 'ios') {
+    ParticleWalletPlugin.setShowTestNetwork(isShow);
+  } else {
+    // todo
+    ParticleWalletPlugin.showTestNetwork(isShow);
+  }
 }
 
 /**
  * Show manage wallet page, default is true
  * @param isShow 
  */
-export function showManageWallet(isShow: boolean) {
-  ParticleWalletPlugin.showManageWallet(isShow);
+export function setShowManageWallet(isShow: boolean) {
+  if (Platform.OS == 'ios') {
+    ParticleWalletPlugin.setShowManageWallet(isShow);
+  } else {
+    // todo
+    ParticleWalletPlugin.showManageWallet(isShow);
+  }
+
 }
 
 /**
  * Support chainInfos
  * @param chainInfos ChainInfos
  */
-export function supportChain(chainInfos: ChainInfo[]) {
-  const json = JSON.stringify(chainInfos);
-  ParticleWalletPlugin.supportChain(json);
+export function setSupportChain(chainInfos: ChainInfo[]) {
+  const chainInfoObjects = chainInfos.map(info => ({
+    chain_name: info.name,
+    chain_id_name: info.network,
+    chain_id: info.id,
+  }));
+  const json = JSON.stringify(chainInfoObjects);
+
+  if (Platform.OS == 'ios') {
+    ParticleWalletPlugin.setSupportChain(json);
+  } else {
+    // todo
+    ParticleWalletPlugin.supportChain(json);
+  }
 }
 
 /**
- * Enable pay feature, pay feature is default enable.
- * @param isEnable 
+ * Set pay disabled, default value is false.
+ * @param disabled 
  */
-export function enablePay(isEnable: boolean) {
-  ParticleWalletPlugin.enablePay(isEnable);
+export function setPayDisabled(disabled: boolean) {
+  ParticleWalletPlugin.setPayDisabled(disabled);
 }
 
 /**
- * Get pay feature state
- * @returns Trus if enable, otherwise false
+ * Get pay disabled state
+ * @returns Trus if disabled, otherwise false
  */
-export function getEnablePay() {
-  return new Promise((resolve) => {
-    ParticleWalletPlugin.getEnablePay((result: string) => {
-      resolve(result)
+export function getPayDisabled() {
+  if (Platform.OS == 'ios') {
+    return new Promise((resolve) => {
+      ParticleWalletPlugin.getPayDisabled((result: string) => {
+        resolve(result)
+      });
     });
-  });
+  } else {
+    // todo
+    return Promise.resolve();
+  }
 }
 
 /**
- * Enable swap feature, swap feature is default enable.
- * @param isEnable 
+ * Set swap disabled, default value is false.
+ * @param disabled 
  */
-export function enableSwap(isEnable: boolean) {
-  ParticleWalletPlugin.enableSwap(isEnable);
+export function setSwapDisabled(disabled: boolean) {
+  ParticleWalletPlugin.setSwapDisabled(disabled);
 }
 
 /**
- * Get swap feature state
- * @returns Trus if enable, otherwise false
+ * Get swap disabled state
+ * @returns Trus if disabled, otherwise true
  */
-export function getEnableSwap() {
-  return new Promise((resolve) => {
-    ParticleWalletPlugin.getEnableSwap((result: string) => {
-      resolve(result)
+export function getSwapDisabled() {
+  if (Platform.OS == 'ios') {
+    return new Promise((resolve) => {
+      ParticleWalletPlugin.getSwapDisabled((result: string) => {
+        resolve(result)
+      });
     });
-  });
+  } else {
+    // todo
+    return Promise.resolve();
+  }
+
 }
 
 /**
@@ -238,23 +272,6 @@ export function switchWallet(walletType: string, publicAddress: string): Promise
   });
 }
 
-/**
- * Set wallet page language
- * @param language Language
- */
-export function setLanguage(language: Language) {
-  ParticleWalletPlugin.setLanguage(language);
-}
-
-/**
- * Set fait coin
- * @param faitCoin FaitCoin
- */
-export function setFiatCoin(faitCoin: FaitCoin) {
-  if (Platform.OS == 'ios') {
-    ParticleWalletPlugin.setFiatCoin(faitCoin);
-  }
-}
 
 /**
  * Set display token addresses
@@ -262,7 +279,7 @@ export function setFiatCoin(faitCoin: FaitCoin) {
  * If you called this method, Wallet SDK will only show these tokens in the token addresses.
  * @param tokenAddresses TokenAddress array
  */
-export function setDisplayTokenAddresses(tokenAddresses: [string]) {
+export function setDisplayTokenAddresses(tokenAddresses: string[]) {
   const json = JSON.stringify(tokenAddresses);
   ParticleWalletPlugin.setDisplayTokenAddresses(json);
 }
@@ -273,7 +290,7 @@ export function setDisplayTokenAddresses(tokenAddresses: [string]) {
  * If you called this method, Wallet SDK will only show NFTs in the NFT contract addresses.
  * @param nftContractAddresses 
  */
-export function setDisplayNFTContractAddresses(nftContractAddresses: [string]) {
+export function setDisplayNFTContractAddresses(nftContractAddresses: string[]) {
   const json = JSON.stringify(nftContractAddresses);
   ParticleWalletPlugin.setDisplayNFTContractAddresses(json);
 }
@@ -284,7 +301,7 @@ export function setDisplayNFTContractAddresses(nftContractAddresses: [string]) {
  * If you called this method, Wallet SDK will show these tokens in top part of the list.
  * @param tokenAddresses TokenAddress array
  */
-export function setPriorityTokenAddresses(tokenAddresses: [string]) {
+export function setPriorityTokenAddresses(tokenAddresses: string[]) {
   const json = JSON.stringify(tokenAddresses);
   ParticleWalletPlugin.setPriorityTokenAddresses(json);
 }
@@ -295,7 +312,7 @@ export function setPriorityTokenAddresses(tokenAddresses: [string]) {
  * If you called this method, Wallet SDK will only show NFTs in top part of list.
  * @param nftContractAddresses 
  */
-export function setPriorityNFTContractAddresses(nftContractAddresses: [string]) {
+export function setPriorityNFTContractAddresses(nftContractAddresses: string[]) {
   const json = JSON.stringify(nftContractAddresses);
   ParticleWalletPlugin.setPriorityNFTContractAddresses(json);
 }
@@ -304,16 +321,28 @@ export function setPriorityNFTContractAddresses(nftContractAddresses: [string]) 
  * Set show language setting button in setting page
  * @param isShow default value is false
  */
-export function showLanguageSetting(isShow: boolean) {
-  ParticleWalletPlugin.showLanguageSetting(isShow);
+export function setShowLanguageSetting(isShow: boolean) {
+  if (Platform.OS == 'ios') {
+    ParticleWalletPlugin.setShowLanguageSetting(isShow);
+  } else {
+    // todo
+    ParticleWalletPlugin.showLanguageSetting(isShow);
+  }
+
 }
 
 /**
  * Set show appearance setting button in setting page
  * @param isShow default value is false
  */
-export function showAppearanceSetting(isShow: boolean) {
-  ParticleWalletPlugin.showAppearanceSetting(isShow);
+export function setShowAppearanceSetting(isShow: boolean) {
+  if (Platform.OS == 'ios') {
+    ParticleWalletPlugin.setShowAppearanceSetting(isShow);
+  } else {
+    // todo
+    ParticleWalletPlugin.showAppearanceSetting(isShow);
+  }
+
 }
 
 /**
@@ -330,8 +359,14 @@ export function setSupportAddToken(isShow: boolean) {
  * not support for now, coming soon.
  * @param isEnable 
  */
-export function supportWalletConnect(isEnable: boolean) {
-  ParticleWalletPlugin.supportWalletConnect(isEnable);
+export function setSupportWalletConnect(isEnable: boolean) {
+  if (Platform.OS == 'ios') {
+    ParticleWalletPlugin.setSupportWalletConnect(isEnable);
+  } else {
+    // todo
+    ParticleWalletPlugin.supportWalletConnect(isEnable);
+  }
+
 }
 
 export function setWalletConnectV2ProjectId(walletConnectV2ProjectId: string) {
@@ -341,5 +376,4 @@ export function setWalletConnectV2ProjectId(walletConnectV2ProjectId: string) {
 }
 
 export * from './Models/BuyCryptoConfig';
-export * from './Models/FaitCoin';
 export * from './Models/WalletMetaData';

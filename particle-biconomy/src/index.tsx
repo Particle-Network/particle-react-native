@@ -1,5 +1,6 @@
 import { NativeModules, Platform } from 'react-native';
-import type  { BiconomyVersion, ChainInfo } from 'react-native-particle-auth';
+import type { BiconomyVersion } from 'react-native-particle-auth';
+import type { ChainInfo } from '@particle-network/chains';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-biconomy' doesn't seem to be linked. Make sure: \n\n` +
@@ -42,8 +43,8 @@ export function init(version: BiconomyVersion, dappAppKeys: { [key: number]: str
  * @param chainInfo ChainInfo
  * @returns
  */
-export function isSupportChainInfo(chainInfo: ChainInfo): Promise<boolean> {
-  const obj = chainInfo;
+export async function isSupportChainInfo(chainInfo: ChainInfo): Promise<boolean> {
+  const obj = { chain_id: chainInfo.id, chain_name: chainInfo.name, chain_id_name: chainInfo.network };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
     ParticleBiconomyPlugin.isSupportChainInfo(json, (result: boolean) => {
@@ -58,7 +59,7 @@ export function isSupportChainInfo(chainInfo: ChainInfo): Promise<boolean> {
  * @param eoaAddress Eoa address
  * @returns
  */
-export function isDeploy(eoaAddress: string): Promise<string> {
+export async function isDeploy(eoaAddress: string): Promise<any> {
   return new Promise((resolve) => {
     ParticleBiconomyPlugin.isDeploy(eoaAddress, (result: string) => {
       resolve(JSON.parse(result));
@@ -70,7 +71,7 @@ export function isDeploy(eoaAddress: string): Promise<string> {
  * Is biconomy mode enable
  * @returns
  */
-export function isBiconomyModeEnable(): Promise<boolean> {
+export async function isBiconomyModeEnable(): Promise<boolean> {
   return new Promise((resolve) => {
     ParticleBiconomyPlugin.isBiconomyModeEnable((result: boolean) => {
       resolve(result);

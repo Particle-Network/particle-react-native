@@ -1,50 +1,55 @@
 import React, { PureComponent } from 'react';
 import {
     StyleSheet,
-    View,
     SafeAreaView,
     FlatList,
-    Platform,
     TouchableOpacity,
     Text,
 } from 'react-native';
 import { WalletType, DappMetaData } from 'react-native-particle-connect';
-
+import { PolygonMumbai, Ethereum, EthereumGoerli } from '@particle-network/chains';
 import * as particleConnect from 'react-native-particle-connect';
 import * as particleAuth from 'react-native-particle-auth';
 import {
     Env,
     Language,
-    ChainInfo,
     WalletDisplay,
 } from 'react-native-particle-auth';
 import { TestAccountEVM, TestAccountSolana } from './TestAccount';
 import * as particleWallet from 'react-native-particle-wallet';
 import {
     BuyCryptoConfig,
-    FaitCoin,
-    OpenBuyNetwork,
-    WalletMetaData,
+    OpenBuyNetwork
 } from 'react-native-particle-wallet';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
-export default class GUIDemo extends PureComponent {
+interface GUIDemoProps {
+    navigation: NavigationProp<any>;
+    route: RouteProp<any, any>;
+}
+
+export default class GUIDemo extends PureComponent<GUIDemoProps> {
     init = async () => {
-        const chainInfo = ChainInfo.EthereumMainnet;
+        const chainInfo = Ethereum;
         const env = Env.Dev;
-        const metaData = {
+        const walletMetaData = {
             walletConnectProjectId: '75ac08814504606fc06126541ace9df6',
             name: 'Particle Connect',
             icon: 'https://connect.particle.network/icons/512.png',
             url: 'https://connect.particle.network',
             description: 'Particle Wallet',
         };
-        const rpcUrl = { evm_url: null, solana_url: null };
-        particleConnect.init(chainInfo, env, metaData, rpcUrl);
-        particleWallet.initWallet(metaData);
+        const dappMetaData = new DappMetaData('75ac08814504606fc06126541ace9df6',
+            'Particle Connect',
+            'https://connect.particle.network/icons/512.png',
+            'https://connect.particle.network',
+            'Particle Wallet', "", "");
+        particleConnect.init(chainInfo, env, dappMetaData);
+        particleWallet.initWallet(walletMetaData);
     };
 
     setChainInfo = async () => {
-        const chainInfo = ChainInfo.EthereumMainnet;
+        const chainInfo = Ethereum;
         particleAuth.setChainInfo(chainInfo);
     };
 
@@ -134,42 +139,42 @@ export default class GUIDemo extends PureComponent {
         particleWallet.navigatorSwap(fromTokenAddress, toTokenAddress, amount);
     };
 
-    showTestNetwork = async () => {
-        const isShow = true;
-        particleWallet.showTestNetwork(isShow);
+    setShowTestNetwork = async () => {
+        const isShow = false;
+        particleWallet.setShowTestNetwork(isShow);
     };
 
-    showManageWallet = async () => {
-        const isShow = true;
-        particleWallet.showManageWallet(isShow);
+    setShowManageWallet = async () => {
+        const isShow = false;
+        particleWallet.setShowManageWallet(isShow);
     };
 
-    supportChain = async () => {
+    setSupportChain = async () => {
         const chainInfos = [
-            ChainInfo.EthereumMainnet,
-            ChainInfo.BscMainnet,
-            ChainInfo.PolygonMainnet,
+            Ethereum,
+            EthereumGoerli,
+            PolygonMumbai,
         ];
-        particleWallet.supportChain(chainInfos);
+        particleWallet.setSupportChain(chainInfos);
     };
 
-    enablePay = async () => {
-        const isEnable = true;
-        particleWallet.enablePay(isEnable);
+    setPayDisabled = async () => {
+        const disabled = true;
+        particleWallet.setPayDisabled(disabled);
     };
 
-    getEnablePay = async () => {
-        const result = await particleWallet.getEnablePay();
+    getPayDisabled = async () => {
+        const result = await particleWallet.getPayDisabled();
         console.log(result);
     };
 
-    enableSwap = async () => {
-        const isEnable = true;
-        particleWallet.enableSwap(isEnable);
+    setSwapDisabled = async () => {
+        const disabled = true;
+        particleWallet.setSwapDisabled(disabled);
     };
 
-    getEnableSwap = async () => {
-        const result = await particleWallet.getEnableSwap();
+    getSwapDisabled = async () => {
+        const result = await particleWallet.getSwapDisabled();
         console.log(result);
     };
 
@@ -179,16 +184,6 @@ export default class GUIDemo extends PureComponent {
 
         const result = await particleWallet.switchWallet(walletType, publicAddress);
         console.log(result);
-    };
-
-    setLanguage = async () => {
-        const language = Language.JA;
-        particleWallet.setLanguage(language);
-    };
-
-    setFiatCoin = async () => {
-        const faitCoin = FaitCoin.HKD;
-        particleWallet.setFiatCoin(faitCoin);
     };
 
     setDisplayTokenAddresses = async () => {
@@ -211,16 +206,20 @@ export default class GUIDemo extends PureComponent {
         particleWallet.setPriorityNFTContractAddresses(nftContractAddresses);
     };
 
-    showLanguageSetting = async () => {
-        particleWallet.showLanguageSetting(false);
+    setShowLanguageSetting = async () => {
+        particleWallet.setShowLanguageSetting(false);
     };
 
-    showAppearanceSetting = async () => {
-        particleWallet.showAppearanceSetting(false);
+    setShowAppearanceSetting = async () => {
+        particleWallet.setShowAppearanceSetting(false);
     };
 
     setSupportAddToken = async () => {
         particleWallet.setSupportAddToken(false);
+    };
+
+    setSupportWalletConnect = async () => {
+        particleWallet.setSupportWalletConnect(false);
     };
 
     data = [
@@ -240,16 +239,14 @@ export default class GUIDemo extends PureComponent {
         { key: 'NavigatorBuyCrypto', function: this.navigatorBuyCrypto },
         { key: 'NavigatorLoginList', function: this.navigatorLoginList },
         { key: 'NavigatorSwap', function: this.navigatorSwap },
-        { key: 'ShowTestNetwork', function: this.showTestNetwork },
-        { key: 'ShowManageWallet', function: this.showManageWallet },
-        { key: 'SupportChain', function: this.supportChain },
-        { key: 'EnablePay', function: this.enablePay },
-        { key: 'GetEnablePay', function: this.getEnablePay },
-        { key: 'EnableSwap', function: this.enableSwap },
-        { key: 'GetEnableSwap', function: this.getEnableSwap },
+        { key: 'SetShowTestNetwork', function: this.setShowTestNetwork },
+        { key: 'SetShowManageWallet', function: this.setShowManageWallet },
+        { key: 'SetSupportChain', function: this.setSupportChain },
+        { key: 'SetPayDisabled', function: this.setPayDisabled },
+        { key: 'GetPayDisabled', function: this.getPayDisabled },
+        { key: 'SetSwapDisabled', function: this.setSwapDisabled },
+        { key: 'GetSwapDisabled', function: this.getSwapDisabled },
         { key: 'SwitchWallet', function: this.switchWallet },
-        { key: 'SetLanguage', function: this.setLanguage },
-        { key: 'SetFiatCoin', function: this.setFiatCoin },
         {
             key: 'SetDisplayTokenAddresses',
             function: this.setDisplayTokenAddresses,
@@ -266,9 +263,10 @@ export default class GUIDemo extends PureComponent {
             key: 'SetPriorityNFTContractAddresses',
             function: this.setPriorityNFTContractAddresses,
         },
-        { key: 'ShowLanguageSetting', function: this.showLanguageSetting },
-        { key: 'ShowAppearanceSetting', function: this.showAppearanceSetting },
+        { key: 'SetShowLanguageSetting', function: this.setShowLanguageSetting },
+        { key: 'SetShowAppearanceSetting', function: this.setShowAppearanceSetting },
         { key: 'SetSupportAddToken', function: this.setSupportAddToken },
+        { key: 'SetSupportWalletConnect', function: this.setSupportWalletConnect },
     ];
 
     render = () => {

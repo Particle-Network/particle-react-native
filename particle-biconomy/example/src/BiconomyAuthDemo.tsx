@@ -1,17 +1,23 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, SafeAreaView, FlatList, TouchableOpacity, Text } from 'react-native';
-import { ChainInfo, Env, BiconomyVersion, BiconomyFeeMode, ParticleInfo, LoginType, SupportAuthType } from 'react-native-particle-auth';
+import { Env, BiconomyVersion, BiconomyFeeMode, ParticleInfo, LoginType, SupportAuthType } from 'react-native-particle-auth';
+import { PolygonMumbai, Ethereum, EthereumGoerli, EthereumSepolia, Polygon } from '@particle-network/chains';
+
 import * as particleBiconomy from 'react-native-particle-biconomy';
 import * as particleAuth from 'react-native-particle-auth';
-import * as particleConnect from 'react-native-particle-connect';
-import { DappMetaData, WalletType } from 'react-native-particle-connect';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
 
-export default class BiconomyConnectDemo extends PureComponent {
-    publicAddress = '0x498c9b8379E2e16953a7b1FF94ea11893d09A3Ed';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
+import BigNumber from 'bignumber.js';
 
-    walletType = WalletType.MetaMask;
+interface BiconomyAuthDemoProps {
+    navigation: NavigationProp<any>;
+    route: RouteProp<any, any>;
+}
+
+export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProps> {
+
 
     init = () => {
         // Get your project id and client from dashboard, https://dashboard.particle.network
@@ -25,30 +31,10 @@ export default class BiconomyConnectDemo extends PureComponent {
         }
 
         // should init particle auth
-        const chainInfo = ChainInfo.PolygonMumbai;
+        const chainInfo = PolygonMumbai;
         const env = Env.Production;
 
         particleAuth.init(chainInfo, env);
-
-        const metadata = {
-            name: 'Particle Connect',
-            icon: 'https://connect.particle.network/icons/512.png',
-            url: 'https://connect.particle.network',
-            descrtiption: 'Particle Wallet'
-        };
-
-        // the rpcUrl works for WalletType EvmPrivateKey and SolanaPrivakey
-        // we have default rpc url in native SDK
-        const rpcUrl = { evm_url: null, solana_url: null };
-
-        // should init particle connect first
-        particleConnect.init(chainInfo, env, metadata, rpcUrl)
-
-        // then set wallet connect project id 
-        particleConnect.setWalletConnectV2ProjectId('75ac08814504606fc06126541ace9df6');
-        const chainInfos = [ChainInfo.EthereumMainnet, ChainInfo.PolygonMainnet, ChainInfo.EthereumGoerli, ChainInfo.EthereumSepolia];
-        // set support wallet connect chain list
-        particleConnect.setWalletConnectV2SupportChainInfos(chainInfos);
 
         // then init particle biconomy
         const dappAppKeys = {
@@ -61,21 +47,28 @@ export default class BiconomyConnectDemo extends PureComponent {
     };
 
     setChainInfo = async () => {
-        const chainInfo = ChainInfo.PolygonMumbai;
+        const chainInfo = PolygonMumbai;
         const result = await particleAuth.setChainInfo(chainInfo);
         console.log(result);
     };
 
-    loginMetamask = async () => {
-        const result = await particleConnect.connect(this.walletType);
-        console.log(result);
+    login = async () => {
+        const type = LoginType.Phone;
+        const supportAuthType = [
+            SupportAuthType.Email,
+            SupportAuthType.Apple,
+            SupportAuthType.Google,
+            SupportAuthType.Discord,
+        ];
+        const result = await particleAuth.login(type, '', supportAuthType, undefined);
         if (result.status) {
-            this.publicAddress = result.data.publicAddress;
-            console.log(this.publicAddress);
+            const userInfo = result.data;
+            console.log(userInfo);
         } else {
-            console.log(json.data);
+            const error = result.data;
+            console.log(error);
         }
-    }
+    };
 
 
     enable = async () => {
@@ -92,11 +85,11 @@ export default class BiconomyConnectDemo extends PureComponent {
     }
 
     rpcGetFeeQuotes = async () => {
-        const eoaAddress = this.publicAddress
+        const eoaAddress = await particleAuth.getAddress();
         console.log('eoaAddress', eoaAddress);
         const receiver = TestAccountEVM.receiverAddress;
         const amount = TestAccountEVM.amount;
-        const transaction = await Helper.getEthereumTransacion(eoaAddress, receiver, amount);
+        const transaction = await Helper.getEthereumTransacion(eoaAddress, receiver, BigNumber(amount));
 
         console.log('transaction', transaction);
         const result = await particleBiconomy.rpcGetFeeQuotes(eoaAddress, [transaction]);
@@ -105,7 +98,7 @@ export default class BiconomyConnectDemo extends PureComponent {
     }
 
     isDeploy = async () => {
-        const eoaAddress = this.publicAddress
+        const eoaAddress = await particleAuth.getAddress();
         const result = await particleBiconomy.isDeploy(eoaAddress);
 
         if (result.status) {
@@ -118,19 +111,19 @@ export default class BiconomyConnectDemo extends PureComponent {
     }
 
     isSupportChainInfo = async () => {
-        const result = await particleBiconomy.isSupportChainInfo(ChainInfo.BSCMainnet);
+        const result = await particleBiconomy.isSupportChainInfo(PolygonMumbai);
         console.log('isSupportChainInfo result', result)
     }
 
 
     signAndSendTransactionWithBiconomyAuto = async () => {
 
-        const eoaAddress = this.publicAddress;
+        const eoaAddress = await particleAuth.getAddress();
         const receiver = TestAccountEVM.receiverAddress;
         const amount = TestAccountEVM.amount;
-        const transaction = await Helper.getEthereumTransacion(eoaAddress, receiver, amount);
+        const transaction = await Helper.getEthereumTransacion(eoaAddress, receiver, BigNumber(amount));
 
-        const result = await particleConnect.signAndSendTransaction(this.walletType, this.publicAddress, transaction, BiconomyFeeMode.auto())
+        const result = await particleAuth.signAndSendTransaction(transaction, BiconomyFeeMode.auto())
         if (result.status) {
             const signature = result.data;
             console.log('signAndSendTransactionWithBiconomyAuto result', signature);
@@ -142,12 +135,12 @@ export default class BiconomyConnectDemo extends PureComponent {
 
     signAndSendTransactionWithBiconomyGasless = async () => {
 
-        const eoaAddress = this.publicAddress
+        const eoaAddress = await particleAuth.getAddress();
         const receiver = TestAccountEVM.receiverAddress;
         const amount = TestAccountEVM.amount;
-        const transaction = await Helper.getEthereumTransacion(eoaAddress, receiver, amount);
+        const transaction = await Helper.getEthereumTransacion(eoaAddress, receiver, BigNumber(amount));
 
-        const result = await particleConnect.signAndSendTransaction(this.walletType, this.publicAddress, transaction, BiconomyFeeMode.gasless())
+        const result = await particleAuth.signAndSendTransaction(transaction, BiconomyFeeMode.gasless())
         if (result.status) {
             const signature = result.data;
             console.log('signAndSendTransactionWithBiconomyGasless result', signature);
@@ -159,14 +152,14 @@ export default class BiconomyConnectDemo extends PureComponent {
 
     signAndSendTransactionWithBiconomyCustom = async () => {
 
-        const eoaAddress = this.publicAddress
+        const eoaAddress = await particleAuth.getAddress();
         const receiver = TestAccountEVM.receiverAddress;
         const amount = TestAccountEVM.amount;
-        const transaction = await Helper.getEthereumTransacion(eoaAddress, receiver, amount);
+        const transaction = await Helper.getEthereumTransacion(eoaAddress, receiver, BigNumber(amount));
 
         const feeQutotes = await particleBiconomy.rpcGetFeeQuotes(eoaAddress, [transaction]);
 
-        const result = await particleConnect.signAndSendTransaction(this.walletType, this.publicAddress, transaction, BiconomyFeeMode.custom(feeQutotes[0]))
+        const result = await particleAuth.signAndSendTransaction(transaction, BiconomyFeeMode.custom(feeQutotes[0]))
         if (result.status) {
             const signature = result.data;
             console.log('signAndSendTransactionWithBiconomyCustom result', signature);
@@ -177,13 +170,13 @@ export default class BiconomyConnectDemo extends PureComponent {
     }
 
     batchSendTransactions = async () => {
-        const eoaAddress = this.publicAddress;
+        const eoaAddress = await particleAuth.getAddress();
         const receiver = TestAccountEVM.receiverAddress;
         const amount = TestAccountEVM.amount;
-        const transaction = await Helper.getEthereumTransacion(eoaAddress, receiver, amount);
+        const transaction = await Helper.getEthereumTransacion(eoaAddress, receiver, BigNumber(amount));
 
         const transactions = [transaction, transaction];
-        const result = await particleConnect.batchSendTransactions(this.walletType, this.publicAddress, transactions, BiconomyFeeMode.auto());
+        const result = await particleAuth.batchSendTransactions(transactions, BiconomyFeeMode.auto());
         if (result.status) {
             const signature = result.data;
             console.log('batchSendTransactions result', signature);
@@ -197,7 +190,7 @@ export default class BiconomyConnectDemo extends PureComponent {
     data = [
         { key: 'Init', function: this.init },
         { key: 'SetChainInfo', function: this.setChainInfo },
-        { key: 'LoginMetamask', function: this.loginMetamask },
+        { key: 'Login', function: this.login },
         { key: 'Enable', function: this.enable },
         { key: 'Disable', function: this.disable },
         { key: 'IsEnable', function: this.isEnable },
@@ -212,8 +205,6 @@ export default class BiconomyConnectDemo extends PureComponent {
 
 
     render = () => {
-        const { navigation } = this.props;
-
         return (
             <SafeAreaView>
                 <View>

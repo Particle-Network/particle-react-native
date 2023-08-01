@@ -1,11 +1,18 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, SafeAreaView, FlatList, TouchableOpacity, Text } from 'react-native';
 import { WalletType } from "react-native-particle-connect"
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import Toast from 'react-native-toast-message';
 import { PNAccount } from './Models/PNAccount';
 
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
-export default class SelectWalletTypePage extends PureComponent {
+
+interface SelectWalletTypePageProps {
+    navigation: NavigationProp<any>;
+    route: RouteProp<any, any>;
+}
+
+export default class SelectWalletTypePage extends PureComponent<SelectWalletTypePageProps> {
 
     render = () => {
 
@@ -24,16 +31,16 @@ export default class SelectWalletTypePage extends PureComponent {
 
         return (
             <SafeAreaView>
-                <View style={styles.contentView}>
+                <View >
                     <FlatList data={data} renderItem={
                         ({ item }) =>
 
-                        <TouchableOpacity style={styles.buttonStyle}
-                        onPress={() => {
-                            this.selectedWalletType(item.value);
-                        }}>
-                        <Text style={styles.textStyle}>{item.key}</Text>
-                    </TouchableOpacity>
+                            <TouchableOpacity style={styles.buttonStyle}
+                                onPress={() => {
+                                    this.selectedWalletType(item.value);
+                                }}>
+                                <Text style={styles.textStyle}>{item.key}</Text>
+                            </TouchableOpacity>
                     }
                     />
                 </View>
@@ -41,20 +48,20 @@ export default class SelectWalletTypePage extends PureComponent {
         );
     }
 
-    selectedWalletType = async (walletType) => {
+    selectedWalletType = async (walletType: WalletType) => {
         const { navigation } = this.props;
         PNAccount.walletType = walletType;
         Toast.show({
             type: 'success',
             text1: `select wallet type ${walletType}`
         })
-        
+
         navigation.navigate({
             name: 'ConnectDemo',
-            params: { post: walletType},
+            params: { post: walletType },
             merge: true,
         })
-       
+
     }
 }
 

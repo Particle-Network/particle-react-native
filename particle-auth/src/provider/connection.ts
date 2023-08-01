@@ -6,12 +6,12 @@ const instance = axios.create({
     timeout: 30_000, // 30 secs
 });
 
-function request(path: string, args: RequestArguments, config: ConnectionOptions) {
+async function request(path: string, args: RequestArguments, config: ConnectionOptions) {
     args.jsonrpc = '2.0';
     if (!args.id) {
         args.id = randomId();
     }
-    return instance
+    const res = await instance
         .post(path, args, {
             params: {
                 chainId: config.chainId,
@@ -22,8 +22,8 @@ function request(path: string, args: RequestArguments, config: ConnectionOptions
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-        })
-        .then((res) => res.data);
+        });
+    return res.data;
 }
 
 export function randomId(): number {

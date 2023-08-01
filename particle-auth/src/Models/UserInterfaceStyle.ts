@@ -1,4 +1,4 @@
-export enum UserInterfaceStyle {
+export enum Appearance {
     System = 'System',
     Light = 'Light',
     Dark = 'Dark',

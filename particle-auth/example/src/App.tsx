@@ -1,49 +1,77 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthDemo from './AuthDemo';
 import SelectChainPage from './SelectChain';
 import Toast from 'react-native-toast-message';
+import type { RouteProp } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const logo = require('../images/ic_round.png');
 
-function HomeScreen({ navigation }) {
-    return (
-        <View style={styles.container}>
-            <View style={styles.content}>
-                <Image style={styles.logo} source={logo} />
+type StackParamList = {
+    Home: undefined;
+    AuthDemo: undefined;
+    SelectChainPage: undefined;
+};
 
-                <TouchableOpacity style={styles.buttonStyle}
-                    onPress={() => {
+type HomeScreenRouteProp = RouteProp<StackParamList, 'Home'>;
+type HomeScreenNavigationProp = NativeStackNavigationProp<StackParamList, 'Home'>;
 
-                        navigation.push('AuthDemo')
-
-                    }}>
-                    <Text style={styles.textStyle}>AuthDemo</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-    );
+interface HomeScreenProps {
+    route: HomeScreenRouteProp;
+    navigation: HomeScreenNavigationProp;
 }
 
-const Stack = createNativeStackNavigator();
+const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+    return (
+        <View style={styles.container}>
+            <Image style={styles.logo} source={logo} />
 
-function AuthScreen({ route, navigation }) {
+            <TouchableOpacity style={styles.buttonStyle}
+                onPress={() => navigation.push('AuthDemo')}>
+                <Text style={styles.textStyle}>AuthDemo</Text>
+            </TouchableOpacity>
+
+        </View>
+    );
+};
+
+const Stack = createNativeStackNavigator<StackParamList>();
+
+type AuthScreenRouteProp = RouteProp<StackParamList, 'AuthDemo'>;
+type AuthScreenNavigationProp = NativeStackNavigationProp<StackParamList, 'AuthDemo'>;
+
+interface AuthScreenProps {
+    route: AuthScreenRouteProp;
+    navigation: AuthScreenNavigationProp;
+}
+
+const AuthScreen: React.FC<AuthScreenProps> = ({ route, navigation }) => {
     return (
         <View style={styles.container}>
             <AuthDemo navigation={navigation} route={route} />
         </View>
     );
+};
+
+type SelectScreenRouteProp = RouteProp<StackParamList, 'SelectChainPage'>;
+type SelectScreenNavigationProp = NativeStackNavigationProp<StackParamList, 'SelectChainPage'>;
+
+interface SelectScreenProps {
+    route: SelectScreenRouteProp;
+    navigation: SelectScreenNavigationProp;
 }
 
-function SelectScreen({ route, navigation }) {
+const SelectScreen: React.FC<SelectScreenProps> = ({ route, navigation }) => {
     return (
         <View style={styles.container}>
             <SelectChainPage navigation={navigation} route={route} />
         </View>
     );
-}
+};
+
 
 export default function App() {
     return (
@@ -65,7 +93,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
     },
 
     content: {

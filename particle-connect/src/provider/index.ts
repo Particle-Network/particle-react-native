@@ -3,9 +3,9 @@ import * as particleConnect from '../index';
 import { sendEVMRpc } from './connection';
 import type { ParticleConnectOptions, RequestArguments } from './types';
 import { notSupportMethods, signerMethods } from './types';
-import { ChainInfo } from 'react-native-particle-auth';
 import * as particleAuth from 'react-native-particle-auth';
 import { WalletType } from '../index';
+import { chains } from '@particle-network/chains';
 
 class ParticleConnectProvider {
   private events = new EventEmitter();
@@ -51,7 +51,7 @@ class ParticleConnectProvider {
     if (signerMethods.includes(payload.method)) {
       if (payload.method === 'eth_chainId') {
         const chainInfo = await particleAuth.getChainInfo();
-        return Promise.resolve(`0x${chainInfo.chain_id.toString(16)}`);
+        return Promise.resolve(`0x${chainInfo.id.toString(16)}`);
       } else if (
         payload.method === 'eth_accounts' ||
         payload.method === 'eth_requestAccounts'
@@ -77,7 +77,7 @@ class ParticleConnectProvider {
         const txData = payload.params[0];
         if (!txData.chainId) {
           const chainInfo = await particleAuth.getChainInfo();
-          txData.chainId = `0x${chainInfo.chain_id.toString(16)}`;
+          txData.chainId = `0x${chainInfo.id.toString(16)}`;
         }
         const tx = Buffer.from(JSON.stringify(txData)).toString('hex');
         // const result: any = await particleConnect.signAndSendTransaction(
@@ -103,9 +103,7 @@ class ParticleConnectProvider {
       } else if (payload.method === 'wallet_switchEthereumChain' || payload.method === 'wallet_addEthereumChain') {
 
         const chainId = Number(payload.params[0].chainId);
-        const chainInfo = Object.values(ChainInfo).find(
-          (chain: any) => chain.chain_id === chainId
-        );
+        const chainInfo = chains.getEVMChainInfoById(chainId);
 
         if (this.options.publicAddress == undefined) {
           return Promise.reject({
@@ -176,7 +174,7 @@ class ParticleConnectProvider {
       const chainInfo = await particleAuth.getChainInfo();
       return sendEVMRpc(payload, {
         ...this.options,
-        chainId: chainInfo.chain_id,
+        chainId: chainInfo.id,
       }).then((output) => {
         if (output.error) {
           return Promise.reject(output.error);

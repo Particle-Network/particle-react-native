@@ -1,10 +1,10 @@
 import { TestAccountSolana, TestAccountEVM } from './TestAccount';
 import BigNumber from 'bignumber.js';
-import { Buffer } from 'buffer';
-import { EvmService, SolanaService, SerializeTransactionParams, SolanaReqBodyMethod, JsonRpcRequest } from 'react-native-particle-auth';
-import * as particleAuth from 'react-native-particle-auth';
+import { EvmService, SolanaService } from 'react-native-particle-auth';
 
-export async function getSolanaTransaction() {
+import { JsonRpcRequest, SolanaReqBodyMethod, SerializeTransactionParams } from 'react-native-particle-auth';
+
+export async function getSolanaTransaction(from: string) {
     // mock a solana native transaction
     // send some native on solana devnet
 
@@ -28,7 +28,7 @@ export async function getSolanaTransaction() {
     return result.transaction.serialized;
 }
 
-export async function getSplTokenTransaction(from) {
+export async function getSplTokenTransaction(from: string) {
     // mock a solana spl token transaction
     // send some spl token on solana devnet
 
@@ -53,35 +53,35 @@ export async function getSplTokenTransaction(from) {
     return result.transaction.serialized;
 }
 
-export async function getEthereumTransacion(from, to, amount) {
+export async function getEthereumTransacion(from: string, to: string, amount: BigNumber) {
     // mock a evm native transaction,
     // type is 0x2, should work in Ethereum, Polygon and other blockchains which support EIP1559
     // send 0.01 native
-    return await EvmService.createTransaction(from, "0x", BigNumber(amount), to, true);
+    return await EvmService.createTransaction(from, "0x", amount, to);
 }
 
-export async function getEthereumTransacionLegacy(from, to, amount) {
+export async function getEthereumTransacionLegacy(from: string, to: string, amount: BigNumber) {
     // mock a evm native transaction,
     // type is 0x0, should work in BSC and other blockchains which don't support EIP1559
     // send 0.01 native
 
-    return await EvmService.createTransaction(from, "0x", BigNumber(amount), to, false);
+    return await EvmService.createTransaction(from, "0x", amount, to);
 }
 
-export async function getEvmTokenTransaction(from, to, amount, contractAddress) {
+export async function getEvmTokenTransaction(from: string, to: string, amount: BigNumber, contractAddress: string) {
     // mock a evm token transaction,
     // type is 0x2, should work in Ethereum, Polygon and other blockchains which support EIP1559
     // send 0.01 token
-    const data = await EvmService.erc20Transfer(contractAddress, to, amount);
-    return await EvmService.createTransaction(from, data, BigNumber(0), to, true);
+    const data = await EvmService.erc20Transfer(contractAddress, to, amount.toString(10));
+    return await EvmService.createTransaction(from, data, BigNumber(0), to);
 }
 
-export async function getEvmTokenTransactionLegacy(from, to, amount, contractAddress) {
+export async function getEvmTokenTransactionLegacy(from: string, to: string, amount: BigNumber, contractAddress: string) {
     // mock a evm token transaction,
     // type is 0x0, should work in BSC and other blockchains which don't support EIP1559
     // send 0.01 token
 
-    const data = await EvmService.erc20Transfer(contractAddress, to, amount);
-    return await EvmService.createTransaction(from, data, BigNumber(0), to, false);
+    const data = await EvmService.erc20Transfer(contractAddress, to, amount.toString(10));
+    return await EvmService.createTransaction(from, data, BigNumber(0), to);
 }
 

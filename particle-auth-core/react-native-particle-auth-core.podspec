@@ -4,7 +4,7 @@ package = JSON.parse(File.read(File.join(__dir__, "package.json")))
 folly_compiler_flags = '-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32'
 
 Pod::Spec.new do |s|
-  s.name         = "react-native-particle-auth"
+  s.name         = "react-native-particle-auth-core"
   s.version      = package["version"]
   s.summary      = package["description"]
   s.homepage     = package["homepage"]
@@ -17,8 +17,10 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm,swift}"
 
   s.dependency "React-Core"
-  s.dependency 'ParticleNetworkBase'
-  s.dependency 'ParticleAuthService'
+  s.dependency "Thresh"
+  s.dependency "ParticleMPCCore"
+  s.dependency "ParticleAuthCore"
+  s.dependency "AuthCoreAdapter"
 
   
   # Don't install the dependencies when we run `pod install` in the old architecture.
@@ -36,3 +38,4 @@ Pod::Spec.new do |s|
     s.dependency "ReactCommon/turbomodule/core"
   end
 end
+

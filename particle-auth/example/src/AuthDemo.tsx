@@ -31,7 +31,7 @@ interface AuthDemoProps {
 }
 
 export default class AuthDemo extends PureComponent<AuthDemoProps> {
-    private getBarcodeValue: any;
+    private openAccountAndSecurityEvent: any;
 
     web3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b');
 
@@ -670,7 +670,6 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
 
     setWebAuthConfig = async () => {
         const isDisplay = true;
-
         particleAuth.setWebAuthConfig(isDisplay, Appearance.Dark);
     };
 
@@ -884,17 +883,17 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
 
         if (Platform.OS === 'ios') {
             const emitter = new NativeEventEmitter(particleAuth.ParticleAuthEvent);
-            this.getBarcodeValue = emitter.addListener('securityFailedCallBack', this.securityFailedCallBack);
+            this.openAccountAndSecurityEvent = emitter.addListener('securityFailedCallBack', this.securityFailedCallBack);
         } else {
-            this.getBarcodeValue = DeviceEventEmitter.addListener(
+            this.openAccountAndSecurityEvent = DeviceEventEmitter.addListener(
                 'securityFailedCallBack',
-                this.securityFailedCallBack
+                this.openAccountAndSecurityEvent
             );
         }
     };
 
     componentWillUnmount() {
-        this.getBarcodeValue.remove();
+        this.openAccountAndSecurityEvent.remove();
     };
 
 

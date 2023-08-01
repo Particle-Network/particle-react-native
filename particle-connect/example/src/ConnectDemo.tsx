@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, SafeAreaView, FlatList, TouchableOpacity, Text } from 'react-native';
-import { ChainInfo, PolygonMumbai, SolanaDevnet } from '@particle-network/chains';
+import { ChainInfo, PolygonMumbai, SolanaDevnet, Ethereum, Polygon, EthereumGoerli, EthereumSepolia} from '@particle-network/chains';
 import * as particleConnect from 'react-native-particle-connect';
 import * as particleAuth from 'react-native-particle-auth';
 import { TestAccountEVM, TestAccountSolana } from './TestAccount';
@@ -55,12 +55,12 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
 
         // the rpcUrl works for WalletType EvmPrivateKey and SolanaPrivakey
         // we have default rpc url in native SDK
-        particleConnect.init(chainInfo, env, metadata, null);
+        particleConnect.init(chainInfo, env, metadata);
 
         this.newWeb3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', PNAccount.walletType);
 
-        // const chainInfos = [ChainInfo.EthereumMainnet, ChainInfo.PolygonMainnet, ChainInfo.EthereumGoerli, ChainInfo.EthereumSepolia];
-        // particleConnect.setWalletConnectV2SupportChainInfos(chainInfos);
+        const chainInfos = [Ethereum, Polygon, EthereumGoerli, EthereumSepolia];
+        particleConnect.setWalletConnectV2SupportChainInfos(chainInfos);
     };
 
     newWeb3_getAccounts = async () => {

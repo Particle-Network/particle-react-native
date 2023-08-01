@@ -1,6 +1,6 @@
 import { NativeModules, Platform } from 'react-native';
 import type { Language } from './Models/Language';
-import type { Appearance } from './Models/UserInterfaceStyle';
+import type { Appearance } from './Models/Appearance';
 import type { ChainInfo } from '@particle-network/chains';
 import { chains } from '@particle-network/chains';
 import type {
@@ -522,7 +522,7 @@ export function isHexString(str: string): boolean {
 export * from './Models/LoginInfo';
 export * from './Models/Language';
 export * from './Models/WalletDisplay';
-export * from './Models/UserInterfaceStyle';
+export * from './Models/Appearance';
 export * from './Models/SecurityAccountConfig';
 export * from './Models/BiconomyVersion';
 export * from './Models/BiconomyFeeMode';

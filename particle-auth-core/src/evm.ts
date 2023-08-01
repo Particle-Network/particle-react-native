@@ -64,7 +64,7 @@ export function signTypedDataUnique(message: string): Promise<any> {
     }
 
     return new Promise((resolve) => {
-        ParticleAuthCorePlugin.evmSignTypedDataUnique(message, (result: string) => {
+        ParticleAuthCorePlugin.evmSignTypedDataUnique(serializedMessage, (result: string) => {
             resolve(JSON.parse(result));
         });
     });

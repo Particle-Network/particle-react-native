@@ -43,13 +43,12 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     };
 
     connect = async () => {
-        const jwt = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IndVUE05RHNycml0Sy1jVHE2OWNKcCJ9.eyJlbWFpbCI6InBhbnRhb3ZheUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImlzcyI6Imh0dHBzOi8vZGV2LXFyNi01OWVlLnVzLmF1dGgwLmNvbS8iLCJhdWQiOiJFVmpLMVpaUFN0UWNkV3VoandQZGRBdGdSaXdwNTRWUSIsImlhdCI6MTY5MDg5MTA1NywiZXhwIjoxNjkwOTI3MDU3LCJzdWIiOiJhdXRoMHw2MzAzMjE0YjZmNjE1NjM2YWM5MTdmMWIiLCJzaWQiOiJnOVFOcENwWmR6NGxDcndTdzMySTNYVm0xWHcxRkNsbSJ9.IeRe2gLR1nJohpvJIQ0yNn5cqI10sZlCZFo5s2PBXhkmJiBZk8Rkhx1089YCerFUWbtJuuB5ZckkatUWZPkSDfG4UvZ8nXVL20vmOEpA38w9aZwGYTmy0GrdiiXa9Tuom4HxdKEs8DIbrEyEnIN4louan1ooRJPbjlILfgcm2g0KDJMEgJTmWoM-EMyl0kAj2rGcwJSg2EFW1JdoDmcmfNWNJzqZYHJC9zTIIbhEBbotAZTnlpOuK7X8jrapMlcuWHEmoscxebgxtyCrxA698K8vethryTQERnVmU8dqR9i0XYTB4tmWD49smp3FhJWmWpmQgRWEqTk43fN4Eb5r_g";
+        const jwt = ""; // your jwt
         const result = await particleAuthCore.connect(jwt);
         if (result.status) {
             const userInfo = result.data;
             console.log(userInfo);
         } else {
-            console.log('result ', result);
             const error = result.data;
             console.log(error);
         }
@@ -84,8 +83,8 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
         const message = 'Hello world!';
         const result = await solana.signMessage(message);
         if (result.status) {
-            const signedMessage = result.data;
-            console.log(signedMessage);
+            const signature = result.data;
+            console.log(signature);
         } else {
             const error = result.data;
             console.log(error);
@@ -98,8 +97,8 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
         const transaction = await Helper.getSolanaTransaction(sender);
         const result = await solana.signTransaction(transaction);
         if (result.status) {
-            const signedMessage = result.data;
-            console.log(signedMessage);
+            const signature = result.data;
+            console.log(signature);
         } else {
             const error = result.data;
             console.log(error);
@@ -115,8 +114,8 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
 
         const result = await solana.signAllTransactions(transactions);
         if (result.status) {
-            const signedMessage = result.data;
-            console.log(signedMessage);
+            const signature = result.data;
+            console.log(signature);
         } else {
             const error = result.data;
             console.log(error);
@@ -129,8 +128,8 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
         const transaction = await Helper.getSolanaTransaction(sender);
         const result = await solana.signAndSendTransaction(transaction);
         if (result.status) {
-            const signedMessage = result.data;
-            console.log(signedMessage);
+            const signature = result.data;
+            console.log(signature);
         } else {
             const error = result.data;
             console.log(error);
@@ -150,8 +149,8 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
         const message = 'Hello world!';
         const result = await evm.personalSign(message);
         if (result.status) {
-            const signedMessage = result.data;
-            console.log(signedMessage);
+            const signature = result.data;
+            console.log(signature);
         } else {
             const error = result.data;
             console.log(error);
@@ -162,8 +161,8 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
         const message = 'Hello world!';
         const result = await evm.personalSignUnique(message);
         if (result.status) {
-            const signedMessage = result.data;
-            console.log(signedMessage);
+            const signature = result.data;
+            console.log(signature);
         } else {
             const error = result.data;
             console.log(error);
@@ -244,7 +243,14 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     }
 
     openAccountAndSecurity = async () => {
-        particleAuthCore.openAccountAndSecurity();
+        const result = await particleAuthCore.openAccountAndSecurity();
+        if (result.status) {
+            const signature = result.data;
+            console.log(signature);
+        } else {
+            const error = result.data;
+            console.log(error);
+        }
     };
 
     getUserInfo = async () => {

@@ -161,7 +161,7 @@ export function navigatorSwap(fromTokenAddress?: string, toTokenAddress?: string
  * @param isShow 
  */
 export function setShowTestNetwork(isShow: boolean) {
-  
+
   if (Platform.OS == 'ios') {
     ParticleWalletPlugin.setShowTestNetwork(isShow);
   } else {
@@ -372,6 +372,16 @@ export function setSupportWalletConnect(isEnable: boolean) {
 export function setWalletConnectV2ProjectId(walletConnectV2ProjectId: string) {
   if (Platform.OS == 'ios') {
     ParticleWalletPlugin.setWalletConnectV2ProjectId(walletConnectV2ProjectId);
+  }
+}
+
+/**
+ * Set support dapp browser in wallet page, default value is true.
+ * @param isShow 
+ */
+export function setSupportDappBrowser(isShow: boolean) {
+  if (Platform.OS == 'ios') {
+    ParticleWalletPlugin.setSupportDappBrowser(isShow);
   }
 }
 

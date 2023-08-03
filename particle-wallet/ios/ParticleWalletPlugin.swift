@@ -265,6 +265,11 @@ public class ParticleWalletPlugin: NSObject {
     }
     
     @objc
+    public func setSupportDappBrowser(_ isShow: Bool) {
+        ParticleWalletGUI.setSupportDappBrowser(isShow)
+    }
+    
+    @objc
     public func setDisplayTokenAddresses(_ json: String) {
         let data = JSON(parseJSON: json)
         let tokenAddresses = data.arrayValue.map {

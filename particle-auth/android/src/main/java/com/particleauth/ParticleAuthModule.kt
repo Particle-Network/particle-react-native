@@ -1,5 +1,6 @@
 package com.particleauth
 
+import android.app.Activity
 import android.text.TextUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
@@ -7,38 +8,42 @@ import com.facebook.react.bridge.*
 import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.particle.base.ChainInfo
 import com.particle.base.Env
 import com.particle.base.LanguageEnum
 import com.particle.base.ParticleNetwork
+import com.particle.base.ThemeEnum
+import com.particle.base.data.ErrorInfo
 import com.particle.base.data.SignOutput
 import com.particle.base.data.WebOutput
 import com.particle.base.data.WebServiceCallback
-import com.particle.base.data.WebServiceError
 import com.particle.base.ibiconomy.FeeMode
 import com.particle.base.ibiconomy.FeeModeAuto
 import com.particle.base.ibiconomy.FeeModeCustom
 import com.particle.base.ibiconomy.FeeModeGasless
 import com.particle.base.ibiconomy.MessageSigner
+import com.particle.base.model.LoginType
+import com.particle.base.model.ResultCallback
+import com.particle.base.model.SecurityAccountConfig
+import com.particle.base.model.SupportAuthType
+import com.particle.base.model.UserInfo
 import com.particle.network.ParticleNetworkAuth.fastLogout
 import com.particle.network.ParticleNetworkAuth.getAddress
 import com.particle.network.ParticleNetworkAuth.getSecurityAccount
 import com.particle.network.ParticleNetworkAuth.getUserInfo
 import com.particle.network.ParticleNetworkAuth.isLogin
+import com.particle.network.ParticleNetworkAuth.isLoginAsync
 import com.particle.network.ParticleNetworkAuth.login
 import com.particle.network.ParticleNetworkAuth.logout
 import com.particle.network.ParticleNetworkAuth.openAccountAndSecurity
 import com.particle.network.ParticleNetworkAuth.openWebWallet
-import com.particle.network.ParticleNetworkAuth.setChainInfo
-import com.particle.network.ParticleNetworkAuth.setDisplayWallet
-import com.particle.network.ParticleNetworkAuth.setSecurityAccountConfig
-import com.particle.network.ParticleNetworkAuth.setUserInfo
+import com.particle.network.ParticleNetworkAuth.setWebAuthConfig
 import com.particle.network.ParticleNetworkAuth.signAllTransactions
 import com.particle.network.ParticleNetworkAuth.signAndSendTransaction
 import com.particle.network.ParticleNetworkAuth.signMessage
 import com.particle.network.ParticleNetworkAuth.signMessageUnique
 import com.particle.network.ParticleNetworkAuth.signTransaction
 import com.particle.network.ParticleNetworkAuth.signTypedData
+import com.particle.network.ParticleNetworkAuth.switchChain
 import com.particle.network.SignTypedDataVersion
 import com.particle.network.service.*
 import com.particle.network.service.model.*
@@ -48,6 +53,7 @@ import com.particleauth.utils.EncodeUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import network.particle.chains.ChainInfo
 import org.json.JSONObject
 
 
@@ -58,7 +64,7 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
   fun init(initParams: String) {
     LogUtils.d("ParticleAuthPlugin init", initParams)
     val initData = GsonUtils.fromJson(initParams, InitData::class.java)
-    val chainInfo = ChainUtils.getChainInfo(initData.chainName, initData.chainIdName)
+    val chainInfo = ChainUtils.getChainInfo(initData.chainId)
     ParticleNetwork.init(
       reactApplicationContext,
       Env.valueOf(initData.env.uppercase()),
@@ -71,9 +77,8 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
   fun getChainInfo(callback: Callback) {
     val chainInfo: ChainInfo = ParticleNetwork.chainInfo
     val map: MutableMap<String, Any> = HashMap()
-    map["chain_name"] = chainInfo.chainName.name
-    map["chain_id_name"] = chainInfo.chainId.toString()
-    map["chain_id"] = chainInfo.chainId.value()
+    map["chain_name"] = chainInfo.name
+    map["chain_id"] = chainInfo.id
     val result = Gson().toJson(map)
     LogUtils.d("BridgeBase getChainInfo", result)
     callback.invoke(result)
@@ -82,32 +87,11 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
   @ReactMethod
   private fun setChainInfo(chainParams: String, callback: Callback) {
     LogUtils.d("setChainName", chainParams)
-    val chainData: ChainData = GsonUtils.fromJson(
-      chainParams,
-      ChainData::class.java
-    )
     try {
-      val chainInfo = ChainUtils.getChainInfo(chainData.chainName, chainData.chainIdName)
-      if (!ParticleNetwork.isLogin()) {
-        ParticleNetwork.setChainInfo(chainInfo)
-        callback.invoke(true)
-      } else {
-        val wallet = if (chainInfo.chain == "evm") {
-          ParticleNetwork.getUserInfo()?.getWallet(UserInfo.WalletChain.evm);
-        } else {
-          ParticleNetwork.getUserInfo()?.getWallet(UserInfo.WalletChain.solana);
-        }
-        if (wallet == null) {
-          callback.invoke(false)
-          return
-        }
-        if (TextUtils.isEmpty(wallet.publicAddress)) {
-          callback.invoke(false)
-          return
-        }
-        ParticleNetwork.setChainInfo(chainInfo)
-        callback.invoke(true)
-      }
+      val chainData: ChainData = GsonUtils.fromJson(chainParams, ChainData::class.java)
+      val chainInfo = ChainUtils.getChainInfo(chainData.chainId)
+      ParticleNetwork.setChainInfo(chainInfo)
+      callback.invoke(true)
     } catch (e: Exception) {
       LogUtils.e("setChainName", e.message)
       callback.invoke(false)
@@ -131,7 +115,6 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
       loginData.account
     }
 
-    var loginFormMode = loginData.loginFormMode
     var supportAuthType = SupportAuthType.NONE.value
     if (loginData.supportAuthTypeValues.contains("All")) {
       supportAuthType = SupportAuthType.ALL.value
@@ -145,18 +128,21 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
         e.printStackTrace()
       }
     }
-    ParticleNetwork.login(LoginType.valueOf(loginData.loginType.uppercase()),
+    ParticleNetwork.login(
+      LoginType.valueOf(loginData.loginType.uppercase()),
       account,
-      supportAuthType, loginFormMode, null,
-      object : WebServiceCallback<LoginOutput> {
-        override fun success(output: LoginOutput) {
+      supportAuthType, null,
+      object : WebServiceCallback<UserInfo> {
+        override fun success(output: UserInfo) {
 //                     BridgeGUI.setPNWallet()
           callback.invoke(ReactCallBack.success(output).toGson())
         }
 
-        override fun failure(errMsg: WebServiceError) {
+        override fun failure(errMsg: ErrorInfo) {
           callback.invoke(ReactCallBack.failed(errMsg).toGson())
         }
+
+
       })
   }
 
@@ -164,12 +150,12 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
   fun logout(callback: Callback) {
     LogUtils.d("logout")
     ParticleNetwork.logout(object : WebServiceCallback<WebOutput> {
-      override fun failure(errMsg: WebServiceError) {
-        callback.invoke(ReactCallBack.failed(errMsg).toGson())
-      }
-
       override fun success(output: WebOutput) {
         callback.invoke(ReactCallBack.success(output).toGson())
+      }
+
+      override fun failure(errMsg: ErrorInfo) {
+        callback.invoke(ReactCallBack.failed(errMsg).toGson())
       }
     })
   }
@@ -181,7 +167,7 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
       return
     }
     LogUtils.d("logout")
-    ParticleNetwork.fastLogout(object : FastLogoutCallBack {
+    ParticleNetwork.fastLogout(object : ResultCallback {
 
       override fun failure() {
         callback.invoke(ReactCallBack.failed("failed").toGson())
@@ -199,13 +185,12 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
     ParticleNetwork.signMessage(
       EncodeUtils.encode(message),
       object : WebServiceCallback<SignOutput> {
-
-        override fun failure(errMsg: WebServiceError) {
-          callback.invoke(ReactCallBack.failed(errMsg).toGson())
-        }
-
         override fun success(output: SignOutput) {
           callback.invoke(ReactCallBack.success(output.signature).toGson())
+        }
+
+        override fun failure(errMsg: ErrorInfo) {
+          callback.invoke(ReactCallBack.failed(errMsg).toGson())
         }
       })
   }
@@ -215,13 +200,12 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
     ParticleNetwork.signMessageUnique(
       EncodeUtils.encode(message),
       object : WebServiceCallback<SignOutput> {
-
-        override fun failure(errMsg: WebServiceError) {
-          callback.invoke(ReactCallBack.failed(errMsg).toGson())
-        }
-
         override fun success(output: SignOutput) {
           callback.invoke(ReactCallBack.success(output.signature).toGson())
+        }
+
+        override fun failure(errMsg: ErrorInfo) {
+          callback.invoke(ReactCallBack.failed(errMsg).toGson())
         }
       })
   }
@@ -231,13 +215,12 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
     LogUtils.d("signTransaction", transaction)
     ParticleNetwork.signTransaction(transaction,
       object : WebServiceCallback<SignOutput> {
-
-        override fun failure(errMsg: WebServiceError) {
-          callback.invoke(ReactCallBack.failed(errMsg).toGson())
-        }
-
         override fun success(output: SignOutput) {
           callback.invoke(ReactCallBack.success(output.signature).toGson())
+        }
+
+        override fun failure(errMsg: ErrorInfo) {
+          callback.invoke(ReactCallBack.failed(errMsg).toGson())
         }
       })
   }
@@ -250,12 +233,12 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
       object : TypeToken<List<String>>() {}.type
     )
     ParticleNetwork.signAllTransactions(trans, object : WebServiceCallback<SignOutput> {
-      override fun failure(errMsg: WebServiceError) {
-        callback.invoke(ReactCallBack.failed(errMsg).toGson())
-      }
-
       override fun success(output: SignOutput) {
         callback.invoke(ReactCallBack.success(output.signature).toGson())
+      }
+
+      override fun failure(errMsg: ErrorInfo) {
+        callback.invoke(ReactCallBack.failed(errMsg).toGson())
       }
     })
   }
@@ -265,13 +248,12 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
     LogUtils.d("signAndSendTransaction", transaction)
     ParticleNetwork.signAndSendTransaction(transaction,
       object : WebServiceCallback<SignOutput> {
-
-        override fun failure(errMsg: WebServiceError) {
-          callback.invoke(ReactCallBack.failed(errMsg).toGson())
-        }
-
         override fun success(output: SignOutput) {
           callback.invoke(ReactCallBack.success(output.signature).toGson())
+        }
+
+        override fun failure(errMsg: ErrorInfo) {
+          callback.invoke(ReactCallBack.failed(errMsg).toGson())
         }
       })
   }
@@ -292,12 +274,12 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
       EncodeUtils.encode(signTypedData.message),
       typedDataVersion,
       object : WebServiceCallback<SignOutput> {
-        override fun failure(errMsg: WebServiceError) {
-          callback.invoke(ReactCallBack.failed(errMsg).toGson())
-        }
-
         override fun success(output: SignOutput) {
           callback.invoke(ReactCallBack.success(output.signature).toGson())
+        }
+
+        override fun failure(errMsg: ErrorInfo) {
+          callback.invoke(ReactCallBack.failed(errMsg).toGson())
         }
       })
   }
@@ -316,8 +298,8 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
       ChainData::class.java
     )
 
-    val chainInfo = ChainUtils.getChainInfo(chainData.chainName, chainData.chainIdName)
-    ParticleNetwork.setChainInfo(chainInfo, object : ChainChangeCallBack {
+    val chainInfo = ChainUtils.getChainInfo(chainData.chainId)
+    ParticleNetwork.switchChain(chainInfo, object : ResultCallback {
       override fun success() {
         callback.invoke(true)
       }
@@ -333,6 +315,19 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
     val isUserLogin = ParticleNetwork.isLogin()
     LogUtils.d("isUserLogin", isUserLogin)
     callback.invoke(isUserLogin)
+  }
+
+  @ReactMethod
+  fun isLoginAsync(callback: Callback) {
+    CoroutineScope(Dispatchers.IO).launch {
+      val userInfo = ParticleNetwork.isLoginAsync()
+      LogUtils.d("isLoginAsync", userInfo)
+      if (userInfo == null) {
+        callback.invoke(ReactCallBack.failed("failed").toGson())
+        return@launch
+      }
+      callback.invoke(ReactCallBack.success(GsonUtils.toJson(userInfo)))
+    }
   }
 
   @ReactMethod
@@ -354,48 +349,47 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
       try {
         val securityAccount = ParticleNetwork.getSecurityAccount()
         val result = ReactCallBack.success(securityAccount).toGson()
-        LogUtils.d("getSecurityAccount:",result)
+        LogUtils.d("getSecurityAccount:", result)
         callback.invoke(result)
       } catch (e: Exception) {
         e.printStackTrace()
         val result = ReactCallBack.failed(e.message).toGson()
-        LogUtils.d("getSecurityAccount:",result)
+        LogUtils.d("getSecurityAccount:", result)
         callback.invoke(result)
       }
     }
   }
 
 
-
   @ReactMethod
   fun setDisplayWallet(isDisplayWallet: Boolean) {
-    ParticleNetwork.setDisplayWallet(isDisplayWallet)
+    ParticleNetwork.setWebAuthConfig(isDisplayWallet, ThemeEnum.SYSTEM)
   }
 
   @ReactMethod
   fun openWebWallet(jsonConfig: String?) {
-    ParticleNetwork.openWebWallet(jsonConfig)
+    reactContext.currentActivity?.apply {
+      ParticleNetwork.openWebWallet(this, jsonConfig)
+    }
   }
 
   @ReactMethod
   fun openAccountAndSecurity() {
     ParticleNetwork.openAccountAndSecurity(object : WebServiceCallback<WebOutput> {
-      override fun failure(errMsg: WebServiceError) {
-        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java) // <--- added
-          .emit("securityFailedCallBack", ReactCallBack.failed(errMsg).toGson())
-      }
+
 
       override fun success(output: WebOutput) {
+      }
+
+      override fun failure(errMsg: ErrorInfo) {
+        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java) // <--- added
+          .emit("securityFailedCallBack", ReactCallBack.failed(errMsg).toGson())
       }
     })
 
 
   }
 
-  @ReactMethod
-  fun setUserInfo(json: String, callback: Callback) {
-    callback.invoke(ParticleNetwork.setUserInfo(json))
-  }
 
   @ReactMethod
   fun setSecurityAccountConfig(configJson: String) {
@@ -421,15 +415,15 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
       return
     }
     if (language.equals("zh_hans")) {
-      ParticleNetwork.setAppliedLanguage(LanguageEnum.ZH_CN)
+      ParticleNetwork.setLanguage(LanguageEnum.ZH_CN)
     } else if (language.equals("zh_hant")) {
-      ParticleNetwork.setAppliedLanguage(LanguageEnum.ZH_TW)
+      ParticleNetwork.setLanguage(LanguageEnum.ZH_TW)
     } else if (language.equals("ja")) {
-      ParticleNetwork.setAppliedLanguage(LanguageEnum.JA)
+      ParticleNetwork.setLanguage(LanguageEnum.JA)
     } else if (language.equals("ko")) {
-      ParticleNetwork.setAppliedLanguage(LanguageEnum.KO)
+      ParticleNetwork.setLanguage(LanguageEnum.KO)
     } else {
-      ParticleNetwork.setAppliedLanguage(LanguageEnum.EN)
+      ParticleNetwork.setLanguage(LanguageEnum.EN)
     }
   }
 
@@ -462,7 +456,7 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
                     callback.success(output)
                   }
 
-                  override fun failure(errMsg: WebServiceError) {
+                  override fun failure(errMsg: ErrorInfo) {
                     callback.failure(errMsg)
                   }
                 })
@@ -474,7 +468,7 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
                   callback.success(output)
                 }
 
-                override fun failure(errMsg: WebServiceError) {
+                override fun failure(errMsg: ErrorInfo) {
                   callback.failure(errMsg)
                 }
               })
@@ -489,9 +483,11 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
               callback.invoke(ReactCallBack.success(output.signature!!).toGson())
             }
 
-            override fun failure(errMsg: WebServiceError) {
+            override fun failure(errMsg: ErrorInfo) {
               callback.invoke(ReactCallBack.failed(errMsg).toGson())
             }
+
+
           })
       } catch (e: Exception) {
         e.printStackTrace()
@@ -503,5 +499,6 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
   override fun getName(): String {
     return "ParticleAuthPlugin"
   }
+
 
 }

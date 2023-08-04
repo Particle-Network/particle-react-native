@@ -1,5 +1,7 @@
 package com.particleauth.model;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -28,7 +30,9 @@ public class ReactCallBack<T> {
         return new ReactCallBack(FlutterCallBackStatus.Failed, t);
     }
 
-    public String toGson() {
+
+
+  public String toGson() {
         return new Gson().toJson(this);
     }
 }

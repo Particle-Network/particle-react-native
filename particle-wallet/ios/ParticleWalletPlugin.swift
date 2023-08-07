@@ -114,9 +114,48 @@ public class ParticleWalletPlugin: NSObject {
                 network = .tron
             } else if networkString == "arbitrumOne" {
                 network = .arbitrumOne
+            } else if networkString == "avalanche" {
+                network = .avalanche
+            } else if networkString == "celo" {
+                network = .celo
+            } else if networkString == "zksync" {
+                network = .zkSync
             } else {
                 network = nil
             }
+            
+            if network == nil {
+                let chainInfo = ParticleNetwork.getChainInfo()
+                switch chainInfo.chain {
+                case .solana:
+                    network = OpenBuyNetwork.solana
+                case .ethereum:
+                    network = OpenBuyNetwork.ethereum
+                case .bsc:
+                    network = OpenBuyNetwork.binanceSmartChain
+                case .optimism:
+                    network = OpenBuyNetwork.optimism
+                case .polygon:
+                    network = OpenBuyNetwork.polygon
+                case .tron:
+                    network = OpenBuyNetwork.tron
+                case .arbitrum:
+                    if chainInfo == .arbitrum(.one) {
+                        network = OpenBuyNetwork.arbitrumOne
+                    } else {
+                        network = nil
+                    }
+                case .avalanche:
+                    network = OpenBuyNetwork.avalanche
+                case .celo:
+                    network = OpenBuyNetwork.celo
+                case .zkSync:
+                    network = OpenBuyNetwork.zkSync
+                default:
+                    network = nil
+                }
+            }
+            
             let fiatCoin = data["fiat_coin"].string
             let fiatAmt = data["fiat_amt"].int
             let cryptoCoin = data["crypto_coin"].string

@@ -9,7 +9,7 @@ public class ChainData {
     public String chainName;
 
     @SerializedName("chain_id")
-    public int chainId;
+    public long chainId;
 
     @SerializedName("chain_id_name")
     public String chainIdName;

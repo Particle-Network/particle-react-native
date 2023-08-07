@@ -6,7 +6,7 @@ export class DappMetaData {
   url: string;
   icon: string;
   name: string;
-  desctiption: string;
+  description: string;
   redirect: string;
   verifyUrl: string;
 
@@ -15,14 +15,14 @@ export class DappMetaData {
    * @param url Dapp website url
    * @param icon Dapp icon url
    * @param name Dapp name
-   * @param desctiption Dapp desctiption
+   * @param description Dapp description
    */
   constructor(
     walletConnectProjectId: string,
     url: string,
     icon: string,
     name: string,
-    desctiption: string,
+    description: string,
     redirect: string,
     verifyUrl: string
   ) {
@@ -30,7 +30,7 @@ export class DappMetaData {
     this.url = url;
     this.icon = icon;
     this.name = name;
-    this.desctiption = desctiption;
+    this.description = description;
     this.redirect = redirect;
     this.verifyUrl = verifyUrl;
   }

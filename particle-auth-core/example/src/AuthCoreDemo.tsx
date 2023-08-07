@@ -34,6 +34,7 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
         const chainInfo = PolygonMumbai;
         const env = Env.Dev;
         particleAuth.init(chainInfo, env);
+        particleAuthCore.init();
     };
 
     switchChain = async () => {

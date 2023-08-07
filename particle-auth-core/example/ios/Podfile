@@ -28,13 +28,13 @@ target 'ParticleAuthCoreExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'ParticleAuthService', '1.0.1'
-  pod 'ParticleNetworkBase', '1.0.1'
+  pod 'ParticleAuthService', '1.0.2'
+  pod 'ParticleNetworkBase', '1.0.2'
   
-  pod "Thresh", '0.1.6'
-  pod "ParticleMPCCore", '0.1.6'
-  pod "ParticleAuthCore", '0.1.6'
-  pod "AuthCoreAdapter", '0.1.6'
+  pod "Thresh", '0.1.9'
+  pod "ParticleMPCCore", '0.1.9'
+  pod "ParticleAuthCore", '0.1.9'
+  pod "AuthCoreAdapter", '0.1.9'
 
   target 'ParticleAuthCoreExampleTests' do
     inherit! :complete

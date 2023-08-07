@@ -3,6 +3,8 @@
 
 @interface RCT_EXTERN_MODULE(ParticleAuthCorePlugin, NSObject)
 
+RCT_EXTERN_METHOD(initialize: (NSString* _Nonnull)json)
+
 RCT_EXTERN_METHOD(switchChain: (NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(connect: (NSString* _Nonnull)json callback: (RCTResponseSenderBlock)callback)

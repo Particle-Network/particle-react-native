@@ -21,15 +21,28 @@ export const ParticleAuthCorePlugin = NativeModules.ParticleAuthCorePlugin
   );
 
 /**
+ * Init ParticleAuthCore SDK
+ */
+export function init() {
+  if (Platform.OS === 'ios') {
+    ParticleAuthCorePlugin.initialize("");
+  } else {
+
+  }
+}
+
+
+
+/**
  * Connect JWT
  * @param jwt JWT
  */
 export async function connect(jwt: String): Promise<any> {
-    return new Promise((resolve) => {
-      ParticleAuthCorePlugin.connect(jwt, (result: string) => {
-        resolve(JSON.parse(result));
-      });
+  return new Promise((resolve) => {
+    ParticleAuthCorePlugin.connect(jwt, (result: string) => {
+      resolve(JSON.parse(result));
     });
+  });
 }
 
 /**

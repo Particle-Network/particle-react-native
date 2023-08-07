@@ -11,6 +11,8 @@ import ParticleAuthCore
 import ParticleNetworkBase
 import RxSwift
 import SwiftyJSON
+import AuthCoreAdapter
+import ConnectCommon
 
 @objc(ParticleAuthCorePlugin)
 class ParticleAuthCorePlugin: NSObject {
@@ -20,6 +22,11 @@ class ParticleAuthCorePlugin: NSObject {
     @objc
     static func requiresMainQueueSetup() -> Bool {
         return true
+    }
+
+    @objc
+    public func initialize(_ json: String) {
+        ConnectManager.setMoreAdapters([AuthCoreAdapter()])
     }
     
     @objc

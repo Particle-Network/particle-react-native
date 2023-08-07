@@ -209,7 +209,19 @@ class ParticleConnectPlugin: NSObject {
                 account = nil
             }
             
-            connectConfig = ParticleAuthConfig(loginType: loginType, supportAuthType: supportAuthTypeArray, phoneOrEmailAccount: account)
+            let socialLoginPromptString = data["social_login_prompt"].stringValue.lowercased()
+            let socialLoginPrompt: SocialLoginPrompt? = SocialLoginPrompt(rawValue: socialLoginPromptString)
+            
+            let message: String? = data["authorization"]["message"].string
+            let isUnique: Bool = data["authorization"]["uniq"].bool ?? false
+
+            var loginAuthorization: LoginAuthorization?
+        
+            if message != nil {
+                loginAuthorization = .init(message: message!, isUnique: isUnique)
+            }
+
+            connectConfig = ParticleAuthConfig(loginType: loginType, supportAuthType: supportAuthTypeArray, phoneOrEmailAccount: account, socialLoginPrompt: socialLoginPrompt, authorization: loginAuthorization)
         }
         
         guard let walletType = map2WalletType(from: walletTypeString) else {

@@ -16,14 +16,14 @@ import {
   EthereumSepolia,
 } from '@particle-network/chains';
 import * as particleConnect from 'react-native-particle-connect';
+import { SocialLoginPrompt } from 'react-native-particle-auth';
 import * as particleAuth from 'react-native-particle-auth';
 import { TestAccountEVM, TestAccountSolana } from './TestAccount';
 import * as Helper from './Helper';
 import { WalletType } from 'react-native-particle-connect';
 import {
   ParticleConnectConfig,
-  DappMetaData,
-  RpcUrl,
+  DappMetaData
 } from 'react-native-particle-connect';
 import { PNAccount } from './Models/PNAccount';
 import {
@@ -355,11 +355,13 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
   };
 
   connectWithParticleConfig = async () => {
+    const message = '0x' + Buffer.from("Hello Particle!").toString('hex');
+    const authorization = new particleAuth.LoginAuthorization(message, false);
     const connectConfig = new ParticleConnectConfig(LoginType.Phone, '', [
       SupportAuthType.Email,
       SupportAuthType.Google,
       SupportAuthType.Apple,
-    ]);
+    ], SocialLoginPrompt.SelectAccount, authorization);
 
     const result = await particleConnect.connect(
       WalletType.Particle,

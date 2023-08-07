@@ -94,7 +94,8 @@ export async function connect(
       login_type: config.loginType,
       account: config.account,
       support_auth_type_values: config.supportAuthType,
-      login_form_mode: config.loginFormMode,
+      social_login_prompt: config.socialLoginPrompt,
+      authorization: config.authorization
     };
     configJson = JSON.stringify(obj);
   }

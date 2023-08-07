@@ -22,13 +22,13 @@ const LINKING_ERROR =
 const ParticleConnectPlugin = NativeModules.ParticleConnectPlugin
   ? NativeModules.ParticleConnectPlugin
   : new Proxy(
-    {},
-    {
-      get() {
-        throw new Error(LINKING_ERROR);
-      },
-    }
-  );
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
 
 /**
  * Init Particle Connect Service
@@ -46,7 +46,6 @@ export function init(
   const obj = {
     chain_name: chainInfo.name,
     chain_id: chainInfo.id,
-    chain_id_name: chainInfo.network,
     env: env,
     metadata: metadata,
     rpc_url: rpcUrl,
@@ -60,7 +59,7 @@ export function init(
  * @param chainInfos Chain info list
  */
 export function setWalletConnectV2SupportChainInfos(chainInfos: ChainInfo[]) {
-  const chainInfoObjects = chainInfos.map(info => ({
+  const chainInfoObjects = chainInfos.map((info) => ({
     chain_name: info.name,
     chain_id_name: info.network,
     chain_id: info.id,
@@ -150,12 +149,15 @@ export async function isConnected(
  * @param message Message that you want user to sign
  * @returns Result, signed message or error
  */
-export async function signMessage(walletType: WalletType, publicAddress: string, message: string): Promise<any> {
-
+export async function signMessage(
+  walletType: WalletType,
+  publicAddress: string,
+  message: string
+): Promise<any> {
   let serializedMessage: string;
 
   let chainInfo = await getChainInfo();
-  if (chainInfo.name.toLowerCase() == "solana") {
+  if (chainInfo.name.toLowerCase() == 'solana') {
     serializedMessage = message;
   } else {
     if (isHexString(message)) {
@@ -299,7 +301,11 @@ export async function batchSendTransactions(
  * @param typedData Typed data that you want user to sign and send, support typed data version v4
  * @returns Result, signature or error
  */
-export async function signTypedData(walletType: WalletType, publicAddress: string, typedData: string): Promise<any> {
+export async function signTypedData(
+  walletType: WalletType,
+  publicAddress: string,
+  typedData: string
+): Promise<any> {
   let serializedMessage: string;
 
   if (isHexString(typedData)) {

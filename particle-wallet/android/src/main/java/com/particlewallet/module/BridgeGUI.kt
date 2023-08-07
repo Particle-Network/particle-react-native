@@ -10,16 +10,15 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.google.gson.reflect.TypeToken
-import com.particle.api.infrastructure.db.table.WalletType
 import com.particle.api.service.DBService
-import com.particle.base.ChainInfo
 import com.particle.base.ParticleNetwork
+import com.particle.base.model.MobileWCWalletName
 import com.particle.gui.ParticleWallet
-import com.particle.gui.ParticleWallet.enablePay
-import com.particle.gui.ParticleWallet.enableSwap
 import com.particle.gui.ParticleWallet.getEnablePay
 import com.particle.gui.ParticleWallet.getEnableSwap
 import com.particle.gui.ParticleWallet.navigatorBuy
+import com.particle.gui.ParticleWallet.setPayDisabled
+import com.particle.gui.ParticleWallet.setSwapDisabled
 import com.particle.gui.router.PNRouter
 import com.particle.gui.router.RouterPath
 import com.particle.gui.ui.nft_detail.NftDetailParams
@@ -30,11 +29,11 @@ import com.particle.gui.ui.token_detail.TokenTransactionRecordsParams
 import com.particle.gui.utils.WalletUtils
 import com.particle.network.ParticleNetworkAuth.getAddress
 import com.particlewallet.model.InitData
-import com.particlewallet.ui.RNLoginOptActivity
+import com.particlewallet.ui.PNLoginOptActivity
 import com.particlewallet.utils.BridgeScope
 import com.particlewallet.utils.ChainUtils
-import com.particlewallet.utils.WalletTypeParser
 import kotlinx.coroutines.launch
+import network.particle.chains.ChainInfo
 import org.json.JSONObject
 import java.math.BigInteger
 
@@ -56,7 +55,7 @@ class BridgeGUI(reactContext: ReactApplicationContext) : ReactContextBaseJavaMod
       if (!isUIModuleInit()) return;
       BridgeScope.launch {
         val address = ParticleNetwork.getAddress()
-        val wallet = WalletUtils.createSelectedWallet(address, WalletType.PN_WALLET)
+        val wallet = WalletUtils.createSelectedWallet(address, MobileWCWalletName.Particle.name)
         WalletUtils.setWalletChain(wallet)
       }
     }
@@ -174,7 +173,7 @@ class BridgeGUI(reactContext: ReactApplicationContext) : ReactContextBaseJavaMod
   fun logoutWallet(publicAddress: String) {
     if (!isUIModuleInit()) return;
     BridgeScope.launch {
-      DBService.walletDao.deleteWallet(publicAddress)
+      DBService.walletInfoDao.deleteWallet(publicAddress)
     }
   }
 
@@ -186,13 +185,13 @@ class BridgeGUI(reactContext: ReactApplicationContext) : ReactContextBaseJavaMod
   @ReactMethod
   fun enablePay(enable: Boolean) {
     LogUtils.d("enablePay", enable.toString());
-    ParticleNetwork.enablePay(enable)
+    ParticleNetwork.setPayDisabled(!enable)
   }
 
   @ReactMethod
   fun enableSwap(enable: Boolean) {
     LogUtils.d("enableSwap", enable.toString());
-    ParticleNetwork.enableSwap(enable)
+    ParticleNetwork.setSwapDisabled(!enable)
   }
 
   @ReactMethod
@@ -202,7 +201,9 @@ class BridgeGUI(reactContext: ReactApplicationContext) : ReactContextBaseJavaMod
 
   @ReactMethod
   fun navigatorPay() {
-    ParticleNetwork.navigatorBuy()
+    currentActivity?.let {
+      ParticleNetwork.navigatorBuy(it)
+    }
   }
 
   /**
@@ -230,13 +231,13 @@ class BridgeGUI(reactContext: ReactApplicationContext) : ReactContextBaseJavaMod
   @ReactMethod
   fun showTestNetwork(show: Boolean) {
     LogUtils.d("showTestNetwork", show);
-    ParticleWallet.showTestNetworks(show)
+    ParticleWallet.setShowTestNetworkSetting(show)
   }
 
   @ReactMethod
   fun showManageWallet(show: Boolean) {
     LogUtils.d("showManageWallet", show);
-    ParticleWallet.showManageWallet(show)
+    ParticleWallet.setShowManageWalletSetting(show)
   }
 
   @ReactMethod
@@ -245,7 +246,7 @@ class BridgeGUI(reactContext: ReactApplicationContext) : ReactContextBaseJavaMod
     currentActivity?.startActivity(
       Intent(
         currentActivity,
-        RNLoginOptActivity::class.java
+        PNLoginOptActivity::class.java
       )
     )
   }
@@ -262,7 +263,7 @@ class BridgeGUI(reactContext: ReactApplicationContext) : ReactContextBaseJavaMod
     )
     val supportChains: MutableList<ChainInfo> = java.util.ArrayList()
     for (chain in chains) {
-      val chainInfo: ChainInfo = ChainUtils.getChainInfo(chain.chainName, chain.chainIdName)
+      val chainInfo: ChainInfo = ChainUtils.getChainInfo(chain.chainId)
       supportChains.add(chainInfo)
     }
     ParticleWallet.setSupportChain(supportChains)
@@ -276,10 +277,8 @@ class BridgeGUI(reactContext: ReactApplicationContext) : ReactContextBaseJavaMod
       val jsonObject = JSONObject(jsonParams);
       val walletType = jsonObject.getString("wallet_type");
       val publicKey = jsonObject.getString("public_address");
-      val type = WalletTypeParser.getWalletType(walletType);
-      val adapter = WalletUtils.getConnectAdapter(type)
       BridgeScope.launch {
-        WalletUtils.createSelectedWallet(publicKey, adapter!!)
+        WalletUtils.createSelectedWallet(publicKey, walletType)
         callback.invoke(true)
       }
     } catch (e: Exception) {

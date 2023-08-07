@@ -9,14 +9,10 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.google.gson.reflect.TypeToken
-import com.particle.base.ChainInfo
 import com.particle.base.ParticleNetwork
 import com.particle.gui.ParticleWallet
-import com.particle.gui.ParticleWallet.enablePay
-import com.particle.gui.ParticleWallet.enableSwap
 import com.particle.gui.ParticleWallet.getEnablePay
 import com.particle.gui.ParticleWallet.getEnableSwap
-import com.particle.gui.ParticleWallet.openBuy
 import com.particle.gui.router.PNRouter
 import com.particle.gui.router.RouterPath
 import com.particle.gui.ui.nft_detail.NftDetailParams
@@ -25,10 +21,9 @@ import com.particle.gui.ui.send.WalletSendParams
 import com.particle.gui.ui.token_detail.TokenTransactionRecordsParams
 import com.particle.gui.utils.WalletUtils
 import com.particlewallet.model.InitData
-import com.particlewallet.ui.RNLoginOptActivity
+import com.particlewallet.ui.PNLoginOptActivity
 import com.particlewallet.utils.BridgeScope
 import com.particlewallet.utils.ChainUtils
-import com.particlewallet.utils.WalletTypeParser
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.math.BigInteger
@@ -36,9 +31,11 @@ import com.particle.api.service.DBService
 import com.particle.base.LanguageEnum
 import com.particle.gui.ParticleWallet.displayNFTContractAddresses
 import com.particle.gui.ParticleWallet.displayTokenAddresses
-import com.particle.gui.ParticleWallet.supportWalletConnect
+import com.particle.gui.ParticleWallet.setPayDisabled
+import com.particle.gui.ParticleWallet.setSupportWalletConnect
+import com.particle.gui.ParticleWallet.setSwapDisabled
 import com.particle.gui.ui.swap.SwapConfig
-import com.particle.network.ParticleNetworkAuth.openBuy
+import network.particle.chains.ChainInfo
 
 class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
   companion object {
@@ -60,7 +57,6 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
   @ReactMethod
   fun createSelectedWallet(publicAddress: String, walletType: String) {
     BridgeScope.launch {
-      val walletType = WalletTypeParser.getWalletType(walletType)
       ParticleWallet.setWallet(publicAddress, walletType)
     }
   }
@@ -171,7 +167,7 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
   fun logoutWallet(publicAddress: String) {
     if (!isUIModuleInit()) return;
     BridgeScope.launch {
-      DBService.walletDao.deleteWallet(publicAddress)
+      DBService.walletInfoDao.deleteWallet(publicAddress)
     }
   }
 
@@ -182,14 +178,13 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
 
   @ReactMethod
   fun enablePay(enable: Boolean) {
-//        LogUtils.d("enablePay", enable.toString());
-    ParticleNetwork.enablePay(enable)
+    ParticleNetwork.setPayDisabled(!enable)
   }
 
   @ReactMethod
   fun enableSwap(enable: Boolean) {
 //        LogUtils.d("enableSwap", enable.toString());
-    ParticleNetwork.enableSwap(enable)
+    ParticleNetwork.setSwapDisabled(!enable)
   }
 
   @ReactMethod
@@ -199,7 +194,9 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
 
   @ReactMethod
   fun navigatorPay() {
-    ParticleNetwork.openBuy()
+    currentActivity?.apply {
+      ParticleNetwork.openBuy(this)
+    }
   }
 
   /**
@@ -223,13 +220,13 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
   @ReactMethod
   fun showTestNetwork(show: Boolean) {
 //        LogUtils.d("showTestNetwork", show);
-    ParticleWallet.showTestNetworks(show)
+    ParticleWallet.setShowTestNetworkSetting(show)
   }
 
   @ReactMethod
   fun showManageWallet(show: Boolean) {
 //        LogUtils.d("showManageWallet", show);
-    ParticleWallet.showManageWallet(show)
+    ParticleWallet.setShowManageWalletSetting(show)
   }
 
   @ReactMethod
@@ -238,7 +235,7 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
     currentActivity?.startActivity(
       Intent(
         currentActivity,
-        RNLoginOptActivity::class.java
+        PNLoginOptActivity::class.java
       )
     )
   }
@@ -254,7 +251,7 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
     )
     val supportChains: MutableList<ChainInfo> = java.util.ArrayList()
     for (chain in chains) {
-      val chainInfo: ChainInfo = ChainUtils.getChainInfo(chain.chainName, chain.chainIdName)
+      val chainInfo: ChainInfo = ChainUtils.getChainInfo(chain.chainId)
       supportChains.add(chainInfo)
     }
     ParticleWallet.setSupportChain(supportChains)
@@ -262,16 +259,13 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
 
   @ReactMethod
   fun switchWallet(jsonParams: String, callback: Callback) {
-//        LogUtils.d("switchWallet", jsonParams);
     if (!isUIModuleInit()) return
     try {
       val jsonObject = JSONObject(jsonParams);
       val walletType = jsonObject.getString("wallet_type");
       val publicKey = jsonObject.getString("public_address");
-      val type = WalletTypeParser.getWalletType(walletType);
-      val adapter = WalletUtils.getConnectAdapter(type)
       BridgeScope.launch {
-        WalletUtils.createSelectedWallet(publicKey, adapter!!)
+        WalletUtils.createSelectedWallet(publicKey, walletType)
         callback.invoke(true)
       }
     } catch (e: Exception) {
@@ -285,21 +279,21 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
       return
     }
     if (language.equals("zh_hans")) {
-      ParticleNetwork.setAppliedLanguage(LanguageEnum.ZH_CN)
+      ParticleNetwork.setLanguage(LanguageEnum.ZH_CN)
     } else if (language.equals("zh_hant")) {
-      ParticleNetwork.setAppliedLanguage(LanguageEnum.ZH_TW)
+      ParticleNetwork.setLanguage(LanguageEnum.ZH_TW)
     } else if (language.equals("ja")) {
-      ParticleNetwork.setAppliedLanguage(LanguageEnum.JA)
+      ParticleNetwork.setLanguage(LanguageEnum.JA)
     } else if (language.equals("ko")) {
-      ParticleNetwork.setAppliedLanguage(LanguageEnum.KO)
+      ParticleNetwork.setLanguage(LanguageEnum.KO)
     } else {
-      ParticleNetwork.setAppliedLanguage(LanguageEnum.EN)
+      ParticleNetwork.setLanguage(LanguageEnum.EN)
     }
   }
 
   @ReactMethod
   fun supportWalletConnect(isEnable: Boolean) {
-    ParticleNetwork.supportWalletConnect(isEnable)
+    ParticleNetwork.setSupportWalletConnect(isEnable)
   }
 
   @ReactMethod
@@ -318,18 +312,22 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
     val fixFiatCoin = jsonObject.optBoolean("fix_fiat_coin")
     val theme = jsonObject.optString("theme")
     val language = jsonObject.optString("language")
-    ParticleNetwork.openBuy(
-      walletAddress = walletAddress,
-      amount = fiatAmt,
-      fiatCoin = fiatCoin,
-      cryptoCoin = cryptoCoin,
-      fixFiatCoin = fixFiatCoin,
-      fixFiatAmt = fixFiatAmt,
-      fixCryptoCoin = fixCryptoCoin,
-      theme = theme,
-      language = language,
-      chainName = chainName
-    )
+    currentActivity?.apply {
+      ParticleNetwork.openBuy(
+        this,
+        walletAddress = walletAddress,
+        amount = fiatAmt,
+        fiatCoin = fiatCoin,
+        cryptoCoin = cryptoCoin,
+        fixFiatCoin = fixFiatCoin,
+        fixFiatAmt = fixFiatAmt,
+        fixCryptoCoin = fixCryptoCoin,
+        theme = theme,
+        language = language,
+        chainName = chainName
+      )
+    }
+
   }
 
   @ReactMethod
@@ -348,11 +346,11 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
    }
   @ReactMethod
   fun showLanguageSetting(isShow: Boolean){
-    ParticleWallet.showSettingLanguage(isShow)
+    ParticleWallet.setShowLanguageSetting(isShow)
   }
   @ReactMethod
   fun showSettingAppearance(isShow: Boolean){
-    ParticleWallet.showSettingAppearance(isShow)
+    ParticleWallet.setShowAppearanceSetting(isShow)
   }
   @ReactMethod
   fun setSupportAddToken(isShow: Boolean){

@@ -1,7 +1,6 @@
-package network.particle.reactnative.bridge.module
+package com.particlewallet.module
 
 
-import android.text.TextUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.facebook.react.bridge.Callback
@@ -9,15 +8,14 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.google.gson.Gson
-import com.particle.base.ChainInfo
 import com.particle.base.Env
 import com.particle.base.ParticleNetwork
-import com.particle.network.ParticleNetworkAuth.getUserInfo
-import com.particle.network.ParticleNetworkAuth.isLogin
-import com.particle.network.service.model.UserInfo
+import com.particle.base.model.ResultCallback
+import com.particle.network.ParticleNetworkAuth.switchChain
 import com.particlewallet.model.ChainData
 import com.particlewallet.model.InitData
 import com.particlewallet.utils.ChainUtils
+import network.particle.chains.ChainInfo
 
 class BridgeBase(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
     override fun getName(): String {
@@ -28,7 +26,7 @@ class BridgeBase(reactContext: ReactApplicationContext) : ReactContextBaseJavaMo
     fun initialize(initParams: String) {
         LogUtils.d("BridgeBase initialize", initParams)
         val initData = GsonUtils.fromJson(initParams, InitData::class.java)
-        val chainInfo = ChainUtils.getChainInfo(initData.chainName, initData.chainIdName)
+        val chainInfo = ChainUtils.getChainInfo(initData.chainId)
         ParticleNetwork.init(
             reactApplicationContext,
             Env.valueOf(initData.env.uppercase()),
@@ -54,9 +52,8 @@ class BridgeBase(reactContext: ReactApplicationContext) : ReactContextBaseJavaMo
     fun getChainInfo(callback: Callback) {
         val chainInfo: ChainInfo = ParticleNetwork.chainInfo
         val map: MutableMap<String, Any> = HashMap()
-        map["chain_name"] = chainInfo.chainName.name
-        map["chain_id_name"] = chainInfo.chainId.toString()
-        map["chain_id"] = chainInfo.chainId.value()
+        map["chain_name"] = chainInfo.name
+        map["chain_id"] = chainInfo.id
         val result = Gson().toJson(map)
         LogUtils.d("BridgeBase getChainInfo", result)
         callback.invoke(result)
@@ -68,31 +65,17 @@ class BridgeBase(reactContext: ReactApplicationContext) : ReactContextBaseJavaMo
             chainParams,
             ChainData::class.java
         )
-        try {
-            val chainInfo = ChainUtils.getChainInfo(chainData.chainName, chainData.chainIdName)
-            if (!ParticleNetwork.isLogin()) {
-                ParticleNetwork.setChainInfo(chainInfo)
-                callback.invoke(true)
-            } else {
-                val wallet = if (chainInfo.chain == "evm") {
-                    ParticleNetwork.getUserInfo()?.getWallet(UserInfo.WalletChain.evm);
-                } else {
-                    ParticleNetwork.getUserInfo()?.getWallet(UserInfo.WalletChain.solana);
-                }
-                if (wallet == null) {
-                    callback.invoke(false)
-                    return
-                }
-                if (TextUtils.isEmpty(wallet.publicAddress)) {
-                    callback.invoke(false)
-                    return
-                }
-                ParticleNetwork.setChainInfo(chainInfo)
-                callback.invoke(true)
+            val chainInfo = ChainUtils.getChainInfo(chainData.chainId)
+          ParticleNetwork.switchChain(chainInfo,object : ResultCallback {
+            override fun success() {
+              callback.invoke(true)
             }
-        } catch (e: Exception) {
-            LogUtils.e("setChainName", e.message)
-            callback.invoke(false)
-        }
+
+            override fun failure() {
+              callback.invoke(false)
+            }
+          }
+        )
+
     }
 }

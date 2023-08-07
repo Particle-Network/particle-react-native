@@ -3,8 +3,8 @@
 
   <application>
     <activity
-      android:name=".ui.RNLoginOptActivity"
+      android:name=".ui.PNLoginOptActivity"
       android:exported="false"
-      android:theme="@style/RNBridgeThemeLoginOpt" />
+      android:theme="@style/PNBridgeThemeLoginOpt" />
   </application>
 </manifest>

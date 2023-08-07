@@ -14,13 +14,13 @@ const LINKING_ERROR =
 const ParticleWalletPlugin = NativeModules.ParticleWalletPlugin
   ? NativeModules.ParticleWalletPlugin
   : new Proxy(
-    {},
-    {
-      get() {
-        throw new Error(LINKING_ERROR);
-      },
-    }
-  );
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
 
 /**
  * Init Particle Wallet Service
@@ -32,7 +32,7 @@ export function initWallet(walletMetaData: WalletMetaData) {
 
   if (Platform.OS === 'ios') {
     const json = JSON.stringify(walletMetaData);
-    ParticleWalletPlugin.initializeWalletMetaData(json)
+    ParticleWalletPlugin.initializeWalletMetaData(json);
   }
 }
 
@@ -68,8 +68,16 @@ export function navigatorTokenReceive(tokenAddress?: string) {
  * @param toAddress Optional, receiver address
  * @param amount Optional, amount
  */
-export function navigatorTokenSend(tokenAddress?: string, toAddress?: string, amount?: string) {
-  const obj = { token_address: tokenAddress, to_address: toAddress, amount: amount };
+export function navigatorTokenSend(
+  tokenAddress?: string,
+  toAddress?: string,
+  amount?: string
+) {
+  const obj = {
+    token_address: tokenAddress,
+    to_address: toAddress,
+    amount: amount,
+  };
   const json = JSON.stringify(obj);
   ParticleWalletPlugin.navigatorTokenSend(json);
 }
@@ -84,14 +92,24 @@ export function navigatorTokenTransactionRecords(tokenAddress?: string) {
 
 /**
  * Navigator NFT send page
- * 
+ *
  * @param mint NFT contract/mint address
  * @param tokenId NFT token id, for solana nft, pass ""
  * @param receiverAddress Optional, receiver address
  * @param amount Optional, for solana nft, pass null, for erc721 nft, it is a useless parameter, pass null, for erc1155 nft, you can pass amount string, such as "1", "100", "10000"
  */
-export function navigatorNFTSend(mint: string, tokenId: string, receiverAddress?: string, amount?: string) {
-  const obj = { mint: mint, receiver_address: receiverAddress, token_id: tokenId, amount: amount };
+export function navigatorNFTSend(
+  mint: string,
+  tokenId: string,
+  receiverAddress?: string,
+  amount?: string
+) {
+  const obj = {
+    mint: mint,
+    receiver_address: receiverAddress,
+    token_id: tokenId,
+    amount: amount,
+  };
   const json = JSON.stringify(obj);
   ParticleWalletPlugin.navigatorNFTSend(json);
 }
@@ -122,14 +140,13 @@ export function navigatorBuyCrypto(config?: BuyCryptoConfig) {
       fix_fiat_amt: config.fixFiatAmt,
       fix_crypto_coin: config.fixCryptoCoin,
       theme: config.theme,
-      language: config.language
-    }
+      language: config.language,
+    };
     const json = JSON.stringify(obj);
     ParticleWalletPlugin.navigatorBuyCrypto(json);
   } else {
     ParticleWalletPlugin.navigatorBuyCrypto(config);
   }
-
 }
 
 /**
@@ -148,20 +165,27 @@ export function navigatorLoginList(): Promise<any> {
  * Navigatro Swap page
  * @param fromTokenAddress Optional, from token address
  * @param toTokenAddress Optional, to token address
- * @param amount Optional, amount, decimal digits example "10000", "100", 
+ * @param amount Optional, amount, decimal digits example "10000", "100",
  */
-export function navigatorSwap(fromTokenAddress?: string, toTokenAddress?: string, amount?: string) {
-  const obj = { from_token_address: fromTokenAddress, to_token_address: toTokenAddress, amount: amount }
+export function navigatorSwap(
+  fromTokenAddress?: string,
+  toTokenAddress?: string,
+  amount?: string
+) {
+  const obj = {
+    from_token_address: fromTokenAddress,
+    to_token_address: toTokenAddress,
+    amount: amount,
+  };
   const json = JSON.stringify(obj);
   ParticleWalletPlugin.navigatorSwap(json);
 }
 
 /**
  * Show test network, default is false
- * @param isShow 
+ * @param isShow
  */
 export function setShowTestNetwork(isShow: boolean) {
-
   if (Platform.OS == 'ios') {
     ParticleWalletPlugin.setShowTestNetwork(isShow);
   } else {
@@ -172,7 +196,7 @@ export function setShowTestNetwork(isShow: boolean) {
 
 /**
  * Show manage wallet page, default is true
- * @param isShow 
+ * @param isShow
  */
 export function setShowManageWallet(isShow: boolean) {
   if (Platform.OS == 'ios') {
@@ -181,7 +205,6 @@ export function setShowManageWallet(isShow: boolean) {
     // todo
     ParticleWalletPlugin.showManageWallet(isShow);
   }
-
 }
 
 /**
@@ -189,7 +212,7 @@ export function setShowManageWallet(isShow: boolean) {
  * @param chainInfos ChainInfos
  */
 export function setSupportChain(chainInfos: ChainInfo[]) {
-  const chainInfoObjects = chainInfos.map(info => ({
+  const chainInfoObjects = chainInfos.map((info) => ({
     chain_name: info.name,
     chain_id_name: info.network,
     chain_id: info.id,
@@ -206,7 +229,7 @@ export function setSupportChain(chainInfos: ChainInfo[]) {
 
 /**
  * Set pay disabled, default value is false.
- * @param disabled 
+ * @param disabled
  */
 export function setPayDisabled(disabled: boolean) {
   ParticleWalletPlugin.setPayDisabled(disabled);
@@ -220,7 +243,7 @@ export function getPayDisabled() {
   if (Platform.OS == 'ios') {
     return new Promise((resolve) => {
       ParticleWalletPlugin.getPayDisabled((result: string) => {
-        resolve(result)
+        resolve(result);
       });
     });
   } else {
@@ -231,7 +254,7 @@ export function getPayDisabled() {
 
 /**
  * Set swap disabled, default value is false.
- * @param disabled 
+ * @param disabled
  */
 export function setSwapDisabled(disabled: boolean) {
   ParticleWalletPlugin.setSwapDisabled(disabled);
@@ -245,14 +268,13 @@ export function getSwapDisabled() {
   if (Platform.OS == 'ios') {
     return new Promise((resolve) => {
       ParticleWalletPlugin.getSwapDisabled((result: string) => {
-        resolve(result)
+        resolve(result);
       });
     });
   } else {
     // todo
     return Promise.resolve();
   }
-
 }
 
 /**
@@ -261,21 +283,23 @@ export function getSwapDisabled() {
  * @param publicAddress Public address
  * @returns Result
  */
-export function switchWallet(walletType: string, publicAddress: string): Promise<boolean> {
+export function switchWallet(
+  walletType: string,
+  publicAddress: string
+): Promise<boolean> {
   const obj = { wallet_type: walletType, public_address: publicAddress };
   const json = JSON.stringify(obj);
 
   return new Promise((resolve) => {
     ParticleWalletPlugin.switchWallet(json, (result: string) => {
-      resolve(JSON.parse(result))
+      resolve(JSON.parse(result));
     });
   });
 }
 
-
 /**
  * Set display token addresses
- * 
+ *
  * If you called this method, Wallet SDK will only show these tokens in the token addresses.
  * @param tokenAddresses TokenAddress array
  */
@@ -286,9 +310,9 @@ export function setDisplayTokenAddresses(tokenAddresses: string[]) {
 
 /**
  * Set display NFT contract addresses
- * 
+ *
  * If you called this method, Wallet SDK will only show NFTs in the NFT contract addresses.
- * @param nftContractAddresses 
+ * @param nftContractAddresses
  */
 export function setDisplayNFTContractAddresses(nftContractAddresses: string[]) {
   const json = JSON.stringify(nftContractAddresses);
@@ -297,7 +321,7 @@ export function setDisplayNFTContractAddresses(nftContractAddresses: string[]) {
 
 /**
  * Set priority token addresses
- * 
+ *
  * If you called this method, Wallet SDK will show these tokens in top part of the list.
  * @param tokenAddresses TokenAddress array
  */
@@ -308,11 +332,13 @@ export function setPriorityTokenAddresses(tokenAddresses: string[]) {
 
 /**
  * Set priority NFT contract addresses
- * 
+ *
  * If you called this method, Wallet SDK will only show NFTs in top part of list.
- * @param nftContractAddresses 
+ * @param nftContractAddresses
  */
-export function setPriorityNFTContractAddresses(nftContractAddresses: string[]) {
+export function setPriorityNFTContractAddresses(
+  nftContractAddresses: string[]
+) {
   const json = JSON.stringify(nftContractAddresses);
   ParticleWalletPlugin.setPriorityNFTContractAddresses(json);
 }
@@ -328,7 +354,6 @@ export function setShowLanguageSetting(isShow: boolean) {
     // todo
     ParticleWalletPlugin.showLanguageSetting(isShow);
   }
-
 }
 
 /**
@@ -342,7 +367,6 @@ export function setShowAppearanceSetting(isShow: boolean) {
     // todo
     ParticleWalletPlugin.showAppearanceSetting(isShow);
   }
-
 }
 
 /**
@@ -353,11 +377,10 @@ export function setSupportAddToken(isShow: boolean) {
   ParticleWalletPlugin.setSupportAddToken(isShow);
 }
 
-
 /**
  * Set wallet if support wallet connect as a wallet
  * not support for now, coming soon.
- * @param isEnable 
+ * @param isEnable
  */
 export function setSupportWalletConnect(isEnable: boolean) {
   if (Platform.OS == 'ios') {
@@ -366,7 +389,6 @@ export function setSupportWalletConnect(isEnable: boolean) {
     // todo
     ParticleWalletPlugin.supportWalletConnect(isEnable);
   }
-
 }
 
 export function setWalletConnectV2ProjectId(walletConnectV2ProjectId: string) {
@@ -377,7 +399,7 @@ export function setWalletConnectV2ProjectId(walletConnectV2ProjectId: string) {
 
 /**
  * Set support dapp browser in wallet page, default value is true.
- * @param isShow 
+ * @param isShow
  */
 export function setSupportDappBrowser(isShow: boolean) {
   if (Platform.OS == 'ios') {

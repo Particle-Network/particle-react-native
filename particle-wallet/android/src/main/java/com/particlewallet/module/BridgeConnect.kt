@@ -1,6 +1,5 @@
-package network.particle.flutter.bridge.module
+package com.particlewallet.module
 
-import android.app.Activity
 import android.app.Application
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
@@ -14,12 +13,10 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import com.particle.base.ChainInfo
 import com.particle.base.Env
 import com.particle.base.ParticleNetwork
 import com.particle.connect.ParticleConnect
 import com.particle.connect.ParticleConnect.setChain
-import com.particle.connect.ParticleConnectAdapter
 import com.particle.connect.model.AdapterAccount
 import com.particlewallet.model.*
 import com.particlewallet.utils.BridgeScope
@@ -29,8 +26,11 @@ import com.phantom.adapter.PhantomConnectAdapter
 import com.solana.adapter.SolanaConnectAdapter
 import com.wallet.connect.adapter.*
 import kotlinx.coroutines.launch
+import network.particle.chains.ChainInfo
+import network.particle.flutter.bridge.module.BridgeGUI
 import org.json.JSONException
 import org.json.JSONObject
+import particle.auth.adapter.ParticleConnectAdapter
 
 class BridgeConnect(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
@@ -45,7 +45,7 @@ class BridgeConnect(reactContext: ReactApplicationContext) :
     fun initialize(initParams: String) {
         LogUtils.d("init", initParams)
         val initData: InitData = GsonUtils.fromJson(initParams, InitData::class.java)
-        val chainInfo: ChainInfo = ChainUtils.getChainInfo(initData.chainName, initData.chainIdName)
+        val chainInfo: ChainInfo = ChainUtils.getChainInfo(initData.chainId)
         val dAppMetadata= initData.metadata
         val rpcUrl: RpcUrl? = initData.rpcUrl
         val adapter: MutableList<IConnectAdapter> = ArrayList()
@@ -63,7 +63,7 @@ class BridgeConnect(reactContext: ReactApplicationContext) :
         )
         try {
             val chainInfo = ChainUtils.getChainInfo(
-                chainData.chainName, chainData.chainIdName
+                chainData.chainId
             )
             setChain(chainInfo)
             callback.invoke(true)
@@ -87,7 +87,7 @@ class BridgeConnect(reactContext: ReactApplicationContext) :
         val finalConnectAdapter = connectAdapter
         connectAdapter!!.connect<ConnectConfig>(null, object : ConnectCallback {
             override fun onConnected(account: Account) {
-                BridgeGUI.createSelectedWallet(account.publicAddress, finalConnectAdapter!!)
+              BridgeGUI.createSelectedWallet(account.publicAddress, finalConnectAdapter!!)
                 LogUtils.d("onConnected", account.toString())
                 callback.invoke(ReactCallBack.success(account).toGson())
             }

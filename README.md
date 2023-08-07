@@ -15,7 +15,17 @@ npm install react-native-particle-connect
 npm install react-native-particle-wallet
 ```
 
-## Guidance
+## Particle Biconomy Service
+```sh
+npm install react-native-particle-biconomy
+```
+
+## Particle Auth Core Service
+```sh
+npm install react-native-particle-auth-core
+```
+
+## Getting Started
 
 1. Run example
 
@@ -34,6 +44,11 @@ npm install react-native-particle-wallet
   <br>
 </div>
 
+### AuthCoreWalletDemo
+
+AuthCoreWalletDemo will focus on both integrate particle-auth-core and particle-wallet,
+show how how to connect with jwt and open wallet.
+
 ## Docs
 
 [particle-auth](https://docs.particle.network/auth-service/sdks/react-native)
@@ -42,6 +57,9 @@ npm install react-native-particle-wallet
 
 [particle-wallet](https://docs.particle.network/wallet-service/sdks/react-native)
 
+[particle-biconomy](https://docs.particle.network/developers/account-abstraction/react-native)
+
+[particle-auth-core](https://docs.particle.network/developers/auth-service/core/react-native)
 
 
 ## License

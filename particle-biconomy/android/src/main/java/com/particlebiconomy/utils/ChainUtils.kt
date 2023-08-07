@@ -1,21 +1,15 @@
 package com.particlebiconomy.utils
 
-import com.particle.base.ChainInfo
-import com.particle.base.ChainName
+import network.particle.chains.ChainInfo
 
-object ChainUtils {
-    fun getChainInfo(chainName: String, chainIdName: String?): ChainInfo {
-        var chainName = chainName
-        if (ChainName.BSC.toString() == chainName) {
-            chainName = "Bsc"
-        }
-        return try {
-            val clazz1 = Class.forName("com.particle.base." + chainName + "Chain")
-            val cons = clazz1.getConstructor(String::class.java)
-            cons.newInstance(chainIdName) as ChainInfo
-        } catch (e: Exception) {
-            e.printStackTrace()
-            throw RuntimeException(e.message)
-        }
-    }
+
+internal object ChainUtils {
+  fun getChainInfo(chainId: Long): ChainInfo {
+    return getChainInfoByChainId(chainId)
+  }
+
+  private fun getChainInfoByChainId(chainId: Long): ChainInfo {
+    return ChainInfo.getEvmChain(chainId) ?: ChainInfo.getSolanaChain(chainId)
+    ?: ChainInfo.getEvmChain(1)!!
+  }
 }

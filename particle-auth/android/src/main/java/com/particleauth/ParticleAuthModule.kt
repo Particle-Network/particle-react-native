@@ -50,6 +50,7 @@ import com.particle.network.service.model.*
 import com.particleauth.model.*
 import com.particleauth.utils.ChainUtils
 import com.particleauth.utils.EncodeUtils
+import com.particleauth.utils.MessageProcess
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -183,7 +184,7 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
   @ReactMethod
   fun signMessage(message: String, callback: Callback) {
     ParticleNetwork.signMessage(
-      EncodeUtils.encode(message),
+      MessageProcess.start(message),
       object : WebServiceCallback<SignOutput> {
         override fun success(output: SignOutput) {
           callback.invoke(ReactCallBack.success(output.signature).toGson())
@@ -198,7 +199,7 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
   @ReactMethod
   fun signMessageUnique(message: String, callback: Callback) {
     ParticleNetwork.signMessageUnique(
-      EncodeUtils.encode(message),
+      MessageProcess.start(message),
       object : WebServiceCallback<SignOutput> {
         override fun success(output: SignOutput) {
           callback.invoke(ReactCallBack.success(output.signature).toGson())
@@ -244,18 +245,41 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun signAndSendTransaction(transaction: String, callback: Callback) {
-    LogUtils.d("signAndSendTransaction", transaction)
-    ParticleNetwork.signAndSendTransaction(transaction,
-      object : WebServiceCallback<SignOutput> {
-        override fun success(output: SignOutput) {
-          callback.invoke(ReactCallBack.success(output.signature).toGson())
-        }
+  fun signAndSendTransaction(transactionParams: String, callback: Callback) {
+    LogUtils.d("signAndSendTransaction", transactionParams)
+    val transParams =
+      GsonUtils.fromJson<TransactionParams>(transactionParams, TransactionParams::class.java)
+    var feeMode: FeeMode = FeeModeAuto()
+    if (transParams.feeMode != null) {
+      val option = transParams.feeMode.option
+      if (option == "custom") {
+        val feeQuote = transParams.feeMode.feeQuote!!
+        feeMode = FeeModeCustom(feeQuote)
+      } else if (option == "gasless") {
+        feeMode = FeeModeGasless()
+      } else {
+        feeMode = FeeModeAuto()
+      }
+    }
+    try {
+      ParticleNetwork.signAndSendTransaction(
+        transParams.transaction,
+        object : WebServiceCallback<SignOutput> {
 
-        override fun failure(errMsg: ErrorInfo) {
-          callback.invoke(ReactCallBack.failed(errMsg).toGson())
-        }
-      })
+          override fun success(output: SignOutput) {
+            callback.invoke(ReactCallBack.success(output.signature).toGson())
+          }
+
+          override fun failure(errMsg: ErrorInfo) {
+            callback.invoke(ReactCallBack.failed(errMsg).toGson())
+          }
+
+        },
+        feeMode
+      )
+    } catch (e: Exception) {
+      callback.invoke(ReactCallBack.failed(e.message).toGson())
+    }
   }
 
   @ReactMethod
@@ -271,7 +295,7 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
       SignTypedDataVersion.valueOf(signTypedData.version.uppercase())
     }
     ParticleNetwork.signTypedData(
-      EncodeUtils.encode(signTypedData.message),
+      MessageProcess.start(signTypedData.message),
       typedDataVersion,
       object : WebServiceCallback<SignOutput> {
         override fun success(output: SignOutput) {

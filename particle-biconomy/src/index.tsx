@@ -11,20 +11,23 @@ const LINKING_ERROR =
 const ParticleBiconomyPlugin = NativeModules.ParticleBiconomyPlugin
   ? NativeModules.ParticleBiconomyPlugin
   : new Proxy(
-    {},
-    {
-      get() {
-        throw new Error(LINKING_ERROR);
-      },
-    }
-  );
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
 
 /**
  * Init particle biconomy service
  * @param version Biconomy Version
  * @param dappAppKeys Biconomy dapp keys
  */
-export function init(version: BiconomyVersion, dappAppKeys: { [key: number]: string }) {
+export function init(
+  version: BiconomyVersion,
+  dappAppKeys: { [key: number]: string }
+) {
   const obj = {
     version: version,
     dapp_app_keys: dappAppKeys,
@@ -43,8 +46,14 @@ export function init(version: BiconomyVersion, dappAppKeys: { [key: number]: str
  * @param chainInfo ChainInfo
  * @returns
  */
-export async function isSupportChainInfo(chainInfo: ChainInfo): Promise<boolean> {
-  const obj = { chain_id: chainInfo.id, chain_name: chainInfo.name, chain_id_name: chainInfo.network };
+export async function isSupportChainInfo(
+  chainInfo: ChainInfo
+): Promise<boolean> {
+  const obj = {
+    chain_id: chainInfo.id,
+    chain_name: chainInfo.name,
+    chain_id_name: chainInfo.network,
+  };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
     ParticleBiconomyPlugin.isSupportChainInfo(json, (result: boolean) => {
@@ -52,7 +61,6 @@ export async function isSupportChainInfo(chainInfo: ChainInfo): Promise<boolean>
     });
   });
 }
-
 
 /**
  * Has eoa address deployed conract in current chain.
@@ -83,14 +91,14 @@ export async function isBiconomyModeEnable(): Promise<boolean> {
  * Enable biconomy mode
  */
 export function enableBiconomyMode() {
-  ParticleBiconomyPlugin.enableBiconomyMode()
+  ParticleBiconomyPlugin.enableBiconomyMode();
 }
 
 /**
  * Disable biconomy mode
  */
 export function disableBiconomyMode() {
-  ParticleBiconomyPlugin.disableBiconomyMode()
+  ParticleBiconomyPlugin.disableBiconomyMode();
 }
 
 /**
@@ -100,10 +108,13 @@ export function disableBiconomyMode() {
  * @param transactions transactions
  * @returns
  */
-export async function rpcGetFeeQuotes(eoaAddress: string, transactions: string[]): Promise<any[]> {
+export async function rpcGetFeeQuotes(
+  eoaAddress: string,
+  transactions: string[]
+): Promise<any[]> {
   const obj = {
     eoa_address: eoaAddress,
-    transactions: transactions
+    transactions: transactions,
   };
   const json = JSON.stringify(obj);
   const result: any = await new Promise((resolve) => {
@@ -113,9 +124,9 @@ export async function rpcGetFeeQuotes(eoaAddress: string, transactions: string[]
   });
 
   if (result.status) {
-    const data = result.data
-    return data as any[]
+    const data = result.data;
+    return data as any[];
   } else {
-    return Promise.reject(result.data)
+    return Promise.reject(result.data);
   }
 }

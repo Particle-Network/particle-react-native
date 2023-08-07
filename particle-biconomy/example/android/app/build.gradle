@@ -132,12 +132,12 @@ def reactNativeArchitectures() {
 android {
     ndkVersion rootProject.ext.ndkVersion
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.particleauthexample"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 23
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
@@ -254,6 +254,13 @@ android {
 }
 
 dependencies {
+
+
+  modules {
+    module("org.bouncycastle:bcprov-jdk15to18") {
+      replacedBy("org.bouncycastle:bcprov-jdk15on")
+    }
+  }
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //noinspection GradleDynamicVersion

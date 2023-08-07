@@ -14,6 +14,10 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.particle.base.Env
 import com.particle.base.ParticleNetwork
+import com.particle.base.ibiconomy.FeeMode
+import com.particle.base.ibiconomy.FeeModeAuto
+import com.particle.base.ibiconomy.FeeModeCustom
+import com.particle.base.ibiconomy.FeeModeGasless
 import com.particle.base.model.LoginType
 import com.particle.base.model.ResultCallback
 import com.particle.base.model.SupportAuthType
@@ -174,7 +178,8 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
     } catch (e: java.lang.Exception) {
       e.printStackTrace()
     }
-    var connectAdapter = ParticleConnect.getAdapters().first {it.name.equals(walletType, ignoreCase = true)  }
+    var connectAdapter =
+      ParticleConnect.getAdapters().first { it.name.equals(walletType, ignoreCase = true) }
     connectAdapter!!.connect(config, object : ConnectCallback {
       override fun onConnected(account: Account) {
         LogUtils.d("onConnected", account.toString())
@@ -338,6 +343,7 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun signTransaction(jsonParams: String, callback: Callback) {
+    LogUtils.d("signAndSendTransaction", jsonParams)
     val signData = GsonUtils.fromJson(jsonParams, ConnectSignData::class.java)
     val transaction = signData.transaction
     val connectAdapter = getConnectAdapter(signData.publicAddress, signData.walletType)
@@ -351,27 +357,64 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
       )
       return
     }
-    connectAdapter.signTransaction(signData.publicAddress, transaction, object : SignCallback {
 
-      override fun onError(error: ConnectError) {
-        LogUtils.d("onError", error.toString())
-        callback.invoke(
-          ReactCallBack.failed(ReactErrorMessage.parseConnectError(error)).toGson()
-        )
-      }
+    if (ParticleNetwork.isBiconomyModeEnable()) {
+      var feeMode: FeeMode = FeeModeAuto()
+      if (signData.feeMode != null) {
+        val option = signData.feeMode.option
+        feeMode = when (option) {
+          "custom" -> {
+            val feeQuote = signData.feeMode.feeQuote!!
+            FeeModeCustom(feeQuote)
+          }
 
-      override fun onSigned(signature: String) {
-        LogUtils.d("onSigned", signature)
-        callback.invoke(ReactCallBack.success(signature).toGson())
+          "gasless" -> {
+            FeeModeGasless()
+          }
+
+          else -> {
+            FeeModeAuto()
+          }
+        }
       }
-    })
+      connectAdapter.signAndSendTransaction(
+        signData.publicAddress,
+        transaction,
+        feeMode,
+        object : TransactionCallback {
+          override fun onError(error: ConnectError) {
+            LogUtils.d("onError", error.toString())
+            ReactCallBack.failed(ReactErrorMessage.parseConnectError(error)).toGson()
+          }
+
+          override fun onTransaction(transactionId: String?) {
+            LogUtils.d("onTransaction", transactionId)
+            callback.invoke(ReactCallBack.success(transactionId).toGson())
+          }
+        })
+    } else {
+      connectAdapter.signAndSendTransaction(
+        signData.publicAddress,
+        transaction,
+        object : TransactionCallback {
+          override fun onError(error: ConnectError) {
+            LogUtils.d("onError", error.toString())
+            ReactCallBack.failed(ReactErrorMessage.parseConnectError(error)).toGson()
+          }
+
+          override fun onTransaction(transactionId: String?) {
+            LogUtils.d("onTransaction", transactionId)
+            callback.invoke(ReactCallBack.success(transactionId).toGson())
+
+          }
+        })
+    }
 
   }
 
   @ReactMethod
   fun signAllTransactions(jsonParams: String, callback: Callback) {
     val signData = GsonUtils.fromJson(jsonParams, ConnectSignData::class.java)
-
     val connectAdapter = getConnectAdapter(signData.publicAddress, signData.walletType)
     if (connectAdapter == null) {
       callback.invoke(

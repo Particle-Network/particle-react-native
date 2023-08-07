@@ -1,25 +1,10 @@
 package com.particlebiconomy
 
-import android.text.TextUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.facebook.react.bridge.*
-import com.facebook.react.modules.core.DeviceEventManagerModule
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.particle.base.ChainInfo
-import com.particle.base.Env
-import com.particle.base.LanguageEnum
 import com.particle.base.ParticleNetwork
-import com.particle.base.data.SignOutput
-import com.particle.base.data.WebOutput
-import com.particle.base.data.WebServiceCallback
-import com.particle.base.data.WebServiceError
-import com.particle.base.ibiconomy.FeeMode
-import com.particle.base.ibiconomy.FeeModeAuto
-import com.particle.base.ibiconomy.FeeModeCustom
-import com.particle.base.ibiconomy.FeeModeGasless
-import com.particle.base.ibiconomy.MessageSigner
+import com.particle.base.data.ErrorInfo
 import com.particle.base.isSupportedERC4337
 import com.particle.base.model.BiconomyVersion
 import com.particle.erc4337.ParticleNetworkBiconomy.initBiconomyMode
@@ -32,7 +17,6 @@ import com.particlebiconomy.utils.ChainUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
 
 class ParticleAuthPlugin(val reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
@@ -53,7 +37,7 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) : ReactConte
       chainParams, ChainData::class.java
     )
     try {
-      val chainInfo = ChainUtils.getChainInfo(chainData.chainName!!, chainData.chainIdName)
+      val chainInfo = ChainUtils.getChainInfo(chainData.chainId)
       val isSupportedERC4337 = chainInfo.isSupportedERC4337()
       callback.invoke(isSupportedERC4337)
     } catch (e: Exception) {
@@ -68,7 +52,7 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) : ReactConte
         val isDeploy = ParticleNetwork.getBiconomyService().isDeploy(eoaAddress)
         callback.invoke(ReactCallBack.success(isDeploy).toGson())
       } catch (e: Exception) {
-        callback.invoke(ReactCallBack.failed(WebServiceError(e.message ?: "failed", 10000)).toGson())
+        callback.invoke(ReactCallBack.failed(ErrorInfo(e.message ?: "failed", 10000)).toGson())
       }
     }
   }
@@ -105,15 +89,15 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) : ReactConte
         if (resp.isSuccess()) {
           callback.invoke(ReactCallBack.success(resp.result).toGson())
         } else {
-          callback.invoke(ReactCallBack.failed(WebServiceError(resp.error?.message ?: "failed", resp.error?.code ?: 10000)).toGson())
+          callback.invoke(ReactCallBack.failed(ErrorInfo(resp.error?.message ?: "failed", resp.error?.code ?: 10000)).toGson())
         }
       } catch (e: Exception) {
-        callback.invoke(ReactCallBack.failed(WebServiceError(e.message ?: "failed", 10000)).toGson())
+        callback.invoke(ReactCallBack.failed(ErrorInfo(e.message ?: "failed", 10000)).toGson())
       }
     }
   }
 
   override fun getName(): String {
-    return "ParticleBiconomy"
+    return "ParticleBiconomyPlugin"
   }
 }

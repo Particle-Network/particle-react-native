@@ -49,4 +49,7 @@ public class ConnectSignData {
   @SerializedName("chain_id_name")
   public String chainIdName;
 
+  @SerializedName("fee_mode")
+  public BiconomyFeeMode feeMode;
+
 }

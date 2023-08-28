@@ -4066,7 +4066,7 @@ react-native-particle-auth@^1.0.4:
     events "^3.3.0"
 
 "react-native-particle-biconomy@file:..":
-  version "1.0.1"
+  version "1.0.4"
   resolved "file:.."
   dependencies:
     react-native-particle-auth "^1.0.4"

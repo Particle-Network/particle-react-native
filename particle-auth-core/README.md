@@ -1,6 +1,6 @@
 # react-native-particle-auth-core
 
-AuthCore service
+react-native-particle-auth-core
 
 ## Installation
 

@@ -51,14 +51,15 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
   };
 
   connect = async () => {
-    const jwt = ''; // your jwt
+    const jwt =
+      'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IndVUE05RHNycml0Sy1jVHE2OWNKcCJ9.eyJlbWFpbCI6InBhbnRhb3ZheUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImlzcyI6Imh0dHBzOi8vZGV2LXFyNi01OWVlLnVzLmF1dGgwLmNvbS8iLCJhdWQiOiJFVmpLMVpaUFN0UWNkV3VoandQZGRBdGdSaXdwNTRWUSIsImlhdCI6MTY5MzIwNjkxOCwiZXhwIjoxNjkzMjQyOTE4LCJzdWIiOiJhdXRoMHw2MzAzMjE0YjZmNjE1NjM2YWM5MTdmMWIiLCJzaWQiOiJCcjlQUG1rSEdTT3NraF9aNnlWVlpYcldsRjVZOVRQQSJ9.M1EdMWq0cdQVIwqBAS4ILdMCor9SbhXobQt2DLsb6S6qJS2QqvxSFXzETqi8t_0aXL7DiF2UyN2Hs53JwqFAvs8NXPwzV-hY5phbib7SWg_w7kDRbsyL2knM0Zn0nY0rI5RTpFClZR7zvK9z390znUJc5iKqSMyjr_-pRJlPRH4Sn9AyGHlF--741qM_n2dN7GRGzMWKx4xBo8NabXhB7C4O26iItxDlKarELK1QAYQgIuvNK-FuEU2MksUjXPMnqJ02y7fLgovM-DizAWCazexDee0pxLGQaIp1SJ4doMc2_8jPYtWsTTjpmQxr54JrmDT1qbFaSbepZZrVqbYUXA'; // your jwt
     const result = await particleAuthCore.connect(jwt);
     if (result.status) {
       const userInfo = result.data;
-      console.log(userInfo);
+      console.log('connect', userInfo);
     } else {
       const error = result.data;
-      console.log(error);
+      console.log('connect', error);
     }
   };
 

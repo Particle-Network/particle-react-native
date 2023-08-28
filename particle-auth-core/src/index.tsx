@@ -27,6 +27,7 @@ export function init() {
   if (Platform.OS === 'ios') {
     ParticleAuthCorePlugin.initialize('');
   } else {
+    //Android use auth sdk  init is enough
   }
 }
 
@@ -142,7 +143,9 @@ export async function openAccountAndSecurity(): Promise<any> {
  * Open web wallet
  */
 export function openWebWallet(webStyle?: string) {
-  ParticleAuthCorePlugin.openWebWallet(webStyle);
+  if (Platform.OS === 'ios') {
+    ParticleAuthCorePlugin.openWebWallet(webStyle);
+  }
 }
 
 export { evm, solana };

@@ -20,6 +20,7 @@ import com.particle.base.model.UserInfo
 import com.particleauthcore.model.ChainData
 import com.particleauthcore.model.ReactCallBack
 import com.particleauthcore.utils.ChainUtils
+import com.particleauthcore.utils.MessageProcess
 
 class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
@@ -125,13 +126,15 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
   @ReactMethod
   fun openAccountAndSecurity(callback: Callback) {
     currentActivity?.apply {
-      AuthCore.openAccountAndSecurity(this)
+      runOnUiThread(Runnable {
+        AuthCore.openAccountAndSecurity(this)
+      })
     }
     callback.invoke(ReactCallBack.success("success").toGson())
   }
 
   @ReactMethod
-  fun openWebWallet(callback: Callback) {
+  fun openWebWallet(customJson: String?) {
 
   }
 
@@ -220,7 +223,7 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun solanaSignMessage(message: String, callback: Callback) {
-    AuthCore.solana.signMessage(message, object : AuthCoreSignCallback<SignOutput> {
+    AuthCore.solana.signMessage(MessageProcess.start(message) , object : AuthCoreSignCallback<SignOutput> {
       override fun failure(errMsg: ErrorInfo) {
         callback.invoke(ReactCallBack.failed(errMsg).toGson())
       }

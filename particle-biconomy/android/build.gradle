@@ -37,11 +37,11 @@ def getExtOrIntegerDefault(name) {
 }
 
 android {
-  compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
+  compileSdkVersion 33
 
   defaultConfig {
-    minSdkVersion getExtOrIntegerDefault("minSdkVersion")
-    targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
+    minSdkVersion 23
+    targetSdkVersion 33
     buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
   }
   buildTypes {
@@ -76,7 +76,7 @@ dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-  def sdkVersion = "0.14.4"
+  def sdkVersion = "1.0.0"
   implementation("network.particle:biconomy-service:$sdkVersion")
   implementation("com.blankj:utilcodex:1.31.0")
   implementation("commons-codec:commons-codec:1.15")

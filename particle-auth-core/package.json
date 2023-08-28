@@ -1,6 +1,6 @@
 {
   "name": "react-native-particle-auth-core",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "react-native-particle-auth-core",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -159,5 +159,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "react-native-particle-auth": "^1.0.4"
   }
 }

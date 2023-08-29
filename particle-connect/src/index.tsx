@@ -1,17 +1,20 @@
-import { NativeModules, Platform } from 'react-native';
-
-import type { DappMetaData } from './Models/DappMetaData';
-import type { RpcUrl } from './Models/RpcUrl';
-import type { WalletType } from './Models/WalletType';
 import type { ChainInfo } from '@particle-network/chains';
-
+import { NativeModules, Platform } from 'react-native';
 import {
+  getChainInfo,
   isHexString,
   type BiconomyFeeMode,
   type Env,
-  getChainInfo,
 } from 'react-native-particle-auth';
-import type { ParticleConnectConfig } from './Models/ConnectConfig';
+import type {
+  AccountInfo,
+  CommonResp,
+  DappMetaData,
+  LoginResp,
+  ParticleConnectConfig,
+  RpcUrl,
+  WalletType,
+} from './Models';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-connect' doesn't seem to be linked. Make sure: \n\n` +
@@ -87,7 +90,7 @@ export async function getAccounts(walletType: WalletType): Promise<string> {
 export async function connect(
   walletType: WalletType,
   config?: ParticleConnectConfig
-): Promise<any> {
+): Promise<CommonResp<AccountInfo>> {
   let configJson = '';
   if (config) {
     const obj = {
@@ -95,12 +98,13 @@ export async function connect(
       account: config.account,
       support_auth_type_values: config.supportAuthType,
       social_login_prompt: config.socialLoginPrompt,
-      authorization: config.authorization
+      authorization: config.authorization,
     };
     configJson = JSON.stringify(obj);
   }
   return new Promise((resolve) => {
     ParticleConnectPlugin.connect(walletType, configJson, (result: string) => {
+      console.log('connect', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -115,11 +119,13 @@ export async function connect(
 export async function disconnect(
   walletType: WalletType,
   publicAddress: string
-): Promise<any> {
+): Promise<CommonResp<string>> {
   const obj = { wallet_type: walletType, public_address: publicAddress };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
     ParticleConnectPlugin.disconnect(json, (result: string) => {
+      console.log('disconnect', JSON.parse(result));
+
       resolve(JSON.parse(result));
     });
   });
@@ -154,7 +160,7 @@ export async function signMessage(
   walletType: WalletType,
   publicAddress: string,
   message: string
-): Promise<any> {
+): Promise<CommonResp<string>> {
   let serializedMessage: string;
 
   let chainInfo = await getChainInfo();
@@ -176,6 +182,7 @@ export async function signMessage(
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
     ParticleConnectPlugin.signMessage(json, (result: string) => {
+      console.log('signMessage', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -192,7 +199,7 @@ export async function signTransaction(
   walletType: WalletType,
   publicAddress: string,
   transaction: string
-): Promise<any> {
+): Promise<CommonResp<string>> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -202,6 +209,7 @@ export async function signTransaction(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.signTransaction(json, (result: string) => {
+      console.log('signTransaction', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -218,7 +226,7 @@ export async function signAllTransactions(
   walletType: WalletType,
   publicAddress: string,
   transactions: string[]
-): Promise<any> {
+): Promise<CommonResp<string>> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -228,6 +236,7 @@ export async function signAllTransactions(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.signAllTransactions(json, (result: string) => {
+      console.log('signAllTransactions', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -245,7 +254,7 @@ export async function signAndSendTransaction(
   publicAddress: string,
   transaction: string,
   feeMode?: BiconomyFeeMode
-): Promise<any> {
+): Promise<CommonResp<string>> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -260,6 +269,7 @@ export async function signAndSendTransaction(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.signAndSendTransaction(json, (result: string) => {
+      console.log('signAndSendTransaction', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -276,7 +286,7 @@ export async function batchSendTransactions(
   publicAddress: string,
   transactions: string[],
   feeMode?: BiconomyFeeMode
-): Promise<any> {
+): Promise<CommonResp<string>> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -290,6 +300,7 @@ export async function batchSendTransactions(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.batchSendTransactions(json, (result: string) => {
+      console.log('batchSendTransactions', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -306,7 +317,7 @@ export async function signTypedData(
   walletType: WalletType,
   publicAddress: string,
   typedData: string
-): Promise<any> {
+): Promise<CommonResp<string>> {
   let serializedMessage: string;
 
   if (isHexString(typedData)) {
@@ -324,6 +335,7 @@ export async function signTypedData(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.signTypedData(json, (result: string) => {
+      console.log('batchSendTransactions', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -342,7 +354,7 @@ export function login(
   publicAddress: string,
   domain: string,
   uri: string
-): Promise<any> {
+): Promise<CommonResp<LoginResp>> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -352,6 +364,7 @@ export function login(
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
     ParticleConnectPlugin.login(json, (result: string) => {
+      console.log('login', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -370,7 +383,7 @@ export function verify(
   publicAddress: string,
   message: string,
   signature: string
-): Promise<any> {
+): Promise<CommonResp<boolean>> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -381,6 +394,7 @@ export function verify(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.verify(json, (result: string) => {
+      console.log('verify', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -395,12 +409,14 @@ export function verify(
 export function importPrivateKey(
   walletType: WalletType,
   privateKey: string
-): Promise<any> {
+): Promise<CommonResp<Partial<AccountInfo>>> {
   const obj = { wallet_type: walletType, private_key: privateKey };
   const json = JSON.stringify(obj);
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.importPrivateKey(json, (result: string) => {
+      console.log('importPrivateKey', JSON.parse(result));
+
       resolve(JSON.parse(result));
     });
   });
@@ -415,12 +431,14 @@ export function importPrivateKey(
 export function importMnemonic(
   walletType: WalletType,
   mnemonic: string
-): Promise<any> {
+): Promise<CommonResp<Partial<AccountInfo>>> {
   const obj = { wallet_type: walletType, mnemonic: mnemonic };
   const json = JSON.stringify(obj);
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.importMnemonic(json, (result: string) => {
+      console.log('importMnemonic', JSON.parse(result));
+
       resolve(JSON.parse(result));
     });
   });
@@ -435,12 +453,14 @@ export function importMnemonic(
 export function exportPrivateKey(
   walletType: WalletType,
   publicAddress: string
-): Promise<any> {
+): Promise<CommonResp<string>> {
   const obj = { wallet_type: walletType, public_address: publicAddress };
   const json = JSON.stringify(obj);
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.exportPrivateKey(json, (result: string) => {
+      console.log('exportPrivateKey', JSON.parse(result));
+
       resolve(JSON.parse(result));
     });
   });
@@ -456,7 +476,7 @@ export function addEthereumChain(
   walletType: WalletType,
   publicAddress: string,
   chainInfo: ChainInfo
-): Promise<any> {
+): Promise<CommonResp<string>> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -468,6 +488,7 @@ export function addEthereumChain(
   console.log(json);
   return new Promise((resolve) => {
     ParticleConnectPlugin.addEthereumChain(json, (result: string) => {
+      console.log('addEthereumChain', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -483,7 +504,7 @@ export function switchEthereumChain(
   walletType: WalletType,
   publicAddress: string,
   chainInfo: ChainInfo
-): Promise<any> {
+): Promise<CommonResp<string>> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -493,6 +514,7 @@ export function switchEthereumChain(
   console.log(json);
   return new Promise((resolve) => {
     ParticleConnectPlugin.switchEthereumChain(json, (result: string) => {
+      console.log('switchEthereumChain', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -517,6 +539,7 @@ export function reconnectIfNeeded(
 
     return new Promise((resolve) => {
       ParticleConnectPlugin.reconnectIfNeeded(json, (result: string) => {
+        console.log('reconnectIfNeeded', JSON.parse(result));
         resolve(JSON.parse(result));
       });
     });
@@ -525,8 +548,5 @@ export function reconnectIfNeeded(
   }
 }
 
-export * from './Models/DappMetaData';
-export * from './Models/RpcUrl';
-export * from './Models/WalletType';
-export * from './Models/ConnectConfig';
+export * from './Models';
 export { ParticleConnectProvider } from './provider';

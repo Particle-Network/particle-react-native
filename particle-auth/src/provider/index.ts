@@ -1,11 +1,10 @@
+import { chains } from '@particle-network/chains';
 import { EventEmitter } from 'events';
 import * as particleAuth from '../index';
+import { LoginType, SupportAuthType } from '../index';
 import { sendEVMRpc } from './connection';
 import type { ParticleOptions, RequestArguments } from './types';
 import { notSupportMethods, signerMethods } from './types';
-import { chains } from '@particle-network/chains';
-import { SupportAuthType } from '../index';
-import { LoginType } from '../index';
 
 class ParticleProvider {
     private events = new EventEmitter();
@@ -88,7 +87,7 @@ class ParticleProvider {
                 }
             } else if (payload.method === 'wallet_switchEthereumChain') {
                 const chainId = Number(payload.params[0].chainId);
-                
+
                 const chainInfo = chains.getEVMChainInfoById(chainId);
                 if (!chainInfo) {
                     return Promise.reject({

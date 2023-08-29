@@ -11,18 +11,17 @@ async function request(path: string, args: RequestArguments, config: ConnectionO
     if (!args.id) {
         args.id = randomId();
     }
-    const res = await instance
-        .post(path, args, {
-            params: {
-                chainId: config.chainId,
-                projectUuid: config.projectId,
-                projectKey: config.clientKey,
-            },
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        });
+    const res = await instance.post(path, args, {
+        params: {
+            chainId: config.chainId,
+            projectUuid: config.projectId,
+            projectKey: config.clientKey,
+        },
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+    });
     return res.data;
 }
 

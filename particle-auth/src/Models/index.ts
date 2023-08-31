@@ -1,3 +1,4 @@
+export * from './Account';
 export * from './Appearance';
 export * from './BiconomyFeeMode';
 export * from './BiconomyVersion';
@@ -8,7 +9,7 @@ export * from './LoginInfo';
 export * from './SecurityAccountConfig';
 export * from './WalletDisplay';
 
-interface CommonError {
+export interface CommonError {
     code: number;
     message: string;
 }

@@ -112,7 +112,7 @@ export function disableBiconomyMode() {
  * @param transactions transactions
  * @returns
  */
-export async function rpcrpcGetFeeQuotes(
+export async function rpcGetFeeQuotes(
   eoaAddress: string,
   transactions: string[]
 ): Promise<FeeQuote[] | ErrResp> {

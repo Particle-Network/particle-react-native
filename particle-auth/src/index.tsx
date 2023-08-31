@@ -10,6 +10,7 @@ import type {
     Language,
     LoginAuthorization,
     LoginType,
+    SecurityAccount,
     SecurityAccountConfig,
     SocialLoginPrompt,
     SupportAuthType,
@@ -527,7 +528,7 @@ export async function hasSecurityAccount(): Promise<boolean> {
 /**
  * Get security account from remote server, contains hasMasterPassword, hasPaymentPassword and hasSecurityAccount.
  */
-export async function getSecurityAccount(): Promise<CommonResp<string>> {
+export async function getSecurityAccount(): Promise<CommonResp<SecurityAccount>> {
     return new Promise((resolve) => {
         ParticleAuthPlugin.getSecurityAccount((result: string) => {
             resolve(JSON.parse(result));

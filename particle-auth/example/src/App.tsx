@@ -1,12 +1,12 @@
-import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native';
+import type { RouteProp } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 import AuthDemo from './AuthDemo';
 import SelectChainPage from './SelectChain';
-import Toast from 'react-native-toast-message';
-import type { RouteProp } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const logo = require('../images/ic_round.png');
 
@@ -29,11 +29,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         <View style={styles.container}>
             <Image style={styles.logo} source={logo} />
 
-            <TouchableOpacity style={styles.buttonStyle}
-                onPress={() => navigation.push('AuthDemo')}>
+            <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.push('AuthDemo')}>
                 <Text style={styles.textStyle}>AuthDemo</Text>
             </TouchableOpacity>
-
         </View>
     );
 };
@@ -71,7 +69,6 @@ const SelectScreen: React.FC<SelectScreenProps> = ({ route, navigation }) => {
         </View>
     );
 };
-
 
 export default function App() {
     return (
@@ -121,6 +118,6 @@ const styles = StyleSheet.create({
 
     textStyle: {
         color: 'white',
-        textAlign: 'center'
-    }
+        textAlign: 'center',
+    },
 });

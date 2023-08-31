@@ -23,7 +23,7 @@ export async function JsonRpcRequest(
         Authorization: '',
     };
 
-    if (ParticleInfo.projectId == "" || ParticleInfo.clientKey == "") {
+    if (ParticleInfo.projectId == '' || ParticleInfo.clientKey == '') {
         throw new Error('You need set project info');
     }
 
@@ -62,7 +62,6 @@ export async function JsonRpcRequest(
     const { error, result } = jsonRpcResponseJson;
 
     console.log(`response result = ${JSON.stringify(result)}`);
-
     if (error) {
         throw new Error(error?.message || error);
     }

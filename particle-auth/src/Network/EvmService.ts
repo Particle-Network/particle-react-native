@@ -2,8 +2,8 @@ import { chains } from '@particle-network/chains';
 import BigNumber from 'bignumber.js';
 import { Buffer } from 'buffer';
 import { getChainId, getChainInfo } from 'react-native-particle-auth';
+import { AccountInfo, GasFeeLevel } from '../Models';
 import type { BiconomyVersion } from '../Models/BiconomyVersion';
-import { GasFeeLevel } from '../Models/GasFeeLevel';
 import { AbiEncodeFunction, EVMReqBodyMethod } from './NetParams';
 import JsonRpcRequest from './NetService';
 
@@ -17,6 +17,7 @@ export class EvmService {
     static async rpc(method: string, params: any): Promise<any> {
         const rpcUrl = 'https://rpc.particle.network/';
         const path = 'evm-chain';
+
         const chainId = await getChainId();
         const result = await JsonRpcRequest(rpcUrl, path, method, params, chainId);
         return result;
@@ -97,11 +98,13 @@ export class EvmService {
      * @returns The `data` field in Transacion
      */
     static async erc20Transfer(contractAddress: string, to: string, amount: string): Promise<any> {
-        return await this.rpc(EVMReqBodyMethod.particleAbiEncodeFunctionCall, [
+        const data = await this.rpc(EVMReqBodyMethod.particleAbiEncodeFunctionCall, [
             contractAddress,
             AbiEncodeFunction.erc20Transfer,
             [to, amount],
         ]);
+        console.log(222, data);
+        return data;
     }
 
     /**
@@ -229,7 +232,7 @@ export class EvmService {
         methodName: string,
         params: string[],
         abiJsonString: string
-    ): Promise<any> {
+    ): Promise<string> {
         const data = await this.abiEncodeFunctionCall(contractAddress, methodName, params, abiJsonString);
         const callParams = { data: data, to: contractAddress };
         const result = this.rpc('eth_call', [callParams, 'latest']);
@@ -253,7 +256,7 @@ export class EvmService {
         params: string[],
         abiJsonString: string,
         gasFeeLevel: GasFeeLevel = GasFeeLevel.high
-    ): Promise<any> {
+    ): Promise<string> {
         const data = await this.abiEncodeFunctionCall(contractAddress, methodName, params, abiJsonString);
         return await this.createTransaction(from, data, BigNumber(0), contractAddress, gasFeeLevel);
     }
@@ -273,7 +276,7 @@ export class EvmService {
         value: BigNumber,
         to: string,
         gasFeeLevel: GasFeeLevel = GasFeeLevel.high
-    ): Promise<any> {
+    ): Promise<string> {
         const valueHex = '0x' + value.toString(16);
         const gasLimit = await this.estimateGas(from, to, valueHex, data);
         const gasFeesResult = await this.suggeseGasFee();
@@ -343,7 +346,7 @@ export class EvmService {
      * @param version Biconomy version
      * @returns Smart account json object
      */
-    static async getSmartAccount(eoaAddresses: string[], version: BiconomyVersion): Promise<any> {
+    static async getSmartAccount(eoaAddresses: string[], version: BiconomyVersion): Promise<AccountInfo[]> {
         return await this.rpc(EVMReqBodyMethod.particleBiconomyGetSmartAccount, [version, eoaAddresses]);
     }
 }

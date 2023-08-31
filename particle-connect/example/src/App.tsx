@@ -1,14 +1,14 @@
-import React, { PureComponent } from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native';
+import React from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import type { RouteProp } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Toast from 'react-native-toast-message';
 import ConnectDemo from './ConnectDemo';
 import SelectChainPage from './SelectChain';
 import SelectWalletTypePage from './SelectWalletType';
-import Toast from 'react-native-toast-message';
-import type { RouteProp } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const logo = require('../images/ic_round.png');
 
@@ -20,7 +20,10 @@ type StackParamList = {
 };
 
 type HomeScreenRouteProp = RouteProp<StackParamList, 'Home'>;
-type HomeScreenNavigationProp = NativeStackNavigationProp<StackParamList, 'Home'>;
+type HomeScreenNavigationProp = NativeStackNavigationProp<
+  StackParamList,
+  'Home'
+>;
 
 interface HomeScreenProps {
   route: HomeScreenRouteProp;
@@ -32,21 +35,23 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     <View style={styles.container}>
       <Image style={styles.logo} source={logo} />
 
-      <TouchableOpacity style={styles.buttonStyle}
-        onPress={() => navigation.push('ConnectDemo')}>
+      <TouchableOpacity
+        style={styles.buttonStyle}
+        onPress={() => navigation.push('ConnectDemo')}
+      >
         <Text style={styles.textStyle}>ConnectDemo</Text>
       </TouchableOpacity>
-
     </View>
   );
 };
 
-
-
 const Stack = createNativeStackNavigator<StackParamList>();
 
 type ConnectScreenRouteProp = RouteProp<StackParamList, 'ConnectDemo'>;
-type ConnectScreenNavigationProp = NativeStackNavigationProp<StackParamList, 'ConnectDemo'>;
+type ConnectScreenNavigationProp = NativeStackNavigationProp<
+  StackParamList,
+  'ConnectDemo'
+>;
 
 interface ConnectScreenProps {
   route: ConnectScreenRouteProp;
@@ -61,16 +66,21 @@ const ConnectScreen: React.FC<ConnectScreenProps> = ({ route, navigation }) => {
   );
 };
 
-
 type SelectChainScreenRouteProp = RouteProp<StackParamList, 'SelectChainPage'>;
-type SelectChainScreenNavigationProp = NativeStackNavigationProp<StackParamList, 'SelectChainPage'>;
+type SelectChainScreenNavigationProp = NativeStackNavigationProp<
+  StackParamList,
+  'SelectChainPage'
+>;
 
 interface SelectChainScreenProps {
   route: SelectChainScreenRouteProp;
   navigation: SelectChainScreenNavigationProp;
 }
 
-const SelectChainScreen: React.FC<SelectChainScreenProps> = ({ route, navigation }) => {
+const SelectChainScreen: React.FC<SelectChainScreenProps> = ({
+  route,
+  navigation,
+}) => {
   return (
     <View style={styles.container}>
       <SelectChainPage navigation={navigation} route={route} />
@@ -78,16 +88,24 @@ const SelectChainScreen: React.FC<SelectChainScreenProps> = ({ route, navigation
   );
 };
 
-
-type SelectWalletScreenRouteProp = RouteProp<StackParamList, 'SelectWalletTypePage'>;
-type SelectWalletScreenNavigationProp = NativeStackNavigationProp<StackParamList, 'SelectWalletTypePage'>;
+type SelectWalletScreenRouteProp = RouteProp<
+  StackParamList,
+  'SelectWalletTypePage'
+>;
+type SelectWalletScreenNavigationProp = NativeStackNavigationProp<
+  StackParamList,
+  'SelectWalletTypePage'
+>;
 
 interface SelectWalletScreenProps {
   route: SelectWalletScreenRouteProp;
   navigation: SelectWalletScreenNavigationProp;
 }
 
-const SelectWalletScreen: React.FC<SelectWalletScreenProps> = ({ route, navigation }) => {
+const SelectWalletScreen: React.FC<SelectWalletScreenProps> = ({
+  route,
+  navigation,
+}) => {
   return (
     <View style={styles.container}>
       <SelectWalletTypePage navigation={navigation} route={route} />
@@ -95,16 +113,18 @@ const SelectWalletScreen: React.FC<SelectWalletScreenProps> = ({ route, navigati
   );
 };
 
-
 export default function App() {
   return (
     <>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name='ConnectDemo' component={ConnectScreen} />
-          <Stack.Screen name='SelectChainPage' component={SelectChainScreen} />
-          <Stack.Screen name='SelectWalletTypePage' component={SelectWalletScreen} />
+          <Stack.Screen name="ConnectDemo" component={ConnectScreen} />
+          <Stack.Screen name="SelectChainPage" component={SelectChainScreen} />
+          <Stack.Screen
+            name="SelectWalletTypePage"
+            component={SelectWalletScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
       <Toast />
@@ -125,14 +145,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     height: '60%',
-    marginTop: -200
+    marginTop: -200,
   },
 
   logo: {
     width: 100,
     height: 100,
     marginTop: 0,
-
   },
   buttonStyle: {
     backgroundColor: 'rgba(78, 116, 289, 1)',
@@ -145,8 +164,6 @@ const styles = StyleSheet.create({
 
   textStyle: {
     color: 'white',
-    textAlign: 'center'
-  }
-
+    textAlign: 'center',
+  },
 });
-

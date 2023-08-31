@@ -3,7 +3,7 @@ export * from './DappMetaData';
 export * from './RpcUrl';
 export * from './WalletType';
 
-interface CommonError {
+export interface CommonError {
   code: number;
   message: string;
 }

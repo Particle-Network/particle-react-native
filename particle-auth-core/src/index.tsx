@@ -39,7 +39,6 @@ export function init() {
 export async function connect(jwt: String): Promise<CommonResp<UserInfo>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.connect(jwt, (result: string) => {
-
       console.log('connect', JSON.parse(result));
       resolve(JSON.parse(result));
     });
@@ -52,7 +51,6 @@ export async function connect(jwt: String): Promise<CommonResp<UserInfo>> {
 export async function disconnect(): Promise<CommonResp<string>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.disconnect((result: string) => {
-
       console.log('disconnect', JSON.parse(result));
       resolve(JSON.parse(result));
     });
@@ -105,7 +103,6 @@ export async function switchChain(chainInfo: ChainInfo): Promise<boolean> {
 export function changeMasterPassword(): Promise<CommonResp<string>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.changeMasterPassword((result: string) => {
-
       console.log('changeMasterPassword', JSON.parse(result));
       resolve(JSON.parse(result));
     });
@@ -118,7 +115,6 @@ export function changeMasterPassword(): Promise<CommonResp<string>> {
 export async function hasMasterPassword(): Promise<CommonResp<boolean>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.hasMasterPassword((result: string) => {
-
       console.log('hasMasterPassword', JSON.parse(result));
       resolve(JSON.parse(result));
     });
@@ -131,7 +127,6 @@ export async function hasMasterPassword(): Promise<CommonResp<boolean>> {
 export async function hasPaymentPassword(): Promise<CommonResp<boolean>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.hasPaymentPassword((result: string) => {
-
       console.log('hasPaymentPassword', JSON.parse(result));
       resolve(JSON.parse(result));
     });
@@ -145,7 +140,6 @@ export async function hasPaymentPassword(): Promise<CommonResp<boolean>> {
 export async function openAccountAndSecurity(): Promise<CommonResp<string>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.openAccountAndSecurity((result: string) => {
-
       console.log('openAccountAndSecurity', JSON.parse(result));
       resolve(JSON.parse(result));
     });
@@ -161,4 +155,5 @@ export function openWebWallet(webStyle?: string) {
   }
 }
 
+export * from './Models';
 export { evm, solana };

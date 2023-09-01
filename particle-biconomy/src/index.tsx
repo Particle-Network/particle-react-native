@@ -1,7 +1,7 @@
 import type { ChainInfo } from '@particle-network/chains';
 import { NativeModules, Platform } from 'react-native';
 import type { BiconomyVersion } from 'react-native-particle-auth';
-import type { CommonResp, ErrResp, FeeQuote } from './Models';
+import type { CommonError, CommonResp, FeeQuote } from './Models';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-biconomy' doesn't seem to be linked. Make sure: \n\n` +
@@ -115,7 +115,7 @@ export function disableBiconomyMode() {
 export async function rpcGetFeeQuotes(
   eoaAddress: string,
   transactions: string[]
-): Promise<FeeQuote[] | ErrResp> {
+): Promise<FeeQuote[] | CommonError> {
   const obj = {
     eoa_address: eoaAddress,
     transactions: transactions,

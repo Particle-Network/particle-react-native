@@ -1,4 +1,4 @@
-export interface ErrResp {
+export interface CommonError {
   code: number;
   message: string;
 }
@@ -17,5 +17,5 @@ export interface FeeQuote {
 
 export interface CommonResp<T> {
   status: number;
-  data: T | ErrResp;
+  data: T | CommonError;
 }

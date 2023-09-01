@@ -1,30 +1,36 @@
+import { PolygonMumbai, type ChainInfo } from '@particle-network/chains';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
+import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';
 import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-  Text,
+  ActivityIndicator,
   FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import BigNumber from 'bignumber.js';
-import { PolygonMumbai, type ChainInfo } from '@particle-network/chains';
 import * as particleAuth from 'react-native-particle-auth';
-import { solana, evm } from 'react-native-particle-auth-core';
+import { Env, ParticleInfo } from 'react-native-particle-auth';
 import * as particleAuthCore from 'react-native-particle-auth-core';
-
-import type { NavigationProp, RouteProp } from '@react-navigation/native';
-
+import {
+  ErrResp,
+  UserInfo,
+  evm,
+  solana,
+} from 'react-native-particle-auth-core';
+import Toast from 'react-native-toast-message';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
-import { Env, ParticleInfo } from 'react-native-particle-auth';
 
 interface AuthDemoDemoProps {
   navigation: NavigationProp<any>;
   route: RouteProp<any, any>;
 }
-
 export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
+  state = { currentLoadingBtn: '', currentKey: '' };
+
   init = () => {
     // Get your project id and client key from dashboard, https://dashboard.particle.network
     ParticleInfo.projectId = '5479798b-26a9-4943-b848-649bb104fdc3'; // your project id
@@ -41,6 +47,10 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     const env = Env.Dev;
     particleAuth.init(chainInfo, env);
     particleAuthCore.init();
+    Toast.show({
+      type: 'success',
+      text1: 'Initialized successfully',
+    });
   };
 
   switchChain = async () => {
@@ -51,15 +61,22 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
   };
 
   connect = async () => {
-    const jwt =
-      ''; // your jwt
+    const jwt = ''; // your jwt
     const result = await particleAuthCore.connect(jwt);
     if (result.status) {
-      const userInfo = result.data;
+      const userInfo = result.data as UserInfo;
       console.log('connect', userInfo);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully connected',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as ErrResp;
       console.log('connect', error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -361,16 +378,26 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
             }) => (
               <TouchableOpacity
                 style={styles.buttonStyle}
-                onPress={() => {
+                onPress={async () => {
                   if (item.key == 'Select Chain Page') {
                     // @ts-ignore
                     navigation.push('SelectChainPage');
                   } else {
-                    item.function();
+                    this.setState({
+                      currentLoadingBtn: item.key,
+                      currentKey: item.key,
+                    });
+
+                    await item.function();
+                    this.setState({ currentLoadingBtn: '' });
                   }
                 }}
               >
-                <Text style={styles.textStyle}>{item.key}</Text>
+                {this.state.currentLoadingBtn === item.key ? (
+                  <ActivityIndicator color="white" />
+                ) : (
+                  <Text style={styles.textStyle}>{item.key}</Text>
+                )}
               </TouchableOpacity>
             )}
           />

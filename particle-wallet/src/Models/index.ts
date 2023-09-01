@@ -1,7 +1,7 @@
 export * from './BuyCryptoConfig';
 export * from './WalletMetaData';
 
-interface CommonError {
+export interface CommonError {
   code: number;
   message: string;
 }

@@ -18,8 +18,21 @@ export class EvmService {
         const rpcUrl = 'https://rpc.particle.network/';
         const path = 'evm-chain';
 
-        const chainId = await getChainId();
-        const result = await JsonRpcRequest(rpcUrl, path, method, params, chainId);
+        let result;
+        try {
+            const chainId = await getChainId();
+            result = await JsonRpcRequest(rpcUrl, path, method, params, chainId);
+        } catch (err) {
+            console.log(444, err);
+            result = {
+                status: 0,
+                data: {
+                    code: 0,
+                    data: (err as Error).message,
+                },
+            };
+        }
+
         return result;
     }
 

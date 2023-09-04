@@ -62,6 +62,8 @@ export async function JsonRpcRequest(
     const { error, result } = jsonRpcResponseJson;
 
     console.log(`response result = ${JSON.stringify(result)}`);
+    console.log(555, error);
+
     if (error) {
         throw new Error(error?.message || error);
     }

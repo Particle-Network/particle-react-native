@@ -1,3 +1,5 @@
+import { ChainInfo, Ethereum, EthereumGoerli, PolygonMumbai, SolanaDevnet } from '@particle-network/chains';
+import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';
 import {
     ActivityIndicator,
@@ -11,10 +13,6 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-
-import { ChainInfo, PolygonMumbai } from '@particle-network/chains';
-import type { NavigationProp, RouteProp } from '@react-navigation/native';
-import BigNumber from 'bignumber.js';
 import ModalSelector from 'react-native-modal-selector';
 import * as particleAuth from 'react-native-particle-auth';
 import {
@@ -34,16 +32,13 @@ import {
     iOSModalPresentStyle,
 } from 'react-native-particle-auth';
 import Toast from 'react-native-toast-message';
+import type { AuthScreenProps } from './App';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
 import { createWeb3 } from './web3Demo';
-interface AuthDemoProps {
-    navigation: NavigationProp<any>;
-    route: RouteProp<any, any>;
-}
-export default class AuthDemo extends PureComponent<AuthDemoProps> {
+export default class AuthDemo extends PureComponent<AuthScreenProps> {
     private openAccountAndSecurityEvent: any;
-    modalSelect: ModalSelector<string> | null = null;
+    modalSelect: ModalSelector<any> | null = null;
     state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
     web3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b');
 
@@ -119,7 +114,7 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
             console.log('web3.eth.personal.sign', result);
             Toast.show({
                 type: 'success',
-                text1: 'personal sign',
+                text1: 'web3_personalSign',
                 text2: result,
             });
         } catch (error) {
@@ -230,7 +225,7 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
             console.log('web3 eth_signTypedData_v3', result);
             Toast.show({
                 type: 'success',
-                text1: 'eth_signTypedData_v3',
+                text1: 'web3_signTypedData_v3',
                 text2: result,
             });
         } catch (error) {
@@ -339,7 +334,7 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
             console.log('web3 eth_signTypedData_v4', result);
             Toast.show({
                 type: 'success',
-                text1: 'eth_signTypedData_v4',
+                text1: 'web3_signTypedData_v4',
                 text2: result,
             });
         } catch (error) {
@@ -521,18 +516,22 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
         particleAuth.init(chainInfo, env);
         Toast.show({
             type: 'success',
-            text1: 'Init finished',
+            text1: 'Initialized successfully',
         });
     };
 
     setChainInfo = async () => {
-        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
-        const result = await particleAuth.setChainInfo(chainInfo);
-        console.log(result);
-        Toast.show({
-            type: result ? 'success' : 'error',
-            text1: result ? 'successfully set' : 'Setting failed',
+        this.setState({
+            currentOptions: [
+                { label: 'PolygonMumbai', key: 'PolygonMumbai', value: PolygonMumbai },
+                { label: 'Ethereum', key: 'Ethereum', value: Ethereum },
+                { label: 'Ethereum Goerli', key: 'EthereumGoerli', value: EthereumGoerli },
+                { label: 'Solana Devnet', key: 'Solana Devnet', value: SolanaDevnet },
+            ],
         });
+        if (this.modalSelect) {
+            this.modalSelect.open();
+        }
     };
 
     getChainInfo = async () => {
@@ -541,13 +540,16 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
     };
 
     setChainInfoAsync = async () => {
-        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
-        const result = await particleAuth.setChainInfoAsync(chainInfo);
-        console.log(result);
-        Toast.show({
-            type: result ? 'success' : 'error',
-            text1: result ? 'successfully set' : 'Setting failed',
+        this.setState({
+            currentOptions: [
+                { label: 'PolygonMumbai', key: 'PolygonMumbai', value: PolygonMumbai },
+                { label: 'Ethereum', key: 'Ethereum', value: Ethereum },
+                { label: 'Ethereum Goerli', key: 'EthereumGoerli', value: EthereumGoerli },
+            ],
         });
+        if (this.modalSelect) {
+            this.modalSelect.open();
+        }
     };
 
     login = async () => {
@@ -560,7 +562,6 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
         ];
 
         const result = await particleAuth.login(type, '', supportAuthType);
-        console.log(333, result);
         if (result.status) {
             const userInfo = result.data;
             console.log(userInfo);
@@ -680,7 +681,7 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
             console.log(signedMessage);
             Toast.show({
                 type: 'success',
-                text1: `sign message`,
+                text1: `Sign message`,
                 text2: signedMessage,
             });
         } else {
@@ -701,7 +702,7 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
             console.log(signedMessage);
             Toast.show({
                 type: 'success',
-                text1: `sign unique message`,
+                text1: `Sign unique message`,
                 text2: signedMessage,
             });
         } else {
@@ -722,27 +723,32 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
             return;
         }
 
-        this.setState({ currentLoadingBtn: '' });
-        const sender = await particleAuth.getAddress();
-        console.log('sender: ', sender);
-        const transaction = await Helper.getSolanaTransaction(sender);
-        console.log('transaction:', transaction);
-        const result = await particleAuth.signTransaction(transaction);
-        console.log('444:', result);
+        try {
+            const sender = await particleAuth.getAddress();
+            console.log('sender: ', sender);
+            const transaction = await Helper.getSolanaTransaction(sender);
+            console.log('transaction:', transaction);
+            const result = await particleAuth.signTransaction(transaction);
 
-        if (result.status) {
-            const signedTransaction = result.data as string;
+            if (result.status) {
+                const signedTransaction = result.data as string;
+                Toast.show({
+                    type: 'success',
+                    text1: `Successfully sign transaction `,
+                    text2: signedTransaction,
+                });
+                console.log(signedTransaction);
+            } else {
+                const error = result.data as CommonError;
+                console.log(error);
+                Toast.show({
+                    type: 'error',
+                    text2: error.message,
+                });
+            }
+        } catch (error) {
             Toast.show({
-                type: 'success',
-                text1: `successfully sign transaction `,
-                text2: signedTransaction,
-            });
-            console.log(signedTransaction);
-        } else {
-            const error = result.data as CommonError;
-            console.log(error);
-            Toast.show({
-                type: 'success',
+                type: 'error',
                 text2: error.message,
             });
         }
@@ -754,25 +760,33 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
             console.log('signAllTransactions only supports solana');
             return;
         }
-        const sender = await particleAuth.getAddress();
-        const transaction1 = await Helper.getSolanaTransaction(sender);
-        const transaction2 = await Helper.getSplTokenTransaction(sender);
-        const transactions = [transaction1, transaction2];
-        const result = await particleAuth.signAllTransactions(transactions);
-        if (result.status) {
-            const signedTransactions = result.data as string;
-            console.log(signedTransactions);
-            Toast.show({
-                type: 'success',
-                text1: `successfully sign transaction `,
-                text2: signedTransactions,
-            });
-        } else {
-            const error = result.data as CommonError;
-            console.log(error);
+
+        try {
+            const sender = await particleAuth.getAddress();
+            const transaction1 = await Helper.getSolanaTransaction(sender);
+            const transaction2 = await Helper.getSplTokenTransaction(sender);
+            const transactions = [transaction1, transaction2];
+            const result = await particleAuth.signAllTransactions(transactions);
+            if (result.status) {
+                const signedTransactions = result.data as string;
+                console.log(signedTransactions);
+                Toast.show({
+                    type: 'success',
+                    text1: `Successfully sign transaction `,
+                    text2: signedTransactions,
+                });
+            } else {
+                const error = result.data as CommonError;
+                console.log(error);
+                Toast.show({
+                    type: 'error',
+                    text1: error.message,
+                });
+            }
+        } catch (error) {
             Toast.show({
                 type: 'error',
-                text2: error.message,
+                text1: error.message,
             });
         }
     };
@@ -789,50 +803,62 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
         // 4. send evm token in BSC testnet, the transacion is type 0x0, for blockchians don't supoort EIP1559
         let testCase = 2;
 
-        if (chainInfo.name.toLowerCase() == 'solana') {
-            transaction = await Helper.getSolanaTransaction(sender);
-        } else {
-            if (testCase == 1) {
-                const receiver = TestAccountEVM.receiverAddress;
-                const amount = TestAccountEVM.amount;
-                transaction = await Helper.getEthereumTransacion(sender, receiver, BigNumber(amount));
-            } else if (testCase == 2) {
-                const receiver = TestAccountEVM.receiverAddress;
-                const amount = TestAccountEVM.amount;
-                transaction = await Helper.getEthereumTransacionLegacy(sender, receiver, BigNumber(amount));
-            } else if (testCase == 3) {
-                const receiver = TestAccountEVM.receiverAddress;
-                const amount = TestAccountEVM.amount;
-                const contractAddress = TestAccountEVM.tokenContractAddress;
-                transaction = await Helper.getEvmTokenTransaction(sender, receiver, BigNumber(amount), contractAddress);
+        try {
+            if (chainInfo.name.toLowerCase() == 'solana') {
+                transaction = await Helper.getSolanaTransaction(sender);
             } else {
-                const receiver = TestAccountEVM.receiverAddress;
-                const amount = TestAccountEVM.amount;
-                const contractAddress = '0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee';
-                transaction = await Helper.getEvmTokenTransactionLegacy(
-                    sender,
-                    receiver,
-                    BigNumber(amount),
-                    contractAddress
-                );
+                if (testCase == 1) {
+                    const receiver = TestAccountEVM.receiverAddress;
+                    const amount = TestAccountEVM.amount;
+                    transaction = await Helper.getEthereumTransacion(sender, receiver, BigNumber(amount));
+                } else if (testCase == 2) {
+                    const receiver = TestAccountEVM.receiverAddress;
+                    const amount = TestAccountEVM.amount;
+                    transaction = await Helper.getEthereumTransacionLegacy(sender, receiver, BigNumber(amount));
+                } else if (testCase == 3) {
+                    const receiver = TestAccountEVM.receiverAddress;
+                    const amount = TestAccountEVM.amount;
+                    const contractAddress = TestAccountEVM.tokenContractAddress;
+                    transaction = await Helper.getEvmTokenTransaction(
+                        sender,
+                        receiver,
+                        BigNumber(amount),
+                        contractAddress
+                    );
+                } else {
+                    const receiver = TestAccountEVM.receiverAddress;
+                    const amount = TestAccountEVM.amount;
+                    const contractAddress = '0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee';
+                    transaction = await Helper.getEvmTokenTransactionLegacy(
+                        sender,
+                        receiver,
+                        BigNumber(amount),
+                        contractAddress
+                    );
+                }
             }
-        }
-        console.log(transaction);
-        const result = await particleAuth.signAndSendTransaction(transaction);
-        if (result.status) {
-            const signature = result.data as string;
-            console.log(signature);
-            Toast.show({
-                type: 'success',
-                text1: `successfully sign and send transaction `,
-                text2: signature,
-            });
-        } else {
-            const error = result.data as CommonError;
-            console.log(error);
+
+            const result = await particleAuth.signAndSendTransaction(transaction);
+            if (result.status) {
+                const signature = result.data as string;
+                console.log(signature);
+                Toast.show({
+                    type: 'success',
+                    text1: `Successfully sign and send transaction `,
+                    text2: signature,
+                });
+            } else {
+                const error = result.data as CommonError;
+                console.log(error);
+                Toast.show({
+                    type: 'error',
+                    text2: error.message,
+                });
+            }
+        } catch (error) {
             Toast.show({
                 type: 'error',
-                text2: error.message,
+                text1: error.message,
             });
         }
     };
@@ -870,7 +896,6 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
 
     getAddress = async () => {
         const address = await particleAuth.getAddress();
-        console.log(address);
 
         Toast.show({
             type: 'success',
@@ -895,8 +920,16 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
         // particleAuth.setModalPresentStyle(style);
         this.setState({
             currentOptions: [
-                { label: iOSModalPresentStyle.FullScreen, key: iOSModalPresentStyle.FullScreen },
-                { label: iOSModalPresentStyle.FormSheet, key: iOSModalPresentStyle.FormSheet },
+                {
+                    label: iOSModalPresentStyle.FullScreen,
+                    key: iOSModalPresentStyle.FullScreen,
+                    value: iOSModalPresentStyle.FullScreen,
+                },
+                {
+                    label: iOSModalPresentStyle.FormSheet,
+                    key: iOSModalPresentStyle.FormSheet,
+                    value: iOSModalPresentStyle.FormSheet,
+                },
             ],
         });
         if (this.modalSelect) {
@@ -916,11 +949,11 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
     setLanguage = async () => {
         this.setState({
             currentOptions: [
-                { label: Language.EN, key: Language.EN },
-                { label: Language.ZH_HANS, key: Language.ZH_HANS },
-                { label: Language.ZH_HANT, key: Language.ZH_HANT },
-                { label: Language.JA, key: Language.JA },
-                { label: Language.KO, key: Language.KO },
+                { label: Language.EN, key: Language.EN, value: Language.EN },
+                { label: Language.ZH_HANS, key: Language.ZH_HANS, value: Language.ZH_HANS },
+                { label: Language.ZH_HANT, key: Language.ZH_HANT, value: Language.ZH_HANT },
+                { label: Language.JA, key: Language.JA, value: Language.JA },
+                { label: Language.KO, key: Language.KO, value: Language.KO },
             ],
         });
         if (this.modalSelect) {
@@ -940,9 +973,9 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
     setAppearance = async () => {
         this.setState({
             currentOptions: [
-                { label: Appearance.Dark, key: Appearance.Dark },
-                { label: Appearance.Light, key: Appearance.Light },
-                { label: Appearance.System, key: Appearance.System },
+                { label: Appearance.Dark, key: Appearance.Dark, value: Appearance.Dark },
+                { label: Appearance.Light, key: Appearance.Light, value: Appearance.Light },
+                { label: Appearance.System, key: Appearance.System, value: Appearance.System },
             ],
         });
         if (this.modalSelect) {
@@ -953,12 +986,12 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
     setFiatCoin = async () => {
         this.setState({
             currentOptions: [
-                { label: FiatCoin.CNY, key: FiatCoin.CNY },
-                { label: FiatCoin.HKD, key: FiatCoin.HKD },
-                { label: FiatCoin.INR, key: FiatCoin.INR },
-                { label: FiatCoin.JPY, key: FiatCoin.JPY },
-                { label: FiatCoin.KRW, key: FiatCoin.KRW },
-                { label: FiatCoin.USD, key: FiatCoin.USD },
+                { label: FiatCoin.CNY, key: FiatCoin.CNY, value: FiatCoin.CNY },
+                { label: FiatCoin.HKD, key: FiatCoin.HKD, value: FiatCoin.HKD },
+                { label: FiatCoin.INR, key: FiatCoin.INR, value: FiatCoin.INR },
+                { label: FiatCoin.JPY, key: FiatCoin.JPY, value: FiatCoin.JPY },
+                { label: FiatCoin.KRW, key: FiatCoin.KRW, value: FiatCoin.KRW },
+                { label: FiatCoin.USD, key: FiatCoin.USD, value: FiatCoin.USD },
             ],
         });
         if (this.modalSelect) {
@@ -1016,7 +1049,7 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
             console.log('readContract', result);
             Toast.show({
                 type: 'success',
-                text1: 'successfully read contract',
+                text1: 'Successfully read contract',
                 text2: result,
             });
         } catch (error) {
@@ -1045,7 +1078,7 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
             console.log('writeContract', transaction);
             Toast.show({
                 type: 'success',
-                text1: 'successfully write contract',
+                text1: 'Successfully write contract',
                 text2: transaction,
             });
         } catch (error) {
@@ -1153,7 +1186,7 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
         }
     };
 
-    handleModelSelect = (value: string) => {
+    handleModelSelect = async ({ value }) => {
         switch (this.state.currentKey) {
             case 'SetModalPresentStyle':
                 particleAuth.setModalPresentStyle(value as iOSModalPresentStyle);
@@ -1183,6 +1216,20 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
                     text1: `successfully set fail coin`,
                 });
                 break;
+            case 'SetChainInfo':
+                const result = await particleAuth.setChainInfo(value);
+                Toast.show({
+                    type: result ? 'success' : 'error',
+                    text1: result ? 'successfully set' : 'Setting failed',
+                });
+                break;
+            case 'SetChainInfoAsync':
+                const resultAsync = await particleAuth.setChainInfoAsync(value);
+                console.log(resultAsync);
+                Toast.show({
+                    type: resultAsync ? 'success' : 'error',
+                    text1: resultAsync ? 'successfully set' : 'Setting failed',
+                });
         }
     };
 
@@ -1254,11 +1301,12 @@ export default class AuthDemo extends PureComponent<AuthDemoProps> {
                                 style={styles.buttonStyle}
                                 accessibilityRole="button"
                                 onPress={async () => {
-                                    this.setState({ currentLoadingBtn: item.key, currentKey: item.key });
                                     if (item.key == 'Select Chain Page') {
                                         // @ts-ignore
                                         navigation.push('SelectChainPage');
                                     } else {
+                                        this.setState({ currentLoadingBtn: item.key, currentKey: item.key });
+
                                         await item.function();
                                         this.setState({ currentLoadingBtn: '' });
                                     }

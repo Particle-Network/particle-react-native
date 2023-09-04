@@ -1,3 +1,4 @@
+import { ChainInfo, PolygonMumbai } from '@particle-network/chains';
 import type { RouteProp } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -12,7 +13,7 @@ const logo = require('../images/ic_round.png');
 
 type StackParamList = {
     Home: undefined;
-    AuthDemo: undefined;
+    AuthDemo: { chainInfo: ChainInfo };
     SelectChainPage: undefined;
 };
 
@@ -29,7 +30,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         <View style={styles.container}>
             <Image style={styles.logo} source={logo} />
 
-            <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.push('AuthDemo')}>
+            <TouchableOpacity
+                style={styles.buttonStyle}
+                onPress={() => navigation.push('AuthDemo', { chainInfo: PolygonMumbai })}
+            >
                 <Text style={styles.textStyle}>AuthDemo</Text>
             </TouchableOpacity>
         </View>
@@ -41,7 +45,7 @@ const Stack = createNativeStackNavigator<StackParamList>();
 type AuthScreenRouteProp = RouteProp<StackParamList, 'AuthDemo'>;
 type AuthScreenNavigationProp = NativeStackNavigationProp<StackParamList, 'AuthDemo'>;
 
-interface AuthScreenProps {
+export interface AuthScreenProps {
     route: AuthScreenRouteProp;
     navigation: AuthScreenNavigationProp;
 }
@@ -54,10 +58,10 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ route, navigation }) => {
     );
 };
 
-type SelectScreenRouteProp = RouteProp<StackParamList, 'SelectChainPage'>;
-type SelectScreenNavigationProp = NativeStackNavigationProp<StackParamList, 'SelectChainPage'>;
+export type SelectScreenRouteProp = RouteProp<StackParamList, 'SelectChainPage'>;
+export type SelectScreenNavigationProp = NativeStackNavigationProp<StackParamList, 'SelectChainPage'>;
 
-interface SelectScreenProps {
+export interface SelectScreenProps {
     route: SelectScreenRouteProp;
     navigation: SelectScreenNavigationProp;
 }

@@ -154,7 +154,6 @@ export function login(
     const json = JSON.stringify(obj);
     return new Promise((resolve) => {
         ParticleAuthPlugin.login(json, (result: string) => {
-            console.log('login:', JSON.parse(result));
             resolve(JSON.parse(result));
         });
     });
@@ -167,7 +166,6 @@ export function login(
 export function logout(): Promise<CommonResp<void>> {
     return new Promise((resolve) => {
         ParticleAuthPlugin.logout((result: string) => {
-            console.log('logout', JSON.parse(result));
             resolve(JSON.parse(result));
         });
     });
@@ -180,7 +178,6 @@ export function logout(): Promise<CommonResp<void>> {
 export function fastLogout(): Promise<CommonResp<string>> {
     return new Promise((resolve) => {
         ParticleAuthPlugin.fastLogout((result: string) => {
-            console.log('fastLogout', JSON.parse(result));
             resolve(JSON.parse(result));
         });
     });
@@ -205,8 +202,6 @@ export function isLogin(): Promise<boolean> {
 export function isLoginAsync(): Promise<CommonResp<UserInfo>> {
     return new Promise((resolve) => {
         ParticleAuthPlugin.isLoginAsync((result: string) => {
-            console.log('isLoginAsync', JSON.parse(result));
-
             resolve(JSON.parse(result));
         });
     });
@@ -233,7 +228,6 @@ export async function signMessage(message: string): Promise<CommonResp<string>> 
 
     return new Promise((resolve) => {
         ParticleAuthPlugin.signMessage(serializedMessage, (result: string) => {
-            console.log('signMessage', JSON.parse(result));
             resolve(JSON.parse(result));
         });
     });
@@ -260,7 +254,6 @@ export async function signMessageUnique(message: string): Promise<CommonResp<str
 
     return new Promise((resolve) => {
         ParticleAuthPlugin.signMessageUnique(serializedMessage, (result: string) => {
-            console.log('signMessageUnique', JSON.parse(result));
             resolve(JSON.parse(result));
         });
     });
@@ -274,7 +267,6 @@ export async function signMessageUnique(message: string): Promise<CommonResp<str
 export async function signTransaction(transaction: string): Promise<CommonResp<string>> {
     return new Promise((resolve) => {
         ParticleAuthPlugin.signTransaction(transaction, (result: string) => {
-            console.log('signTransaction', JSON.parse(result));
             resolve(JSON.parse(result));
         });
     });
@@ -289,7 +281,6 @@ export async function signAllTransactions(transactions: string[]): Promise<Commo
     const json = JSON.stringify(transactions);
     return new Promise((resolve) => {
         ParticleAuthPlugin.signAllTransactions(json, (result: string) => {
-            console.log('signAllTransactions', JSON.parse(result));
             resolve(JSON.parse(result));
         });
     });
@@ -316,7 +307,6 @@ export async function signAndSendTransaction(
 
     return new Promise((resolve) => {
         ParticleAuthPlugin.signAndSendTransaction(json, (result: string) => {
-            console.log('signAndSendTransaction', JSON.parse(result));
             resolve(JSON.parse(result));
         });
     });
@@ -358,7 +348,6 @@ export async function signTypedData(
     typedData: string,
     version: 'v1' | 'v3' | 'v4' | 'v4Unique'
 ): Promise<CommonResp<string>> {
-    console.log(typedData);
     let serializedMessage: string;
 
     if (isHexString(typedData)) {
@@ -374,7 +363,6 @@ export async function signTypedData(
 
     return new Promise((resolve) => {
         ParticleAuthPlugin.signTypedData(json, (result: string) => {
-            console.log('signTypedData', JSON.parse(result));
             resolve(JSON.parse(result));
         });
     });

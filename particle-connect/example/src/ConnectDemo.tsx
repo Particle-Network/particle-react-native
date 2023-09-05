@@ -167,7 +167,7 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
 
     try {
       const accounts = await this.web3.eth.getAccounts();
-      const result = await this.web3.currentProvider.request({
+      const result = await this.web3.currentProvider!.request({
         method: 'personal_sign',
         params: ['Hello world', accounts[0]],
       });
@@ -329,7 +329,7 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       console.log('web3 wallet_switchEthereumChain', result);
       Toast.show({
         type: 'success',
-        text2: 'Successfully switched ethereum chain',
+        text1: 'Successfully switched',
       });
     } catch (error) {
       console.log('web3 wallet_switchEthereumChain', error);
@@ -350,7 +350,7 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       console.log('web3 wallet_addEthereumChain', result);
       Toast.show({
         type: 'success',
-        text2: 'Successfully added ethereum chain',
+        text1: 'Successfully added',
       });
     } catch (error) {
       console.log('web3 wallet_addEthereumChain', error);
@@ -360,6 +360,10 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
 
   getAccounts = async () => {
     const accounts = await particleConnect.getAccounts(PNAccount.walletType);
+    Toast.show({
+      type: 'success',
+      text1: 'Successfully get accounts',
+    });
     console.log(accounts);
   };
 
@@ -370,9 +374,7 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
     console.log(result);
     Toast.show({
       type: result ? 'success' : 'error',
-      text2: result
-        ? 'Successfully set chain info'
-        : 'Failed to set chain info',
+      text1: result ? 'Successfully set' : 'Setting failed',
     });
   };
 
@@ -381,7 +383,7 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
     console.log(chainInfo);
     Toast.show({
       type: 'success',
-      text2: 'Successfully get chain info',
+      text1: 'Successfully get chain info',
     });
   };
 
@@ -392,9 +394,7 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
     console.log(result);
     Toast.show({
       type: result ? 'success' : 'error',
-      text2: result
-        ? 'Successfully set chain info'
-        : 'Failed to set chain info',
+      text2: result ? 'Successfully set' : 'Setting failed',
     });
   };
 
@@ -511,18 +511,11 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       publicAddress
     );
     console.log(result);
-
-    // if (result.status) {
-    //   Toast.show({
-    //     type: 'info',
-    //     text1: result.data,
-    //   });
-    // } else {
-    //   Toast.show({
-    //     type: 'error',
-    //     text1: (result.data as CommonError).message,
-    //   });
-    // }
+    Toast.show({
+      type: 'info',
+      text1: 'Is connected',
+      text2: String(result),
+    });
   };
 
   signMessage = async () => {
@@ -566,36 +559,43 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       return;
     }
 
-    const publicAddress = this.pnaccount.publicAddress;
-    if (publicAddress == undefined) {
-      console.log('publicAddress is underfined, you need connect');
-      return;
-    }
+    try {
+      const publicAddress = this.pnaccount.publicAddress;
+      if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+      }
 
-    const sender = await particleAuth.getAddress();
-    console.log('sender: ', sender);
-    const transaction = await Helper.getSolanaTransaction(sender);
-    console.log('transaction:', transaction);
+      const sender = await particleAuth.getAddress();
+      console.log('sender: ', sender);
+      const transaction = await Helper.getSolanaTransaction(sender);
+      console.log('transaction:', transaction);
 
-    const result = await particleConnect.signTransaction(
-      PNAccount.walletType,
-      publicAddress,
-      transaction
-    );
+      const result = await particleConnect.signTransaction(
+        PNAccount.walletType,
+        publicAddress,
+        transaction
+      );
 
-    if (result.status) {
-      const signedTransaction = result.data as string;
-      console.log(signedTransaction);
+      if (result.status) {
+        const signedTransaction = result.data as string;
+        console.log(signedTransaction);
 
-      Toast.show({
-        type: 'success',
-        text1: 'Successfully sign transaction ',
-        text2: signedTransaction,
-      });
-    } else {
-      const error = result.data as CommonError;
-      console.log(error);
+        Toast.show({
+          type: 'success',
+          text1: 'Successfully sign transaction ',
+          text2: signedTransaction,
+        });
+      } else {
+        const error = result.data as CommonError;
+        console.log(error);
 
+        Toast.show({
+          type: 'error',
+          text1: error.message,
+        });
+      }
+    } catch (error) {
       Toast.show({
         type: 'error',
         text1: error.message,
@@ -612,28 +612,44 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       return;
     }
 
-    const publicAddress = this.pnaccount.publicAddress;
-    if (publicAddress == undefined) {
-      console.log('publicAddress is underfined, you need connect');
-      return;
-    }
-    const sender = await particleAuth.getAddress();
-    console.log('sender: ', sender);
-    const transaction = await Helper.getSolanaTransaction(sender);
-    console.log('transaction:', transaction);
+    try {
+      const publicAddress = this.pnaccount.publicAddress;
+      if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+      }
+      const sender = await particleAuth.getAddress();
+      console.log('sender: ', sender);
+      const transaction = await Helper.getSolanaTransaction(sender);
+      console.log('transaction:', transaction);
 
-    const transactions = [transaction, transaction];
-    const result = await particleConnect.signAllTransactions(
-      PNAccount.walletType,
-      publicAddress,
-      transactions
-    );
-    if (result.status) {
-      const signedTransactions = result.data;
-      console.log(signedTransactions);
-    } else {
-      const error = result.data;
-      console.log(error);
+      const transactions = [transaction, transaction];
+      const result = await particleConnect.signAllTransactions(
+        PNAccount.walletType,
+        publicAddress,
+        transactions
+      );
+      if (result.status) {
+        const signedTransactions = result.data as string;
+        console.log(signedTransactions);
+        Toast.show({
+          type: 'success',
+          text1: 'Successfully sign transaction ',
+          text2: signedTransactions,
+        });
+      } else {
+        const error = result.data as CommonError;
+        console.log(error);
+        Toast.show({
+          type: 'error',
+          text1: error.message,
+        });
+      }
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -649,36 +665,43 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       return;
     }
 
-    let transaction = '';
-    if (chainInfo.name.toLowerCase() == 'solana') {
-      transaction = await Helper.getSolanaTransaction(sender);
-    } else {
-      const receiver = TestAccountEVM.receiverAddress;
-      const amount = TestAccountEVM.amount;
-      transaction = await Helper.getEthereumTransacion(
-        this.pnaccount.publicAddress,
-        receiver,
-        BigNumber(amount)
-      );
-    }
+    try {
+      let transaction = '';
+      if (chainInfo.name.toLowerCase() == 'solana') {
+        transaction = await Helper.getSolanaTransaction(sender);
+      } else {
+        const receiver = TestAccountEVM.receiverAddress;
+        const amount = TestAccountEVM.amount;
+        transaction = await Helper.getEthereumTransacion(
+          this.pnaccount.publicAddress,
+          receiver,
+          BigNumber(amount)
+        );
+      }
 
-    console.log(transaction);
-    const result = await particleConnect.signAndSendTransaction(
-      PNAccount.walletType,
-      publicAddress,
-      transaction
-    );
-    if (result.status) {
-      const signature = result.data as string;
-      console.log('signAndSendTransaction:', signature);
-      Toast.show({
-        type: 'success',
-        text1: 'Successfully sign transaction ',
-        text2: signature,
-      });
-    } else {
-      const error = result.data as CommonError;
-      console.log(error);
+      console.log(transaction);
+      const result = await particleConnect.signAndSendTransaction(
+        PNAccount.walletType,
+        publicAddress,
+        transaction
+      );
+      if (result.status) {
+        const signature = result.data as string;
+        console.log('signAndSendTransaction:', signature);
+        Toast.show({
+          type: 'success',
+          text1: 'Successfully sign transaction ',
+          text2: signature,
+        });
+      } else {
+        const error = result.data as CommonError;
+        console.log(error);
+        Toast.show({
+          type: 'error',
+          text1: error.message,
+        });
+      }
+    } catch (error) {
       Toast.show({
         type: 'error',
         text1: error.message,
@@ -924,11 +947,20 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
     );
 
     if (result.status) {
-      const data = result.data;
+      const data = result.data as string;
       console.log(data);
+      Toast.show({
+        type: 'success',
+        text1: data,
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 

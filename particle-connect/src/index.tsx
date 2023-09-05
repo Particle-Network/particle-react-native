@@ -15,6 +15,7 @@ import type {
   RpcUrl,
   WalletType,
 } from './Models';
+import { formatRespData } from './utils';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-connect' doesn't seem to be linked. Make sure: \n\n` +
@@ -417,7 +418,7 @@ export function importPrivateKey(
     ParticleConnectPlugin.importPrivateKey(json, (result: string) => {
       console.log('importPrivateKey', JSON.parse(result));
 
-      resolve(JSON.parse(result));
+      resolve(formatRespData(result));
     });
   });
 }
@@ -439,7 +440,7 @@ export function importMnemonic(
     ParticleConnectPlugin.importMnemonic(json, (result: string) => {
       console.log('importMnemonic', JSON.parse(result));
 
-      resolve(JSON.parse(result));
+      resolve(formatRespData(result));
     });
   });
 }
@@ -489,7 +490,7 @@ export function addEthereumChain(
   return new Promise((resolve) => {
     ParticleConnectPlugin.addEthereumChain(json, (result: string) => {
       console.log('addEthereumChain', JSON.parse(result));
-      resolve(JSON.parse(result));
+      resolve(formatRespData(result));
     });
   });
 }
@@ -515,7 +516,7 @@ export function switchEthereumChain(
   return new Promise((resolve) => {
     ParticleConnectPlugin.switchEthereumChain(json, (result: string) => {
       console.log('switchEthereumChain', JSON.parse(result));
-      resolve(JSON.parse(result));
+      resolve(formatRespData(result));
     });
   });
 }

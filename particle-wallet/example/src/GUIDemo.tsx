@@ -32,7 +32,7 @@ interface GUIDemoProps {
 
 export default class GUIDemo extends PureComponent<GUIDemoProps> {
   state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
-  modalSelect: ModalSelector<string> | null = null;
+  modalSelect: ModalSelector<any> | null = null;
 
   init = async () => {
     const chainInfo = Ethereum;
@@ -231,6 +231,12 @@ export default class GUIDemo extends PureComponent<GUIDemoProps> {
   getPayDisabled = async () => {
     const result = await particleWallet.getPayDisabled();
     console.log(result);
+
+    Toast.show({
+      type: 'info',
+      text1: 'Pay Disabled',
+      text2: String(result),
+    });
   };
 
   setSwapDisabled = async () => {
@@ -245,6 +251,11 @@ export default class GUIDemo extends PureComponent<GUIDemoProps> {
   getSwapDisabled = async () => {
     const result = await particleWallet.getSwapDisabled();
     console.log(result);
+    Toast.show({
+      type: 'info',
+      text1: 'Swap Disabled',
+      text2: String(result),
+    });
   };
 
   switchWallet = async () => {
@@ -394,6 +405,7 @@ export default class GUIDemo extends PureComponent<GUIDemoProps> {
           )}
         />
         <ModalSelector
+          selectStyle={{ display: 'none' }}
           onChange={this.handleModelSelect}
           data={this.state.currentOptions}
           ref={(el) => {

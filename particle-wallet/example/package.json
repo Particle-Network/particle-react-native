@@ -11,9 +11,10 @@
   "dependencies": {
     "react": "18.1.0",
     "react-native": "0.70.6",
-    "react-native-particle-wallet": "file:..",
+    "react-native-modal-selector": "^2.1.2",
     "react-native-particle-auth": "^1.0.2",
     "react-native-particle-connect": "^1.0.2",
+    "react-native-particle-wallet": "file:..",
     "react-native-toast-message": "^2.1.6"
   },
   "devDependencies": {

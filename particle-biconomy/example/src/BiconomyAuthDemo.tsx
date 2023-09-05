@@ -20,7 +20,10 @@ import {
 
 import * as particleAuth from 'react-native-particle-auth';
 import * as particleBiconomy from 'react-native-particle-biconomy';
-import { CommonError } from 'react-native-particle-biconomy/lib/typescript/Models';
+import {
+  CommonError,
+  FeeQuote,
+} from 'react-native-particle-biconomy/lib/typescript/Models';
 import Toast from 'react-native-toast-message';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
@@ -168,7 +171,7 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
       console.log('isDeploy result', isDeploy);
       Toast.show({
         type: 'success',
-        text1: 'isDeploy result',
+        text1: 'Is Deploy',
         text2: String(isDeploy),
       });
     } else {
@@ -187,7 +190,7 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     console.log('isSupportChainInfo result', result);
     Toast.show({
       type: 'info',
-      text1: 'IsSupportChainInfo result',
+      text1: 'Is support chain info',
       text2: String(result),
     });
   };
@@ -251,9 +254,9 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
       BigNumber(amount)
     );
 
-    const feeQutotes = await particleBiconomy.rpcGetFeeQuotes(eoaAddress, [
+    const feeQutotes = (await particleBiconomy.rpcGetFeeQuotes(eoaAddress, [
       transaction,
-    ]);
+    ])) as FeeQuote[];
 
     const result = await particleAuth.signAndSendTransaction(
       transaction,

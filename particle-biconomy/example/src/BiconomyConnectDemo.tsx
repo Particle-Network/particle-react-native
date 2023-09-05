@@ -1,30 +1,33 @@
 import {
-    Ethereum,
-    EthereumGoerli,
-    EthereumSepolia,
-    Polygon,
-    PolygonMumbai,
+  Ethereum,
+  EthereumGoerli,
+  EthereumSepolia,
+  Polygon,
+  PolygonMumbai,
 } from '@particle-network/chains';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';
 import {
-    FlatList,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import * as particleAuth from 'react-native-particle-auth';
 import {
-    BiconomyFeeMode,
-    BiconomyVersion,
-    Env,
-    ParticleInfo,
+  BiconomyFeeMode,
+  BiconomyVersion,
+  Env,
+  ParticleInfo,
 } from 'react-native-particle-auth';
 import * as particleBiconomy from 'react-native-particle-biconomy';
-import { CommonError } from 'react-native-particle-biconomy/lib/typescript/Models';
+import {
+  CommonError,
+  FeeQuote,
+} from 'react-native-particle-biconomy/lib/typescript/Models';
 import * as particleConnect from 'react-native-particle-connect';
 import { DappMetaData, WalletType } from 'react-native-particle-connect';
 import Toast from 'react-native-toast-message';
@@ -91,7 +94,7 @@ export default class BiconomyConnectDemo extends PureComponent<BiconomyConnectDe
 
     Toast.show({
       type: 'success',
-      text1: 'Login succeessfully',
+      text1: 'Initialized successfully',
     });
   };
 
@@ -118,7 +121,7 @@ export default class BiconomyConnectDemo extends PureComponent<BiconomyConnectDe
       const error = result.data as CommonError;
       console.log(error);
       Toast.show({
-        type: 'success',
+        type: 'error',
         text1: error.message,
       });
     }
@@ -211,7 +214,7 @@ export default class BiconomyConnectDemo extends PureComponent<BiconomyConnectDe
     console.log('isSupportChainInfo result', result);
     Toast.show({
       type: 'info',
-      text1: 'IsSupportChainInfo result',
+      text1: 'Is support chain info',
       text2: String(result),
     });
   };
@@ -287,9 +290,9 @@ export default class BiconomyConnectDemo extends PureComponent<BiconomyConnectDe
       BigNumber(amount)
     );
 
-    const feeQutotes = await particleBiconomy.rpcGetFeeQuotes(eoaAddress, [
+    const feeQutotes = (await particleBiconomy.rpcGetFeeQuotes(eoaAddress, [
       transaction,
-    ]);
+    ])) as FeeQuote[];
 
     const result = await particleConnect.signAndSendTransaction(
       this.walletType,

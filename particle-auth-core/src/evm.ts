@@ -1,11 +1,12 @@
-import { ParticleAuthCorePlugin } from 'react-native-particle-auth-core';
 import { Buffer } from 'buffer';
+import { ParticleAuthCorePlugin } from 'react-native-particle-auth-core';
+import type { CommonResp, SignData } from './Models';
 
 export async function getAddress(): Promise<string> {
   return await ParticleAuthCorePlugin.evmGetAddress();
 }
 
-export function personalSign(message: string): Promise<any> {
+export function personalSign(message: string): Promise<CommonResp<SignData>> {
   let serializedMessage: string;
 
   if (isHexString(message)) {
@@ -24,7 +25,9 @@ export function personalSign(message: string): Promise<any> {
   });
 }
 
-export function personalSignUnique(message: string): Promise<any> {
+export function personalSignUnique(
+  message: string
+): Promise<CommonResp<SignData>> {
   let serializedMessage: string;
 
   if (isHexString(message)) {
@@ -43,7 +46,7 @@ export function personalSignUnique(message: string): Promise<any> {
   });
 }
 
-export function signTypedData(message: string): Promise<any> {
+export function signTypedData(message: string): Promise<CommonResp<SignData>> {
   let serializedMessage: string;
 
   if (isHexString(message)) {
@@ -62,7 +65,9 @@ export function signTypedData(message: string): Promise<any> {
   });
 }
 
-export function signTypedDataUnique(message: string): Promise<any> {
+export function signTypedDataUnique(
+  message: string
+): Promise<CommonResp<SignData>> {
   let serializedMessage: string;
 
   if (isHexString(message)) {

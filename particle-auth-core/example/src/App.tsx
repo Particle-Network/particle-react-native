@@ -1,3 +1,4 @@
+import { PolygonMumbai, type ChainInfo } from '@particle-network/chains';
 import type { RouteProp } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -12,7 +13,7 @@ const logo = require('../images/ic_round.png');
 
 type StackParamList = {
   Home: undefined;
-  AuthCoreDemo: undefined;
+  AuthCoreDemo: { chainInfo: ChainInfo };
   SelectChainPage: undefined;
 };
 
@@ -34,7 +35,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.buttonStyle}
-        onPress={() => navigation.push('AuthCoreDemo')}
+        onPress={() =>
+          navigation.push('AuthCoreDemo', { chainInfo: PolygonMumbai })
+        }
       >
         <Text style={styles.textStyle}>AuthCoreDemo</Text>
       </TouchableOpacity>
@@ -50,7 +53,7 @@ type AuthCoreScreenNavigationProp = NativeStackNavigationProp<
   'AuthCoreDemo'
 >;
 
-interface AuthCoreScreenProps {
+export interface AuthCoreScreenProps {
   route: AuthCoreScreenRouteProp;
   navigation: AuthCoreScreenNavigationProp;
 }

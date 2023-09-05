@@ -1,10 +1,13 @@
 import { ParticleAuthCorePlugin } from 'react-native-particle-auth-core';
+import type { CommonResp, SignData } from './Models';
 
 export async function getAddress(): Promise<string> {
   return await ParticleAuthCorePlugin.solanaGetAddress();
 }
 
-export async function signMessage(message: string): Promise<any> {
+export async function signMessage(
+  message: string
+): Promise<CommonResp<SignData>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.solanaSignMessage(message, (result: string) => {
       resolve(JSON.parse(result));

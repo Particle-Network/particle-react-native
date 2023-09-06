@@ -1,11 +1,10 @@
+import { chains } from '@particle-network/chains';
 import { EventEmitter } from 'events';
 import * as particleAuth from '../index';
+import { LoginType, SupportAuthType } from '../index';
 import { sendEVMRpc } from './connection';
 import type { ParticleOptions, RequestArguments } from './types';
 import { notSupportMethods, signerMethods } from './types';
-import { chains } from '@particle-network/chains';
-import { SupportAuthType } from '../index';
-import { LoginType } from '../index';
 
 class ParticleProvider {
     private events = new EventEmitter();
@@ -41,7 +40,7 @@ class ParticleProvider {
         });
     }
 
-    public async request(payload: RequestArguments): Promise<any> {
+    public async request(payload: RequestArguments) {
         if (!payload.method || notSupportMethods.includes(payload.method)) {
             return Promise.reject({
                 code: -32601,
@@ -73,14 +72,14 @@ class ParticleProvider {
                     return Promise.reject(result.data);
                 }
             } else if (payload.method === 'personal_sign') {
-                const result: any = await particleAuth.signMessage(payload.params[0]);
+                const result = await particleAuth.signMessage(payload.params[0]);
                 if (result.status) {
                     return result.data;
                 } else {
                     return Promise.reject(result.data);
                 }
             } else if (payload.method === 'personal_sign_unique') {
-                const result: any = await particleAuth.signMessageUnique(payload.params[0]);
+                const result = await particleAuth.signMessageUnique(payload.params[0]);
                 if (result.status) {
                     return result.data;
                 } else {
@@ -88,7 +87,7 @@ class ParticleProvider {
                 }
             } else if (payload.method === 'wallet_switchEthereumChain') {
                 const chainId = Number(payload.params[0].chainId);
-                
+
                 const chainInfo = chains.getEVMChainInfoById(chainId);
                 if (!chainInfo) {
                     return Promise.reject({
@@ -104,7 +103,7 @@ class ParticleProvider {
                 }
             } else if (payload.method === 'eth_signTypedData_v3' || payload.method === 'eth_signTypedData_v4') {
                 const typedData = JSON.stringify(payload.params[1]);
-                const result: any = await particleAuth.signTypedData(
+                const result = await particleAuth.signTypedData(
                     typedData,
                     payload.method === 'eth_signTypedData_v3' ? 'v3' : 'v4'
                 );
@@ -115,7 +114,7 @@ class ParticleProvider {
                 }
             } else if (payload.method === 'eth_signTypedData_v4_unique') {
                 const typedData = JSON.stringify(payload.params[1]);
-                const result: any = await particleAuth.signTypedData(typedData, (payload.method = 'v4Unique'));
+                const result = await particleAuth.signTypedData(typedData, (payload.method = 'v4Unique'));
                 if (result.status) {
                     return result.data;
                 } else {
@@ -123,7 +122,7 @@ class ParticleProvider {
                 }
             } else if (payload.method === 'eth_signTypedData' || payload.method === 'eth_signTypedData_v1') {
                 const typedData = JSON.stringify(payload.params[0]);
-                const result: any = await particleAuth.signTypedData(typedData, 'v1');
+                const result = await particleAuth.signTypedData(typedData, 'v1');
                 if (result.status) {
                     return result.data;
                 } else {

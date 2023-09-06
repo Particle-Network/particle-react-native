@@ -1,6 +1,7 @@
+import type { ChainInfo } from '@particle-network/chains';
 import { NativeModules, Platform } from 'react-native';
 import type { BiconomyVersion } from 'react-native-particle-auth';
-import type { ChainInfo } from '@particle-network/chains';
+import type { CommonError, CommonResp, FeeQuote } from './Models';
 
 const LINKING_ERROR =
   `The package 'react-native-particle-biconomy' doesn't seem to be linked. Make sure: \n\n` +
@@ -67,9 +68,12 @@ export async function isSupportChainInfo(
  * @param eoaAddress Eoa address
  * @returns
  */
-export async function isDeploy(eoaAddress: string): Promise<any> {
+export async function isDeploy(
+  eoaAddress: string
+): Promise<CommonResp<string>> {
   return new Promise((resolve) => {
     ParticleBiconomyPlugin.isDeploy(eoaAddress, (result: string) => {
+      console.log('isDeploy22', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -111,22 +115,25 @@ export function disableBiconomyMode() {
 export async function rpcGetFeeQuotes(
   eoaAddress: string,
   transactions: string[]
-): Promise<any[]> {
+): Promise<FeeQuote[] | CommonError> {
   const obj = {
     eoa_address: eoaAddress,
     transactions: transactions,
   };
   const json = JSON.stringify(obj);
-  const result: any = await new Promise((resolve) => {
-    ParticleBiconomyPlugin.rpcGetFeeQuotes(json, (result: any) => {
+  const result: CommonResp<FeeQuote[]> = await new Promise((resolve) => {
+    ParticleBiconomyPlugin.rpcGetFeeQuotes(json, (result: string) => {
+      console.log('rpcGetFeeQuotes', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
 
   if (result.status) {
     const data = result.data;
-    return data as any[];
+    return data;
   } else {
     return Promise.reject(result.data);
   }
 }
+
+export * from './Models';

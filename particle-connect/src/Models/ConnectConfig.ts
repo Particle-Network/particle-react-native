@@ -1,18 +1,43 @@
-import type { LoginAuthorization, LoginType, SocialLoginPrompt, SupportAuthType } from "react-native-particle-auth"
+import type {
+  LoginAuthorization,
+  LoginType,
+  SocialLoginPrompt,
+  SupportAuthType,
+} from 'react-native-particle-auth';
 
 export class ParticleConnectConfig {
-    loginType: LoginType
-    account: string
-    supportAuthType: SupportAuthType[]
-    socialLoginPrompt?: SocialLoginPrompt
+  loginType: LoginType;
+  account: string;
+  supportAuthType: SupportAuthType[];
+  socialLoginPrompt?: SocialLoginPrompt;
+  authorization?: LoginAuthorization;
+
+  constructor(
+    loginType: LoginType,
+    account: string,
+    supportAuthType: SupportAuthType[],
+    socialLoginPrompt?: SocialLoginPrompt,
     authorization?: LoginAuthorization
+  ) {
+    this.loginType = loginType;
+    this.account = account;
+    this.supportAuthType = supportAuthType;
+    this.socialLoginPrompt = socialLoginPrompt;
+    this.authorization = authorization;
+  }
+}
 
+export interface AccountInfo {
+  icons: string[];
+  name: string;
+  publicAddress: string;
+  url: string;
+  description?: string;
+  chainId?: number;
+  mnemonic?: string;
+}
 
-    constructor(loginType: LoginType, account: string, supportAuthType: SupportAuthType[], socialLoginPrompt?: SocialLoginPrompt, authorization?: LoginAuthorization) {
-        this.loginType = loginType
-        this.account = account
-        this.supportAuthType = supportAuthType
-        this.socialLoginPrompt = socialLoginPrompt
-        this.authorization = authorization
-    }
-} 
+export interface LoginResp {
+  signature: string;
+  message: string;
+}

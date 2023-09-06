@@ -1,30 +1,30 @@
+import { PolygonMumbai } from '@particle-network/chains';
 import React, { PureComponent } from 'react';
 import {
-  StyleSheet,
-  View,
-  SafeAreaView,
+  ActivityIndicator,
   FlatList,
-  TouchableOpacity,
+  SafeAreaView,
+  StyleSheet,
   Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import {
-  Env,
-  BiconomyVersion,
   BiconomyFeeMode,
-  ParticleInfo,
+  BiconomyVersion,
+  Env,
   LoginType,
+  ParticleInfo,
   SupportAuthType,
 } from 'react-native-particle-auth';
-import {
-  PolygonMumbai,
-  Ethereum,
-  EthereumGoerli,
-  EthereumSepolia,
-  Polygon,
-} from '@particle-network/chains';
 
-import * as particleBiconomy from 'react-native-particle-biconomy';
 import * as particleAuth from 'react-native-particle-auth';
+import * as particleBiconomy from 'react-native-particle-biconomy';
+import {
+  CommonError,
+  FeeQuote,
+} from 'react-native-particle-biconomy/lib/typescript/Models';
+import Toast from 'react-native-toast-message';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
 
@@ -37,6 +37,7 @@ interface BiconomyAuthDemoProps {
 }
 
 export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProps> {
+  state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
   init = () => {
     // Get your project id and client from dashboard, https://dashboard.particle.network
     ParticleInfo.projectId = '5479798b-26a9-4943-b848-649bb104fdc3'; // your project id
@@ -62,12 +63,22 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
       80001: 'hYZIwIsf2.e18c790b-cafb-4c4e-a438-0289fc25dba1',
     };
     particleBiconomy.init(BiconomyVersion.v1_0_0, dappAppKeys);
+
+    Toast.show({
+      type: 'success',
+      text1: 'Initialized successfully',
+    });
   };
 
   setChainInfo = async () => {
     const chainInfo = PolygonMumbai;
     const result = await particleAuth.setChainInfo(chainInfo);
-    console.log(result);
+    Toast.show({
+      type: result ? 'success' : 'error',
+      text1: result
+        ? 'Successfully set chain info'
+        : 'Failed to set chain info',
+    });
   };
 
   login = async () => {
@@ -87,23 +98,49 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     if (result.status) {
       const userInfo = result.data;
       console.log(userInfo);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Login succeessfully',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
   enable = async () => {
     particleBiconomy.enableBiconomyMode();
+
+    Toast.show({
+      type: 'success',
+      text1: 'Successfully set',
+    });
   };
 
   disable = async () => {
     particleBiconomy.disableBiconomyMode();
+
+    Toast.show({
+      type: 'success',
+      text1: 'Successfully set',
+    });
   };
 
   isEnable = async () => {
     const result = await particleBiconomy.isBiconomyModeEnable();
     console.log('is enable', result);
+
+    Toast.show({
+      type: 'info',
+      text1: 'Is enable',
+      text2: String(result),
+    });
   };
 
   rpcGetFeeQuotes = async () => {
@@ -132,15 +169,30 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     if (result.status) {
       const isDeploy = result.data;
       console.log('isDeploy result', isDeploy);
+      Toast.show({
+        type: 'success',
+        text1: 'Is Deploy',
+        text2: String(isDeploy),
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log('isDeploy result', error);
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
   isSupportChainInfo = async () => {
     const result = await particleBiconomy.isSupportChainInfo(PolygonMumbai);
     console.log('isSupportChainInfo result', result);
+    Toast.show({
+      type: 'info',
+      text1: 'Is support chain info',
+      text2: String(result),
+    });
   };
 
   signAndSendTransactionWithBiconomyAuto = async () => {
@@ -202,9 +254,9 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
       BigNumber(amount)
     );
 
-    const feeQutotes = await particleBiconomy.rpcGetFeeQuotes(eoaAddress, [
+    const feeQutotes = (await particleBiconomy.rpcGetFeeQuotes(eoaAddress, [
       transaction,
-    ]);
+    ])) as FeeQuote[];
 
     const result = await particleAuth.signAndSendTransaction(
       transaction,
@@ -277,11 +329,18 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={styles.buttonStyle}
-                onPress={() => {
-                  item.function();
+                onPress={async () => {
+                  this.setState({ currentLoadingBtn: item.key });
+
+                  await item.function();
+                  this.setState({ currentLoadingBtn: '' });
                 }}
               >
-                <Text style={styles.textStyle}>{item.key}</Text>
+                {this.state.currentLoadingBtn === item.key ? (
+                  <ActivityIndicator color="white" />
+                ) : (
+                  <Text style={styles.textStyle}>{item.key}</Text>
+                )}
               </TouchableOpacity>
             )}
           />

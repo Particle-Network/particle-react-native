@@ -1,30 +1,39 @@
+import {
+  Ethereum,
+  EthereumGoerli,
+  PolygonMumbai,
+  type ChainInfo,
+} from '@particle-network/chains';
+import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';
 import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-  Text,
+  ActivityIndicator,
   FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import BigNumber from 'bignumber.js';
-import { PolygonMumbai, type ChainInfo } from '@particle-network/chains';
+import ModalSelector from 'react-native-modal-selector';
 import * as particleAuth from 'react-native-particle-auth';
-import { solana, evm } from 'react-native-particle-auth-core';
+import { Env, ParticleInfo } from 'react-native-particle-auth';
 import * as particleAuthCore from 'react-native-particle-auth-core';
-
-import type { NavigationProp, RouteProp } from '@react-navigation/native';
-
+import {
+  CommonError,
+  UserInfo,
+  evm,
+  solana,
+} from 'react-native-particle-auth-core';
+import Toast from 'react-native-toast-message';
+import { AuthCoreScreenProps } from './App';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
-import { Env, ParticleInfo } from 'react-native-particle-auth';
 
-interface AuthDemoDemoProps {
-  navigation: NavigationProp<any>;
-  route: RouteProp<any, any>;
-}
+export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
+  state = { currentLoadingBtn: '', currentKey: '', currentOptions: [] };
+  modalSelect: ModalSelector<any> | null = null;
 
-export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
   init = () => {
     // Get your project id and client key from dashboard, https://dashboard.particle.network
     ParticleInfo.projectId = '5479798b-26a9-4943-b848-649bb104fdc3'; // your project id
@@ -41,25 +50,52 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     const env = Env.Dev;
     particleAuth.init(chainInfo, env);
     particleAuthCore.init();
+    Toast.show({
+      type: 'success',
+      text1: 'Initialized successfully',
+    });
   };
 
   switchChain = async () => {
-    const chainInfo: ChainInfo =
-      this.props.route.params?.chainInfo || PolygonMumbai;
-    const result = await particleAuthCore.switchChain(chainInfo);
-    console.log(result);
+    this.setState({
+      currentOptions: [
+        {
+          label: 'Polygon Mumbai',
+          key: 'Polygon Mumbai',
+          value: PolygonMumbai,
+        },
+        { label: 'Ethereum', key: 'Ethereum', value: Ethereum },
+        {
+          label: 'Ethereum Goerli',
+          key: 'Ethereum Goerli',
+          Value: EthereumGoerli,
+        },
+      ],
+    });
+
+    if (this.modalSelect) {
+      this.modalSelect.open();
+    }
   };
 
   connect = async () => {
     const jwt =
-      ''; // your jwt
+      'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IndVUE05RHNycml0Sy1jVHE2OWNKcCJ9.eyJlbWFpbCI6InBhbnRhb3ZheUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImlzcyI6Imh0dHBzOi8vZGV2LXFyNi01OWVlLnVzLmF1dGgwLmNvbS8iLCJhdWQiOiJFVmpLMVpaUFN0UWNkV3VoandQZGRBdGdSaXdwNTRWUSIsImlhdCI6MTY5MzU1MTUyOSwiZXhwIjoxNjkzNTg3NTI5LCJzdWIiOiJhdXRoMHw2MzAzMjE0YjZmNjE1NjM2YWM5MTdmMWIiLCJzaWQiOiJCcjlQUG1rSEdTT3NraF9aNnlWVlpYcldsRjVZOVRQQSJ9.iua1V9QxvEv2M5Zt4hF8PR4YzGmMzaQgW_whbA4Qs2R4ChizWHjVBXSciZFWsNhHrlBnTSD242nQkh0CjifY8d05mqvsfFQDejBDXmcyjLIj3biRF3nHMY0XGMoLkhSdqHLCoyXRlmfkrn-GD0bvvzJAK2wj_5MVB8q6ymGUu_Yutxl9aTnvPuCV4lyfUFNcGXJH63t3KPWuO-xFxiJXEVQQu9m1--byyizHr4G31jMA034dIfQMk9MgWFfBIdDtFr3Vym70aVtnLczx304zolIRN7JNOP7TqazJOu0MaQcCEemqZ_zy68WzAWiwiq0lTslv83nr7-k161Mf0UUoxg'; // your jwt
     const result = await particleAuthCore.connect(jwt);
     if (result.status) {
-      const userInfo = result.data;
+      const userInfo = result.data as UserInfo;
       console.log('connect', userInfo);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully connected',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log('connect', error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -68,7 +104,7 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     if (result.status) {
       console.log(result.data);
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
     }
   };
@@ -76,6 +112,11 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
   isConnected = async () => {
     const result = await particleAuthCore.isConnected();
     console.log(result);
+    Toast.show({
+      type: 'info',
+      text1: 'Is Connected',
+      text2: String(result),
+    });
   };
 
   solana = async () => {};
@@ -83,6 +124,11 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
   solanaGetAddress = async () => {
     const address = await solana.getAddress();
     console.log('solana address ', address);
+    Toast.show({
+      type: 'success',
+      text1: 'Address',
+      text2: address,
+    });
   };
 
   solanaSignMessage = async () => {
@@ -91,9 +137,17 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     if (result.status) {
       const signature = result.data;
       console.log(signature);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully signed',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -147,17 +201,31 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
   evmGetAddress = async () => {
     const address = await evm.getAddress();
     console.log('evm address ', address);
+    Toast.show({
+      type: 'success',
+      text1: 'Address',
+      text2: address,
+    });
   };
 
   evmPersonalSign = async () => {
     const message = 'Hello world!';
     const result = await evm.personalSign(message);
+    console.log(result);
     if (result.status) {
       const signature = result.data;
       console.log(signature);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully signed',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -167,9 +235,17 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     if (result.status) {
       const signature = result.data;
       console.log(signature);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully signed',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -182,9 +258,17 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     if (result.status) {
       const signature = result.data;
       console.log(signature);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully signed',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -197,9 +281,17 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     if (result.status) {
       const signature = result.data;
       console.log(signature);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully signed',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -311,6 +403,18 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     console.log('hasPaymentPassword', hasPaymentPassword);
   };
 
+  handleModelSelect = async ({ value }) => {
+    console.log(value);
+    switch (this.state.currentKey) {
+      case 'SwitchChain':
+        const result = await particleAuthCore.switchChain(value);
+        Toast.show({
+          type: result ? 'success' : 'error',
+          text1: result ? 'Successfully switched' : 'Failed to switch chain',
+        });
+    }
+  };
+
   data = [
     { key: 'Select Chain Page', function: null },
     { key: 'Init', function: this.init },
@@ -345,6 +449,10 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     },
   ];
 
+  componentDidMount(): void {
+    this.init();
+  }
+
   render = () => {
     const { navigation } = this.props;
 
@@ -361,20 +469,38 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
             }) => (
               <TouchableOpacity
                 style={styles.buttonStyle}
-                onPress={() => {
-                  if (item.key == 'Select Chain Page') {
+                onPress={async () => {
+                  if (item.key === 'Select Chain Page') {
                     // @ts-ignore
                     navigation.push('SelectChainPage');
                   } else {
-                    item.function();
+                    this.setState({
+                      currentLoadingBtn: item.key,
+                      currentKey: item.key,
+                    });
+
+                    await item.function();
+                    this.setState({ currentLoadingBtn: '' });
                   }
                 }}
               >
-                <Text style={styles.textStyle}>{item.key}</Text>
+                {this.state.currentLoadingBtn === item.key ? (
+                  <ActivityIndicator color="white" />
+                ) : (
+                  <Text style={styles.textStyle}>{item.key}</Text>
+                )}
               </TouchableOpacity>
             )}
           />
         </View>
+        <ModalSelector
+          selectStyle={{ display: 'none' }}
+          onChange={this.handleModelSelect}
+          data={this.state.currentOptions}
+          ref={(el) => {
+            this.modalSelect = el;
+          }}
+        />
       </SafeAreaView>
     );
   };

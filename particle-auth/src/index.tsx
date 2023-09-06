@@ -2,8 +2,8 @@ import type { ChainInfo } from '@particle-network/chains';
 import { chains } from '@particle-network/chains';
 import { NativeModules, Platform } from 'react-native';
 import type {
+    AAFeeMode,
     Appearance,
-    BiconomyFeeMode,
     CommonResp,
     Env,
     FiatCoin,
@@ -292,10 +292,7 @@ export async function signAllTransactions(transactions: string[]): Promise<Commo
  * @param feeMode Optional, works with particle biconomy service
  * @returns Result, signature or error
  */
-export async function signAndSendTransaction(
-    transaction: string,
-    feeMode?: BiconomyFeeMode
-): Promise<CommonResp<string>> {
+export async function signAndSendTransaction(transaction: string, feeMode?: AAFeeMode): Promise<CommonResp<string>> {
     const obj = {
         transaction: transaction,
         fee_mode: {
@@ -318,10 +315,7 @@ export async function signAndSendTransaction(
  * @param feeMode Optional, default is auto
  * @returns Result, signature or error
  */
-export async function batchSendTransactions(
-    transactions: string[],
-    feeMode?: BiconomyFeeMode
-): Promise<CommonResp<string>> {
+export async function batchSendTransactions(transactions: string[], feeMode?: AAFeeMode): Promise<CommonResp<string>> {
     const obj = {
         transactions: transactions,
         fee_mode: {

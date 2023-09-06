@@ -1,9 +1,9 @@
 import { chains } from '@particle-network/chains';
 import BigNumber from 'bignumber.js';
 import { Buffer } from 'buffer';
-import { getChainId, getChainInfo } from 'react-native-particle-auth';
 import { AccountInfo, GasFeeLevel } from '../Models';
-import type { BiconomyVersion } from '../Models/BiconomyVersion';
+import type { AAVersion } from '../Models/AAVersion';
+import { getChainId, getChainInfo } from '../index';
 import { AbiEncodeFunction, EVMReqBodyMethod } from './NetParams';
 import JsonRpcRequest from './NetService';
 
@@ -23,7 +23,6 @@ export class EvmService {
             const chainId = await getChainId();
             result = await JsonRpcRequest(rpcUrl, path, method, params, chainId);
         } catch (err) {
-            console.log(444, err);
             result = {
                 status: 0,
                 data: {
@@ -116,7 +115,6 @@ export class EvmService {
             AbiEncodeFunction.erc20Transfer,
             [to, amount],
         ]);
-        console.log(222, data);
         return data;
     }
 
@@ -359,7 +357,7 @@ export class EvmService {
      * @param version Biconomy version
      * @returns Smart account json object
      */
-    static async getSmartAccount(eoaAddresses: string[], version: BiconomyVersion): Promise<AccountInfo[]> {
+    static async getSmartAccount(eoaAddresses: string[], version: AAVersion): Promise<AccountInfo[]> {
         return await this.rpc(EVMReqBodyMethod.particleBiconomyGetSmartAccount, [version, eoaAddresses]);
     }
 }

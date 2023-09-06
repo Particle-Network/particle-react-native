@@ -1,8 +1,6 @@
+import { EvmService, JsonRpcRequest, SerializeTransactionParams, SolanaReqBodyMethod } from '@particle-network/rn-auth';
 import BigNumber from 'bignumber.js';
-import { EvmService } from 'react-native-particle-auth';
 import { TestAccountSolana } from './TestAccount';
-
-import { JsonRpcRequest, SerializeTransactionParams, SolanaReqBodyMethod } from 'react-native-particle-auth';
 
 export async function getSolanaTransaction(from: string) {
     // mock a solana native transaction

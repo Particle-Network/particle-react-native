@@ -1,7 +1,6 @@
 import { ChainInfo, chains } from '@particle-network/chains';
 import React, { PureComponent } from 'react';
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import * as particleAuth from 'react-native-particle-auth';
 import Toast from 'react-native-toast-message';
 
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
@@ -43,7 +42,6 @@ export default class SelectChainPage extends PureComponent<SelectChainPageProps>
             type: 'success',
             text1: `select chain ${chainInfo.name} ${chainInfo.network} ${chainInfo.id}`,
         });
-        await particleAuth.setChainInfo(chainInfo);
         navigation.navigate({
             name: 'AuthDemo',
             params: { chainInfo: chainInfo },

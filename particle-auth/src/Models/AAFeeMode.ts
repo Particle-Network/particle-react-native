@@ -1,6 +1,6 @@
 export type OptionType = 'auto' | 'gasless' | 'custom';
 
-export class BiconomyFeeMode {
+export class AAFeeMode {
     private option: OptionType;
     private feeQuote?: any;
 
@@ -21,23 +21,23 @@ export class BiconomyFeeMode {
      * Auto fee mode
      * @returns Auto fee mode, use native to pay gas fee.
      */
-    static auto(): BiconomyFeeMode {
-        return new BiconomyFeeMode('auto');
+    static auto(): AAFeeMode {
+        return new AAFeeMode('auto');
     }
 
     /**
      * Gasless fee mode
      * @returns Gasless fee mode, user dont need to pay gas fee.
      */
-    static gasless(): BiconomyFeeMode {
-        return new BiconomyFeeMode('gasless');
+    static gasless(): AAFeeMode {
+        return new AAFeeMode('gasless');
     }
 
     /**
      * Custom fee mode
-     * @returns Custom fee mode, works with particle-biconomy rpcGetFeeQuotes method, pick one token or native to pay gas fee.
+     * @returns Custom fee mode, works with particle-aa rpcGetFeeQuotes method, pick one token or native to pay gas fee.
      */
-    static custom(feeQuote: any): BiconomyFeeMode {
-        return new BiconomyFeeMode('custom', feeQuote);
+    static custom(feeQuote: any): AAFeeMode {
+        return new AAFeeMode('custom', feeQuote);
     }
 }

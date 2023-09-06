@@ -1,4 +1,21 @@
-import { ChainInfo, Ethereum, EthereumGoerli, PolygonMumbai, SolanaDevnet } from '@particle-network/chains';
+import { ChainInfo, PolygonMumbai } from '@particle-network/chains';
+import * as particleAuth from '@particle-network/rn-auth';
+import {
+    AAVersion,
+    Appearance,
+    CommonError,
+    Env,
+    EvmService,
+    FiatCoin,
+    Language,
+    LoginAuthorization,
+    LoginType,
+    ParticleInfo,
+    SecurityAccount,
+    SecurityAccountConfig,
+    SupportAuthType,
+    iOSModalPresentStyle,
+} from '@particle-network/rn-auth';
 import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';
 import {
@@ -14,23 +31,6 @@ import {
     View,
 } from 'react-native';
 import ModalSelector from 'react-native-modal-selector';
-import * as particleAuth from 'react-native-particle-auth';
-import {
-    Appearance,
-    BiconomyVersion,
-    CommonError,
-    Env,
-    EvmService,
-    FiatCoin,
-    Language,
-    LoginAuthorization,
-    LoginType,
-    ParticleInfo,
-    SecurityAccount,
-    SecurityAccountConfig,
-    SupportAuthType,
-    iOSModalPresentStyle,
-} from 'react-native-particle-auth';
 import Toast from 'react-native-toast-message';
 import type { AuthScreenProps } from './App';
 import * as Helper from './Helper';
@@ -521,17 +521,13 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
     };
 
     setChainInfo = async () => {
-        this.setState({
-            currentOptions: [
-                { label: 'PolygonMumbai', key: 'PolygonMumbai', value: PolygonMumbai },
-                { label: 'Ethereum', key: 'Ethereum', value: Ethereum },
-                { label: 'Ethereum Goerli', key: 'EthereumGoerli', value: EthereumGoerli },
-                { label: 'Solana Devnet', key: 'Solana Devnet', value: SolanaDevnet },
-            ],
+        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
+
+        const result = await particleAuth.setChainInfo(chainInfo);
+        Toast.show({
+            type: result ? 'success' : 'error',
+            text1: result ? 'successfully set' : 'Setting failed',
         });
-        if (this.modalSelect) {
-            this.modalSelect.open();
-        }
     };
 
     getChainInfo = async () => {
@@ -540,16 +536,14 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
     };
 
     setChainInfoAsync = async () => {
-        this.setState({
-            currentOptions: [
-                { label: 'PolygonMumbai', key: 'PolygonMumbai', value: PolygonMumbai },
-                { label: 'Ethereum', key: 'Ethereum', value: Ethereum },
-                { label: 'Ethereum Goerli', key: 'EthereumGoerli', value: EthereumGoerli },
-            ],
+        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
+
+        const resultAsync = await particleAuth.setChainInfoAsync(chainInfo);
+        console.log(resultAsync);
+        Toast.show({
+            type: resultAsync ? 'success' : 'error',
+            text1: resultAsync ? 'successfully set' : 'Setting failed',
         });
-        if (this.modalSelect) {
-            this.modalSelect.open();
-        }
     };
 
     login = async () => {
@@ -749,7 +743,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
         } catch (error) {
             Toast.show({
                 type: 'error',
-                text2: error.message,
+                text2: (error as Error).message,
             });
         }
     };
@@ -786,7 +780,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
         } catch (error) {
             Toast.show({
                 type: 'error',
-                text1: error.message,
+                text1: (error as Error).message,
             });
         }
     };
@@ -858,7 +852,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
         } catch (error) {
             Toast.show({
                 type: 'error',
-                text1: error.message,
+                text1: (error as Error).message,
             });
         }
     };
@@ -1029,7 +1023,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
 
     getSmartAccount = async () => {
         const eoaAddress = await particleAuth.getAddress();
-        const result = await EvmService.getSmartAccount([eoaAddress], BiconomyVersion.v1_0_0);
+        const result = await EvmService.getSmartAccount([eoaAddress], AAVersion.v1_0_0);
         console.log('getSmartAccount', result);
         Toast.show({
             type: 'success',
@@ -1186,7 +1180,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
         }
     };
 
-    handleModelSelect = async ({ value }) => {
+    handleModelSelect = async ({ value }: any) => {
         switch (this.state.currentKey) {
             case 'SetModalPresentStyle':
                 particleAuth.setModalPresentStyle(value as iOSModalPresentStyle);
@@ -1216,20 +1210,6 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
                     text1: `successfully set fail coin`,
                 });
                 break;
-            case 'SetChainInfo':
-                const result = await particleAuth.setChainInfo(value);
-                Toast.show({
-                    type: result ? 'success' : 'error',
-                    text1: result ? 'successfully set' : 'Setting failed',
-                });
-                break;
-            case 'SetChainInfoAsync':
-                const resultAsync = await particleAuth.setChainInfoAsync(value);
-                console.log(resultAsync);
-                Toast.show({
-                    type: resultAsync ? 'success' : 'error',
-                    text1: resultAsync ? 'successfully set' : 'Setting failed',
-                });
         }
     };
 
@@ -1289,7 +1269,6 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
 
     render = () => {
         const { navigation } = this.props;
-        console.log(555, this.state.currentLoadingBtn);
         return (
             <SafeAreaView>
                 <View style={{ paddingBottom: 100 }}>

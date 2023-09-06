@@ -119,6 +119,16 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     });
   };
 
+  changeMasterPassword = async () => {
+    const result = await particleAuthCore.changeMasterPassword();
+    if (result.status) {
+      console.log(result.data);
+    } else {
+      const error = result.data as CommonError;
+      console.log(error);
+    }
+  };
+
   solana = async () => {};
 
   solanaGetAddress = async () => {
@@ -421,6 +431,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     { key: 'Connect', function: this.connect },
     { key: 'Disconnect', function: this.disconnect },
     { key: 'IsConnected', function: this.isConnected },
+    { key: 'ChangeMasterPassword', function: this.changeMasterPassword },
     { key: 'GetUserInfo', function: this.getUserInfo },
     { key: 'SwitchChain', function: this.switchChain },
 

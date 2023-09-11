@@ -1,11 +1,11 @@
-# react-native-particle-wallet
+# @particle-network/rn-wallet
 
 Particle Wallet in React Native
 
 ## Installation
 
 ```sh
-npm install react-native-particle-wallet
+npm install @particle-network/rn-wallet
 ```
 
 ## Contributing

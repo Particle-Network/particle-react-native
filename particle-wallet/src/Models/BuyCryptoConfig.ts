@@ -1,4 +1,4 @@
-import type { Language } from 'react-native-particle-auth';
+import type { Language } from '@particle-network/rn-auth';
 
 export class BuyCryptoConfig {
   /**

@@ -3,7 +3,20 @@ import {
   EthereumGoerli,
   PolygonMumbai,
 } from '@particle-network/chains';
-import type { NavigationProp, RouteProp } from '@react-navigation/native';
+import * as particleAuth from '@particle-network/rn-auth';
+import { Env, Language, WalletDisplay } from '@particle-network/rn-auth';
+import * as particleConnect from '@particle-network/rn-connect';
+import {
+  AccountInfo,
+  DappMetaData,
+  WalletType,
+} from '@particle-network/rn-connect';
+import * as particleWallet from '@particle-network/rn-wallet';
+import {
+  BuyCryptoConfig,
+  CommonError,
+  OpenBuyNetwork,
+} from '@particle-network/rn-wallet';
 import React, { PureComponent } from 'react';
 import {
   FlatList,
@@ -13,24 +26,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import ModalSelector from 'react-native-modal-selector';
-import * as particleAuth from 'react-native-particle-auth';
-import { Env, Language, WalletDisplay } from 'react-native-particle-auth';
-import * as particleConnect from 'react-native-particle-connect';
-import { DappMetaData, WalletType } from 'react-native-particle-connect';
-import * as particleWallet from 'react-native-particle-wallet';
-import {
-  BuyCryptoConfig,
-  CommonError,
-  OpenBuyNetwork,
-} from 'react-native-particle-wallet';
 import Toast from 'react-native-toast-message';
+import { GUIScreenProps } from './App';
 import { TestAccountEVM, TestAccountSolana } from './TestAccount';
-interface GUIDemoProps {
-  navigation: NavigationProp<any>;
-  route: RouteProp<any, any>;
-}
 
-export default class GUIDemo extends PureComponent<GUIDemoProps> {
+export default class GUIDemo extends PureComponent<GUIScreenProps> {
   state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
   modalSelect: ModalSelector<any> | null = null;
 
@@ -89,7 +89,7 @@ export default class GUIDemo extends PureComponent<GUIDemoProps> {
     const result = await particleConnect.connect(WalletType.Particle);
 
     if (result.status) {
-      const accountInfo = result.data;
+      const accountInfo = result.data as AccountInfo;
       console.log('accountInfo', accountInfo.publicAddress);
       particleWallet.createSelectedWallet(
         accountInfo.publicAddress,
@@ -114,10 +114,12 @@ export default class GUIDemo extends PureComponent<GUIDemoProps> {
   // Before this, you'd better login metamask with our testAccount in TestAccount.js
   // TestAccount provides both evm and solana test account with some tokens.
   connectMetamask = async () => {
-    const accountInfo = await particleConnect.connect(WalletType.MetaMask);
-    console.log('accountInfo', accountInfo.data.publicAddress);
+    const result = await particleConnect.connect(WalletType.MetaMask);
+
+    const accountInfo = result.data as AccountInfo;
+    console.log('accountInfo', accountInfo.publicAddress);
     particleWallet.createSelectedWallet(
-      accountInfo.data.publicAddress,
+      accountInfo.publicAddress,
       WalletType.MetaMask
     );
   };
@@ -315,7 +317,7 @@ export default class GUIDemo extends PureComponent<GUIDemoProps> {
     particleWallet.setSupportWalletConnect(false);
   };
 
-  handleModelSelect = async ({ value }) => {
+  handleModelSelect = async ({ value }: any) => {
     switch (this.state.currentKey) {
       case 'SetChainInfo':
         particleAuth.setChainInfo(value);

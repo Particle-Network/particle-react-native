@@ -5,7 +5,7 @@ Particle Auth Service in React Native
 ## Installation
 
 ```sh
-npm install react-native-particle-auth
+npm install @particle-network/rn-auth
 ```
 
 

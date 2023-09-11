@@ -1,15 +1,15 @@
 import type { ChainInfo } from '@particle-network/chains';
+import type { AAVersion } from '@particle-network/rn-auth';
 import { NativeModules, Platform } from 'react-native';
-import type { BiconomyVersion } from 'react-native-particle-auth';
 import type { CommonError, CommonResp, FeeQuote } from './Models';
 
 const LINKING_ERROR =
-  `The package 'react-native-particle-biconomy' doesn't seem to be linked. Make sure: \n\n` +
+  `The package '@particle-network/rn-aa' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
 
-const ParticleBiconomyPlugin = NativeModules.ParticleBiconomyPlugin
+const ParticleAAPlugin = NativeModules.ParticleBiconomyPlugin
   ? NativeModules.ParticleBiconomyPlugin
   : new Proxy(
       {},
@@ -21,12 +21,12 @@ const ParticleBiconomyPlugin = NativeModules.ParticleBiconomyPlugin
     );
 
 /**
- * Init particle biconomy service
- * @param version Biconomy Version
- * @param dappAppKeys Biconomy dapp keys
+ * Init particle AA service
+ * @param version AA Version
+ * @param dappAppKeys AA dapp keys
  */
 export function init(
-  version: BiconomyVersion,
+  version: AAVersion,
   dappAppKeys: { [key: number]: string }
 ) {
   const obj = {
@@ -36,9 +36,9 @@ export function init(
   const json = JSON.stringify(obj);
 
   if (Platform.OS === 'ios') {
-    ParticleBiconomyPlugin.initialize(json);
+    ParticleAAPlugin.initialize(json);
   } else {
-    ParticleBiconomyPlugin.init(json);
+    ParticleAAPlugin.init(json);
   }
 }
 
@@ -57,7 +57,7 @@ export async function isSupportChainInfo(
   };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
-    ParticleBiconomyPlugin.isSupportChainInfo(json, (result: boolean) => {
+    ParticleAAPlugin.isSupportChainInfo(json, (result: boolean) => {
       resolve(result);
     });
   });
@@ -72,42 +72,41 @@ export async function isDeploy(
   eoaAddress: string
 ): Promise<CommonResp<string>> {
   return new Promise((resolve) => {
-    ParticleBiconomyPlugin.isDeploy(eoaAddress, (result: string) => {
-      console.log('isDeploy22', JSON.parse(result));
+    ParticleAAPlugin.isDeploy(eoaAddress, (result: string) => {
       resolve(JSON.parse(result));
     });
   });
 }
 
 /**
- * Is biconomy mode enable
+ * Is AA mode enable
  * @returns
  */
-export async function isBiconomyModeEnable(): Promise<boolean> {
+export async function isAAModeEnable(): Promise<boolean> {
   return new Promise((resolve) => {
-    ParticleBiconomyPlugin.isBiconomyModeEnable((result: boolean) => {
+    ParticleAAPlugin.isBiconomyModeEnable((result: boolean) => {
       resolve(result);
     });
   });
 }
 
 /**
- * Enable biconomy mode
+ * Enable AA mode
  */
-export function enableBiconomyMode() {
-  ParticleBiconomyPlugin.enableBiconomyMode();
+export function enableAAMode() {
+  ParticleAAPlugin.enableBiconomyMode();
 }
 
 /**
- * Disable biconomy mode
+ * Disable AA mode
  */
-export function disableBiconomyMode() {
-  ParticleBiconomyPlugin.disableBiconomyMode();
+export function disableAAMode() {
+  ParticleAAPlugin.disableBiconomyMode();
 }
 
 /**
  * Rpc get fee quotes
- * Pick one fee quote, then send with BiconomyFeeMode.custom
+ * Pick one fee quote, then send with AAFeeMode.custom
  * @param eoaAddress Eoa address
  * @param transactions transactions
  * @returns
@@ -122,8 +121,7 @@ export async function rpcGetFeeQuotes(
   };
   const json = JSON.stringify(obj);
   const result: CommonResp<FeeQuote[]> = await new Promise((resolve) => {
-    ParticleBiconomyPlugin.rpcGetFeeQuotes(json, (result: string) => {
-      console.log('rpcGetFeeQuotes', JSON.parse(result));
+    ParticleAAPlugin.rpcGetFeeQuotes(json, (result: string) => {
       resolve(JSON.parse(result));
     });
   });

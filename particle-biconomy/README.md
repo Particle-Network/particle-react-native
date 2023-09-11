@@ -1,11 +1,11 @@
-# react-native-particle-biconomy
+# @particle-network/rn-aa
 
-Particle Biconomy 
+Particle AA
 
 ## Installation
 
 ```sh
-npm install react-native-particle-biconomy
+npm install @particle-network/rn-aa
 ```
 
 ## Contributing

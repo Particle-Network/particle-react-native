@@ -1,13 +1,13 @@
+import { ChainInfo, chains } from '@particle-network/chains';
 import React, { PureComponent } from 'react';
 import {
-  StyleSheet,
-  View,
-  SafeAreaView,
   FlatList,
-  TouchableOpacity,
+  SafeAreaView,
+  StyleSheet,
   Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { chains, ChainInfo } from '@particle-network/chains';
 import Toast from 'react-native-toast-message';
 
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
@@ -45,7 +45,7 @@ export default class SelectChainPage extends PureComponent<SelectChainPageProps>
   };
 
   selectedChain = async (chainInfo: ChainInfo) => {
-    const { navigation, route } = this.props;
+    const { navigation } = this.props;
 
     Toast.show({
       type: 'success',

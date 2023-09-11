@@ -1,4 +1,4 @@
-import { WalletType } from 'react-native-particle-connect';
+import { WalletType } from '@particle-network/rn-connect';
 
 export class PNAccount {
   static walletType: WalletType = WalletType.Particle;

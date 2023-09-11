@@ -1,7 +1,7 @@
 import {
   ParticleConnectProvider,
   WalletType,
-} from 'react-native-particle-connect';
+} from '@particle-network/rn-connect';
 import Web3 from 'web3';
 
 /// Get a new web3 object, use this method when didn't connect any wallet type, public address

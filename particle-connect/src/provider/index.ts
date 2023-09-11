@@ -1,6 +1,6 @@
 import { chains } from '@particle-network/chains';
+import * as particleAuth from '@particle-network/rn-auth';
 import { EventEmitter } from 'events';
-import * as particleAuth from 'react-native-particle-auth';
 import type { AccountInfo } from '../Models';
 import * as particleConnect from '../index';
 import { WalletType } from '../index';

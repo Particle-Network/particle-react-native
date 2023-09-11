@@ -3,7 +3,7 @@ import type {
   LoginType,
   SocialLoginPrompt,
   SupportAuthType,
-} from 'react-native-particle-auth';
+} from '@particle-network/rn-auth';
 
 export class ParticleConnectConfig {
   loginType: LoginType;

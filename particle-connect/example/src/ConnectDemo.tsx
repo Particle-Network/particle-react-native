@@ -4,7 +4,23 @@ import {
   PolygonMumbai,
   SolanaDevnet,
 } from '@particle-network/chains';
-import type { NavigationProp, RouteProp } from '@react-navigation/native';
+import * as particleAuth from '@particle-network/rn-auth';
+import {
+  Env,
+  LoginType,
+  ParticleInfo,
+  SocialLoginPrompt,
+  SupportAuthType,
+} from '@particle-network/rn-auth';
+import * as particleConnect from '@particle-network/rn-connect';
+import {
+  AccountInfo,
+  CommonError,
+  DappMetaData,
+  LoginResp,
+  ParticleConnectConfig,
+  WalletType,
+} from '@particle-network/rn-connect';
 import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';
 import {
@@ -15,47 +31,26 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import * as particleAuth from 'react-native-particle-auth';
-import {
-  Env,
-  LoginType,
-  ParticleInfo,
-  SocialLoginPrompt,
-  SupportAuthType,
-} from 'react-native-particle-auth';
-import * as particleConnect from 'react-native-particle-connect';
-import {
-  AccountInfo,
-  CommonError,
-  DappMetaData,
-  LoginResp,
-  ParticleConnectConfig,
-  WalletType,
-} from 'react-native-particle-connect';
 import Toast from 'react-native-toast-message';
 import Web3 from 'web3';
+import { ConnectScreenProps } from './App';
 import * as Helper from './Helper';
 import { PNAccount } from './Models/PNAccount';
 import { TestAccountEVM } from './TestAccount';
 import { createWeb3, restoreWeb3 } from './web3Demo';
 
-interface ConnectDemoProps {
-  navigation: NavigationProp<any>;
-  route: RouteProp<any, any>;
-}
-
-export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
+export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   loginSourceMessage = '';
   loginSignature = '';
   state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
   pnaccount = new PNAccount([], '', '', '');
 
   // Start with new web3, at this time, you don't connect with this walletType, and don't know any publicAddress
-  newWeb3: Web3;
+  newWeb3!: Web3;
 
   // After connected a wallet, restoreWeb3 when getAccounts.
   // We need to check if the walletType and publicAddress is connected.
-  web3: Web3;
+  web3!: Web3;
 
   init = () => {
     // Get your project id and client from dashboard,
@@ -100,7 +95,7 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
   newWeb3_getAccounts = async () => {
     try {
       const accounts = await this.newWeb3.eth.getAccounts();
-      this.pnaccount = new PNAccount([], '', accounts[0], '');
+      this.pnaccount = new PNAccount([], '', accounts[0] as string, '');
       console.log('web3.eth.getAccounts', accounts);
       Toast.show({
         type: 'success',
@@ -109,7 +104,9 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       });
     } catch (error) {
       console.log('web3.eth.getAccounts', error);
-      Toast.show({ type: 'error', text1: error.message });
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -117,7 +114,7 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
     try {
       console.log('pnaccount.publicAddress ', this.pnaccount.publicAddress);
       const accounts = await this.web3.eth.getAccounts();
-      this.pnaccount = new PNAccount([], '', accounts[0], '');
+      this.pnaccount = new PNAccount([], '', accounts[0] as string, '');
       console.log('web3.eth.getAccounts', accounts);
       Toast.show({
         type: 'success',
@@ -126,14 +123,16 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       });
     } catch (error) {
       console.log('web3.eth.getAccounts', error);
-      Toast.show({ type: 'error', text1: error.message });
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
   web3_getBalance = async () => {
     try {
       const accounts = await this.web3.eth.getAccounts();
-      const balance = await this.web3.eth.getBalance(accounts[0]);
+      const balance = await this.web3.eth.getBalance(accounts[0] as string);
       console.log('web3.eth.getBalance', balance);
       Toast.show({
         type: 'success',
@@ -142,7 +141,9 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       });
     } catch (error) {
       console.log('web3.eth.getBalance', error);
-      Toast.show({ type: 'error', text1: error.message });
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -157,7 +158,9 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       });
     } catch (error) {
       console.log('web3.eth.getChainId', error);
-      Toast.show({ type: 'error', text1: error.message });
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -179,7 +182,9 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       console.log('web3.eth.personal.sign', result);
     } catch (error) {
       console.log('web3.eth.personal.sign', error);
-      Toast.show({ type: 'error', text1: error.message });
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -289,7 +294,9 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       });
     } catch (error) {
       console.log('web3 eth_signTypedData_v4', error);
-      Toast.show({ type: 'error', text1: error.message });
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -312,7 +319,9 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       });
     } catch (error) {
       console.log('web3.eth.sendTransaction', error);
-      Toast.show({ type: 'error', text1: error.message });
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -333,7 +342,9 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       });
     } catch (error) {
       console.log('web3 wallet_switchEthereumChain', error);
-      Toast.show({ type: 'error', text1: error.message });
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -354,7 +365,9 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       });
     } catch (error) {
       console.log('web3 wallet_addEthereumChain', error);
-      Toast.show({ type: 'error', text1: error.message });
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -596,10 +609,9 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
         });
       }
     } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: error.message,
-      });
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -646,10 +658,9 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
         });
       }
     } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: error.message,
-      });
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -702,10 +713,9 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
         });
       }
     } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: error.message,
-      });
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -1038,7 +1048,7 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
   }
 
   render = () => {
-    const { navigation, route } = this.props;
+    const { navigation } = this.props;
 
     return (
       <SafeAreaView>
@@ -1048,10 +1058,6 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
             <TouchableOpacity
               style={styles.buttonStyle}
               onPress={async () => {
-                this.setState({
-                  currentLoadingBtn: item.key,
-                  currentKey: item.key,
-                });
                 if (item.key == 'Select Chain Page') {
                   // @ts-ignore
                   navigation.push('SelectChainPage');
@@ -1059,6 +1065,10 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
                   // @ts-ignore
                   navigation.push('SelectWalletTypePage');
                 } else {
+                  this.setState({
+                    currentLoadingBtn: item.key,
+                    currentKey: item.key,
+                  });
                   // @ts-ignore
                   await item.function();
                   this.setState({ currentLoadingBtn: '' });

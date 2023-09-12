@@ -2,12 +2,11 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "react-native-particle-connect": ["./src/index"]
+      "@particle-network/rn-connect": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
-    "importsNotUsedAsValues": "error",
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "lib": ["esnext"],

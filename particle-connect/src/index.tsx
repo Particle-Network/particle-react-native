@@ -1,11 +1,11 @@
 import type { ChainInfo } from '@particle-network/chains';
-import { NativeModules, Platform } from 'react-native';
 import {
+  AAFeeMode,
   getChainInfo,
   isHexString,
-  type BiconomyFeeMode,
   type Env,
-} from 'react-native-particle-auth';
+} from '@particle-network/rn-auth';
+import { NativeModules, Platform } from 'react-native';
 import type {
   AccountInfo,
   CommonResp,
@@ -18,7 +18,7 @@ import type {
 import { formatRespData } from './utils';
 
 const LINKING_ERROR =
-  `The package 'react-native-particle-connect' doesn't seem to be linked. Make sure: \n\n` +
+  `The package '@particle-network/rn-connect' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
@@ -105,7 +105,6 @@ export async function connect(
   }
   return new Promise((resolve) => {
     ParticleConnectPlugin.connect(walletType, configJson, (result: string) => {
-      console.log('connect', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -183,7 +182,6 @@ export async function signMessage(
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
     ParticleConnectPlugin.signMessage(json, (result: string) => {
-      console.log('signMessage', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -210,7 +208,6 @@ export async function signTransaction(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.signTransaction(json, (result: string) => {
-      console.log('signTransaction', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -237,7 +234,6 @@ export async function signAllTransactions(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.signAllTransactions(json, (result: string) => {
-      console.log('signAllTransactions', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -254,7 +250,7 @@ export async function signAndSendTransaction(
   walletType: WalletType,
   publicAddress: string,
   transaction: string,
-  feeMode?: BiconomyFeeMode
+  feeMode?: AAFeeMode
 ): Promise<CommonResp<string>> {
   const obj = {
     wallet_type: walletType,
@@ -270,14 +266,13 @@ export async function signAndSendTransaction(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.signAndSendTransaction(json, (result: string) => {
-      console.log('signAndSendTransaction', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
 }
 
 /**
- * Batch send transactions, works with particle biconomy service
+ * Batch send transactions, works with particle aa service
  * @param transactions Transactions that you want user to sign and send
  * @param feeMode Optional, default is auto
  * @returns Result, signature or error
@@ -286,7 +281,7 @@ export async function batchSendTransactions(
   walletType: WalletType,
   publicAddress: string,
   transactions: string[],
-  feeMode?: BiconomyFeeMode
+  feeMode?: AAFeeMode
 ): Promise<CommonResp<string>> {
   const obj = {
     wallet_type: walletType,
@@ -301,7 +296,6 @@ export async function batchSendTransactions(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.batchSendTransactions(json, (result: string) => {
-      console.log('batchSendTransactions', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -336,7 +330,6 @@ export async function signTypedData(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.signTypedData(json, (result: string) => {
-      console.log('batchSendTransactions', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -365,7 +358,6 @@ export function login(
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
     ParticleConnectPlugin.login(json, (result: string) => {
-      console.log('login', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -395,7 +387,6 @@ export function verify(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.verify(json, (result: string) => {
-      console.log('verify', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -416,8 +407,6 @@ export function importPrivateKey(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.importPrivateKey(json, (result: string) => {
-      console.log('importPrivateKey', JSON.parse(result));
-
       resolve(formatRespData(result));
     });
   });
@@ -438,8 +427,6 @@ export function importMnemonic(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.importMnemonic(json, (result: string) => {
-      console.log('importMnemonic', JSON.parse(result));
-
       resolve(formatRespData(result));
     });
   });
@@ -460,8 +447,6 @@ export function exportPrivateKey(
 
   return new Promise((resolve) => {
     ParticleConnectPlugin.exportPrivateKey(json, (result: string) => {
-      console.log('exportPrivateKey', JSON.parse(result));
-
       resolve(JSON.parse(result));
     });
   });
@@ -515,7 +500,6 @@ export function switchEthereumChain(
   console.log(json);
   return new Promise((resolve) => {
     ParticleConnectPlugin.switchEthereumChain(json, (result: string) => {
-      console.log('switchEthereumChain', JSON.parse(result));
       resolve(formatRespData(result));
     });
   });
@@ -540,7 +524,6 @@ export function reconnectIfNeeded(
 
     return new Promise((resolve) => {
       ParticleConnectPlugin.reconnectIfNeeded(json, (result: string) => {
-        console.log('reconnectIfNeeded', JSON.parse(result));
         resolve(JSON.parse(result));
       });
     });

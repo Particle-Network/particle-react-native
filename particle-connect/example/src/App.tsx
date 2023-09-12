@@ -1,10 +1,10 @@
-import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
+import { ChainInfo, PolygonMumbai } from '@particle-network/chains';
 import type { RouteProp } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import ConnectDemo from './ConnectDemo';
 import SelectChainPage from './SelectChain';
@@ -14,7 +14,7 @@ const logo = require('../images/ic_round.png');
 
 type StackParamList = {
   Home: undefined;
-  ConnectDemo: undefined;
+  ConnectDemo: { chainInfo: ChainInfo };
   SelectChainPage: undefined;
   SelectWalletTypePage: undefined;
 };
@@ -37,7 +37,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.buttonStyle}
-        onPress={() => navigation.push('ConnectDemo')}
+        onPress={() =>
+          navigation.push('ConnectDemo', { chainInfo: PolygonMumbai })
+        }
       >
         <Text style={styles.textStyle}>ConnectDemo</Text>
       </TouchableOpacity>
@@ -53,7 +55,7 @@ type ConnectScreenNavigationProp = NativeStackNavigationProp<
   'ConnectDemo'
 >;
 
-interface ConnectScreenProps {
+export interface ConnectScreenProps {
   route: ConnectScreenRouteProp;
   navigation: ConnectScreenNavigationProp;
 }

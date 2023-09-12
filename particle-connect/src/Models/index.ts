@@ -6,6 +6,7 @@ export * from './WalletType';
 export interface CommonError {
   code: number;
   message: string;
+  data?: string;
 }
 
 export interface CommonResp<T> {

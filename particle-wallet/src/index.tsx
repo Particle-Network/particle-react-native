@@ -1,11 +1,11 @@
 import type { ChainInfo } from '@particle-network/chains';
+import type { WalletDisplay } from '@particle-network/rn-auth';
+import type { WalletType } from '@particle-network/rn-connect';
 import { NativeModules, Platform } from 'react-native';
-import type { WalletDisplay } from 'react-native-particle-auth';
-import type { WalletType } from 'react-native-particle-connect';
 import type { BuyCryptoConfig, WalletMetaData } from './Models';
 
 const LINKING_ERROR =
-  `The package 'react-native-particle-wallet' doesn't seem to be linked. Make sure: \n\n` +
+  `The package '@particle-network/rn-wallet' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
@@ -40,7 +40,6 @@ export function initWallet(walletMetaData: WalletMetaData) {
  * @param display Wallet display
  */
 export function navigatorWallet(display: WalletDisplay) {
-  console.log('navigatorWallet', display);
   ParticleWalletPlugin.navigatorWallet(display);
 }
 
@@ -269,7 +268,6 @@ export function getSwapDisabled(): Promise<any> {
   if (Platform.OS == 'ios') {
     return new Promise((resolve) => {
       ParticleWalletPlugin.getSwapDisabled((result: string) => {
-        console.log('getSwapDisabled', result);
         resolve(result);
       });
     });

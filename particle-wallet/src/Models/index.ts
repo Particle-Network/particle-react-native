@@ -4,6 +4,7 @@ export * from './WalletMetaData';
 export interface CommonError {
   code: number;
   message: string;
+  data?: string;
 }
 
 export interface CommonResp<T> {

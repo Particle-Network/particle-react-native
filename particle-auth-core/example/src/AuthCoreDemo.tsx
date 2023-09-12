@@ -4,6 +4,15 @@ import {
   PolygonMumbai,
   type ChainInfo,
 } from '@particle-network/chains';
+import * as particleAuth from '@particle-network/rn-auth';
+import { Env, ParticleInfo } from '@particle-network/rn-auth';
+import * as particleAuthCore from '@particle-network/rn-auth-core';
+import {
+  evm,
+  solana,
+  type CommonError,
+  type UserInfo,
+} from '@particle-network/rn-auth-core';
 import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';
 import {
@@ -16,17 +25,8 @@ import {
   View,
 } from 'react-native';
 import ModalSelector from 'react-native-modal-selector';
-import * as particleAuth from 'react-native-particle-auth';
-import { Env, ParticleInfo } from 'react-native-particle-auth';
-import * as particleAuthCore from 'react-native-particle-auth-core';
-import {
-  CommonError,
-  UserInfo,
-  evm,
-  solana,
-} from 'react-native-particle-auth-core';
 import Toast from 'react-native-toast-message';
-import { AuthCoreScreenProps } from './App';
+import type { AuthCoreScreenProps } from './App';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
 
@@ -413,7 +413,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     console.log('hasPaymentPassword', hasPaymentPassword);
   };
 
-  handleModelSelect = async ({ value }) => {
+  handleModelSelect = async ({ value }: { value: ChainInfo }) => {
     console.log(value);
     switch (this.state.currentKey) {
       case 'SwitchChain':

@@ -1,4 +1,4 @@
-import { ParticleAuthCorePlugin } from 'react-native-particle-auth-core';
+import { ParticleAuthCorePlugin } from './index';
 import type { CommonResp, SignData } from './Models';
 
 export async function getAddress(): Promise<string> {
@@ -15,7 +15,9 @@ export async function signMessage(
   });
 }
 
-export async function signTransaction(transaction: string): Promise<any> {
+export async function signTransaction(
+  transaction: string
+): Promise<CommonResp<SignData>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.solanaSignTransaction(
       transaction,
@@ -28,7 +30,7 @@ export async function signTransaction(transaction: string): Promise<any> {
 
 export async function signAllTransactions(
   transactions: string[]
-): Promise<any> {
+): Promise<CommonResp<SignData>> {
   const json = JSON.stringify(transactions);
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.solanaSignAllTransactions(json, (result: string) => {
@@ -39,7 +41,7 @@ export async function signAllTransactions(
 
 export async function signAndSendTransaction(
   transaction: string
-): Promise<any> {
+): Promise<CommonResp<SignData>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.solanaSignAndSendTransaction(
       transaction,

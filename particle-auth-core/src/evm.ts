@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer';
-import { ParticleAuthCorePlugin } from 'react-native-particle-auth-core';
 import type { CommonResp, SignData } from './Models';
+import { ParticleAuthCorePlugin } from './index';
 
 export async function getAddress(): Promise<string> {
   return await ParticleAuthCorePlugin.evmGetAddress();

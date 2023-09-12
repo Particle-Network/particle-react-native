@@ -1,6 +1,7 @@
 export interface CommonError {
   code: number;
   message: string;
+  data?: string;
 }
 
 export interface FeeQuote {
@@ -76,6 +77,7 @@ export interface UserInfo {
   jwt_id?: string;
   security_account?: SecurityAccount;
   signature?: string;
+  message?: string;
 }
 
 export interface SignData {

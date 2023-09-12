@@ -1,23 +1,26 @@
-import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import BiconomyAuthDemo from './BiconomyAuthDemo';
-import BiconomyConnectDemo from './BiconomyConnectDemo';
-import Toast from 'react-native-toast-message';
 import type { RouteProp } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Toast from 'react-native-toast-message';
+import AAAuthDemo from './AAAuthDemo';
+import AAConnectDemo from './AAConnectDemo';
 
 const logo = require('../images/ic_round.png');
 
 type StackParamList = {
   Home: undefined;
-  BiconomyAuthDemo: undefined;
-  BiconomyConnectDemo: undefined;
+  AAAuthDemo: undefined;
+  AAConnectDemo: undefined;
 };
 
 type HomeScreenRouteProp = RouteProp<StackParamList, 'Home'>;
-type HomeScreenNavigationProp = NativeStackNavigationProp<StackParamList, 'Home'>;
+type HomeScreenNavigationProp = NativeStackNavigationProp<
+  StackParamList,
+  'Home'
+>;
 
 interface HomeScreenProps {
   route: HomeScreenRouteProp;
@@ -26,58 +29,68 @@ interface HomeScreenProps {
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
-      <View style={styles.container}>
-          <Image style={styles.logo} source={logo} />
+    <View style={styles.container}>
+      <Image style={styles.logo} source={logo} />
 
-          <TouchableOpacity style={styles.buttonStyle}
-          onPress={() => navigation.push('BiconomyAuthDemo')}>
-          <Text style={styles.textStyle}>BiconomyAuthDemo</Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.buttonStyle}
+        onPress={() => navigation.push('AAAuthDemo')}
+      >
+        <Text style={styles.textStyle}>AAAuthDemo</Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonStyle}
-          onPress={() => navigation.push('BiconomyConnectDemo')}>
-          <Text style={styles.textStyle}>BiconomyConnectDemo</Text>
-        </TouchableOpacity>
-
-      </View>
+      <TouchableOpacity
+        style={styles.buttonStyle}
+        onPress={() => navigation.push('AAConnectDemo')}
+      >
+        <Text style={styles.textStyle}>AAConnectDemo</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
-
 const Stack = createNativeStackNavigator<StackParamList>();
 
-type BiconomyAuthScreenRouteProp = RouteProp<StackParamList, 'BiconomyAuthDemo'>;
-type BiconomyAuthScreenNavigationProp = NativeStackNavigationProp<StackParamList, 'BiconomyAuthDemo'>;
+type AAAuthScreenRouteProp = RouteProp<StackParamList, 'AAAuthDemo'>;
+type AAAuthScreenNavigationProp = NativeStackNavigationProp<
+  StackParamList,
+  'AAAuthDemo'
+>;
 
-interface BiconomyAuthScreenProps {
-    route: BiconomyAuthScreenRouteProp;
-    navigation: BiconomyAuthScreenNavigationProp;
+interface AAAuthScreenProps {
+  route: AAAuthScreenRouteProp;
+  navigation: AAAuthScreenNavigationProp;
 }
 
-const BiconomyAuthScreen: React.FC<BiconomyAuthScreenProps> = ({ route, navigation }) => {
-    return (
-        <View style={styles.container}>
-            <BiconomyAuthDemo navigation={navigation} route={route} />
-        </View>
-    );
+const AAAuthScreen: React.FC<AAAuthScreenProps> = ({ route, navigation }) => {
+  return (
+    <View style={styles.container}>
+      <AAAuthDemo navigation={navigation} route={route} />
+    </View>
+  );
 };
 
-type BiconomyConnectScreenRouteProp = RouteProp<StackParamList, 'BiconomyConnectDemo'>;
-type BiconomyConnectScreenNavigationProp = NativeStackNavigationProp<StackParamList, 'BiconomyConnectDemo'>;
+type AAConnectScreenRouteProp = RouteProp<StackParamList, 'AAConnectDemo'>;
+type AAConnectScreenNavigationProp = NativeStackNavigationProp<
+  StackParamList,
+  'AAConnectDemo'
+>;
 
-interface BiconomyConnectScreenProps {
-    route: BiconomyConnectScreenRouteProp;
-    navigation: BiconomyConnectScreenNavigationProp;
+interface AAConnectScreenProps {
+  route: AAConnectScreenRouteProp;
+  navigation: AAConnectScreenNavigationProp;
 }
 
-const BiconomyConnectScreen: React.FC<BiconomyConnectScreenProps> = ({ route, navigation }) => {
-    return (
-        <View style={styles.container}>
-            <BiconomyConnectDemo navigation={navigation} route={route} />
-        </View>
-    );
+const AAConnectScreen: React.FC<AAConnectScreenProps> = ({
+  route,
+  navigation,
+}) => {
+  return (
+    <View style={styles.container}>
+      <AAConnectDemo navigation={navigation} route={route} />
+    </View>
+  );
 };
-
 
 export default function App() {
   return (
@@ -85,8 +98,8 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="BiconomyAuthDemo" component={BiconomyAuthScreen} />
-          <Stack.Screen name="BiconomyConnectDemo" component={BiconomyConnectScreen} />
+          <Stack.Screen name="AAAuthDemo" component={AAAuthScreen} />
+          <Stack.Screen name="AAConnectDemo" component={AAConnectScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       <Toast />
@@ -127,6 +140,6 @@ const styles = StyleSheet.create({
 
   textStyle: {
     color: 'white',
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 });

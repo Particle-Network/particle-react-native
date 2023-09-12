@@ -1,4 +1,12 @@
 import { PolygonMumbai } from '@particle-network/chains';
+import {
+  AAFeeMode,
+  AAVersion,
+  Env,
+  LoginType,
+  ParticleInfo,
+  SupportAuthType,
+} from '@particle-network/rn-auth';
 import React, { PureComponent } from 'react';
 import {
   ActivityIndicator,
@@ -9,21 +17,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  BiconomyFeeMode,
-  BiconomyVersion,
-  Env,
-  LoginType,
-  ParticleInfo,
-  SupportAuthType,
-} from 'react-native-particle-auth';
 
-import * as particleAuth from 'react-native-particle-auth';
-import * as particleBiconomy from 'react-native-particle-biconomy';
-import {
-  CommonError,
-  FeeQuote,
-} from 'react-native-particle-biconomy/lib/typescript/Models';
+import * as particleAA from '@particle-network/rn-aa';
+import { CommonError, FeeQuote } from '@particle-network/rn-aa';
+import * as particleAuth from '@particle-network/rn-auth';
 import Toast from 'react-native-toast-message';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
@@ -62,7 +59,7 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
       137: 'your polygon mainnet key',
       80001: 'hYZIwIsf2.e18c790b-cafb-4c4e-a438-0289fc25dba1',
     };
-    particleBiconomy.init(BiconomyVersion.v1_0_0, dappAppKeys);
+    particleAA.init(AAVersion.v1_0_0, dappAppKeys);
 
     Toast.show({
       type: 'success',
@@ -101,7 +98,7 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
 
       Toast.show({
         type: 'success',
-        text1: 'Login succeessfully',
+        text1: 'Login successfully',
       });
     } else {
       const error = result.data as CommonError;
@@ -115,7 +112,7 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
   };
 
   enable = async () => {
-    particleBiconomy.enableBiconomyMode();
+    particleAA.enableAAMode();
 
     Toast.show({
       type: 'success',
@@ -124,7 +121,7 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
   };
 
   disable = async () => {
-    particleBiconomy.disableBiconomyMode();
+    particleAA.disableAAMode();
 
     Toast.show({
       type: 'success',
@@ -133,7 +130,7 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
   };
 
   isEnable = async () => {
-    const result = await particleBiconomy.isBiconomyModeEnable();
+    const result = await particleAA.isAAModeEnable();
     console.log('is enable', result);
 
     Toast.show({
@@ -155,16 +152,14 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     );
 
     console.log('transaction', transaction);
-    const result = await particleBiconomy.rpcGetFeeQuotes(eoaAddress, [
-      transaction,
-    ]);
+    const result = await particleAA.rpcGetFeeQuotes(eoaAddress, [transaction]);
 
     console.log('rpcGetFeeQuotes result', result);
   };
 
   isDeploy = async () => {
     const eoaAddress = await particleAuth.getAddress();
-    const result = await particleBiconomy.isDeploy(eoaAddress);
+    const result = await particleAA.isDeploy(eoaAddress);
 
     if (result.status) {
       const isDeploy = result.data;
@@ -186,7 +181,7 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
   };
 
   isSupportChainInfo = async () => {
-    const result = await particleBiconomy.isSupportChainInfo(PolygonMumbai);
+    const result = await particleAA.isSupportChainInfo(PolygonMumbai);
     console.log('isSupportChainInfo result', result);
     Toast.show({
       type: 'info',
@@ -195,7 +190,7 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     });
   };
 
-  signAndSendTransactionWithBiconomyAuto = async () => {
+  signAndSendTransactionWithAAAuto = async () => {
     const eoaAddress = await particleAuth.getAddress();
     const receiver = TestAccountEVM.receiverAddress;
     const amount = TestAccountEVM.amount;
@@ -207,18 +202,18 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     console.log('transaction', transaction);
     const result = await particleAuth.signAndSendTransaction(
       transaction,
-      BiconomyFeeMode.auto()
+      AAFeeMode.auto()
     );
     if (result.status) {
       const signature = result.data;
-      console.log('signAndSendTransactionWithBiconomyAuto result', signature);
+      console.log('signAndSendTransactionWithAAAuto result', signature);
     } else {
       const error = result.data;
-      console.log('signAndSendTransactionWithBiconomyAuto result', error);
+      console.log('signAndSendTransactionWithAAAuto result', error);
     }
   };
 
-  signAndSendTransactionWithBiconomyGasless = async () => {
+  signAndSendTransactionWithAAGasless = async () => {
     const eoaAddress = await particleAuth.getAddress();
     const receiver = TestAccountEVM.receiverAddress;
     const amount = TestAccountEVM.amount;
@@ -230,21 +225,18 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
 
     const result = await particleAuth.signAndSendTransaction(
       transaction,
-      BiconomyFeeMode.gasless()
+      AAFeeMode.gasless()
     );
     if (result.status) {
       const signature = result.data;
-      console.log(
-        'signAndSendTransactionWithBiconomyGasless result',
-        signature
-      );
+      console.log('signAndSendTransactionWithAAGasless result', signature);
     } else {
       const error = result.data;
-      console.log('signAndSendTransactionWithBiconomyGasless result', error);
+      console.log('signAndSendTransactionWithAAGasless result', error);
     }
   };
 
-  signAndSendTransactionWithBiconomyCustom = async () => {
+  signAndSendTransactionWithAACustom = async () => {
     const eoaAddress = await particleAuth.getAddress();
     const receiver = TestAccountEVM.receiverAddress;
     const amount = TestAccountEVM.amount;
@@ -254,20 +246,20 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
       BigNumber(amount)
     );
 
-    const feeQutotes = (await particleBiconomy.rpcGetFeeQuotes(eoaAddress, [
+    const feeQutotes = (await particleAA.rpcGetFeeQuotes(eoaAddress, [
       transaction,
     ])) as FeeQuote[];
 
     const result = await particleAuth.signAndSendTransaction(
       transaction,
-      BiconomyFeeMode.custom(feeQutotes[0])
+      AAFeeMode.custom(feeQutotes[0])
     );
     if (result.status) {
       const signature = result.data;
-      console.log('signAndSendTransactionWithBiconomyCustom result', signature);
+      console.log('signAndSendTransactionWithAACustom result', signature);
     } else {
       const error = result.data;
-      console.log('signAndSendTransactionWithBiconomyCustom result', error);
+      console.log('signAndSendTransactionWithAACustom result', error);
     }
   };
 
@@ -284,7 +276,7 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     const transactions = [transaction, transaction];
     const result = await particleAuth.batchSendTransactions(
       transactions,
-      BiconomyFeeMode.auto()
+      AAFeeMode.auto()
     );
     if (result.status) {
       const signature = result.data;
@@ -307,16 +299,16 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     { key: 'isSupportChainInfo', function: this.isSupportChainInfo },
     { key: 'batchSendTransactions', function: this.batchSendTransactions },
     {
-      key: 'signAndSendTransactionWithBiconomyAuto',
-      function: this.signAndSendTransactionWithBiconomyAuto,
+      key: 'signAndSendTransactionWithAAAuto',
+      function: this.signAndSendTransactionWithAAAuto,
     },
     {
-      key: 'signAndSendTransactionWithBiconomyGasless',
-      function: this.signAndSendTransactionWithBiconomyGasless,
+      key: 'signAndSendTransactionWithAAGasless',
+      function: this.signAndSendTransactionWithAAGasless,
     },
     {
-      key: 'signAndSendTransactionWithBiconomyCustom',
-      function: this.signAndSendTransactionWithBiconomyCustom,
+      key: 'signAndSendTransactionWithAACustom',
+      function: this.signAndSendTransactionWithAACustom,
     },
   ];
 

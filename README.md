@@ -2,27 +2,27 @@
 
 ## Particle Auth Service
 ```sh
-npm install react-native-particle-auth
+npm install @particle-network/rn-auth
 ```
 
 ## Particle Connect Service
 ```sh
-npm install react-native-particle-connect
+npm install @particle-network/rn-connect
 ```
 
 ## Particle Wallet Service
 ```sh
-npm install react-native-particle-wallet
+npm install @particle-network/rn-wallet
 ```
 
-## Particle Biconomy Service
+## Particle AA Service
 ```sh
-npm install react-native-particle-biconomy
+npm install @particle-network/rn-aa
 ```
 
 ## Particle Auth Core Service
 ```sh
-npm install react-native-particle-auth-core
+npm install @particle-network/rn-auth-core
 ```
 
 ## Getting Started
@@ -65,5 +65,3 @@ show how how to connect with jwt and open wallet.
 ## License
 
 Apache 2.0
-
-

@@ -134,11 +134,6 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun openWebWallet(customJson: String?) {
-
-  }
-
-  @ReactMethod
   fun openAccountAndSecurity() {
 
   }

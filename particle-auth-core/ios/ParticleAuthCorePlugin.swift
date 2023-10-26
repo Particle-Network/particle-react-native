@@ -333,11 +333,6 @@ class ParticleAuthCorePlugin: NSObject {
     }
     
     @objc
-    public func openWebWallet(_ json: String) {
-        auth.openWebWallet(styleJsonString: json)
-    }
-    
-    @objc
     public func hasPaymentPassword(_ callback: @escaping RCTResponseSenderBlock) {
         do {
             let result = try auth.hasPaymentPassword()

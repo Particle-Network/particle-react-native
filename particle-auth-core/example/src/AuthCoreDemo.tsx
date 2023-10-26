@@ -384,25 +384,6 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     console.log(userInfo);
   };
 
-  openWebWallet = async () => {
-    //https://docs.particle.network/developers/wallet-service/sdks/web
-    let webConfig = {
-      supportAddToken: false,
-      supportChains: [
-        {
-          id: 1,
-          name: 'Ethereum',
-        },
-        {
-          id: 5,
-          name: 'Ethereum',
-        },
-      ],
-    };
-    const webConfigJSON = JSON.stringify(webConfig);
-    particleAuthCore.openWebWallet(webConfigJSON);
-  };
-
   hasMasterPassword = async () => {
     const hasMasterPassword = await particleAuthCore.hasMasterPassword();
     console.log('hasMasterPassword', hasMasterPassword);
@@ -435,7 +416,6 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     { key: 'GetUserInfo', function: this.getUserInfo },
     { key: 'SwitchChain', function: this.switchChain },
 
-    { key: 'OpenWebWallet', function: this.openWebWallet },
     { key: 'OpenAccountAndSecurity', function: this.openAccountAndSecurity },
 
     { key: 'HasMasterPassword', function: this.hasMasterPassword },

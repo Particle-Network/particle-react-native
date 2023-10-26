@@ -140,14 +140,5 @@ export async function openAccountAndSecurity(): Promise<CommonResp<string>> {
   });
 }
 
-/**
- * Open web wallet
- */
-export function openWebWallet(webStyle?: string) {
-  if (Platform.OS === 'ios') {
-    ParticleAuthCorePlugin.openWebWallet(webStyle);
-  }
-}
-
 export * from './Models';
 export { evm, solana };

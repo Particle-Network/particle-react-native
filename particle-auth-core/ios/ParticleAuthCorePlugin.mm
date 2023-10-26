@@ -46,8 +46,6 @@ RCT_EXTERN_METHOD(solanaGetAddress: (RCTPromiseResolveBlock)resolve
 RCT_EXTERN_METHOD(getUserInfo: (RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(openWebWallet:(NSString* _Nonnull)json)
-
 
 - (dispatch_queue_t)methodQueue {
   return dispatch_get_main_queue();

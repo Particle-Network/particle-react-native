@@ -47,7 +47,7 @@ export class LoginAuthorization {
 
 export enum iOSModalPresentStyle {
     FullScreen = 'fullScreen',
-    FormSheet = 'formSheet',
+    PageSheet = 'pageSheet',
 }
 
 export enum Env {

@@ -27,24 +27,24 @@ const LINKING_ERROR =
 const ParticleAuthPlugin = NativeModules.ParticleAuthPlugin
     ? NativeModules.ParticleAuthPlugin
     : new Proxy(
-          {},
-          {
-              get() {
-                  throw new Error(LINKING_ERROR);
-              },
-          }
-      );
+        {},
+        {
+            get() {
+                throw new Error(LINKING_ERROR);
+            },
+        }
+    );
 
 export const ParticleAuthEvent = NativeModules.ParticleAuthEvent
     ? NativeModules.ParticleAuthEvent
     : new Proxy(
-          {},
-          {
-              get() {
-                  // throw new Error(LINKING_ERROR);
-              },
-          }
-      );
+        {},
+        {
+            get() {
+                // throw new Error(LINKING_ERROR);
+            },
+        }
+    );
 
 /**
  * Init Particle Auth Service.
@@ -298,6 +298,8 @@ export async function signAndSendTransaction(transaction: string, feeMode?: AAFe
         fee_mode: {
             option: feeMode?.getOption(),
             fee_quote: feeMode?.getFeeQuote(),
+            token_paymaster_address: feeMode?.getTokenPaymasterAddress(),
+            whole_fee_quote: feeMode?.getWholeFeeQuote(),
         },
     };
     const json = JSON.stringify(obj);
@@ -321,6 +323,8 @@ export async function batchSendTransactions(transactions: string[], feeMode?: AA
         fee_mode: {
             option: feeMode?.getOption(),
             fee_quote: feeMode?.getFeeQuote(),
+            token_paymaster_address: feeMode?.getTokenPaymasterAddress(),
+            whole_fee_quote: feeMode?.getWholeFeeQuote(),
         },
     };
     const json = JSON.stringify(obj);

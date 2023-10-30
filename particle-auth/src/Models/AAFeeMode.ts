@@ -1,12 +1,16 @@
-export type OptionType = 'auto' | 'gasless' | 'custom';
+export type OptionType = 'native' | 'gasless' | 'token';
 
 export class AAFeeMode {
     private option: OptionType;
     private feeQuote?: any;
+    private tokenPaymasterAddress?: string;
+    private wholeFeeQuote?: any;
 
-    constructor(option: OptionType, feeQuote?: any) {
+    constructor(option: OptionType, feeQuote?: any, tokenPaymasterAddress?: string, wholeFeeQuote?: any) {
         this.option = option;
         this.feeQuote = feeQuote;
+        this.tokenPaymasterAddress = tokenPaymasterAddress;
+        this.wholeFeeQuote = wholeFeeQuote;
     }
 
     getOption(): OptionType {
@@ -17,27 +21,35 @@ export class AAFeeMode {
         return this.feeQuote;
     }
 
+    getTokenPaymasterAddress(): string | undefined {
+        return this.tokenPaymasterAddress
+    }
+
+    getWholeFeeQuote(): string {
+        return this.wholeFeeQuote
+    }
+
     /**
      * Auto fee mode
      * @returns Auto fee mode, use native to pay gas fee.
      */
-    static auto(): AAFeeMode {
-        return new AAFeeMode('auto');
+    static native(wholeFeeQuote?: any): AAFeeMode {
+        return new AAFeeMode('native', null, undefined, wholeFeeQuote);
     }
 
     /**
      * Gasless fee mode
      * @returns Gasless fee mode, user dont need to pay gas fee.
      */
-    static gasless(): AAFeeMode {
-        return new AAFeeMode('gasless');
+    static gasless(wholeFeeQuote?: any): AAFeeMode {
+        return new AAFeeMode('gasless', null, undefined, wholeFeeQuote);
     }
 
     /**
      * Custom fee mode
      * @returns Custom fee mode, works with particle-aa rpcGetFeeQuotes method, pick one token or native to pay gas fee.
      */
-    static custom(feeQuote: any): AAFeeMode {
-        return new AAFeeMode('custom', feeQuote);
+    static token(feeQuote: any, tokenPaymasterAddress?: string): AAFeeMode {
+        return new AAFeeMode('token', feeQuote, tokenPaymasterAddress, null);
     }
 }

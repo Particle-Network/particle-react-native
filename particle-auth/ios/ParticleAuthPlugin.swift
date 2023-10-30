@@ -95,7 +95,8 @@ class ParticleAuthPlugin: NSObject {
     public func getChainInfo(_ callback: @escaping RCTResponseSenderBlock) {
         let chainInfo = ParticleNetwork.getChainInfo()
         
-        let jsonString = ["chain_name": chainInfo.name, "chain_id": chainInfo.chainId, "chain_id_name": chainInfo.network].jsonString() ?? ""
+        let jsonString = ["chain_name": chainInfo.name,
+                          "chain_id": chainInfo.chainId].jsonString() ?? ""
         
         callback([jsonString])
     }
@@ -161,90 +162,40 @@ class ParticleAuthPlugin: NSObject {
             acc = nil
         }
         
-        ParticleAuthService.login(type: loginType, account: acc, supportAuthType: supportAuthTypeArray, socialLoginPrompt: socialLoginPrompt, authorization: loginAuthorization).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let userInfo):
-                guard let userInfo = userInfo else { return }
-                let userInfoJsonString = userInfo.jsonStringFullSnake()
-                let newUserInfo = JSON(parseJSON: userInfoJsonString)
-                let statusModel = ReactStatusModel(status: true, data: newUserInfo)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        let observable = ParticleAuthService.login(type: loginType, account: acc, supportAuthType: supportAuthTypeArray, socialLoginPrompt: socialLoginPrompt, authorization: loginAuthorization).map { userInfo in
+            let userInfoJsonString = userInfo?.jsonStringFullSnake()
+            let newUserInfo = JSON(parseJSON: userInfoJsonString ?? "")
+            return newUserInfo
+        }
+        
+        subscribeAndCallback(observable: observable, callback: callback)
     }
     
     @objc
     public func logout(_ callback: @escaping RCTResponseSenderBlock) {
-        ParticleAuthService.logout().subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let success):
-                let statusModel = ReactStatusModel(status: true, data: success)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: ParticleAuthService.logout(), callback: callback)
     }
 
     @objc
     public func fastLogout(_ callback: @escaping RCTResponseSenderBlock) {
-        ParticleAuthService.fastLogout().subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let success):
-                let statusModel = ReactStatusModel(status: true, data: success)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: ParticleAuthService.fastLogout(), callback: callback)
     }
     
     @objc
     public func isLogin(_ callback: RCTResponseSenderBlock) {
-        callback([ParticleAuthService.isLogin()])
+        let isLogin = ParticleAuthService.isLogin()
+        callback([isLogin])
     }
     
     @objc
     public func isLoginAsync(_ callback: @escaping RCTResponseSenderBlock) {
-        ParticleAuthService.isLoginAsync().subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let userInfo):
-                let statusModel = ReactStatusModel(status: true, data: userInfo)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        let observable = ParticleAuthService.isLoginAsync().map { userInfo in
+            let userInfoJsonString = userInfo.jsonStringFullSnake()
+            let newUserInfo = JSON(parseJSON: userInfoJsonString)
+            return newUserInfo
+        }
+        
+        subscribeAndCallback(observable: observable, callback: callback)
     }
     
     @objc
@@ -257,22 +208,7 @@ class ParticleAuthPlugin: NSObject {
             serializedMessage = message
         }
         
-        ParticleAuthService.signMessage(serializedMessage).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let signedMessage):
-                let statusModel = ReactStatusModel(status: true, data: signedMessage)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: ParticleAuthService.signMessage(serializedMessage), callback: callback)
     }
     
     @objc
@@ -285,153 +221,96 @@ class ParticleAuthPlugin: NSObject {
             serializedMessage = message
         }
         
-        ParticleAuthService.signMessageUnique(serializedMessage).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let signedMessage):
-                let statusModel = ReactStatusModel(status: true, data: signedMessage)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: ParticleAuthService.signMessageUnique(serializedMessage), callback: callback)
     }
     
     @objc
     public func signTransaction(_ transaction: String, callback: @escaping RCTResponseSenderBlock) {
-        ParticleAuthService.signTransaction(transaction).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let signed):
-                let statusModel = ReactStatusModel(status: true, data: signed)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: ParticleAuthService.signTransaction(transaction), callback: callback)
     }
     
     @objc
     public func signAllTransactions(_ transactions: String, callback: @escaping RCTResponseSenderBlock) {
         let transactions = JSON(parseJSON: transactions).arrayValue.map { $0.stringValue }
-        ParticleAuthService.signAllTransactions(transactions).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let signedMessage):
-                let statusModel = ReactStatusModel(status: true, data: signedMessage)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        
+        subscribeAndCallback(observable: ParticleAuthService.signAllTransactions(transactions), callback: callback)
     }
     
     @objc
-    public func signAndSendTransaction(_ message: String, callback: @escaping RCTResponseSenderBlock) {
-        let data = JSON(parseJSON: message)
+    public func signAndSendTransaction(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+        let data = JSON(parseJSON: json)
         let transaction = data["transaction"].stringValue
         let mode = data["fee_mode"]["option"].stringValue
-        var feeMode: Biconomy.FeeMode = .auto
-        if mode == "auto" {
-            feeMode = .auto
+        var feeMode: AA.FeeMode = .native
+        if mode == "native" {
+            feeMode = .native
         } else if mode == "gasless" {
             feeMode = .gasless
-        } else if mode == "custom" {
+        } else if mode == "token" {
             let feeQuoteJson = JSON(data["fee_mode"]["fee_quote"].dictionaryValue)
-            let feeQuote = Biconomy.FeeQuote(json: feeQuoteJson)
-            feeMode = .custom(feeQuote)
+            let tokenPaymasterAddress = data["fee_mode"]["token_paymaster_address"].stringValue
+            let feeQuote = AA.FeeQuote(json: feeQuoteJson, tokenPaymasterAddress: tokenPaymasterAddress)
+
+            feeMode = .token(feeQuote)
         }
-        
-        ParticleAuthService.signAndSendTransaction(transaction, feeMode: feeMode).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let signature):
-                let statusModel = ReactStatusModel(status: true, data: signature)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+               
+        let wholeFeeQuoteData = (try? data["fee_mode"]["whole_fee_quote"].rawData()) ?? Data()
+        let wholeFeeQuote = try? JSONDecoder().decode(AA.WholeFeeQuote.self, from: wholeFeeQuoteData)
+               
+        let aaService = ParticleNetwork.getAAService()
+        var sendObservable: Single<String>
+        if aaService != nil, aaService!.isAAModeEnable() {
+            sendObservable = aaService!.quickSendTransactions([transaction], feeMode: feeMode, messageSigner: self, wholeFeeQuote: wholeFeeQuote)
+        } else {
+            sendObservable = ParticleAuthService.signAndSendTransaction(transaction, feeMode: feeMode)
+        }
+                   
+        subscribeAndCallback(observable: sendObservable, callback: callback)
     }
     
     @objc
-    public func batchSendTransactions(_ message: String, callback: @escaping RCTResponseSenderBlock) {
-        let data = JSON(parseJSON: message)
+    public func batchSendTransactions(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+        let data = JSON(parseJSON: json)
         let transactions = data["transactions"].arrayValue.map {
             $0.stringValue
         }
         let mode = data["fee_mode"]["option"].stringValue
-        var feeMode: Biconomy.FeeMode = .auto
-        if mode == "auto" {
-            feeMode = .auto
+        var feeMode: AA.FeeMode = .native
+        if mode == "native" {
+            feeMode = .native
         } else if mode == "gasless" {
             feeMode = .gasless
-        } else if mode == "custom" {
+        } else if mode == "token" {
             let feeQuoteJson = JSON(data["fee_mode"]["fee_quote"].dictionaryValue)
-            let feeQuote = Biconomy.FeeQuote(json: feeQuoteJson)
-            feeMode = .custom(feeQuote)
+            let tokenPaymasterAddress = data["fee_mode"]["token_paymaster_address"].stringValue
+            let feeQuote = AA.FeeQuote(json: feeQuoteJson, tokenPaymasterAddress: tokenPaymasterAddress)
+
+            feeMode = .token(feeQuote)
         }
-        
-        guard let biconomy = ParticleNetwork.getBiconomyService() else {
-            let response = ReactResponseError(code: nil, message: "biconomy is not init", data: nil)
+               
+        let wholeFeeQuoteData = (try? data["fee_mode"]["whole_fee_quote"].rawData()) ?? Data()
+        let wholeFeeQuote = try? JSONDecoder().decode(AA.WholeFeeQuote.self, from: wholeFeeQuoteData)
+               
+        guard let aaService = ParticleNetwork.getAAService() else {
+            let response = ReactResponseError(code: nil, message: "aa service is not init", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
             guard let json = String(data: data, encoding: .utf8) else { return }
             callback([json])
             return
         }
-        
-        guard biconomy.isBiconomyModeEnable() else {
-            let response = ReactResponseError(code: nil, message: "biconomy is not enable", data: nil)
+               
+        guard aaService.isAAModeEnable() else {
+            let response = ReactResponseError(code: nil, message: "aa service is not enable", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
             guard let json = String(data: data, encoding: .utf8) else { return }
             callback([json])
             return
         }
-        
-        biconomy.quickSendTransactions(transactions, feeMode: feeMode, messageSigner: self).subscribe {
-            [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .failure(let error):
-                    let response = self.ResponseFromError(error)
-                    let statusModel = ReactStatusModel(status: false, data: response)
-                    let data = try! JSONEncoder().encode(statusModel)
-                    guard let json = String(data: data, encoding: .utf8) else { return }
-                    callback([json])
-                case .success(let signature):
-                    let statusModel = ReactStatusModel(status: true, data: signature)
-                    let data = try! JSONEncoder().encode(statusModel)
-                    guard let json = String(data: data, encoding: .utf8) else { return }
-                    callback([json])
-                }
-                
-        }.disposed(by: bag)
+        let sendObservable: Single<String> = aaService.quickSendTransactions(transactions, feeMode: feeMode, messageSigner: self, wholeFeeQuote: wholeFeeQuote)
+               
+        subscribeAndCallback(observable: sendObservable, callback: callback)
     }
     
     @objc
@@ -440,7 +319,7 @@ class ParticleAuthPlugin: NSObject {
         let message = data["message"].stringValue
         
         let version = data["version"].stringValue.lowercased()
-        var signTypedDataVersion: EVMSignTypedDataVersion?
+        var signTypedDataVersion: EVMSignTypedDataVersion = .v4
         if version == "v1" {
             signTypedDataVersion = .v1
         } else if version == "v3" {
@@ -451,26 +330,7 @@ class ParticleAuthPlugin: NSObject {
             signTypedDataVersion = .v4Unique
         }
         
-        guard let signTypedDataVersion = signTypedDataVersion else {
-            return
-        }
-       
-        ParticleAuthService.signTypedData(message, version: signTypedDataVersion).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let signedMessage):
-                let statusModel = ReactStatusModel(status: true, data: signedMessage)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: ParticleAuthService.signTypedData(message, version: signTypedDataVersion), callback: callback)
     }
     
     @objc
@@ -497,7 +357,7 @@ class ParticleAuthPlugin: NSObject {
         if style == "fullScreen" {
             ParticleAuthService.setModalPresentStyle(.fullScreen)
         } else {
-            ParticleAuthService.setModalPresentStyle(.formSheet)
+            ParticleAuthService.setModalPresentStyle(.pageSheet)
         }
     }
     
@@ -616,30 +476,15 @@ class ParticleAuthPlugin: NSObject {
         
     @objc
     public func getSecurityAccount(_ callback: @escaping RCTResponseSenderBlock) {
-        ParticleAuthService.getSecurityAccount().subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let securityAccountInfo):
-                
-                let dict = ["phone": securityAccountInfo.phone,
-                            "email": securityAccountInfo.email,
-                            "has_set_master_password": securityAccountInfo.hasSetMasterPassword,
-                            "has_set_payment_password": securityAccountInfo.hasSetPaymentPassword] as [String: Any?]
-                
-                let json = JSON(dict)
-                
-                let statusModel = ReactStatusModel(status: true, data: json)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: ParticleAuthService.getSecurityAccount().map { securityAccountInfo in
+            let dict = ["phone": securityAccountInfo.phone,
+                        "email": securityAccountInfo.email,
+                        "has_set_master_password": securityAccountInfo.hasSetMasterPassword,
+                        "has_set_payment_password": securityAccountInfo.hasSetPaymentPassword] as [String: Any?]
+                   
+            let json = JSON(dict)
+            return json
+        }, callback: callback)
     }
 }
 
@@ -693,16 +538,33 @@ class ParticleAuthEvent: RCTEventEmitter {
     }
 }
 
-extension ParticleAuthPlugin: MessageSigner {
-    public func signTypedData(_ message: String) -> RxSwift.Single<String> {
-        return ParticleAuthService.signTypedData(message, version: .v4)
+extension ParticleAuthPlugin {
+    private func subscribeAndCallback<T: Codable>(observable: Single<T>, callback: @escaping RCTResponseSenderBlock) {
+        observable.subscribe { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                let response = self.ResponseFromError(error)
+                let statusModel = ReactStatusModel(status: false, data: response)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            case .success(let signedMessage):
+                let statusModel = ReactStatusModel(status: true, data: signedMessage)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            }
+        }.disposed(by: bag)
     }
-    
-    public func signMessage(_ message: String) -> RxSwift.Single<String> {
+}
+
+extension ParticleAuthPlugin: MessageSigner {
+    func signMessage(_ message: String) -> RxSwift.Single<String> {
         return ParticleAuthService.signMessage(message)
     }
     
-    public func getEoaAddress() -> String {
+    func getEoaAddress() -> String {
         ParticleAuthService.getAddress()
     }
 }

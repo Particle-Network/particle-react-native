@@ -5,20 +5,22 @@
 //  Created by link on 2022/9/28.
 //
 
+import AuthCoreAdapter
 import Base58_swift
+import ConnectCommon
 import Foundation
 import ParticleAuthCore
 import ParticleNetworkBase
 import RxSwift
 import SwiftyJSON
-import AuthCoreAdapter
-import ConnectCommon
+
+typealias ParticleCallback = RCTResponseSenderBlock
 
 @objc(ParticleAuthCorePlugin)
 class ParticleAuthCorePlugin: NSObject {
     let bag = DisposeBag()
     let auth = Auth()
-    
+
     @objc
     static func requiresMainQueueSetup() -> Bool {
         return true
@@ -28,7 +30,7 @@ class ParticleAuthCorePlugin: NSObject {
     public func initialize(_ json: String) {
         ConnectManager.setMoreAdapters([AuthCoreAdapter()])
     }
-    
+
     @objc
     public func switchChain(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let data = JSON(parseJSON: json)
@@ -38,7 +40,7 @@ class ParticleAuthCorePlugin: NSObject {
             callback([false])
             return
         }
-            
+
         Task {
             do {
                 let flag = try await auth.switchChain(chainInfo: chainInfo)
@@ -52,239 +54,135 @@ class ParticleAuthCorePlugin: NSObject {
     @objc
     public func connect(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let jwt = json
-        Task {
-            do {
-                let userInfo = try await auth.connect(jwt: jwt)
-                let userInfoJsonString = userInfo.jsonStringFullSnake()
-                let newUserInfo = JSON(parseJSON: userInfoJsonString)
-                let statusModel = ReactStatusModel(status: true, data: newUserInfo)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            } catch {
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
+
+        let observable = Single<String>.fromAsync { [weak self] in
+            guard let self = self else {
+                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
             }
+            return try await self.auth.connect(jwt: jwt)
+        }.map { userInfo in
+            let userInfoJsonString = userInfo.jsonStringFullSnake()
+            let newUserInfo = JSON(parseJSON: userInfoJsonString)
+            return newUserInfo
         }
+
+        subscribeAndCallback(observable: observable, callback: callback)
     }
-    
+
     @objc
     public func disconnect(_ callback: @escaping RCTResponseSenderBlock) {
-        Task {
-            do {
-                let success = try await auth.disconnect()
-                let statusModel = ReactStatusModel(status: true, data: success)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            } catch {
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
+        subscribeAndCallback(observable: Single<String>.fromAsync { [weak self] in
+            guard let self = self else {
+                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
             }
-        }
+            return try await self.auth.disconnect()
+        }, callback: callback)
     }
 
     @objc
     public func isConnected(_ callback: @escaping RCTResponseSenderBlock) {
-        Task {
-            do {
-                let flag = try await auth.isConnected()
-                let statusModel = ReactStatusModel(status: true, data: flag)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            } catch {
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
+        subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
+            guard let self = self else {
+                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
             }
-        }
+            return try await self.auth.isConnected()
+        }, callback: callback)
     }
-    
+
     @objc
     public func solanaSignMessage(_ message: String, callback: @escaping RCTResponseSenderBlock) {
         let serializedMessage = Base58.encode(message.data(using: .utf8)!)
-        
-        Task {
-            do {
-                let signature = try await auth.solana.signMessage(serializedMessage)
-                let statusModel = ReactStatusModel(status: true, data: signature)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-                
-            } catch {
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
+
+        subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
+            guard let self = self else {
+                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
             }
-        }
+            return try await self.auth.solana.signMessage(serializedMessage)
+        }, callback: callback)
     }
-    
+
     @objc
     public func solanaSignTransaction(_ transaction: String, callback: @escaping RCTResponseSenderBlock) {
-        Task {
-            do {
-                let signature = try await auth.solana.signTransaction(transaction)
-                let statusModel = ReactStatusModel(status: true, data: signature)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            } catch {
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
+        subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
+            guard let self = self else {
+                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
             }
-        }
+            return try await self.auth.solana.signTransaction(transaction)
+        }, callback: callback)
     }
-    
+
     @objc
     public func solanaSignAllTransactions(_ transactions: String, callback: @escaping RCTResponseSenderBlock) {
         let transactions = JSON(parseJSON: transactions).arrayValue.map { $0.stringValue }
-        
-        Task {
-            do {
-                let signatures = try await auth.solana.signAllTransactions(transactions)
-                let statusModel = ReactStatusModel(status: true, data: signatures)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            } catch {
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
+
+        subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
+            guard let self = self else {
+                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
             }
-        }
+            return try await self.auth.solana.signAllTransactions(transactions)
+        }, callback: callback)
     }
-    
+
     @objc
     public func solanaSignAndSendTransaction(_ transaction: String, callback: @escaping RCTResponseSenderBlock) {
-        Task {
-            do {
-                let signature = try await auth.solana.signAndSendTransaction(transaction)
-                let statusModel = ReactStatusModel(status: true, data: signature)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            } catch {
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
+        subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
+            guard let self = self else {
+                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
             }
-        }
+            return try await self.auth.solana.signAndSendTransaction(transaction)
+        }, callback: callback)
     }
-    
+
     @objc
     public func evmPersonalSign(_ message: String, callback: @escaping RCTResponseSenderBlock) {
-        Task {
-            do {
-                let signature = try await auth.evm.personalSign(message)
-                let statusModel = ReactStatusModel(status: true, data: signature)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            } catch {
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
+        subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
+            guard let self = self else {
+                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
             }
-        }
+            return try await self.auth.evm.personalSign(message)
+        }, callback: callback)
     }
-    
+
     @objc
     public func evmPersonalSignUnique(_ message: String, callback: @escaping RCTResponseSenderBlock) {
-        Task {
-            do {
-                let signature = try await auth.evm.personalSignUnique(message)
-                let statusModel = ReactStatusModel(status: true, data: signature)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            } catch {
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
+        subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
+            guard let self = self else {
+                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
             }
-        }
+            return try await self.auth.evm.personalSignUnique(message)
+        }, callback: callback)
     }
 
     @objc
     public func evmSignTypedData(_ message: String, callback: @escaping RCTResponseSenderBlock) {
-        Task {
-            do {
-                let signature = try await auth.evm.signTypedData(message)
-                let statusModel = ReactStatusModel(status: true, data: signature)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            } catch {
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
+        subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
+            guard let self = self else {
+                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
             }
-        }
+            return try await self.auth.evm.signTypedData(message)
+        }, callback: callback)
     }
 
     @objc
     public func evmSignTypedDataUnique(_ message: String, callback: @escaping RCTResponseSenderBlock) {
-        Task {
-            do {
-                let signature = try await auth.evm.signTypedDataUnique(message)
-                let statusModel = ReactStatusModel(status: true, data: signature)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            } catch {
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
+        subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
+            guard let self = self else {
+                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
             }
-        }
+            return try await self.auth.evm.signTypedDataUnique(message)
+        }, callback: callback)
     }
-    
+
     @objc
     public func evmSendTransaction(_ transaction: String, callback: @escaping RCTResponseSenderBlock) {
-        Task {
-            do {
-                let signature = try await auth.evm.sendTransaction(transaction)
-                let statusModel = ReactStatusModel(status: true, data: signature)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            } catch {
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
+        subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
+            guard let self = self else {
+                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
             }
-        }
+            return try await self.auth.evm.sendTransaction(transaction)
+        }, callback: callback)
     }
-    
+
     @objc
     public func solanaGetAddress(_ resolve: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
         let address = auth.solana.getAddress()
@@ -296,7 +194,7 @@ class ParticleAuthCorePlugin: NSObject {
         let address = auth.evm.getAddress()
         resolve(address)
     }
-    
+
     @objc
     public func getUserInfo(_ resolve: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
         guard let userInfo = auth.getUserInfo() else {
@@ -311,59 +209,50 @@ class ParticleAuthCorePlugin: NSObject {
         let json = String(data: data, encoding: .utf8)
         resolve(json ?? "")
     }
-    
+
     @objc
     public func openAccountAndSecurity(_ callback: @escaping RCTResponseSenderBlock) {
-        Task {
-            do {
-                try await auth.openAccountAndSecurity()
-                let null: String? = nil
-                let statusModel = ReactStatusModel(status: false, data: null)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            } catch {
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
+        let observable = Single<Void>.fromAsync {
+            [weak self] in
+                guard let self = self else {
+                    throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
+                }
+                try self.auth.openAccountAndSecurity()
+        }.map {
+            ""
         }
+
+        subscribeAndCallback(observable: observable, callback: callback)
     }
-    
+
     @objc
     public func hasPaymentPassword(_ callback: @escaping RCTResponseSenderBlock) {
-        do {
-            let result = try auth.hasPaymentPassword()
-            let statusModel = ReactStatusModel(status: false, data: result)
-            let data = try! JSONEncoder().encode(statusModel)
-            guard let json = String(data: data, encoding: .utf8) else { return }
-            callback([json])
-        } catch {
-            let response = ResponseFromError(error)
-            let statusModel = ReactStatusModel(status: false, data: response)
-            let data = try! JSONEncoder().encode(statusModel)
-            guard let json = String(data: data, encoding: .utf8) else { return }
-            callback([json])
-        }
+        subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
+            guard let self = self else {
+                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
+            }
+            return try self.auth.hasPaymentPassword()
+        }, callback: callback)
     }
-    
+
     @objc
     public func hasMasterPassword(_ callback: @escaping RCTResponseSenderBlock) {
-        do {
-            let result = try auth.hasMasterPassword()
-            let statusModel = ReactStatusModel(status: false, data: result)
-            let data = try! JSONEncoder().encode(statusModel)
-            guard let json = String(data: data, encoding: .utf8) else { return }
-            callback([json])
-        } catch {
-            let response = ResponseFromError(error)
-            let statusModel = ReactStatusModel(status: false, data: response)
-            let data = try! JSONEncoder().encode(statusModel)
-            guard let json = String(data: data, encoding: .utf8) else { return }
-            callback([json])
-        }
+        subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
+            guard let self = self else {
+                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
+            }
+            return try self.auth.hasMasterPassword()
+        }, callback: callback)
+    }
+
+    @objc
+    public func changeMasterPassword(_ callback: @escaping RCTResponseSenderBlock) {
+        subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
+            guard let self = self else {
+                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
+            }
+            return try await self.auth.changeMasterPassword()
+        }, callback: callback)
     }
 }
 
@@ -375,5 +264,38 @@ public extension Dictionary {
         let options = (prettify == true) ? JSONSerialization.WritingOptions.prettyPrinted : JSONSerialization.WritingOptions()
         guard let jsonData = try? JSONSerialization.data(withJSONObject: self, options: options) else { return nil }
         return String(data: jsonData, encoding: .utf8)
+    }
+}
+
+extension ParticleAuthCorePlugin {
+    private func subscribeAndCallback<T: Codable>(observable: Single<T>, callback: @escaping ParticleCallback) {
+        observable.subscribe { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                let response = self.ResponseFromError(error)
+                let statusModel = ReactStatusModel(status: false, data: response)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            case .success(let signedMessage):
+                let statusModel = ReactStatusModel(status: true, data: signedMessage)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            }
+        }.disposed(by: bag)
+    }
+}
+
+extension Single {
+    static func fromAsync<T>(_ fn: @escaping () async throws -> T) -> Single<T> {
+        .create { observer in
+            let task = Task {
+                do { try await observer(.success(fn())) }
+                catch { observer(.failure(error)) }
+            }
+            return Disposables.create { task.cancel() }
+        }.observe(on: MainScheduler.instance)
     }
 }

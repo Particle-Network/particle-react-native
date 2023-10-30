@@ -37,6 +37,8 @@ RCT_EXTERN_METHOD(hasMasterPassword: (RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(hasPaymentPassword: (RCTResponseSenderBlock)callback)
 
+RCT_EXTERN_METHOD(changeMasterPassword: (RCTResponseSenderBlock)callback)
+
 RCT_EXTERN_METHOD(evmGetAddress: (RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 

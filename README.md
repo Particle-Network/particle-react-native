@@ -1,5 +1,10 @@
 # Particle Service in React Native
 
+#### Note For iOS
+Please note that the SDK supports `ios-arm64` (iOS devices) and `ios-arm64-simulator` (M-series chip simulators). We currently do not support `ios-x86_64-simulator` (Intel chip simulators).
+
+
+
 ## Particle Auth Service
 ```sh
 npm install @particle-network/rn-auth

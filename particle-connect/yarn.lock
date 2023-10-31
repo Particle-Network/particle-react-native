@@ -1829,9 +1829,15 @@
   dependencies:
     "@octokit/openapi-types" "^18.0.0"
 
-"@particle-network/rn-auth@file:../particle-auth":
-  version "1.0.6"
-  resolved "file:../particle-auth"
+"@particle-network/chains@^1.2.5":
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.3.0.tgz"
+  integrity sha512-KId6Ko06yWp0CoVLCoQ2zu1ePHgs3tHm0/t81xflVyWmwd62ChKt+eFADQY+/CyVqK61HBN7Jlq2BQghXKK/iA==
+
+"@particle-network/rn-auth@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.1.0.tgz"
+  integrity sha512-7/B1pgan2eoAyD16enlPtuB5RaJAqNuFWxHrau1hodW79Ohn17U0emKv0Drf5PVnuDv8E5yW6BdJZZvkk3gsoA==
   dependencies:
     "@particle-network/chains" "^1.2.5"
     axios "^1.3.4"
@@ -2888,6 +2894,11 @@ big-integer@^1.6.44:
   version "1.6.51"
   resolved "https://registry.npmmirror.com/big-integer/-/big-integer-1.6.51.tgz"
   integrity sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==
+
+bignumber.js@^9.1.0:
+  version "9.1.2"
+  resolved "https://registry.npmjs.org/bignumber.js/-/bignumber.js-9.1.2.tgz"
+  integrity sha512-2/mKyZH9K85bzOEfhXDBFZTGd1CTs+5IHpeFQo9luiBG7hghdC851Pj2WAhb6E3R6b9tZj/XKhbg4fum+Kepug==
 
 bl@^4.1.0:
   version "4.1.0"
@@ -8165,7 +8176,7 @@ react-native-gradle-plugin@^0.70.3:
   resolved "https://registry.npmmirror.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.70.3.tgz"
   integrity sha512-oOanj84fJEXUg9FoEAQomA8ISG+DVIrTZ3qF7m69VQUJyOGYyDZmPqKcjvRku4KXlEH6hWO9i4ACLzNBh8gC0A==
 
-react-native@0.70.6:
+react-native@*, react-native@0.70.6:
   version "0.70.6"
   resolved "https://registry.npmmirror.com/react-native/-/react-native-0.70.6.tgz"
   integrity sha512-xtQdImPHnwgraEx3HIZFOF+D1hJ9bC5mfpIdUGoMHRws6OmvHAjmFpO6qfdnaQ29vwbmZRq7yf14sbury74R/w==
@@ -8216,7 +8227,7 @@ react-shallow-renderer@^16.15.0:
     object-assign "^4.1.1"
     react-is "^16.12.0 || ^17.0.0 || ^18.0.0"
 
-"react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@18.1.0:
+react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@18.1.0:
   version "18.1.0"
   resolved "https://registry.npmmirror.com/react/-/react-18.1.0.tgz"
   integrity sha512-4oL8ivCz5ZEPyclFQXaNksK3adutVS8l2xzZU0cqEFrE9Sb7fC0EFK5uEk74wIreL1DERyjvsU915j1pcT2uEQ==

@@ -113,6 +113,13 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   restoreWeb3_getAccounts = async () => {
     try {
       console.log('pnaccount.publicAddress ', this.pnaccount.publicAddress);
+      this.web3 = restoreWeb3(
+        '5479798b-26a9-4943-b848-649bb104fdc3',
+        'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b',
+        PNAccount.walletType,
+        this.pnaccount.publicAddress
+      );
+
       const accounts = await this.web3.eth.getAccounts();
       this.pnaccount = new PNAccount([], '', accounts[0] as string, '');
       console.log('web3.eth.getAccounts', accounts);
@@ -396,7 +403,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     console.log(chainInfo);
     Toast.show({
       type: 'success',
-      text1: 'Successfully get chain info',
+      text1: `Successfully get chain info ${chainInfo.name} ${chainInfo.network} ${chainInfo.id}`,
     });
   };
 

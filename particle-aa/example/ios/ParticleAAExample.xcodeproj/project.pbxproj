@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* ParticleBiconomyExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ParticleBiconomyExampleTests.m */; };
+		00E356F31AD99517003FC87E /* ParticleAAExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ParticleAAExampleTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -30,22 +30,22 @@
 /* Begin PBXFileReference section */
 		00E356EE1AD99517003FC87E /* ParticleAAExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParticleAAExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* ParticleBiconomyExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParticleBiconomyExampleTests.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* ParticleAAExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParticleAAExampleTests.m; sourceTree = "<group>"; };
 		05FCA373216831AF5AFBE6EF /* Pods_ParticleAAExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ParticleAAExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* ParticleAAExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParticleAAExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ParticleBiconomyExample/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = ParticleBiconomyExample/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ParticleBiconomyExample/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ParticleBiconomyExample/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ParticleBiconomyExample/main.m; sourceTree = "<group>"; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		140C8658B6B5AF26A9588D4A /* Pods-ParticleAAExample-ParticleAAExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParticleAAExample-ParticleAAExampleTests.release.xcconfig"; path = "Target Support Files/Pods-ParticleAAExample-ParticleAAExampleTests/Pods-ParticleAAExample-ParticleAAExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-ParticleBiconomyExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParticleBiconomyExample.debug.xcconfig"; path = "Target Support Files/Pods-ParticleBiconomyExample/Pods-ParticleBiconomyExample.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-ParticleBiconomyExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParticleBiconomyExample.release.xcconfig"; path = "Target Support Files/Pods-ParticleBiconomyExample/Pods-ParticleBiconomyExample.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-ParticleBiconomyExample-ParticleBiconomyExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParticleBiconomyExample-ParticleBiconomyExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-ParticleBiconomyExample-ParticleBiconomyExampleTests/Pods-ParticleBiconomyExample-ParticleBiconomyExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5F16252B2A1787E60060A7DD /* ParticleNetwork-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ParticleNetwork-Info.plist"; path = "ParticleBiconomyExample/ParticleNetwork-Info.plist"; sourceTree = "<group>"; };
+		5F16252B2A1787E60060A7DD /* ParticleNetwork-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ParticleNetwork-Info.plist"; sourceTree = "<group>"; };
 		60B92DA39A6CE93233E86BE4 /* Pods_ParticleAAExample_ParticleAAExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ParticleAAExample_ParticleAAExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7831E19F925C189525B50BDD /* Pods-ParticleAAExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParticleAAExample.release.xcconfig"; path = "Target Support Files/Pods-ParticleAAExample/Pods-ParticleAAExample.release.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ParticleBiconomyExample/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		86FA434EE96FBA9955C18F65 /* Pods-ParticleAAExample-ParticleAAExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParticleAAExample-ParticleAAExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-ParticleAAExample-ParticleAAExampleTests/Pods-ParticleAAExample-ParticleAAExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-ParticleBiconomyExample-ParticleBiconomyExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParticleBiconomyExample-ParticleBiconomyExampleTests.release.xcconfig"; path = "Target Support Files/Pods-ParticleBiconomyExample-ParticleBiconomyExampleTests/Pods-ParticleBiconomyExample-ParticleBiconomyExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -72,13 +72,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* ParticleBiconomyExampleTests */ = {
+		00E356EF1AD99517003FC87E /* ParticleAAExampleTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* ParticleBiconomyExampleTests.m */,
+				00E356F21AD99517003FC87E /* ParticleAAExampleTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = ParticleBiconomyExampleTests;
+			path = ParticleAAExampleTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -100,7 +100,7 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = ParticleAAExample;
+			path = ParticleAAExample;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -125,7 +125,7 @@
 			children = (
 				13B07FAE1A68108700A75B9A /* ParticleAAExample */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* ParticleBiconomyExampleTests */,
+				00E356EF1AD99517003FC87E /* ParticleAAExampleTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
@@ -380,7 +380,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* ParticleBiconomyExampleTests.m in Sources */,
+				00E356F31AD99517003FC87E /* ParticleAAExampleTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

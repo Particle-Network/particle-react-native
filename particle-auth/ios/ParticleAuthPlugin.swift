@@ -12,6 +12,8 @@ import ParticleNetworkBase
 import RxSwift
 import SwiftyJSON
 
+typealias ParticleCallBack = RCTResponseSenderBlock
+
 @objc(ParticleAuthPlugin)
 class ParticleAuthPlugin: NSObject {
     let bag = DisposeBag()
@@ -539,7 +541,7 @@ class ParticleAuthEvent: RCTEventEmitter {
 }
 
 extension ParticleAuthPlugin {
-    private func subscribeAndCallback<T: Codable>(observable: Single<T>, callback: @escaping RCTResponseSenderBlock) {
+    private func subscribeAndCallback<T: Codable>(observable: Single<T>, callback: @escaping ParticleCallBack) {
         observable.subscribe { [weak self] result in
             guard let self = self else { return }
             switch result {

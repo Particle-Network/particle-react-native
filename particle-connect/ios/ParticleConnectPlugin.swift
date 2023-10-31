@@ -35,6 +35,8 @@ import ConnectCommon
 import RxSwift
 import SwiftyJSON
 
+typealias ParticleCallBack = RCTResponseSenderBlock
+
 @objc(ParticleConnectPlugin)
 class ParticleConnectPlugin: NSObject {
     let bag = DisposeBag()
@@ -864,7 +866,7 @@ public extension Dictionary {
 }
 
 extension ParticleConnectPlugin {
-    private func subscribeAndCallback<T: Codable>(observable: Single<T>, callback: @escaping RCTResponseSenderBlock) {
+    private func subscribeAndCallback<T: Codable>(observable: Single<T>, callback: @escaping ParticleCallBack) {
         observable.subscribe { [weak self] result in
             guard let self = self else { return }
             switch result {

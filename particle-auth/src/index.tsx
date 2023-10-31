@@ -27,24 +27,24 @@ const LINKING_ERROR =
 const ParticleAuthPlugin = NativeModules.ParticleAuthPlugin
     ? NativeModules.ParticleAuthPlugin
     : new Proxy(
-        {},
-        {
-            get() {
-                throw new Error(LINKING_ERROR);
-            },
-        }
-    );
+          {},
+          {
+              get() {
+                  throw new Error(LINKING_ERROR);
+              },
+          }
+      );
 
 export const ParticleAuthEvent = NativeModules.ParticleAuthEvent
     ? NativeModules.ParticleAuthEvent
     : new Proxy(
-        {},
-        {
-            get() {
-                // throw new Error(LINKING_ERROR);
-            },
-        }
-    );
+          {},
+          {
+              get() {
+                  // throw new Error(LINKING_ERROR);
+              },
+          }
+      );
 
 /**
  * Init Particle Auth Service.
@@ -302,6 +302,7 @@ export async function signAndSendTransaction(transaction: string, feeMode?: AAFe
             whole_fee_quote: feeMode?.getWholeFeeQuote(),
         },
     };
+    console.log('param', obj);
     const json = JSON.stringify(obj);
 
     return new Promise((resolve) => {

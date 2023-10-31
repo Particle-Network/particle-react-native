@@ -1,0 +1,699 @@
+PODS:
+  - Alamofire (5.8.0)
+  - Base58.swift (1.0.2):
+    - BigInt
+  - BigInt (5.2.0)
+  - boost (1.76.0)
+  - ConnectCommon (0.2.12):
+    - BigInt (~> 5.2.0)
+    - ParticleNetworkBase
+    - RxAlamofire (~> 6.1.1)
+    - secp256k1.swift (~> 0.1)
+    - SwiftyJSON (~> 5.0)
+    - TweetNacl
+  - ConnectEVMAdapter (0.2.12):
+    - BigInt (~> 5.2.0)
+    - ConnectCommon
+    - CryptoSwift
+    - RxAlamofire (~> 6.1.1)
+    - SwiftyUserDefaults (~> 5.3.0)
+  - ConnectPhantomAdapter (0.2.12):
+    - ConnectCommon
+    - RxAlamofire (~> 6.1.1)
+    - SwiftyJSON (~> 5.0)
+    - SwiftyUserDefaults (~> 5.3.0)
+    - TweetNacl
+  - ConnectSolanaAdapter (0.2.12):
+    - ConnectCommon
+    - RxAlamofire (~> 6.1.1)
+    - secp256k1.swift (~> 0.1)
+    - SwiftyUserDefaults (~> 5.3.0)
+    - TweetNacl
+  - ConnectWalletConnectAdapter (0.2.12):
+    - ConnectCommon
+    - metamask-ios-sdk (= 0.2.1)
+    - RxAlamofire (~> 6.1.1)
+    - RxCocoa (= 6.5.0)
+    - RxSwift (= 6.5.0)
+    - SDWebImage
+    - SDWebImageWebPCoder
+    - SnapKit
+    - Starscream (= 4.0.6)
+    - SwiftMessages
+    - SwiftyJSON (~> 5.0)
+    - SwiftyUserDefaults (~> 5.3.0)
+    - WalletConnectSwiftV2 (= 1.6.14)
+  - CryptoSwift (1.8.0)
+  - DoubleConversion (1.1.6)
+  - FBLazyVector (0.70.10)
+  - FBReactNativeSpec (0.70.10):
+    - RCT-Folly (= 2021.07.22.00)
+    - RCTRequired (= 0.70.10)
+    - RCTTypeSafety (= 0.70.10)
+    - React-Core (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - ReactCommon/turbomodule/core (= 0.70.10)
+  - fmt (6.2.1)
+  - glog (0.3.5)
+  - libwebp (1.3.2):
+    - libwebp/demux (= 1.3.2)
+    - libwebp/mux (= 1.3.2)
+    - libwebp/sharpyuv (= 1.3.2)
+    - libwebp/webp (= 1.3.2)
+  - libwebp/demux (1.3.2):
+    - libwebp/webp
+  - libwebp/mux (1.3.2):
+    - libwebp/demux
+  - libwebp/sharpyuv (1.3.2)
+  - libwebp/webp (1.3.2):
+    - libwebp/sharpyuv
+  - metamask-ios-sdk (0.2.1):
+    - Socket.IO-Client-Swift (~> 16.1.0)
+  - ParticleAA (1.2.2):
+    - ParticleNetworkBase
+  - ParticleAuthAdapter (0.2.12):
+    - ConnectCommon
+    - ParticleAuthService
+  - ParticleAuthService (1.2.2):
+    - CryptoSwift
+    - ParticleNetworkBase
+    - RxAlamofire (~> 6.1.1)
+    - RxCocoa (= 6.5.0)
+    - RxSwift (= 6.5.0)
+    - SwiftyJSON (~> 5.0)
+    - SwiftyUserDefaults (~> 5.3.0)
+  - ParticleConnect (0.2.12):
+    - ConnectCommon
+  - ParticleNetworkBase (1.2.2):
+    - Base58.swift
+    - BigInt (~> 5.2.0)
+    - CryptoSwift
+    - RxAlamofire (~> 6.1.1)
+    - RxCocoa (= 6.5.0)
+    - RxSwift (= 6.5.0)
+    - SwiftyJSON (~> 5.0)
+    - SwiftyUserDefaults (~> 5.3.0)
+  - RCT-Folly (2021.07.22.00):
+    - boost
+    - DoubleConversion
+    - fmt (~> 6.2.1)
+    - glog
+    - RCT-Folly/Default (= 2021.07.22.00)
+  - RCT-Folly/Default (2021.07.22.00):
+    - boost
+    - DoubleConversion
+    - fmt (~> 6.2.1)
+    - glog
+  - RCTRequired (0.70.10)
+  - RCTTypeSafety (0.70.10):
+    - FBLazyVector (= 0.70.10)
+    - RCTRequired (= 0.70.10)
+    - React-Core (= 0.70.10)
+  - React (0.70.10):
+    - React-Core (= 0.70.10)
+    - React-Core/DevSupport (= 0.70.10)
+    - React-Core/RCTWebSocket (= 0.70.10)
+    - React-RCTActionSheet (= 0.70.10)
+    - React-RCTAnimation (= 0.70.10)
+    - React-RCTBlob (= 0.70.10)
+    - React-RCTImage (= 0.70.10)
+    - React-RCTLinking (= 0.70.10)
+    - React-RCTNetwork (= 0.70.10)
+    - React-RCTSettings (= 0.70.10)
+    - React-RCTText (= 0.70.10)
+    - React-RCTVibration (= 0.70.10)
+  - React-bridging (0.70.10):
+    - RCT-Folly (= 2021.07.22.00)
+    - React-jsi (= 0.70.10)
+  - React-callinvoker (0.70.10)
+  - React-Codegen (0.70.10):
+    - FBReactNativeSpec (= 0.70.10)
+    - RCT-Folly (= 2021.07.22.00)
+    - RCTRequired (= 0.70.10)
+    - RCTTypeSafety (= 0.70.10)
+    - React-Core (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsiexecutor (= 0.70.10)
+    - ReactCommon/turbomodule/core (= 0.70.10)
+  - React-Core (0.70.10):
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core/Default (= 0.70.10)
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsiexecutor (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+    - Yoga
+  - React-Core/CoreModulesHeaders (0.70.10):
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core/Default
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsiexecutor (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+    - Yoga
+  - React-Core/Default (0.70.10):
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsiexecutor (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+    - Yoga
+  - React-Core/DevSupport (0.70.10):
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core/Default (= 0.70.10)
+    - React-Core/RCTWebSocket (= 0.70.10)
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsiexecutor (= 0.70.10)
+    - React-jsinspector (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+    - Yoga
+  - React-Core/RCTActionSheetHeaders (0.70.10):
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core/Default
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsiexecutor (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+    - Yoga
+  - React-Core/RCTAnimationHeaders (0.70.10):
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core/Default
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsiexecutor (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+    - Yoga
+  - React-Core/RCTBlobHeaders (0.70.10):
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core/Default
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsiexecutor (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+    - Yoga
+  - React-Core/RCTImageHeaders (0.70.10):
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core/Default
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsiexecutor (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+    - Yoga
+  - React-Core/RCTLinkingHeaders (0.70.10):
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core/Default
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsiexecutor (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+    - Yoga
+  - React-Core/RCTNetworkHeaders (0.70.10):
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core/Default
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsiexecutor (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+    - Yoga
+  - React-Core/RCTSettingsHeaders (0.70.10):
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core/Default
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsiexecutor (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+    - Yoga
+  - React-Core/RCTTextHeaders (0.70.10):
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core/Default
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsiexecutor (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+    - Yoga
+  - React-Core/RCTVibrationHeaders (0.70.10):
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core/Default
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsiexecutor (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+    - Yoga
+  - React-Core/RCTWebSocket (0.70.10):
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core/Default (= 0.70.10)
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsiexecutor (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+    - Yoga
+  - React-CoreModules (0.70.10):
+    - RCT-Folly (= 2021.07.22.00)
+    - RCTTypeSafety (= 0.70.10)
+    - React-Codegen (= 0.70.10)
+    - React-Core/CoreModulesHeaders (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-RCTImage (= 0.70.10)
+    - ReactCommon/turbomodule/core (= 0.70.10)
+  - React-cxxreact (0.70.10):
+    - boost (= 1.76.0)
+    - DoubleConversion
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-callinvoker (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-jsinspector (= 0.70.10)
+    - React-logger (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+    - React-runtimeexecutor (= 0.70.10)
+  - React-jsi (0.70.10):
+    - boost (= 1.76.0)
+    - DoubleConversion
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-jsi/Default (= 0.70.10)
+  - React-jsi/Default (0.70.10):
+    - boost (= 1.76.0)
+    - DoubleConversion
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+  - React-jsiexecutor (0.70.10):
+    - DoubleConversion
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+  - React-jsinspector (0.70.10)
+  - React-logger (0.70.10):
+    - glog
+  - react-native-particle-aa (1.0.5):
+    - ParticleAA
+    - React-Core
+  - react-native-particle-auth (1.0.6):
+    - ParticleAuthService
+    - ParticleNetworkBase
+    - React-Core
+  - react-native-particle-connect (1.0.6):
+    - ConnectCommon
+    - ConnectEVMAdapter
+    - ConnectPhantomAdapter
+    - ConnectSolanaAdapter
+    - ConnectWalletConnectAdapter
+    - ParticleAuthAdapter
+    - ParticleConnect
+    - React-Core
+  - react-native-safe-area-context (4.3.1):
+    - RCT-Folly
+    - RCTRequired
+    - RCTTypeSafety
+    - React
+    - ReactCommon/turbomodule/core
+  - React-perflogger (0.70.10)
+  - React-RCTActionSheet (0.70.10):
+    - React-Core/RCTActionSheetHeaders (= 0.70.10)
+  - React-RCTAnimation (0.70.10):
+    - RCT-Folly (= 2021.07.22.00)
+    - RCTTypeSafety (= 0.70.10)
+    - React-Codegen (= 0.70.10)
+    - React-Core/RCTAnimationHeaders (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - ReactCommon/turbomodule/core (= 0.70.10)
+  - React-RCTBlob (0.70.10):
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Codegen (= 0.70.10)
+    - React-Core/RCTBlobHeaders (= 0.70.10)
+    - React-Core/RCTWebSocket (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-RCTNetwork (= 0.70.10)
+    - ReactCommon/turbomodule/core (= 0.70.10)
+  - React-RCTImage (0.70.10):
+    - RCT-Folly (= 2021.07.22.00)
+    - RCTTypeSafety (= 0.70.10)
+    - React-Codegen (= 0.70.10)
+    - React-Core/RCTImageHeaders (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-RCTNetwork (= 0.70.10)
+    - ReactCommon/turbomodule/core (= 0.70.10)
+  - React-RCTLinking (0.70.10):
+    - React-Codegen (= 0.70.10)
+    - React-Core/RCTLinkingHeaders (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - ReactCommon/turbomodule/core (= 0.70.10)
+  - React-RCTNetwork (0.70.10):
+    - RCT-Folly (= 2021.07.22.00)
+    - RCTTypeSafety (= 0.70.10)
+    - React-Codegen (= 0.70.10)
+    - React-Core/RCTNetworkHeaders (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - ReactCommon/turbomodule/core (= 0.70.10)
+  - React-RCTSettings (0.70.10):
+    - RCT-Folly (= 2021.07.22.00)
+    - RCTTypeSafety (= 0.70.10)
+    - React-Codegen (= 0.70.10)
+    - React-Core/RCTSettingsHeaders (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - ReactCommon/turbomodule/core (= 0.70.10)
+  - React-RCTText (0.70.10):
+    - React-Core/RCTTextHeaders (= 0.70.10)
+  - React-RCTVibration (0.70.10):
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Codegen (= 0.70.10)
+    - React-Core/RCTVibrationHeaders (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - ReactCommon/turbomodule/core (= 0.70.10)
+  - React-runtimeexecutor (0.70.10):
+    - React-jsi (= 0.70.10)
+  - ReactCommon/turbomodule/core (0.70.10):
+    - DoubleConversion
+    - glog
+    - RCT-Folly (= 2021.07.22.00)
+    - React-bridging (= 0.70.10)
+    - React-callinvoker (= 0.70.10)
+    - React-Core (= 0.70.10)
+    - React-cxxreact (= 0.70.10)
+    - React-jsi (= 0.70.10)
+    - React-logger (= 0.70.10)
+    - React-perflogger (= 0.70.10)
+  - RNScreens (3.15.0):
+    - React-Core
+    - React-RCTImage
+  - RxAlamofire (6.1.1):
+    - RxAlamofire/Core (= 6.1.1)
+  - RxAlamofire/Core (6.1.1):
+    - Alamofire (~> 5.4)
+    - RxSwift (~> 6.0)
+  - RxCocoa (6.5.0):
+    - RxRelay (= 6.5.0)
+    - RxSwift (= 6.5.0)
+  - RxRelay (6.5.0):
+    - RxSwift (= 6.5.0)
+  - RxSwift (6.5.0)
+  - SDWebImage (5.18.3):
+    - SDWebImage/Core (= 5.18.3)
+  - SDWebImage/Core (5.18.3)
+  - SDWebImageWebPCoder (0.14.0):
+    - libwebp (~> 1.0)
+    - SDWebImage/Core (~> 5.17)
+  - secp256k1.swift (0.1.4)
+  - SnapKit (5.6.0)
+  - Socket.IO-Client-Swift (16.1.0):
+    - Starscream (~> 4.0.6)
+  - Starscream (4.0.6)
+  - SwiftMessages (9.0.8):
+    - SwiftMessages/App (= 9.0.8)
+  - SwiftMessages/App (9.0.8)
+  - SwiftyJSON (5.0.1)
+  - SwiftyUserDefaults (5.3.0)
+  - TweetNacl (1.0.2)
+  - WalletConnectSwiftV2 (1.6.14):
+    - WalletConnectSwiftV2/WalletConnect (= 1.6.14)
+  - WalletConnectSwiftV2/Commons (1.6.14)
+  - WalletConnectSwiftV2/HTTPClient (1.6.14)
+  - WalletConnectSwiftV2/JSONRPC (1.6.14):
+    - WalletConnectSwiftV2/Commons
+  - WalletConnectSwiftV2/WalletConnect (1.6.14):
+    - WalletConnectSwiftV2/WalletConnectAuth
+    - WalletConnectSwiftV2/WalletConnectEcho
+    - WalletConnectSwiftV2/WalletConnectSign
+    - WalletConnectSwiftV2/WalletConnectVerify
+  - WalletConnectSwiftV2/WalletConnectAuth (1.6.14):
+    - WalletConnectSwiftV2/WalletConnectPairing
+    - WalletConnectSwiftV2/WalletConnectSigner
+    - WalletConnectSwiftV2/WalletConnectVerify
+  - WalletConnectSwiftV2/WalletConnectEcho (1.6.14):
+    - WalletConnectSwiftV2/WalletConnectJWT
+    - WalletConnectSwiftV2/WalletConnectNetworking
+  - WalletConnectSwiftV2/WalletConnectJWT (1.6.14):
+    - WalletConnectSwiftV2/WalletConnectKMS
+  - WalletConnectSwiftV2/WalletConnectKMS (1.6.14):
+    - WalletConnectSwiftV2/WalletConnectUtils
+  - WalletConnectSwiftV2/WalletConnectNetworking (1.6.14):
+    - WalletConnectSwiftV2/HTTPClient
+    - WalletConnectSwiftV2/WalletConnectRelay
+  - WalletConnectSwiftV2/WalletConnectPairing (1.6.14):
+    - WalletConnectSwiftV2/WalletConnectNetworking
+  - WalletConnectSwiftV2/WalletConnectRelay (1.6.14):
+    - WalletConnectSwiftV2/WalletConnectJWT
+  - WalletConnectSwiftV2/WalletConnectSign (1.6.14):
+    - WalletConnectSwiftV2/WalletConnectPairing
+    - WalletConnectSwiftV2/WalletConnectVerify
+  - WalletConnectSwiftV2/WalletConnectSigner (1.6.14):
+    - WalletConnectSwiftV2/WalletConnectNetworking
+  - WalletConnectSwiftV2/WalletConnectUtils (1.6.14):
+    - WalletConnectSwiftV2/JSONRPC
+  - WalletConnectSwiftV2/WalletConnectVerify (1.6.14):
+    - WalletConnectSwiftV2/WalletConnectNetworking
+    - WalletConnectSwiftV2/WalletConnectUtils
+  - Yoga (1.14.0)
+
+DEPENDENCIES:
+  - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
+  - ConnectCommon (= 0.2.12)
+  - ConnectEVMAdapter (= 0.2.12)
+  - ConnectPhantomAdapter (= 0.2.12)
+  - ConnectSolanaAdapter (= 0.2.12)
+  - ConnectWalletConnectAdapter (= 0.2.12)
+  - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
+  - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
+  - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - ParticleAA (= 1.2.2)
+  - ParticleAuthAdapter (= 0.2.12)
+  - ParticleAuthService (= 1.2.2)
+  - ParticleConnect (= 0.2.12)
+  - ParticleNetworkBase (= 1.2.2)
+  - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
+  - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
+  - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
+  - React (from `../node_modules/react-native/`)
+  - React-bridging (from `../node_modules/react-native/ReactCommon`)
+  - React-callinvoker (from `../node_modules/react-native/ReactCommon/callinvoker`)
+  - React-Codegen (from `build/generated/ios`)
+  - React-Core (from `../node_modules/react-native/`)
+  - React-Core/RCTWebSocket (from `../node_modules/react-native/`)
+  - React-CoreModules (from `../node_modules/react-native/React/CoreModules`)
+  - React-cxxreact (from `../node_modules/react-native/ReactCommon/cxxreact`)
+  - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
+  - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
+  - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-particle-aa (from `../..`)
+  - "react-native-particle-auth (from `../node_modules/@particle-network/rn-auth`)"
+  - "react-native-particle-connect (from `../node_modules/@particle-network/rn-connect`)"
+  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
+  - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
+  - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
+  - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
+  - React-RCTImage (from `../node_modules/react-native/Libraries/Image`)
+  - React-RCTLinking (from `../node_modules/react-native/Libraries/LinkingIOS`)
+  - React-RCTNetwork (from `../node_modules/react-native/Libraries/Network`)
+  - React-RCTSettings (from `../node_modules/react-native/Libraries/Settings`)
+  - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
+  - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
+  - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
+  - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNScreens (from `../node_modules/react-native-screens`)
+  - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - Base58.swift
+    - BigInt
+    - ConnectCommon
+    - ConnectEVMAdapter
+    - ConnectPhantomAdapter
+    - ConnectSolanaAdapter
+    - ConnectWalletConnectAdapter
+    - CryptoSwift
+    - fmt
+    - libwebp
+    - metamask-ios-sdk
+    - ParticleAA
+    - ParticleAuthAdapter
+    - ParticleAuthService
+    - ParticleConnect
+    - ParticleNetworkBase
+    - RxAlamofire
+    - RxCocoa
+    - RxRelay
+    - RxSwift
+    - SDWebImage
+    - SDWebImageWebPCoder
+    - secp256k1.swift
+    - SnapKit
+    - Socket.IO-Client-Swift
+    - Starscream
+    - SwiftMessages
+    - SwiftyJSON
+    - SwiftyUserDefaults
+    - TweetNacl
+    - WalletConnectSwiftV2
+
+EXTERNAL SOURCES:
+  boost:
+    :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
+  DoubleConversion:
+    :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  FBLazyVector:
+    :path: "../node_modules/react-native/Libraries/FBLazyVector"
+  FBReactNativeSpec:
+    :path: "../node_modules/react-native/React/FBReactNativeSpec"
+  glog:
+    :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  RCT-Folly:
+    :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
+  RCTRequired:
+    :path: "../node_modules/react-native/Libraries/RCTRequired"
+  RCTTypeSafety:
+    :path: "../node_modules/react-native/Libraries/TypeSafety"
+  React:
+    :path: "../node_modules/react-native/"
+  React-bridging:
+    :path: "../node_modules/react-native/ReactCommon"
+  React-callinvoker:
+    :path: "../node_modules/react-native/ReactCommon/callinvoker"
+  React-Codegen:
+    :path: build/generated/ios
+  React-Core:
+    :path: "../node_modules/react-native/"
+  React-CoreModules:
+    :path: "../node_modules/react-native/React/CoreModules"
+  React-cxxreact:
+    :path: "../node_modules/react-native/ReactCommon/cxxreact"
+  React-jsi:
+    :path: "../node_modules/react-native/ReactCommon/jsi"
+  React-jsiexecutor:
+    :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
+  React-jsinspector:
+    :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  React-logger:
+    :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-particle-aa:
+    :path: "../.."
+  react-native-particle-auth:
+    :path: "../node_modules/@particle-network/rn-auth"
+  react-native-particle-connect:
+    :path: "../node_modules/@particle-network/rn-connect"
+  react-native-safe-area-context:
+    :path: "../node_modules/react-native-safe-area-context"
+  React-perflogger:
+    :path: "../node_modules/react-native/ReactCommon/reactperflogger"
+  React-RCTActionSheet:
+    :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
+  React-RCTAnimation:
+    :path: "../node_modules/react-native/Libraries/NativeAnimation"
+  React-RCTBlob:
+    :path: "../node_modules/react-native/Libraries/Blob"
+  React-RCTImage:
+    :path: "../node_modules/react-native/Libraries/Image"
+  React-RCTLinking:
+    :path: "../node_modules/react-native/Libraries/LinkingIOS"
+  React-RCTNetwork:
+    :path: "../node_modules/react-native/Libraries/Network"
+  React-RCTSettings:
+    :path: "../node_modules/react-native/Libraries/Settings"
+  React-RCTText:
+    :path: "../node_modules/react-native/Libraries/Text"
+  React-RCTVibration:
+    :path: "../node_modules/react-native/Libraries/Vibration"
+  React-runtimeexecutor:
+    :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
+  ReactCommon:
+    :path: "../node_modules/react-native/ReactCommon"
+  RNScreens:
+    :path: "../node_modules/react-native-screens"
+  Yoga:
+    :path: "../node_modules/react-native/ReactCommon/yoga"
+
+SPEC CHECKSUMS:
+  Alamofire: 0e92e751b3e9e66d7982db43919d01f313b8eb91
+  Base58.swift: e0e16655f9db843b8cd367593ed6f7d90d136b7f
+  BigInt: f668a80089607f521586bbe29513d708491ef2f7
+  boost: a7c83b31436843459a1961bfd74b96033dc77234
+  ConnectCommon: 3c59d16a34d7a9e0b5934a3013e8a17d15d662f9
+  ConnectEVMAdapter: d6d6c41562c683f09b488710c7954d2c98950004
+  ConnectPhantomAdapter: 6d5cc518ccc60fff9a6e3790e578115029c585d3
+  ConnectSolanaAdapter: 2dbe2d0ef112de765bb397ab368aa6c591010312
+  ConnectWalletConnectAdapter: 68cf931aeef9a148bbc7c500081e3f49f3b58c46
+  CryptoSwift: 52aaf3fce7337552863b1d952e408085f0e65030
+  DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
+  FBLazyVector: 4d79ff044f28bf8ebf735074332e7a6c54e268f0
+  FBReactNativeSpec: 944ea69e5efe4e94a63e0ceaf9bfdad6515aaf84
+  fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
+  glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
+  libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
+  metamask-ios-sdk: 7a39b6bf9c4d2b6edf35d857a6038c8148c8e704
+  ParticleAA: 32d2dd73f26da5d158bb08bd3842d5ba5dc69da2
+  ParticleAuthAdapter: f7634024533b8b3060ef8cbac2413efc5953204e
+  ParticleAuthService: 670572cd509913c25fc331a5287cf62e148f9529
+  ParticleConnect: c6da271dcf18d1a438ac0697e05355b248629e01
+  ParticleNetworkBase: d4cb8fc76e4944bc21c80e687870236e5ebc1a84
+  RCT-Folly: 0080d0a6ebf2577475bda044aa59e2ca1f909cda
+  RCTRequired: 23f0d5d0dea22af22f30f146e090a7d16e6b8be7
+  RCTTypeSafety: ca3de65d46a130875bf7816788998f13525f3235
+  React: 5000106ef4132dad19f8a68dae76c987a5e33182
+  React-bridging: d0b73f09bb4c83eb2e518ce28cb6ebedd4228ff1
+  React-callinvoker: 6b14487211b7378f68602bbf2b3ae6513259339d
+  React-Codegen: 49c45568b87b87ca4983c308df51e2aeeede5b44
+  React-Core: 9348315d44f12995a55ee5d61b0f81a8829b2bfe
+  React-CoreModules: 371d09d749b983527ac15d8368b49df7ce77ada9
+  React-cxxreact: d1b7e6da62d6968d1c8d46c3bb39372c3131d09e
+  React-jsi: c2cef15ce81a1150fac10e0b3f6ad9803bdec51b
+  React-jsiexecutor: 1457c7bb2f08f257e6b5ece8b62348da43c4ccf2
+  React-jsinspector: 2a1985769123b199c195a96f46478b35db139712
+  React-logger: 7fbdc3576b2ed3834360c8ea3c1c2ec54ac3043a
+  react-native-particle-aa: a92fe12d960d6fa17a4f77d9087a6aa66fedae49
+  react-native-particle-auth: a592ebe9590ce63c64f0900828d9e004339b7d92
+  react-native-particle-connect: 8f1f45168f42ae7dd3fa6e6775e0d7c9da72ae73
+  react-native-safe-area-context: 6c12e3859b6f27b25de4fee8201cfb858432d8de
+  React-perflogger: f86e85eb59151d09e9b44b8931f5c088e4f08bbc
+  React-RCTActionSheet: cd3d76501a6069e164986b93f144be34b593955c
+  React-RCTAnimation: 2d09db635202e5d6f66de596f5a6b38389fe76ec
+  React-RCTBlob: 4440a5ce3daa94b4dad8f23d8d7acc0c5ced99ff
+  React-RCTImage: a6f1d5b74b6d6607217bf10512957440130445bb
+  React-RCTLinking: c1ed0517e16591da5f783c88bbee6d408f48ef42
+  React-RCTNetwork: 04f158cf31efb1d23d70163d45e148c62fd5a56c
+  React-RCTSettings: 567bb65866245fb96f2151f80dd40c35ded425a4
+  React-RCTText: e1ee68343ccaa3f03a84b48b513fdf59b01bc97d
+  React-RCTVibration: 0b23ba09f2f6671a1ddee3c37d27b772b9448346
+  React-runtimeexecutor: 77aa3714a353cfb1a5f5e315e8af5154cd3d9402
+  ReactCommon: a29dac86d7219579db079cef8f380ebffe1ba545
+  RNScreens: 4a1af06327774490d97342c00aee0c2bafb497b7
+  RxAlamofire: beb75a1c452d0de225651db4903f5d29d034a620
+  RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
+  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
+  SDWebImage: 96e0c18ef14010b7485210e92fac888587ebb958
+  SDWebImageWebPCoder: 3027af94522d94df79c21c070894c8a2128927ff
+  secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  Socket.IO-Client-Swift: ee4b8f80a3db18dd7f32b266ddf273310609443c
+  Starscream: fb2c4510bebf908c62bd383bcf05e673720e91fd
+  SwiftMessages: 3601317b44ed2e1a54e2c6901b4362a364bf4862
+  SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
+  SwiftyUserDefaults: 63f80248cf5bfb3458825d9a78f2eb7e1293a040
+  TweetNacl: 3abf4d1d2082b0114e7a67410e300892448951e6
+  WalletConnectSwiftV2: 66aef6e7bbe881c465e6bce164f61c5bbf61d796
+  Yoga: 0518155cfbcc68c56223422f6a20a71b82e307d2
+
+PODFILE CHECKSUM: 635485bdefcbbdea687053194833e523e6757bf0
+
+COCOAPODS: 1.12.1

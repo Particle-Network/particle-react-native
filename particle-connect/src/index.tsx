@@ -188,7 +188,7 @@ export async function signMessage(
 }
 
 /**
- * Sign transction
+ * Sign transaction
  * @param walletType Wallet type
  * @param publicAddress Public address
  * @param transaction Transaction that you want user to sign

@@ -1117,8 +1117,8 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@particle-network/rn-auth@file:../../particle-auth":
-  version "1.0.6"
+"@particle-network/rn-auth@^1.1.0":
+  version "1.1.0"
   resolved "file:../../particle-auth"
   dependencies:
     "@particle-network/chains" "^1.2.5"
@@ -1126,8 +1126,8 @@
     bignumber.js "^9.1.0"
     events "^3.3.0"
 
-"@particle-network/rn-connect@file:../../particle-connect":
-  version "1.0.6"
+"@particle-network/rn-connect@^1.2.0":
+  version "1.2.0"
   resolved "file:../../particle-connect"
   dependencies:
     "@particle-network/rn-auth" "file:../particle-auth"

@@ -51,8 +51,8 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@particle-network/rn-auth": "file:../particle-auth",
-    "@particle-network/rn-connect": "file:../particle-connect"
+    "@particle-network/rn-auth": "^1.1.0",
+    "@particle-network/rn-connect": "^1.2.0"
   },
   "devDependencies": {
     "@arkweid/lefthook": "^0.7.7",

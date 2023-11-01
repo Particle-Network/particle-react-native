@@ -140,7 +140,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     try {
       const accounts = await this.web3.eth.getAccounts();
       const balance = await this.web3.eth.getBalance(accounts[0] as string);
-      console.log('web3.eth.getBalance', balance);
+      console.log('web3.eth.getBalance', accounts[0], balance);
       Toast.show({
         type: 'success',
         text1: 'balance',
@@ -721,6 +721,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
       }
     } catch (error) {
       if (error instanceof Error) {
+        console.log('error', error);
         Toast.show({ type: 'error', text1: error.message });
       }
     }
@@ -1052,6 +1053,14 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
 
   componentDidMount(): void {
     this.init();
+
+    this.props.navigation.addListener('focus', async () => {
+      const chainInfo: ChainInfo = this.props.route.params?.chainInfo;
+
+      if (chainInfo) {
+        await particleAuth.setChainInfo(chainInfo);
+      }
+    });
   }
 
   render = () => {

@@ -57,12 +57,18 @@ export async function disconnect(): Promise<CommonResp<string>> {
 
 /**
  * Is user logged in, check locally.
- * @returns Result, if user is login return true, otherwise retrun false
+ * @returns Result, if user is login return true, otherwise return false
  */
 export async function isConnected(): Promise<boolean> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.isConnected((result: string) => {
-      resolve(JSON.parse(result));
+      const connected = JSON.parse(result);
+
+      if (Platform.OS === 'ios') {
+        resolve(connected?.data as boolean);
+      } else {
+        resolve(connected);
+      }
     });
   });
 }

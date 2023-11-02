@@ -1,4 +1,5 @@
 import { Buffer } from 'buffer';
+import fetch from 'node-fetch-native';
 import { ParticleInfo } from './ParticleInfo';
 
 /**

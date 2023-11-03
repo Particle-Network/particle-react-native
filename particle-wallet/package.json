@@ -1,6 +1,6 @@
 {
   "name": "@particle-network/rn-wallet",
-  "version": "1.0.5",
+  "version": "1.2.0",
   "description": "Particle Wallet in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

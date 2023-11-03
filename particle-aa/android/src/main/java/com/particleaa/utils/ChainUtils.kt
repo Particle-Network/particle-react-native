@@ -1,4 +1,4 @@
-package com.particlebiconomy.utils
+package com.particleaa.utils
 
 import network.particle.chains.ChainInfo
 

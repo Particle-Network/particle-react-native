@@ -293,6 +293,7 @@ export async function signAllTransactions(transactions: string[]): Promise<Commo
  * @returns Result, signature or error
  */
 export async function signAndSendTransaction(transaction: string, feeMode?: AAFeeMode): Promise<CommonResp<string>> {
+    console.log('transaction', transaction, feeMode);
     const obj = {
         transaction: transaction,
         fee_mode: {

@@ -1,4 +1,4 @@
-package com.particlebiconomy
+package com.particleaa
 
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
@@ -6,36 +6,32 @@ import com.facebook.react.bridge.*
 import com.particle.base.ParticleNetwork
 import com.particle.base.data.ErrorInfo
 import com.particle.base.isSupportedERC4337
-import com.particle.base.model.BiconomyVersion
-import com.particle.erc4337.ParticleNetworkBiconomy.initBiconomyMode
-import com.particle.erc4337.biconomy.BiconomyService
-import com.particlebiconomy.model.BiconomyInitData
-import com.particlebiconomy.model.ChainData
-import com.particlebiconomy.model.FeeQuotesParams
-import com.particlebiconomy.model.ReactCallBack
-import com.particlebiconomy.utils.ChainUtils
+import com.particle.erc4337.ParticleNetworkAA.initAAMode
+import com.particle.erc4337.aa.AAService
+import com.particleaa.model.BiconomyInitData
+import com.particleaa.model.ChainData
+import com.particleaa.model.FeeQuotesParams
+import com.particleaa.model.ReactCallBack
+import com.particleaa.utils.ChainUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
-class ParticleAuthPlugin(val reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
+class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
+    ReactContextBaseJavaModule(reactContext) {
 
   @ReactMethod
   fun init(initParams: String) {
     LogUtils.d("init", initParams)
     val initData = GsonUtils.fromJson(initParams, BiconomyInitData::class.java)
-    ParticleNetwork.initBiconomyMode(initData.dAppKeys, BiconomyVersion.V100)
-    ParticleNetwork.setBiconomyService(BiconomyService)
+    ParticleNetwork.initAAMode(initData.dAppKeys)
+    ParticleNetwork.setAAService(AAService)
   }
-
 
   @ReactMethod
   fun isSupportChainInfo(chainParams: String, callback: Callback) {
     LogUtils.d("setChainName", chainParams)
-    val chainData: ChainData = GsonUtils.fromJson(
-      chainParams, ChainData::class.java
-    )
+    val chainData: ChainData = GsonUtils.fromJson(chainParams, ChainData::class.java)
     try {
       val chainInfo = ChainUtils.getChainInfo(chainData.chainId)
       val isSupportedERC4337 = chainInfo.isSupportedERC4337()
@@ -49,7 +45,7 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) : ReactConte
   fun isDeploy(eoaAddress: String, callback: Callback) {
     CoroutineScope(Dispatchers.IO).launch {
       try {
-        val isDeploy = ParticleNetwork.getBiconomyService().isDeploy(eoaAddress)
+        val isDeploy = ParticleNetwork.getAAService().isDeploy(eoaAddress)
         callback.invoke(ReactCallBack.success(isDeploy).toGson())
       } catch (e: Exception) {
         callback.invoke(ReactCallBack.failed(ErrorInfo(e.message ?: "failed", 10000)).toGson())
@@ -58,25 +54,24 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) : ReactConte
   }
 
   @ReactMethod
-  fun isBiconomyModeEnable(callback: Callback) {
+  fun isAAModeEnable(callback: Callback) {
     try {
-      val isBiconomyModeEnable = ParticleNetwork.getBiconomyService().isBiconomyModeEnable()
-      callback.invoke(isBiconomyModeEnable)
+      val isAAModeEnable = ParticleNetwork.getAAService().isAAModeEnable()
+      callback.invoke(isAAModeEnable)
     } catch (e: Exception) {
       callback.invoke(false)
     }
   }
 
   @ReactMethod
-  fun enableBiconomyMode() {
-    ParticleNetwork.getBiconomyService().enableBiconomyMode()
+  fun enableAAMode() {
+    ParticleNetwork.getAAService().enableAAMode()
   }
 
   @ReactMethod
-  fun disableBiconomyMode() {
-    ParticleNetwork.getBiconomyService().disableBiconomyMode()
+  fun disableAAMode() {
+    ParticleNetwork.getAAService().disableAAMode()
   }
-
 
   @ReactMethod
   fun rpcGetFeeQuotes(feeQuotesParams: String, callback: Callback) {
@@ -84,12 +79,19 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) : ReactConte
     val feeQuotesParams = GsonUtils.fromJson(feeQuotesParams, FeeQuotesParams::class.java)
     CoroutineScope(Dispatchers.IO).launch {
       try {
-        val resp = ParticleNetwork.getBiconomyService().rpcGetFeeQuotes(feeQuotesParams.eoaAddress, feeQuotesParams.transactions)
+        val resp =
+            ParticleNetwork.getAAService()
+                .rpcGetFeeQuotes(feeQuotesParams.eoaAddress, feeQuotesParams.transactions)
         LogUtils.d("rpcGetFeeQuotes", resp)
         if (resp.isSuccess()) {
           callback.invoke(ReactCallBack.success(resp.result).toGson())
         } else {
-          callback.invoke(ReactCallBack.failed(ErrorInfo(resp.error?.message ?: "failed", resp.error?.code ?: 10000)).toGson())
+          callback.invoke(
+              ReactCallBack.failed(
+                      ErrorInfo(resp.error?.message ?: "failed", resp.error?.code ?: 10000)
+                  )
+                  .toGson()
+          )
         }
       } catch (e: Exception) {
         callback.invoke(ReactCallBack.failed(ErrorInfo(e.message ?: "failed", 10000)).toGson())
@@ -98,6 +100,6 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) : ReactConte
   }
 
   override fun getName(): String {
-    return "ParticleBiconomyPlugin"
+    return "ParticleAAPlugin"
   }
 }

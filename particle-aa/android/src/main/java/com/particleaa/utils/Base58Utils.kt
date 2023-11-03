@@ -1,4 +1,4 @@
-package com.particlebiconomy.utils
+package com.particleaa.utils
 
 import java.util.*
 

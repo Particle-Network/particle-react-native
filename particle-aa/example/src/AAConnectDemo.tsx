@@ -8,12 +8,7 @@ import {
 import * as particleAA from '@particle-network/rn-aa';
 import { CommonError, FeeQuote } from '@particle-network/rn-aa';
 import * as particleAuth from '@particle-network/rn-auth';
-import {
-  AAFeeMode,
-  AAVersion,
-  Env,
-  ParticleInfo,
-} from '@particle-network/rn-auth';
+import { AAFeeMode, Env, ParticleInfo } from '@particle-network/rn-auth';
 import * as particleConnect from '@particle-network/rn-connect';
 import {
   AccountInfo,
@@ -91,7 +86,7 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
       137: 'your polygon mainnet key',
       80001: 'hYZIwIsf2.e18c790b-cafb-4c4e-a438-0289fc25dba1',
     };
-    particleAA.init(AAVersion.v1_0_0, dappAppKeys);
+    particleAA.init(dappAppKeys);
 
     Toast.show({
       type: 'success',
@@ -228,11 +223,15 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
       BigNumber(amount)
     );
 
+    const feeQutotes = (await particleAA.rpcGetFeeQuotes(eoaAddress, [
+      transaction,
+    ])) as FeeQuote[];
+    console.log('feeQutotes', feeQutotes);
     const result = await particleConnect.signAndSendTransaction(
       this.walletType,
       this.publicAddress,
       transaction,
-      AAFeeMode.auto()
+      AAFeeMode.native(feeQutotes[1])
     );
     if (result.status) {
       const signature = result.data;

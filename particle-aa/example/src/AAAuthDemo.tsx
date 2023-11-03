@@ -198,10 +198,13 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
       receiver,
       BigNumber(amount)
     );
-    console.log('transaction', transaction);
+    const feeQutotes = (await particleAA.rpcGetFeeQuotes(eoaAddress, [
+      transaction,
+    ])) as FeeQuote[];
+    console.log('feeQutotes', feeQutotes);
     const result = await particleAuth.signAndSendTransaction(
       transaction,
-      AAFeeMode.auto()
+      AAFeeMode.native(feeQutotes)
     );
     if (result.status) {
       const signature = result.data;
@@ -224,7 +227,7 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
 
     const result = await particleAuth.signAndSendTransaction(
       transaction,
-      AAFeeMode.gasless()
+      AAFeeMode.gasless(feeQutotes)
     );
     if (result.status) {
       const signature = result.data;
@@ -248,10 +251,10 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     const feeQutotes = (await particleAA.rpcGetFeeQuotes(eoaAddress, [
       transaction,
     ])) as FeeQuote[];
-
+    console.log('feeQutotes', feeQutotes);
     const result = await particleAuth.signAndSendTransaction(
       transaction,
-      AAFeeMode.custom(feeQutotes[0])
+      AAFeeMode.token(feeQutotes?.tokenPaymaster.feeQuotes[0], feeQutotes?.tokenPaymaster?..tokenPaymasterAddress)
     );
     if (result.status) {
       const signature = result.data;

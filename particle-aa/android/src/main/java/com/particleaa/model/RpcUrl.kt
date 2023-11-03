@@ -1,4 +1,4 @@
-package com.particlebiconomy.model
+package com.particleaa.model
 
 import com.google.gson.annotations.SerializedName
 

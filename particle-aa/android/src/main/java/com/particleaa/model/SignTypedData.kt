@@ -1,4 +1,4 @@
-package com.particlebiconomy.model
+package com.particleaa.model
 
 class SignTypedData {
     var message: String? = null

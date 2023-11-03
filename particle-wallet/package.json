@@ -1,6 +1,6 @@
 {
   "name": "@particle-network/rn-wallet",
-  "version": "1.0.5",
+  "version": "1.2.0",
   "description": "Particle Wallet in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -30,7 +30,6 @@
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepare": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build",
@@ -52,8 +51,8 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@particle-network/rn-auth": "^1.0.6",
-    "@particle-network/rn-connect": "^1.0.6"
+    "@particle-network/rn-auth": "^1.1.0",
+    "@particle-network/rn-connect": "^1.2.0"
   },
   "devDependencies": {
     "@arkweid/lefthook": "^0.7.7",
@@ -73,7 +72,6 @@
     "prettier": "^2.0.5",
     "react": "18.1.0",
     "react-native": "0.70.6",
-    "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
     "typescript": "^4.5.2"
   },
@@ -142,19 +140,5 @@
     "tabWidth": 2,
     "trailingComma": "es5",
     "useTabs": false
-  },
-  "react-native-builder-bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "commonjs",
-      "module",
-      [
-        "typescript",
-        {
-          "project": "tsconfig.build.json"
-        }
-      ]
-    ]
   }
 }

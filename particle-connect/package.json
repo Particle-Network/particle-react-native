@@ -1,6 +1,6 @@
 {
   "name": "@particle-network/rn-connect",
-  "version": "1.0.6",
+  "version": "1.2.0",
   "description": "Particle Connect in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -30,7 +30,6 @@
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepare": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build",
@@ -69,7 +68,6 @@
     "prettier": "^2.0.5",
     "react": "18.1.0",
     "react-native": "0.70.6",
-    "react-native-builder-bob": "^0.20.1",
     "release-it": "^15.0.0",
     "typescript": "^4.5.2"
   },
@@ -139,23 +137,9 @@
     "trailingComma": "es5",
     "useTabs": false
   },
-  "react-native-builder-bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "commonjs",
-      "module",
-      [
-        "typescript",
-        {
-          "project": "tsconfig.build.json"
-        }
-      ]
-    ]
-  },
   "dependencies": {
+    "@particle-network/rn-auth": "^1.1.0",
     "axios": "^1.3.4",
-    "events": "^3.3.0",
-    "@particle-network/rn-auth": "^1.0.6"
+    "events": "^3.3.0"
   }
 }

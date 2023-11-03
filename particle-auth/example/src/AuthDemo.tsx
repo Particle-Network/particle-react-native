@@ -657,6 +657,10 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
         if (result.status) {
             const userInfo = result.data;
             console.log(userInfo);
+            Toast.show({
+                type: 'success',
+                text1: `Is login async: ${userInfo}`,
+            });
         } else {
             const error = result.data as CommonError;
             console.log(error);

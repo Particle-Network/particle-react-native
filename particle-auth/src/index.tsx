@@ -293,13 +293,17 @@ export async function signAllTransactions(transactions: string[]): Promise<Commo
  * @returns Result, signature or error
  */
 export async function signAndSendTransaction(transaction: string, feeMode?: AAFeeMode): Promise<CommonResp<string>> {
+    console.log('transaction', transaction, feeMode);
     const obj = {
         transaction: transaction,
         fee_mode: {
             option: feeMode?.getOption(),
             fee_quote: feeMode?.getFeeQuote(),
+            token_paymaster_address: feeMode?.getTokenPaymasterAddress(),
+            whole_fee_quote: feeMode?.getWholeFeeQuote(),
         },
     };
+    console.log('param', obj);
     const json = JSON.stringify(obj);
 
     return new Promise((resolve) => {
@@ -321,6 +325,8 @@ export async function batchSendTransactions(transactions: string[], feeMode?: AA
         fee_mode: {
             option: feeMode?.getOption(),
             fee_quote: feeMode?.getFeeQuote(),
+            token_paymaster_address: feeMode?.getTokenPaymasterAddress(),
+            whole_fee_quote: feeMode?.getWholeFeeQuote(),
         },
     };
     const json = JSON.stringify(obj);

@@ -14,7 +14,7 @@ export enum WalletType {
   Omni = 'Omni',
   Zengo = 'Zengo',
   Alpha = 'Alpha',
-  Bitpie = 'Bitpie',
   Inch1 = 'Inch1',
   TokenPocket = 'TokenPocket', // iOS not support by 0.9.0
+  OKX = 'OKX'
 }

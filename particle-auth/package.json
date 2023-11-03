@@ -1,6 +1,6 @@
 {
   "name": "@particle-network/rn-auth",
-  "version": "1.0.6",
+  "version": "1.1.1",
   "description": "Particle Auth Service in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -30,7 +30,6 @@
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepare": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build",
@@ -70,7 +69,6 @@
     "prettier": "^2.0.5",
     "react": "18.1.0",
     "react-native": "0.70.5",
-    "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
     "typescript": "^4.5.2"
   },
@@ -142,24 +140,11 @@
     "quoteProps": "as-needed",
     "singleQuote": true
   },
-  "react-native-builder-bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "commonjs",
-      "module",
-      [
-        "typescript",
-        {
-          "project": "tsconfig.build.json"
-        }
-      ]
-    ]
-  },
   "dependencies": {
+    "@particle-network/chains": "^1.2.5",
     "axios": "^1.3.4",
-    "events": "^3.3.0",
     "bignumber.js": "^9.1.0",
-    "@particle-network/chains": "^1.0.1"
+    "events": "^3.3.0",
+    "node-fetch-native": "^1.4.1"
   }
 }

@@ -2,6 +2,7 @@ import {
   Ethereum,
   EthereumGoerli,
   PolygonMumbai,
+  SolanaTestnet,
   type ChainInfo,
 } from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
@@ -70,6 +71,11 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
           key: 'Ethereum Goerli',
           Value: EthereumGoerli,
         },
+        {
+          label: 'Solana Testnet',
+          key: 'Solana Testnet',
+          value: SolanaTestnet,
+        },
       ],
     });
 
@@ -80,7 +86,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
 
   connect = async () => {
     const jwt =
-      'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IndVUE05RHNycml0Sy1jVHE2OWNKcCJ9.eyJlbWFpbCI6InBhbnRhb3ZheUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImlzcyI6Imh0dHBzOi8vZGV2LXFyNi01OWVlLnVzLmF1dGgwLmNvbS8iLCJhdWQiOiJFVmpLMVpaUFN0UWNkV3VoandQZGRBdGdSaXdwNTRWUSIsImlhdCI6MTY5MzU1MTUyOSwiZXhwIjoxNjkzNTg3NTI5LCJzdWIiOiJhdXRoMHw2MzAzMjE0YjZmNjE1NjM2YWM5MTdmMWIiLCJzaWQiOiJCcjlQUG1rSEdTT3NraF9aNnlWVlpYcldsRjVZOVRQQSJ9.iua1V9QxvEv2M5Zt4hF8PR4YzGmMzaQgW_whbA4Qs2R4ChizWHjVBXSciZFWsNhHrlBnTSD242nQkh0CjifY8d05mqvsfFQDejBDXmcyjLIj3biRF3nHMY0XGMoLkhSdqHLCoyXRlmfkrn-GD0bvvzJAK2wj_5MVB8q6ymGUu_Yutxl9aTnvPuCV4lyfUFNcGXJH63t3KPWuO-xFxiJXEVQQu9m1--byyizHr4G31jMA034dIfQMk9MgWFfBIdDtFr3Vym70aVtnLczx304zolIRN7JNOP7TqazJOu0MaQcCEemqZ_zy68WzAWiwiq0lTslv83nr7-k161Mf0UUoxg'; // your jwt
+      'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IndVUE05RHNycml0Sy1jVHE2OWNKcCJ9.eyJlbWFpbCI6InBhbnRhb3ZheUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImlzcyI6Imh0dHBzOi8vZGV2LXFyNi01OWVlLnVzLmF1dGgwLmNvbS8iLCJhdWQiOiJFVmpLMVpaUFN0UWNkV3VoandQZGRBdGdSaXdwNTRWUSIsImlhdCI6MTY5ODgzMTg3OSwiZXhwIjoxNjk4ODY3ODc5LCJzdWIiOiJhdXRoMHw2MzAzMjE0YjZmNjE1NjM2YWM5MTdmMWIiLCJzaWQiOiJMcmJYZ2RBaWRPYTJSU2dhaXowNXg2R00yT1ppYWlVZyJ9.EP9BgZMDdKzjLkm6AKM9A2gFs0sK7NGpkzQycZ2nfAKbO8U_J810sWbvWm8_XJwHd9L8VdqNZ_FIrotViUQAEEIhrjXY0FqRoZ885OKHKRqQST3f5oGmNiIsDLVqYM5vnQStvCaK3VxZwFO3Immm6g90uVYowh4CDa96ZZGyDvtPisdIDvSHCej1e7RbhXZd8nOODx_4D9TozE-stG_3A4AZwhSI-hv6bN2pm0M19gCC3CO9hUpqwdvaKLamBPJGnytAYtoJlgQbD4eJrClnLO922RSNnE5b9PhHaEgIH7lJjbkjzYdv_eHGoziFgI_tkz6SdAbyoD8nJzbWC9LgDA'; // your jwt
     const result = await particleAuthCore.connect(jwt);
     if (result.status) {
       const userInfo = result.data as UserInfo;

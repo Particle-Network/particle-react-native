@@ -35,6 +35,8 @@ import ConnectCommon
 import RxSwift
 import SwiftyJSON
 
+typealias ParticleCallBack = RCTResponseSenderBlock
+
 @objc(ParticleConnectPlugin)
 class ParticleConnectPlugin: NSObject {
     let bag = DisposeBag()
@@ -124,7 +126,7 @@ class ParticleConnectPlugin: NSObject {
              Inch1ConnectAdapter.self,
              ZengoConnectAdapter.self,
              AlphaConnectAdapter.self,
-             BitpieConnectAdapter.self]
+             OKXConnectAdapter.self]
 
         adapters.append(contentsOf: moreAdapterClasses.map {
             $0.init()
@@ -256,23 +258,7 @@ class ParticleConnectPlugin: NSObject {
             observable = adapter.connect(ConnectConfig.none)
         }
         
-        observable.subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let account):
-                guard let account = account else { return }
-                let statusModel = ReactStatusModel(status: true, data: account)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: observable, callback: callback)
     }
     
     @objc
@@ -301,22 +287,7 @@ class ParticleConnectPlugin: NSObject {
             return
         }
         
-        adapter.disconnect(publicAddress: publicAddress).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let success):
-                let statusModel = ReactStatusModel(status: true, data: success)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: adapter.disconnect(publicAddress: publicAddress), callback: callback)
     }
     
     @objc
@@ -354,19 +325,7 @@ class ParticleConnectPlugin: NSObject {
         let walletTypeString = data["wallet_type"].stringValue
         let publicAddress = data["public_address"].stringValue
         let transaction = data["transaction"].stringValue
-        let mode = data["fee_mode"]["option"].stringValue
-
-        var feeMode: Biconomy.FeeMode = .auto
-        if mode == "auto" {
-            feeMode = .auto
-        } else if mode == "gasless" {
-            feeMode = .gasless
-        } else if mode == "custom" {
-            let feeQuoteJson = JSON(data["fee_mode"]["fee_quote"].dictionaryValue)
-            let feeQuote = Biconomy.FeeQuote(json: feeQuoteJson)
-            feeMode = .custom(feeQuote)
-        }
-
+        
         guard let walletType = map2WalletType(from: walletTypeString) else {
             print("walletType \(walletTypeString) is not existed ")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
@@ -376,6 +335,23 @@ class ParticleConnectPlugin: NSObject {
             callback([json])
             return
         }
+        
+        let mode = data["fee_mode"]["option"].stringValue
+        var feeMode: AA.FeeMode = .native
+        if mode == "native" {
+            feeMode = .native
+        } else if mode == "gasless" {
+            feeMode = .gasless
+        } else if mode == "token" {
+            let feeQuoteJson = JSON(data["fee_mode"]["fee_quote"].dictionaryValue)
+            let tokenPaymasterAddress = data["fee_mode"]["token_paymaster_address"].stringValue
+            let feeQuote = AA.FeeQuote(json: feeQuoteJson, tokenPaymasterAddress: tokenPaymasterAddress)
+
+            feeMode = .token(feeQuote)
+        }
+        
+        let wholeFeeQuoteData = (try? data["fee_mode"]["whole_fee_quote"].rawData()) ?? Data()
+        let wholeFeeQuote = try? JSONDecoder().decode(AA.WholeFeeQuote.self, from: wholeFeeQuoteData)
         
         guard let adapter = map2ConnectAdapter(from: walletType) else {
             print("adapter for \(walletTypeString) is not init")
@@ -387,28 +363,27 @@ class ParticleConnectPlugin: NSObject {
             return
         }
         
-        adapter.signAndSendTransaction(publicAddress: publicAddress, transaction: transaction, feeMode: feeMode).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let signature):
-                let statusModel = ReactStatusModel(status: true, data: signature)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        let aaService = ParticleNetwork.getAAService()
+        var sendObservable: Single<String>
+        if aaService != nil, aaService!.isAAModeEnable() {
+            latestPublicAddress = publicAddress
+            latestWalletType = walletType
+            sendObservable = aaService!.quickSendTransactions([transaction], feeMode: feeMode, messageSigner: self, wholeFeeQuote: wholeFeeQuote)
+        } else {
+            sendObservable = adapter.signAndSendTransaction(publicAddress: publicAddress, transaction: transaction, feeMode: feeMode)
+        }
+        
+        subscribeAndCallback(observable: sendObservable, callback: callback)
     }
 
     @objc
     func batchSendTransactions(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let data = JSON(parseJSON: json)
+        let transactions = data["transactions"].arrayValue.map {
+            $0.stringValue
+        }
         let walletTypeString = data["wallet_type"].stringValue
+        let publicAddress = data["public_address"].stringValue
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
             print("walletType \(walletTypeString) is not existed ")
@@ -420,27 +395,24 @@ class ParticleConnectPlugin: NSObject {
             return
         }
         
-        latestWalletType = walletType
-        let publicAddress = data["public_address"].stringValue
-        latestPublicAddress = publicAddress
-        let transactions = data["transactions"].arrayValue.map {
-            $0.stringValue
-        }
         let mode = data["fee_mode"]["option"].stringValue
-
-        var feeMode: Biconomy.FeeMode = .auto
-        if mode == "auto" {
-            feeMode = .auto
+        var feeMode: AA.FeeMode = .native
+        if mode == "native" {
+            feeMode = .native
         } else if mode == "gasless" {
             feeMode = .gasless
-        } else if mode == "custom" {
+        } else if mode == "token" {
             let feeQuoteJson = JSON(data["fee_mode"]["fee_quote"].dictionaryValue)
-            let feeQuote = Biconomy.FeeQuote(json: feeQuoteJson)
-            feeMode = .custom(feeQuote)
+            let tokenPaymasterAddress = data["fee_mode"]["token_paymaster_address"].stringValue
+            let feeQuote = AA.FeeQuote(json: feeQuoteJson, tokenPaymasterAddress: tokenPaymasterAddress)
+
+            feeMode = .token(feeQuote)
         }
         
-        guard let biconomy = ParticleNetwork.getBiconomyService() else {
-            let response = ReactResponseError(code: nil, message: "biconomy is not init", data: nil)
+        let wholeFeeQuoteData = (try? data["fee_mode"]["whole_fee_quote"].rawData()) ?? Data()
+        let wholeFeeQuote = try? JSONDecoder().decode(AA.WholeFeeQuote.self, from: wholeFeeQuoteData)
+        guard let aaService = ParticleNetwork.getAAService() else {
+            let response = ReactResponseError(code: nil, message: "aa service is not init", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
             guard let json = String(data: data, encoding: .utf8) else { return }
@@ -448,8 +420,8 @@ class ParticleConnectPlugin: NSObject {
             return
         }
         
-        guard biconomy.isBiconomyModeEnable() else {
-            let response = ReactResponseError(code: nil, message: "biconomy is not enable", data: nil)
+        guard aaService.isAAModeEnable() else {
+            let response = ReactResponseError(code: nil, message: "aa service is not init", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
             guard let json = String(data: data, encoding: .utf8) else { return }
@@ -457,23 +429,11 @@ class ParticleConnectPlugin: NSObject {
             return
         }
         
-        biconomy.quickSendTransactions(transactions, feeMode: feeMode, messageSigner: self).subscribe {
-            [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .failure(let error):
-                    let response = self.ResponseFromError(error)
-                    let statusModel = ReactStatusModel(status: false, data: response)
-                    let data = try! JSONEncoder().encode(statusModel)
-                    guard let json = String(data: data, encoding: .utf8) else { return }
-                    callback([json])
-                case .success(let signature):
-                    let statusModel = ReactStatusModel(status: true, data: signature)
-                    let data = try! JSONEncoder().encode(statusModel)
-                    guard let json = String(data: data, encoding: .utf8) else { return }
-                    callback([json])
-                }
-        }.disposed(by: bag)
+        latestPublicAddress = publicAddress
+        latestWalletType = walletType
+        
+        let sendObservable = aaService.quickSendTransactions(transactions, feeMode: feeMode, messageSigner: self, wholeFeeQuote: wholeFeeQuote)
+        subscribeAndCallback(observable: sendObservable, callback: callback)
     }
     
     @objc
@@ -502,23 +462,7 @@ class ParticleConnectPlugin: NSObject {
             callback([json])
             return
         }
-        
-        adapter.signTransaction(publicAddress: publicAddress, transaction: transaction).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let signed):
-                let statusModel = ReactStatusModel(status: true, data: signed)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: adapter.signTransaction(publicAddress: publicAddress, transaction: transaction), callback: callback)
     }
     
     @objc
@@ -550,22 +494,7 @@ class ParticleConnectPlugin: NSObject {
             return
         }
         
-        adapter.signAllTransactions(publicAddress: publicAddress, transactions: transactions).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let signed):
-                let statusModel = ReactStatusModel(status: true, data: signed)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: adapter.signAllTransactions(publicAddress: publicAddress, transactions: transactions), callback: callback)
     }
     
     @objc
@@ -595,22 +524,7 @@ class ParticleConnectPlugin: NSObject {
             return
         }
         
-        adapter.signMessage(publicAddress: publicAddress, message: message).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let signed):
-                let statusModel = ReactStatusModel(status: true, data: signed)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: adapter.signMessage(publicAddress: publicAddress, message: message), callback: callback)
     }
     
     @objc
@@ -640,22 +554,7 @@ class ParticleConnectPlugin: NSObject {
             return
         }
         
-        adapter.signTypedData(publicAddress: publicAddress, data: message).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let signed):
-                let statusModel = ReactStatusModel(status: true, data: signed)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: adapter.signTypedData(publicAddress: publicAddress, data: message), callback: callback)
     }
     
     @objc
@@ -695,23 +594,7 @@ class ParticleConnectPlugin: NSObject {
             return
         }
         
-        (adapter as! LocalAdapter).importWalletFromPrivateKey(privateKey).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let account):
-                guard let account = account else { return }
-                let statusModel = ReactStatusModel(status: true, data: account)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: (adapter as! LocalAdapter).importWalletFromPrivateKey(privateKey), callback: callback)
     }
     
     @objc
@@ -751,23 +634,7 @@ class ParticleConnectPlugin: NSObject {
             return
         }
         
-        (adapter as! LocalAdapter).importWalletFromMnemonic(mnemonic).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let account):
-                guard let account = account else { return }
-                let statusModel = ReactStatusModel(status: true, data: account)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: (adapter as! LocalAdapter).importWalletFromMnemonic(mnemonic), callback: callback)
     }
     
     @objc
@@ -807,22 +674,7 @@ class ParticleConnectPlugin: NSObject {
             return
         }
         
-        (adapter as! LocalAdapter).exportWalletPrivateKey(publicAddress: publicAddress).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let privateKey):
-                let statusModel = ReactStatusModel(status: true, data: privateKey)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: (adapter as! LocalAdapter).exportWalletPrivateKey(publicAddress: publicAddress), callback: callback)
     }
     
     @objc
@@ -856,23 +708,11 @@ class ParticleConnectPlugin: NSObject {
         
         let siwe = try! SiweMessage(domain: domain, address: address, uri: uri)
         
-        adapter.login(config: siwe, publicAddress: publicAddress).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let (sourceMessage, signedMessage)):
-                let result = ReactConnectLoginResult(message: sourceMessage, signature: signedMessage)
-                let statusModel = ReactStatusModel(status: true, data: result)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        let observable = adapter.login(config: siwe, publicAddress: publicAddress).map { sourceMessage, signedMessage in
+            ReactConnectLoginResult(message: sourceMessage, signature: signedMessage)
+        }
+        
+        subscribeAndCallback(observable: observable, callback: callback)
     }
     
     @objc
@@ -908,22 +748,7 @@ class ParticleConnectPlugin: NSObject {
         
         let siwe = try! SiweMessage(message)
         
-        adapter.verify(message: siwe, against: signature).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let flag):
-                let statusModel = ReactStatusModel(status: true, data: flag)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: adapter.verify(message: siwe, against: signature), callback: callback)
     }
     
     @objc
@@ -952,22 +777,7 @@ class ParticleConnectPlugin: NSObject {
             callback([json])
             return
         }
-        adapter.addEthereumChain(publicAddress: publicAddress, chainId: chainId, chainName: nil, nativeCurrency: nil, rpcUrl: nil, blockExplorerUrl: nil).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let flag):
-                let statusModel = ReactStatusModel(status: true, data: flag)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        subscribeAndCallback(observable: adapter.addEthereumChain(publicAddress: publicAddress, chainId: chainId, chainName: nil, nativeCurrency: nil, rpcUrl: nil, blockExplorerUrl: nil), callback: callback)
     }
     
     @objc
@@ -996,22 +806,8 @@ class ParticleConnectPlugin: NSObject {
             callback([json])
             return
         }
-        adapter.switchEthereumChain(publicAddress: publicAddress, chainId: chainId).subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let flag):
-                let statusModel = ReactStatusModel(status: true, data: flag)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: bag)
+        
+        subscribeAndCallback(observable: adapter.switchEthereumChain(publicAddress: publicAddress, chainId: chainId), callback: callback)
     }
     
     @objc public func reconnectIfNeeded(_ json: String, callback: @escaping RCTResponseSenderBlock) {
@@ -1069,20 +865,28 @@ public extension Dictionary {
     }
 }
 
-extension ParticleConnectPlugin: MessageSigner {
-    public func signTypedData(_ message: String) -> RxSwift.Single<String> {
-        guard let walletType = latestWalletType else {
-            print("walletType is nil")
-            return .error(ParticleNetwork.ResponseError(code: nil, message: "walletType is nil"))
-        }
-        
-        guard let adapter = map2ConnectAdapter(from: walletType) else {
-            print("adapter for \(walletType) is not init")
-            return .error(ParticleNetwork.ResponseError(code: nil, message: "adapter for \(walletType) is not init"))
-        }
-        return adapter.signTypedData(publicAddress: getEoaAddress(), data: message)
+extension ParticleConnectPlugin {
+    private func subscribeAndCallback<T: Codable>(observable: Single<T>, callback: @escaping ParticleCallBack) {
+        observable.subscribe { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                let response = self.ResponseFromError(error)
+                let statusModel = ReactStatusModel(status: false, data: response)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            case .success(let signedMessage):
+                let statusModel = ReactStatusModel(status: true, data: signedMessage)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            }
+        }.disposed(by: bag)
     }
-    
+}
+
+extension ParticleConnectPlugin: MessageSigner {
     public func signMessage(_ message: String) -> RxSwift.Single<String> {
         guard let walletType = latestWalletType else {
             print("walletType is nil")

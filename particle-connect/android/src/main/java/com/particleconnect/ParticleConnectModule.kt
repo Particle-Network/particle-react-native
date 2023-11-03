@@ -14,10 +14,10 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.particle.base.Env
 import com.particle.base.ParticleNetwork
-import com.particle.base.ibiconomy.FeeMode
-import com.particle.base.ibiconomy.FeeModeAuto
-import com.particle.base.ibiconomy.FeeModeCustom
-import com.particle.base.ibiconomy.FeeModeGasless
+import com.particle.base.iaa.FeeMode
+import com.particle.base.iaa.FeeModeNative
+import com.particle.base.iaa.FeeModeToken
+import com.particle.base.iaa.FeeModeGasless
 import com.particle.base.model.LoginType
 import com.particle.base.model.ResultCallback
 import com.particle.base.model.SupportAuthType
@@ -308,9 +308,9 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun signAndSendTransaction(jsonParams: String, callback: Callback) {
-    val signData = GsonUtils.fromJson(jsonParams, ConnectSignData::class.java)
-    val transaction = signData.transaction
-    val connectAdapter = getConnectAdapter(signData.publicAddress, signData.walletType)
+    val transParams = GsonUtils.fromJson(jsonParams, ConnectSignData::class.java)
+    val transaction = transParams.transaction
+    val connectAdapter = getConnectAdapter(transParams.publicAddress, transParams.walletType)
     if (connectAdapter == null) {
       callback.invoke(
         ReactCallBack.failed(
@@ -321,24 +321,62 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
       )
       return
     }
-    connectAdapter.signAndSendTransaction(
-      signData.publicAddress,
-      transaction,
-      object : TransactionCallback {
 
-        override fun onError(error: ConnectError) {
-          LogUtils.d("onError", error.toString())
-          callback.invoke(
-            ReactCallBack.failed(ReactErrorMessage.parseConnectError(error)).toGson()
-          )
+    if (ParticleNetwork.isAAModeEnable() && transParams.feeMode != null) {
+      var feeMode: FeeMode = FeeModeNative()
+      val option = transParams.feeMode.option
+      if (option == "token") {
+        val tokenPaymasterAddress = transParams.feeMode.tokenPaymasterAddress
+        val feeQuote = transParams.feeMode.feeQuote!!
+        feeMode = FeeModeToken(feeQuote, tokenPaymasterAddress!!)
+      } else if (option == "gasless") {
+        val verifyingPaymasterGasless =
+          transParams.feeMode.wholeFeeQuote.verifyingPaymasterGasless
+        feeMode = FeeModeGasless(verifyingPaymasterGasless)
+      } else if (option == "native") {
+        val verifyingPaymasterNative =
+          transParams.feeMode.wholeFeeQuote.verifyingPaymasterNative
+        feeMode = FeeModeNative(verifyingPaymasterNative)
+      }
+      connectAdapter.signAndSendTransaction(
+        transParams.publicAddress,
+        transaction,
+        feeMode,
+        object : TransactionCallback {
 
-        }
+          override fun onError(error: ConnectError) {
+            LogUtils.d("onError", error.toString())
+            callback.invoke(
+              ReactCallBack.failed(ReactErrorMessage.parseConnectError(error)).toGson()
+            )
 
-        override fun onTransaction(transactionId: String?) {
-          LogUtils.d("onTransaction", transactionId)
-          callback.invoke(ReactCallBack.success(transactionId).toGson())
-        }
-      })
+          }
+
+          override fun onTransaction(transactionId: String?) {
+            LogUtils.d("onTransaction", transactionId)
+            callback.invoke(ReactCallBack.success(transactionId).toGson())
+          }
+        })
+    } else {
+      connectAdapter.signAndSendTransaction(
+        transParams.publicAddress,
+        transaction,
+        object : TransactionCallback {
+
+          override fun onError(error: ConnectError) {
+            LogUtils.d("onError", error.toString())
+            callback.invoke(
+              ReactCallBack.failed(ReactErrorMessage.parseConnectError(error)).toGson()
+            )
+
+          }
+          override fun onTransaction(transactionId: String?) {
+            LogUtils.d("onTransaction", transactionId)
+            callback.invoke(ReactCallBack.success(transactionId).toGson())
+          }
+        })
+    }
+
   }
 
   @ReactMethod
@@ -358,58 +396,21 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
       return
     }
 
-    if (ParticleNetwork.isBiconomyModeEnable()) {
-      var feeMode: FeeMode = FeeModeAuto()
-      if (signData.feeMode != null) {
-        val option = signData.feeMode.option
-        feeMode = when (option) {
-          "custom" -> {
-            val feeQuote = signData.feeMode.feeQuote!!
-            FeeModeCustom(feeQuote)
-          }
-
-          "gasless" -> {
-            FeeModeGasless()
-          }
-
-          else -> {
-            FeeModeAuto()
-          }
+    connectAdapter.signAndSendTransaction(
+      signData.publicAddress,
+      transaction,
+      object : TransactionCallback {
+        override fun onError(error: ConnectError) {
+          LogUtils.d("onError", error.toString())
+          ReactCallBack.failed(ReactErrorMessage.parseConnectError(error)).toGson()
         }
-      }
-      connectAdapter.signAndSendTransaction(
-        signData.publicAddress,
-        transaction,
-        feeMode,
-        object : TransactionCallback {
-          override fun onError(error: ConnectError) {
-            LogUtils.d("onError", error.toString())
-            ReactCallBack.failed(ReactErrorMessage.parseConnectError(error)).toGson()
-          }
 
-          override fun onTransaction(transactionId: String?) {
-            LogUtils.d("onTransaction", transactionId)
-            callback.invoke(ReactCallBack.success(transactionId).toGson())
-          }
-        })
-    } else {
-      connectAdapter.signAndSendTransaction(
-        signData.publicAddress,
-        transaction,
-        object : TransactionCallback {
-          override fun onError(error: ConnectError) {
-            LogUtils.d("onError", error.toString())
-            ReactCallBack.failed(ReactErrorMessage.parseConnectError(error)).toGson()
-          }
+        override fun onTransaction(transactionId: String?) {
+          LogUtils.d("onTransaction", transactionId)
+          callback.invoke(ReactCallBack.success(transactionId).toGson())
 
-          override fun onTransaction(transactionId: String?) {
-            LogUtils.d("onTransaction", transactionId)
-            callback.invoke(ReactCallBack.success(transactionId).toGson())
-
-          }
-        })
-    }
-
+        }
+      })
   }
 
   @ReactMethod

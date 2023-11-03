@@ -10,6 +10,8 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.google.gson.reflect.TypeToken
+import android.text.TextUtils
+import com.particle.api.infrastructure.db.table.WalletInfo
 import com.particle.api.service.DBService
 import com.particle.base.ParticleNetwork
 import com.particle.base.model.MobileWCWalletName

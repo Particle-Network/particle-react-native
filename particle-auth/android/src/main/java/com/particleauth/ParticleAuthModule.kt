@@ -16,11 +16,11 @@ import com.particle.base.data.ErrorInfo
 import com.particle.base.data.SignOutput
 import com.particle.base.data.WebOutput
 import com.particle.base.data.WebServiceCallback
-import com.particle.base.ibiconomy.FeeMode
-import com.particle.base.ibiconomy.FeeModeAuto
-import com.particle.base.ibiconomy.FeeModeCustom
-import com.particle.base.ibiconomy.FeeModeGasless
-import com.particle.base.ibiconomy.MessageSigner
+import com.particle.base.iaa.FeeMode
+import com.particle.base.iaa.FeeModeGasless
+import com.particle.base.iaa.FeeModeNative
+import com.particle.base.iaa.FeeModeToken
+import com.particle.base.iaa.MessageSigner
 import com.particle.base.model.LoginType
 import com.particle.base.model.ResultCallback
 import com.particle.base.model.SecurityAccountConfig
@@ -249,16 +249,19 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
     LogUtils.d("signAndSendTransaction", transactionParams)
     val transParams =
       GsonUtils.fromJson<TransactionParams>(transactionParams, TransactionParams::class.java)
-    var feeMode: FeeMode = FeeModeAuto()
-    if (transParams.feeMode != null) {
+    var feeMode: FeeMode = FeeModeNative()
+    if (transParams.feeMode != null && ParticleNetwork.isAAModeEnable()) {
       val option = transParams.feeMode.option
-      if (option == "custom") {
+      if (option == "token") {
+        val tokenPaymasterAddress = transParams.feeMode.tokenPaymasterAddress
         val feeQuote = transParams.feeMode.feeQuote!!
-        feeMode = FeeModeCustom(feeQuote)
+        feeMode = FeeModeToken(feeQuote,tokenPaymasterAddress!!)
       } else if (option == "gasless") {
-        feeMode = FeeModeGasless()
-      } else {
-        feeMode = FeeModeAuto()
+        val verifyingPaymasterGasless = transParams.feeMode.wholeFeeQuote.verifyingPaymasterGasless
+        feeMode = FeeModeGasless(verifyingPaymasterGasless)
+      } else if (option == "native") {
+        val verifyingPaymasterNative = transParams.feeMode.wholeFeeQuote.verifyingPaymasterNative
+        feeMode = FeeModeNative(verifyingPaymasterNative)
       }
     }
     try {
@@ -454,38 +457,25 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
   fun batchSendTransactions(transactions: String, callback: Callback) {
     LogUtils.d("batchSendTransactions", transactions)
     val transParams = GsonUtils.fromJson(transactions, TransactionsParams::class.java)
-    var feeMode: FeeMode = FeeModeAuto()
+    var feeMode: FeeMode = FeeModeNative()
     if (transParams.feeMode != null) {
       val option = transParams.feeMode.option
-      if (option == "custom") {
+      if (option == "token") {
+        val tokenPaymasterAddress = transParams.feeMode.tokenPaymasterAddress
         val feeQuote = transParams.feeMode.feeQuote!!
-        feeMode = FeeModeCustom(feeQuote)
+        feeMode = FeeModeToken(feeQuote,tokenPaymasterAddress!!)
       } else if (option == "gasless") {
-        feeMode = FeeModeGasless()
+        val verifyingPaymasterGasless = transParams.feeMode.wholeFeeQuote.verifyingPaymasterGasless
+        feeMode = FeeModeGasless(verifyingPaymasterGasless)
       } else {
-        feeMode = FeeModeAuto()
+        val verifyingPaymasterNative = transParams.feeMode.wholeFeeQuote.verifyingPaymasterNative
+        feeMode = FeeModeNative(verifyingPaymasterNative)
       }
     }
     CoroutineScope(Dispatchers.IO).launch {
       try {
-        ParticleNetwork.getBiconomyService()
+        ParticleNetwork.getAAService()
           .quickSendTransaction(transParams.transactions, feeMode, object : MessageSigner {
-            override fun signTypedData(message: String, callback: WebServiceCallback<SignOutput>) {
-
-              ParticleNetwork.signTypedData(
-                message,
-                SignTypedDataVersion.V4,
-                object : WebServiceCallback<SignOutput> {
-                  override fun success(output: SignOutput) {
-                    callback.success(output)
-                  }
-
-                  override fun failure(errMsg: ErrorInfo) {
-                    callback.failure(errMsg)
-                  }
-                })
-            }
-
             override fun signMessage(message: String, callback: WebServiceCallback<SignOutput>) {
               ParticleNetwork.signMessage(message, object : WebServiceCallback<SignOutput> {
                 override fun success(output: SignOutput) {

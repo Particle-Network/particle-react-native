@@ -226,12 +226,11 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     const feeQutotes = (await particleAA.rpcGetFeeQuotes(eoaAddress, [
       transaction,
     ])) as FeeQuote[];
-    console.log('feeQutotes', feeQutotes);
     const result = await particleConnect.signAndSendTransaction(
       this.walletType,
       this.publicAddress,
       transaction,
-      AAFeeMode.native(feeQutotes[1])
+      AAFeeMode.native(feeQutotes)
     );
     if (result.status) {
       const signature = result.data;
@@ -255,12 +254,14 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
       receiver,
       BigNumber(amount)
     );
-
+    const feeQutotes = (await particleAA.rpcGetFeeQuotes(eoaAddress, [
+      transaction,
+    ])) as FeeQuote[];
     const result = await particleConnect.signAndSendTransaction(
       this.walletType,
       this.publicAddress,
       transaction,
-      AAFeeMode.gasless()
+      AAFeeMode.gasless(feeQutotes)
     );
     if (result.status) {
       const signature = result.data;
@@ -293,7 +294,10 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
       this.walletType,
       this.publicAddress,
       transaction,
-      AAFeeMode.custom(feeQutotes[0])
+      AAFeeMode.token(
+        feeQutotes?.tokenPaymaster.feeQuotes[0],
+        feeQutotes?.tokenPaymaster?.tokenPaymasterAddress
+      )
     );
     if (result.status) {
       const signature = result.data;

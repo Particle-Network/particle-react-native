@@ -6,42 +6,26 @@ Please note that the SDK supports `ios-arm64` (iOS devices) and `ios-arm64-simul
 
 
 ## Particle Auth Service
-
-[![NPM Version](https://img.shields.io/npm/v/@particle-network/rn-auth.svg)](https://www.npmjs.com/package/@particle-network/rn-auth)
-
 ```sh
 npm install @particle-network/rn-auth
 ```
 
 ## Particle Connect Service
-
-[![NPM Version](https://img.shields.io/npm/v/@particle-network/rn-connect.svg)](https://www.npmjs.com/package/@particle-network/rn-connect)
-
 ```sh
 npm install @particle-network/rn-connect
 ```
 
 ## Particle Wallet Service
-
-[![NPM Version](https://img.shields.io/npm/v/@particle-network/rn-wallet.svg)](https://www.npmjs.com/package/@particle-network/rn-wallet)
-
-
 ```sh
 npm install @particle-network/rn-wallet
 ```
 
 ## Particle AA Service
-
-[![NPM Version](https://img.shields.io/npm/v/@particle-network/rn-aa.svg)](https://www.npmjs.com/package/@particle-network/rn-aa)
-
 ```sh
 npm install @particle-network/rn-aa
 ```
 
 ## Particle Auth Core Service
-
-[![NPM Version](https://img.shields.io/npm/v/@particle-network/rn-auth-core.svg)](https://www.npmjs.com/package/@particle-network/rn-auth-core)
-
 ```sh
 npm install @particle-network/rn-auth-core
 ```

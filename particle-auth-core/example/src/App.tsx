@@ -6,7 +6,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
-import WebView from 'react-native-webview';
 import AuthCoreDemo from './AuthCoreDemo';
 import SelectChainPage from './SelectChainPage';
 
@@ -28,16 +27,6 @@ interface HomeScreenProps {
   route: HomeScreenRouteProp;
   navigation: HomeScreenNavigationProp;
 }
-
-const BaiduScreen = () => {
-  return (
-    <WebView
-      androidHardwareAccelerationDisabled={true}
-      source={{ uri: 'https://www.baidu.com/' }}
-      style={{ opacity: 0.99 }}
-    />
-  );
-};
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
@@ -107,7 +96,6 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="AuthCoreDemo" component={AuthCoreScreen} />
           <Stack.Screen name="SelectChainPage" component={SelectScreen} />
-          <Stack.Screen name="baidu" component={BaiduScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       <Toast />

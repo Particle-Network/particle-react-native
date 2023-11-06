@@ -18,7 +18,6 @@ import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';
 import {
   ActivityIndicator,
-  Button,
   FlatList,
   SafeAreaView,
   StyleSheet,
@@ -489,10 +488,6 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
                 )}
               </TouchableOpacity>
             )}
-          />
-          <Button
-            title="link baidu"
-            onPress={() => navigation.navigate('baidu')}
           />
         </View>
         <ModalSelector

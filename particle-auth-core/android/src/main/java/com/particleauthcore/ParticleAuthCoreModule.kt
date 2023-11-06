@@ -1,5 +1,7 @@
 package com.particleauthcore
 
+import android.os.Handler
+import android.os.Looper
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.facebook.react.bridge.Callback
@@ -25,8 +27,9 @@ import com.particleauthcore.utils.MessageProcess
 class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
 
+
   override fun getName(): String {
-    return NAME
+    return "ParticleAuthCorePlugin"
   }
 
   // Example method
@@ -34,6 +37,15 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
   @ReactMethod
   fun multiply(a: Double, b: Double, promise: Promise) {
     promise.resolve(a * b)
+  }
+
+  private val mainHandler = Handler(Looper.getMainLooper())
+
+  @ReactMethod
+  fun init() {
+    mainHandler.post {
+      AuthCore.isConnected()
+    }
   }
 
   @ReactMethod
@@ -218,15 +230,17 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun solanaSignMessage(message: String, callback: Callback) {
-    AuthCore.solana.signMessage(MessageProcess.start(message) , object : AuthCoreSignCallback<SignOutput> {
-      override fun failure(errMsg: ErrorInfo) {
-        callback.invoke(ReactCallBack.failed(errMsg).toGson())
-      }
+    AuthCore.solana.signMessage(
+      MessageProcess.start(message),
+      object : AuthCoreSignCallback<SignOutput> {
+        override fun failure(errMsg: ErrorInfo) {
+          callback.invoke(ReactCallBack.failed(errMsg).toGson())
+        }
 
-      override fun success(output: SignOutput) {
-        callback.invoke(ReactCallBack.success(output).toGson())
-      }
-    })
+        override fun success(output: SignOutput) {
+          callback.invoke(ReactCallBack.success(output).toGson())
+        }
+      })
   }
 
   @ReactMethod
@@ -263,19 +277,19 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun solanaSignAndSendTransaction(transaction: String, callback: Callback) {
-    AuthCore.solana.signAndSendTransaction(transaction, object : AuthCoreSignCallback<SignOutput> {
-      override fun failure(errMsg: ErrorInfo) {
-        callback.invoke(ReactCallBack.failed(errMsg).toGson())
-      }
+    AuthCore.solana.signAndSendTransaction(
+      transaction,
+      object : AuthCoreSignCallback<SignOutput> {
+        override fun failure(errMsg: ErrorInfo) {
+          callback.invoke(ReactCallBack.failed(errMsg).toGson())
+        }
 
-      override fun success(output: SignOutput) {
-        callback.invoke(ReactCallBack.success(output).toGson())
-      }
-    })
-  }
-
-  companion object {
-    const val NAME = "ParticleAuthCorePlugin"
+        override fun success(output: SignOutput) {
+          callback.invoke(ReactCallBack.success(output).toGson())
+        }
+      })
   }
 
 }
+
+

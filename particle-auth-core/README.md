@@ -1,17 +1,17 @@
-# react-native-particle-auth-core
+# @particle-network/rn-auth-core
 
-AuthCore service
+react-native-particle-auth-core
 
 ## Installation
 
 ```sh
-npm install react-native-particle-auth-core
+npm install @particle-network/rn-auth-core
 ```
 
 ## Usage
 
 ```js
-import { multiply } from 'react-native-particle-auth-core';
+import { multiply } from '@particle-network/rn-auth-core';
 
 // ...
 

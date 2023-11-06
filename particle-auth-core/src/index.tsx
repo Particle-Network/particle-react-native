@@ -1,10 +1,11 @@
-import { NativeModules, Platform } from 'react-native';
 import type { ChainInfo } from '@particle-network/chains';
+import { NativeModules, Platform } from 'react-native';
+import type { CommonResp, UserInfo } from './Models';
 import * as evm from './evm';
 import * as solana from './solana';
 
 const LINKING_ERROR =
-  `The package 'react-native-particle-auth' doesn't seem to be linked. Make sure: \n\n` +
+  `The package '@particle-network/rn-auth' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
@@ -27,6 +28,7 @@ export function init() {
   if (Platform.OS === 'ios') {
     ParticleAuthCorePlugin.initialize('');
   } else {
+    //Android use auth sdk  init is enough
   }
 }
 
@@ -34,7 +36,7 @@ export function init() {
  * Connect JWT
  * @param jwt JWT
  */
-export async function connect(jwt: String): Promise<any> {
+export async function connect(jwt: String): Promise<CommonResp<UserInfo>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.connect(jwt, (result: string) => {
       resolve(JSON.parse(result));
@@ -45,7 +47,7 @@ export async function connect(jwt: String): Promise<any> {
 /**
  * Disconnect
  */
-export async function disconnect(): Promise<any> {
+export async function disconnect(): Promise<CommonResp<string>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.disconnect((result: string) => {
       resolve(JSON.parse(result));
@@ -55,12 +57,18 @@ export async function disconnect(): Promise<any> {
 
 /**
  * Is user logged in, check locally.
- * @returns Result, if user is login return true, otherwise retrun false
+ * @returns Result, if user is login return true, otherwise return false
  */
 export async function isConnected(): Promise<boolean> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.isConnected((result: string) => {
-      resolve(JSON.parse(result));
+      const connected = JSON.parse(result);
+
+      if (Platform.OS === 'ios') {
+        resolve(connected?.data as boolean);
+      } else {
+        resolve(connected);
+      }
     });
   });
 }
@@ -96,7 +104,7 @@ export async function switchChain(chainInfo: ChainInfo): Promise<boolean> {
  * Change master password
  * @returns
  */
-export function changeMasterPassword(): Promise<any> {
+export function changeMasterPassword(): Promise<CommonResp<string>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.changeMasterPassword((result: string) => {
       resolve(JSON.parse(result));
@@ -107,7 +115,7 @@ export function changeMasterPassword(): Promise<any> {
 /**
  * Has master password, get value from local user info.
  */
-export async function hasMasterPassword(): Promise<any> {
+export async function hasMasterPassword(): Promise<CommonResp<boolean>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.hasMasterPassword((result: string) => {
       resolve(JSON.parse(result));
@@ -118,7 +126,7 @@ export async function hasMasterPassword(): Promise<any> {
 /**
  * Has payment password, get value from local user info.
  */
-export async function hasPaymentPassword(): Promise<any> {
+export async function hasPaymentPassword(): Promise<CommonResp<boolean>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.hasPaymentPassword((result: string) => {
       resolve(JSON.parse(result));
@@ -130,7 +138,7 @@ export async function hasPaymentPassword(): Promise<any> {
  * Open account and security page
  * use DeviceEventEmitter.addListener('securityFailedCallBack', this.securityFailedCallBack) get securityFailedCallBack
  */
-export async function openAccountAndSecurity(): Promise<any> {
+export async function openAccountAndSecurity(): Promise<CommonResp<string>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.openAccountAndSecurity((result: string) => {
       resolve(JSON.parse(result));
@@ -138,11 +146,5 @@ export async function openAccountAndSecurity(): Promise<any> {
   });
 }
 
-/**
- * Open web wallet
- */
-export function openWebWallet(webStyle?: string) {
-  ParticleAuthCorePlugin.openWebWallet(webStyle);
-}
-
+export * from './Models';
 export { evm, solana };

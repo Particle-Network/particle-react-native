@@ -1,31 +1,39 @@
-import React, { PureComponent } from 'react';
 import {
-  StyleSheet,
-  SafeAreaView,
-  FlatList,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
-import { WalletType, DappMetaData } from 'react-native-particle-connect';
-import {
-  PolygonMumbai,
   Ethereum,
   EthereumGoerli,
+  PolygonMumbai,
 } from '@particle-network/chains';
-import * as particleConnect from 'react-native-particle-connect';
-import * as particleAuth from 'react-native-particle-auth';
-import { Env, Language, WalletDisplay } from 'react-native-particle-auth';
+import * as particleAuth from '@particle-network/rn-auth';
+import { Env, Language, WalletDisplay } from '@particle-network/rn-auth';
+import * as particleConnect from '@particle-network/rn-connect';
+import {
+  AccountInfo,
+  DappMetaData,
+  WalletType,
+} from '@particle-network/rn-connect';
+import * as particleWallet from '@particle-network/rn-wallet';
+import {
+  BuyCryptoConfig,
+  CommonError,
+  OpenBuyNetwork,
+} from '@particle-network/rn-wallet';
+import React, { PureComponent } from 'react';
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+import ModalSelector from 'react-native-modal-selector';
+import Toast from 'react-native-toast-message';
+import { GUIScreenProps } from './App';
 import { TestAccountEVM, TestAccountSolana } from './TestAccount';
-import * as particleWallet from 'react-native-particle-wallet';
-import { BuyCryptoConfig, OpenBuyNetwork } from 'react-native-particle-wallet';
-import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
-interface GUIDemoProps {
-  navigation: NavigationProp<any>;
-  route: RouteProp<any, any>;
-}
+export default class GUIDemo extends PureComponent<GUIScreenProps> {
+  state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
+  modalSelect: ModalSelector<any> | null = null;
 
-export default class GUIDemo extends PureComponent<GUIDemoProps> {
   init = async () => {
     const chainInfo = Ethereum;
     const env = Env.Dev;
@@ -47,32 +55,71 @@ export default class GUIDemo extends PureComponent<GUIDemoProps> {
     );
     particleConnect.init(chainInfo, env, dappMetaData);
     particleWallet.initWallet(walletMetaData);
+
+    Toast.show({
+      type: 'success',
+      text1: 'Initialized successfully',
+    });
   };
 
   setChainInfo = async () => {
-    const chainInfo = Ethereum;
-    particleAuth.setChainInfo(chainInfo);
+    this.setState({
+      currentOptions: [
+        { label: 'Ethereum', key: 'Ethereum', value: Ethereum },
+        {
+          label: 'Ethereum Goerli',
+          key: 'Ethereum Goerli',
+          value: EthereumGoerli,
+        },
+        {
+          label: 'Polygon Mumbai',
+          key: 'Polygon Mumbai',
+          value: PolygonMumbai,
+        },
+      ],
+    });
+    if (this.modalSelect) {
+      this.modalSelect.open();
+    }
   };
 
   loginParticle = async () => {
     // const result = await particleAuth.login();
     // console.log(result);
-    const accountInfo = await particleConnect.connect(WalletType.Particle);
-    console.log('accountInfo', accountInfo.data.publicAddress);
-    particleWallet.createSelectedWallet(
-      accountInfo.data.publicAddress,
-      WalletType.Particle
-    );
+    const result = await particleConnect.connect(WalletType.Particle);
+
+    if (result.status) {
+      const accountInfo = result.data as AccountInfo;
+      console.log('accountInfo', accountInfo.publicAddress);
+      particleWallet.createSelectedWallet(
+        accountInfo.publicAddress,
+        WalletType.Particle
+      );
+
+      Toast.show({
+        type: 'success',
+        text1: 'Login successfully',
+      });
+    } else {
+      const error = result.data as CommonError;
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
+    }
   };
 
   // Wallet Service should use after connected a wallet, so add this method to help test wallet methods.
   // Before this, you'd better login metamask with our testAccount in TestAccount.js
   // TestAccount provides both evm and solana test account with some tokens.
   connectMetamask = async () => {
-    const accountInfo = await particleConnect.connect(WalletType.MetaMask);
-    console.log('accountInfo', accountInfo.data.publicAddress);
+    const result = await particleConnect.connect(WalletType.MetaMask);
+
+    const accountInfo = result.data as AccountInfo;
+    console.log('accountInfo', accountInfo.publicAddress);
     particleWallet.createSelectedWallet(
-      accountInfo.data.publicAddress,
+      accountInfo.publicAddress,
       WalletType.MetaMask
     );
   };
@@ -149,44 +196,89 @@ export default class GUIDemo extends PureComponent<GUIDemoProps> {
   setShowTestNetwork = async () => {
     const isShow = false;
     particleWallet.setShowTestNetwork(isShow);
+
+    Toast.show({
+      type: 'success',
+      text1: 'Successfully set',
+    });
   };
 
   setShowManageWallet = async () => {
     const isShow = false;
     particleWallet.setShowManageWallet(isShow);
+    Toast.show({
+      type: 'success',
+      text1: 'Successfully set',
+    });
   };
 
   setSupportChain = async () => {
     const chainInfos = [Ethereum, EthereumGoerli, PolygonMumbai];
     particleWallet.setSupportChain(chainInfos);
+    Toast.show({
+      type: 'success',
+      text1: 'Successfully set',
+    });
   };
 
   setPayDisabled = async () => {
     const disabled = true;
     particleWallet.setPayDisabled(disabled);
+    Toast.show({
+      type: 'success',
+      text1: 'Successfully set',
+    });
   };
 
   getPayDisabled = async () => {
     const result = await particleWallet.getPayDisabled();
     console.log(result);
+
+    Toast.show({
+      type: 'info',
+      text1: 'Pay Disabled',
+      text2: String(result),
+    });
   };
 
   setSwapDisabled = async () => {
     const disabled = true;
     particleWallet.setSwapDisabled(disabled);
+    Toast.show({
+      type: 'success',
+      text1: 'Successfully set',
+    });
   };
 
   getSwapDisabled = async () => {
     const result = await particleWallet.getSwapDisabled();
     console.log(result);
+    Toast.show({
+      type: 'info',
+      text1: 'Swap Disabled',
+      text2: String(result),
+    });
   };
 
   switchWallet = async () => {
-    const walletType = WalletType.MetaMask;
-    const publicAddress = TestAccountEVM.publicAddress;
-
-    const result = await particleWallet.switchWallet(walletType, publicAddress);
-    console.log(result);
+    const walletTypeOptions: {
+      label: string;
+      key: string;
+      value: string;
+    }[] = [];
+    for (var walletType in WalletType) {
+      walletTypeOptions.push({
+        label: walletType,
+        key: walletType,
+        value: walletType,
+      });
+    }
+    this.setState({
+      currentOptions: walletTypeOptions,
+    });
+    if (this.modalSelect) {
+      this.modalSelect.open();
+    }
   };
 
   setDisplayTokenAddresses = async () => {
@@ -223,6 +315,25 @@ export default class GUIDemo extends PureComponent<GUIDemoProps> {
 
   setSupportWalletConnect = async () => {
     particleWallet.setSupportWalletConnect(false);
+  };
+
+  handleModelSelect = async ({ value }: any) => {
+    switch (this.state.currentKey) {
+      case 'SetChainInfo':
+        particleAuth.setChainInfo(value);
+        Toast.show({
+          type: 'success',
+          text1: 'Successfully set chain info',
+        });
+        break;
+      case 'SwitchWallet':
+        const publicAddress = TestAccountEVM.publicAddress;
+        const result = await particleWallet.switchWallet(value, publicAddress);
+        Toast.show({
+          type: result ? 'success' : 'error',
+          text1: result ? 'Successfully switched' : 'Failed to switch',
+        });
+    }
   };
 
   data = [
@@ -284,12 +395,24 @@ export default class GUIDemo extends PureComponent<GUIDemoProps> {
             <TouchableOpacity
               style={styles.buttonStyle}
               onPress={() => {
+                this.setState({
+                  currentKey: item.key,
+                });
+
                 item.function();
               }}
             >
               <Text style={styles.textStyle}>{item.key}</Text>
             </TouchableOpacity>
           )}
+        />
+        <ModalSelector
+          selectStyle={{ display: 'none' }}
+          onChange={this.handleModelSelect}
+          data={this.state.currentOptions}
+          ref={(el) => {
+            this.modalSelect = el;
+          }}
         />
       </SafeAreaView>
     );

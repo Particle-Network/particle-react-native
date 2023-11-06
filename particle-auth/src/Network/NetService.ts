@@ -1,4 +1,5 @@
 import { Buffer } from 'buffer';
+import fetch from 'node-fetch-native';
 import { ParticleInfo } from './ParticleInfo';
 
 /**
@@ -23,7 +24,7 @@ export async function JsonRpcRequest(
         Authorization: '',
     };
 
-    if (ParticleInfo.projectId == "" || ParticleInfo.clientKey == "") {
+    if (ParticleInfo.projectId == '' || ParticleInfo.clientKey == '') {
         throw new Error('You need set project info');
     }
 

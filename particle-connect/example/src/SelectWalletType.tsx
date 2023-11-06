@@ -1,17 +1,16 @@
+import { WalletType } from '@particle-network/rn-connect';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import React, { PureComponent } from 'react';
 import {
-  StyleSheet,
-  View,
-  SafeAreaView,
   FlatList,
-  TouchableOpacity,
+  SafeAreaView,
+  StyleSheet,
   Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { WalletType } from 'react-native-particle-connect';
 import Toast from 'react-native-toast-message';
 import { PNAccount } from './Models/PNAccount';
-
-import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
 interface SelectWalletTypePageProps {
   navigation: NavigationProp<any>;

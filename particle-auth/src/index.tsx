@@ -1,19 +1,22 @@
-import { NativeModules, Platform } from 'react-native';
-import type { Language } from './Models/Language';
-import type { Appearance } from './Models/Appearance';
 import type { ChainInfo } from '@particle-network/chains';
 import { chains } from '@particle-network/chains';
+import { NativeModules, Platform } from 'react-native';
 import type {
+    AAFeeMode,
+    Appearance,
+    CommonResp,
     Env,
-    iOSModalPresentStyle,
+    FiatCoin,
+    Language,
     LoginAuthorization,
     LoginType,
+    SecurityAccount,
+    SecurityAccountConfig,
     SocialLoginPrompt,
     SupportAuthType,
-} from './Models/LoginInfo';
-import type { SecurityAccountConfig } from './Models/SecurityAccountConfig';
-import type { BiconomyFeeMode } from './Models/BiconomyFeeMode';
-import type { FiatCoin } from './Models/FiatCoin';
+    UserInfo,
+    iOSModalPresentStyle,
+} from './Models';
 
 const LINKING_ERROR =
     `The package 'react-native-particle-auth' doesn't seem to be linked. Make sure: \n\n` +
@@ -24,24 +27,24 @@ const LINKING_ERROR =
 const ParticleAuthPlugin = NativeModules.ParticleAuthPlugin
     ? NativeModules.ParticleAuthPlugin
     : new Proxy(
-        {},
-        {
-            get() {
-                throw new Error(LINKING_ERROR);
-            },
-        }
-    );
+          {},
+          {
+              get() {
+                  throw new Error(LINKING_ERROR);
+              },
+          }
+      );
 
 export const ParticleAuthEvent = NativeModules.ParticleAuthEvent
     ? NativeModules.ParticleAuthEvent
     : new Proxy(
-        {},
-        {
-            get() {
-                // throw new Error(LINKING_ERROR);
-            },
-        }
-    );
+          {},
+          {
+              get() {
+                  // throw new Error(LINKING_ERROR);
+              },
+          }
+      );
 
 /**
  * Init Particle Auth Service.
@@ -90,7 +93,7 @@ export async function getChainInfo(): Promise<ChainInfo> {
         ParticleAuthPlugin.getChainInfo((result: string) => {
             const json = JSON.parse(result);
 
-            const chainInfo = chains.getChainInfo({ id: json.chain_id, name: json.chain_name })!
+            const chainInfo = chains.getChainInfo({ id: json.chain_id, name: json.chain_name })!;
 
             resolve(chainInfo);
         });
@@ -139,7 +142,7 @@ export function login(
     supportAuthType?: SupportAuthType[],
     socialLoginPrompt?: SocialLoginPrompt,
     authorization?: LoginAuthorization
-): Promise<any> {
+): Promise<CommonResp<UserInfo>> {
     const obj = {
         login_type: type,
         account: account,
@@ -149,7 +152,6 @@ export function login(
     };
 
     const json = JSON.stringify(obj);
-    console.log('login:', json);
     return new Promise((resolve) => {
         ParticleAuthPlugin.login(json, (result: string) => {
             resolve(JSON.parse(result));
@@ -161,7 +163,7 @@ export function login(
  * Logout
  * @returns Result, success or error
  */
-export function logout(): Promise<any> {
+export function logout(): Promise<CommonResp<void>> {
     return new Promise((resolve) => {
         ParticleAuthPlugin.logout((result: string) => {
             resolve(JSON.parse(result));
@@ -173,7 +175,7 @@ export function logout(): Promise<any> {
  * Fast logout, silently
  * @returns Result, success or error
  */
-export function fastLogout(): Promise<any> {
+export function fastLogout(): Promise<CommonResp<string>> {
     return new Promise((resolve) => {
         ParticleAuthPlugin.fastLogout((result: string) => {
             resolve(JSON.parse(result));
@@ -183,7 +185,7 @@ export function fastLogout(): Promise<any> {
 
 /**
  * Is user logged in, check locally.
- * @returns Result, if user is login return true, otherwise retrun false
+ * @returns Result, if user is login return true, otherwise return false
  */
 export function isLogin(): Promise<boolean> {
     return new Promise((resolve) => {
@@ -197,7 +199,7 @@ export function isLogin(): Promise<boolean> {
  * Is user logged in, check from server. recommended.
  * @returns Result, if user is login return userinfo, otherwise retrun error
  */
-export function isLoginAsync(): Promise<any> {
+export function isLoginAsync(): Promise<CommonResp<UserInfo>> {
     return new Promise((resolve) => {
         ParticleAuthPlugin.isLoginAsync((result: string) => {
             resolve(JSON.parse(result));
@@ -210,11 +212,11 @@ export function isLoginAsync(): Promise<any> {
  * @param message Message that you want user to sign, evm chain requires hexadecimal string, solana chain requires human readable message.
  * @returns Result, signed message or error
  */
-export async function signMessage(message: string): Promise<any> {
+export async function signMessage(message: string): Promise<CommonResp<string>> {
     let serializedMessage: string;
 
     let chainInfo = await getChainInfo();
-    if (chainInfo.name.toLowerCase() == "solana") {
+    if (chainInfo.name.toLowerCase() == 'solana') {
         serializedMessage = message;
     } else {
         if (isHexString(message)) {
@@ -236,11 +238,11 @@ export async function signMessage(message: string): Promise<any> {
  * @param message Message that you want user to sign, evm chain requires hexadecimal string, solana chain requires human readable message.
  * @returns Result, signed message or error
  */
-export async function signMessageUnique(message: string): Promise<any> {
+export async function signMessageUnique(message: string): Promise<CommonResp<string>> {
     let serializedMessage: string;
 
     let chainInfo = await getChainInfo();
-    if (chainInfo.name.toLowerCase() == "solana") {
+    if (chainInfo.name.toLowerCase() == 'solana') {
         serializedMessage = message;
     } else {
         if (isHexString(message)) {
@@ -262,7 +264,7 @@ export async function signMessageUnique(message: string): Promise<any> {
  * @param transaction Transaction that you want user to sign.
  * @returns Result, signed transaction or error
  */
-export async function signTransaction(transaction: string): Promise<any> {
+export async function signTransaction(transaction: string): Promise<CommonResp<string>> {
     return new Promise((resolve) => {
         ParticleAuthPlugin.signTransaction(transaction, (result: string) => {
             resolve(JSON.parse(result));
@@ -275,7 +277,7 @@ export async function signTransaction(transaction: string): Promise<any> {
  * @param transactions Transactions that you want user to sign
  * @returns Result, signed transactions or error
  */
-export async function signAllTransactions(transactions: string[]): Promise<any> {
+export async function signAllTransactions(transactions: string[]): Promise<CommonResp<string>> {
     const json = JSON.stringify(transactions);
     return new Promise((resolve) => {
         ParticleAuthPlugin.signAllTransactions(json, (result: string) => {
@@ -290,14 +292,18 @@ export async function signAllTransactions(transactions: string[]): Promise<any> 
  * @param feeMode Optional, works with particle biconomy service
  * @returns Result, signature or error
  */
-export async function signAndSendTransaction(transaction: string, feeMode?: BiconomyFeeMode): Promise<any> {
+export async function signAndSendTransaction(transaction: string, feeMode?: AAFeeMode): Promise<CommonResp<string>> {
+    console.log('transaction', transaction, feeMode);
     const obj = {
         transaction: transaction,
         fee_mode: {
             option: feeMode?.getOption(),
             fee_quote: feeMode?.getFeeQuote(),
+            token_paymaster_address: feeMode?.getTokenPaymasterAddress(),
+            whole_fee_quote: feeMode?.getWholeFeeQuote(),
         },
     };
+    console.log('param', obj);
     const json = JSON.stringify(obj);
 
     return new Promise((resolve) => {
@@ -313,12 +319,14 @@ export async function signAndSendTransaction(transaction: string, feeMode?: Bico
  * @param feeMode Optional, default is auto
  * @returns Result, signature or error
  */
-export async function batchSendTransactions(transactions: string[], feeMode?: BiconomyFeeMode): Promise<any> {
+export async function batchSendTransactions(transactions: string[], feeMode?: AAFeeMode): Promise<CommonResp<string>> {
     const obj = {
         transactions: transactions,
         fee_mode: {
             option: feeMode?.getOption(),
             fee_quote: feeMode?.getFeeQuote(),
+            token_paymaster_address: feeMode?.getTokenPaymasterAddress(),
+            whole_fee_quote: feeMode?.getWholeFeeQuote(),
         },
     };
     const json = JSON.stringify(obj);
@@ -336,8 +344,10 @@ export async function batchSendTransactions(transactions: string[], feeMode?: Bi
  * @param version TypedData version, support v1, v3, v4, v4Unique
  * @returns Result, signature or error
  */
-export async function signTypedData(typedData: string, version: 'v1' | 'v3' | 'v4' | 'v4Unique'): Promise<any> {
-    console.log(typedData)
+export async function signTypedData(
+    typedData: string,
+    version: 'v1' | 'v3' | 'v4' | 'v4Unique'
+): Promise<CommonResp<string>> {
     let serializedMessage: string;
 
     if (isHexString(typedData)) {
@@ -350,7 +360,7 @@ export async function signTypedData(typedData: string, version: 'v1' | 'v3' | 'v
     const json = JSON.stringify(obj);
 
     console.log('call signTypedData', json);
-    
+
     return new Promise((resolve) => {
         ParticleAuthPlugin.signTypedData(json, (result: string) => {
             resolve(JSON.parse(result));
@@ -506,7 +516,7 @@ export async function hasSecurityAccount(): Promise<boolean> {
 /**
  * Get security account from remote server, contains hasMasterPassword, hasPaymentPassword and hasSecurityAccount.
  */
-export async function getSecurityAccount(): Promise<any> {
+export async function getSecurityAccount(): Promise<CommonResp<SecurityAccount>> {
     return new Promise((resolve) => {
         ParticleAuthPlugin.getSecurityAccount((result: string) => {
             resolve(JSON.parse(result));
@@ -519,20 +529,6 @@ export function isHexString(str: string): boolean {
     return regex.test(str);
 }
 
-export * from './Models/LoginInfo';
-export * from './Models/Language';
-export * from './Models/WalletDisplay';
-export * from './Models/Appearance';
-export * from './Models/SecurityAccountConfig';
-export * from './Models/BiconomyVersion';
-export * from './Models/BiconomyFeeMode';
-export * from './Models/GasFeeLevel';
-export * from './Models/FiatCoin';
-
-export * from './Network/EvmService';
-export * from './Network/SolanaService';
-export * from './Network/ParticleInfo';
-export * from './Network/NetParams';
-export * from './Network/NetService';
-
+export * from './Models';
+export * from './Network';
 export { ParticleProvider } from './provider';

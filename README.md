@@ -1,28 +1,49 @@
 # Particle Service in React Native
 
+#### Note For iOS
+Please note that the SDK supports `ios-arm64` (iOS devices) and `ios-arm64-simulator` (M-series chip simulators). We currently do not support `ios-x86_64-simulator` (Intel chip simulators).
+
+
+
 ## Particle Auth Service
+
+[![NPM Version](https://img.shields.io/npm/v/@particle-network/rn-auth.svg)](https://www.npmjs.com/package/@particle-network/rn-auth)
+
 ```sh
-npm install react-native-particle-auth
+npm install @particle-network/rn-auth
 ```
 
 ## Particle Connect Service
+
+[![NPM Version](https://img.shields.io/npm/v/@particle-network/rn-connect.svg)](https://www.npmjs.com/package/@particle-network/rn-connect)
+
 ```sh
-npm install react-native-particle-connect
+npm install @particle-network/rn-connect
 ```
 
 ## Particle Wallet Service
+
+[![NPM Version](https://img.shields.io/npm/v/@particle-network/rn-wallet.svg)](https://www.npmjs.com/package/@particle-network/rn-wallet)
+
+
 ```sh
-npm install react-native-particle-wallet
+npm install @particle-network/rn-wallet
 ```
 
-## Particle Biconomy Service
+## Particle AA Service
+
+[![NPM Version](https://img.shields.io/npm/v/@particle-network/rn-aa.svg)](https://www.npmjs.com/package/@particle-network/rn-aa)
+
 ```sh
-npm install react-native-particle-biconomy
+npm install @particle-network/rn-aa
 ```
 
 ## Particle Auth Core Service
+
+[![NPM Version](https://img.shields.io/npm/v/@particle-network/rn-auth-core.svg)](https://www.npmjs.com/package/@particle-network/rn-auth-core)
+
 ```sh
-npm install react-native-particle-auth-core
+npm install @particle-network/rn-auth-core
 ```
 
 ## Getting Started
@@ -65,5 +86,3 @@ show how how to connect with jwt and open wallet.
 ## License
 
 Apache 2.0
-
-

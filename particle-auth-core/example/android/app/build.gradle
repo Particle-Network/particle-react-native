@@ -80,9 +80,9 @@ android {
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
-        manifestPlaceholders["PN_PROJECT_ID"] = "2ac9501b-bde1-4e09-9c1a-403768db896b"
-        manifestPlaceholders["PN_PROJECT_CLIENT_KEY"] = "c4CqHS0nbdVBthI1XDw3jky0OoFj3Yu3YcgKhNSk"
-        manifestPlaceholders["PN_APP_ID"] = "f53fe952-6562-4cd5-b1bc-1ca96a0c8e48"
+        manifestPlaceholders["PN_PROJECT_ID"] = "5479798b-26a9-4943-b848-649bb104fdc3"
+        manifestPlaceholders["PN_PROJECT_CLIENT_KEY"] = "cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b"
+        manifestPlaceholders["PN_APP_ID"] = "2d100db0-987b-4cff-9520-3dea1b51a7c8"
 
     }
     signingConfigs {
@@ -105,14 +105,17 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
-    modules {
-      module("org.bouncycastle:bcprov-jdk15to18") {
-        replacedBy("org.bouncycastle:bcprov-jdk15on")
-      }
+  modules {
+    module("org.bouncycastle:bcprov-jdk15to18") {
+      replacedBy("org.bouncycastle:bcprov-jdk15on")
     }
+  }
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 

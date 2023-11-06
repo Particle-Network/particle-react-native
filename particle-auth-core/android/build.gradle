@@ -52,10 +52,10 @@ def supportsNamespace() {
 android {
   if (supportsNamespace()) {
     namespace "com.particleauthcore"
-  } else {
+
     sourceSets {
       main {
-        manifest.srcFile "src/main/AndroidManifestDeprecated.xml"
+        manifest.srcFile "src/main/AndroidManifestNew.xml"
       }
     }
   }
@@ -78,10 +78,12 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
   }
-
+  dataBinding {
+    enabled = true
+  }
 }
 
 repositories {
@@ -95,15 +97,17 @@ dependencies {
   // For < 0.71, this will be from the local maven repo
   // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
   //noinspection GradleDynamicVersion
-  def sdkVersion = "1.0.0"
-  implementation("network.particle:auth-core:${sdkVersion}")
-  implementation("network.particle:mpc-core:${sdkVersion}")
-
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  def sdkVersion = "1.2.2"
+  implementation("network.particle:connect-common:$sdkVersion")
+  implementation("network.particle:base-service:$sdkVersion")
+  implementation("network.particle:mpc-core:$sdkVersion")
+  implementation("network.particle:auth-core:$sdkVersion")
   implementation("com.blankj:utilcodex:1.31.0")
   implementation("commons-codec:commons-codec:1.15")
   implementation("com.google.code.gson:gson:2.8.5")
+
 }
 
 if (isNewArchitectureEnabled()) {

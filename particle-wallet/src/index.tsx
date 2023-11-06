@@ -1,12 +1,11 @@
-import { NativeModules, Platform } from 'react-native';
-import type { WalletDisplay } from 'react-native-particle-auth';
-import type { WalletType } from 'react-native-particle-connect';
-import type { BuyCryptoConfig } from './Models/BuyCryptoConfig';
-import type { WalletMetaData } from './Models/WalletMetaData';
 import type { ChainInfo } from '@particle-network/chains';
+import type { WalletDisplay } from '@particle-network/rn-auth';
+import type { WalletType } from '@particle-network/rn-connect';
+import { NativeModules, Platform } from 'react-native';
+import type { BuyCryptoConfig, WalletMetaData } from './Models';
 
 const LINKING_ERROR =
-  `The package 'react-native-particle-wallet' doesn't seem to be linked. Make sure: \n\n` +
+  `The package '@particle-network/rn-wallet' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
@@ -41,7 +40,6 @@ export function initWallet(walletMetaData: WalletMetaData) {
  * @param display Wallet display
  */
 export function navigatorWallet(display: WalletDisplay) {
-  console.log('navigatorWallet', display);
   ParticleWalletPlugin.navigatorWallet(display);
 }
 
@@ -156,6 +154,7 @@ export function navigatorBuyCrypto(config?: BuyCryptoConfig) {
 export function navigatorLoginList(): Promise<any> {
   return new Promise((resolve) => {
     ParticleWalletPlugin.navigatorLoginList((result: string) => {
+      console.log('navigatorLoginList', JSON.parse(result));
       resolve(JSON.parse(result));
     });
   });
@@ -239,10 +238,11 @@ export function setPayDisabled(disabled: boolean) {
  * Get pay disabled state
  * @returns Trus if disabled, otherwise false
  */
-export function getPayDisabled() {
+export function getPayDisabled(): Promise<any> {
   if (Platform.OS == 'ios') {
     return new Promise((resolve) => {
       ParticleWalletPlugin.getPayDisabled((result: string) => {
+        console.log('getPayDisabled', result);
         resolve(result);
       });
     });
@@ -264,7 +264,7 @@ export function setSwapDisabled(disabled: boolean) {
  * Get swap disabled state
  * @returns Trus if disabled, otherwise true
  */
-export function getSwapDisabled() {
+export function getSwapDisabled(): Promise<any> {
   if (Platform.OS == 'ios') {
     return new Promise((resolve) => {
       ParticleWalletPlugin.getSwapDisabled((result: string) => {
@@ -407,5 +407,4 @@ export function setSupportDappBrowser(isShow: boolean) {
   }
 }
 
-export * from './Models/BuyCryptoConfig';
-export * from './Models/WalletMetaData';
+export * from './Models';

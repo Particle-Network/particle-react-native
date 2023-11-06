@@ -1,0 +1,105 @@
+//
+//  ParticleAAPlugin.swift
+//  ParticleAAPlugin
+//
+//  Created by link on 2023/5/19.
+//
+import Foundation
+import ParticleAA
+import ParticleNetworkBase
+import RxSwift
+import SwiftyJSON
+
+typealias ParticleCallBack = RCTResponseSenderBlock
+
+@objc(ParticleAAPlugin)
+class ParticleAAPlugin: NSObject {
+    let bag = DisposeBag()
+    let aaService = AAService()
+    
+    @objc
+    static func requiresMainQueueSetup() -> Bool {
+        return true
+    }
+    
+    @objc
+    public func initialize(_ json: String) {
+        let data = JSON(parseJSON: json)
+        
+        let dictionary: [String: JSON] = data["dapp_app_keys"].dictionaryValue
+
+        var dappApiKeys: [Int: String] = [:]
+
+        for (key, value) in dictionary {
+            if let intKey = Int(key) {
+                dappApiKeys[intKey] = value.stringValue
+            }
+        }
+        
+        AAService.initialize(dappApiKeys: dappApiKeys)
+        ParticleNetwork.setAAService(aaService)
+    }
+    
+    @objc
+    public func isSupportChainInfo(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+        let data = JSON(parseJSON: json)
+        let chainId = data["chain_id"].intValue
+        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId) else {
+            callback([false])
+            return
+        }
+        let isSupport = aaService.isSupportChainInfo(chainInfo)
+        callback([isSupport])
+    }
+    
+    @objc
+    public func isAAModeEnable(_ callback: @escaping RCTResponseSenderBlock) {
+        callback([aaService.isAAModeEnable()])
+    }
+    
+    @objc
+    public func enableAAMode() {
+        aaService.enableAAMode()
+    }
+    
+    @objc
+    public func disableAAMode() {
+        aaService.disableAAMode()
+    }
+    
+    @objc
+    public func isDeploy(_ eoaAddress: String, callback: @escaping RCTResponseSenderBlock) {
+        subscribeAndCallback(observable: aaService.isDeploy(eoaAddress: eoaAddress), callback: callback)
+    }
+    
+    @objc
+    public func rpcGetFeeQuotes(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+        let data = JSON(parseJSON: json)
+        let eoaAddress = data["eoa_address"].stringValue
+        let transactions = data["transactions"].arrayValue.map {
+            $0.stringValue
+        }
+        subscribeAndCallback(observable: aaService.rpcGetFeeQuotes(eoaAddress: eoaAddress, transactions: transactions), callback: callback)
+    }
+}
+
+extension ParticleAAPlugin {
+    private func subscribeAndCallback<T: Codable>(observable: Single<T>, callback: @escaping ParticleCallBack) {
+        observable.subscribe { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                let response = self.ResponseFromError(error)
+                let statusModel = ReactStatusModel(status: false, data: response)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            case .success(let signedMessage):
+                let statusModel = ReactStatusModel(status: true, data: signedMessage)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            }
+        }.disposed(by: bag)
+    }
+}

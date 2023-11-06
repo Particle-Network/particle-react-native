@@ -1,11 +1,12 @@
+import { chains } from '@particle-network/chains';
+import * as particleAuth from '@particle-network/rn-auth';
 import { EventEmitter } from 'events';
+import type { AccountInfo } from '../Models';
 import * as particleConnect from '../index';
+import { WalletType } from '../index';
 import { sendEVMRpc } from './connection';
 import type { ParticleConnectOptions, RequestArguments } from './types';
 import { notSupportMethods, signerMethods } from './types';
-import * as particleAuth from 'react-native-particle-auth';
-import { WalletType } from '../index';
-import { chains } from '@particle-network/chains';
 
 class ParticleConnectProvider {
   private events = new EventEmitter();
@@ -41,7 +42,7 @@ class ParticleConnectProvider {
     });
   }
 
-  public async request(payload: RequestArguments): Promise<any> {
+  public async request(payload: RequestArguments) {
     if (!payload.method || notSupportMethods.includes(payload.method)) {
       return Promise.reject({
         code: -32601,
@@ -61,12 +62,15 @@ class ParticleConnectProvider {
         if (this.options.publicAddress == undefined) {
           isConnected = false;
         } else {
-          isConnected = await particleConnect.isConnected(this.options.walletType, this.options.publicAddress);
+          isConnected = await particleConnect.isConnected(
+            this.options.walletType,
+            this.options.publicAddress
+          );
         }
         if (!isConnected) {
           const result = await particleConnect.connect(this.options.walletType);
           if (result.status) {
-            return [result.data.publicAddress];
+            return [(result.data as AccountInfo).publicAddress];
           } else {
             Promise.reject(result.data);
           }
@@ -86,7 +90,11 @@ class ParticleConnectProvider {
 
         const publicAddress = txData.from;
 
-        const result: any = await particleConnect.signAndSendTransaction(this.options.walletType, publicAddress, `0x${tx}`);
+        const result: any = await particleConnect.signAndSendTransaction(
+          this.options.walletType,
+          publicAddress,
+          `0x${tx}`
+        );
         if (result.status) {
           return result.data;
         } else {
@@ -94,14 +102,20 @@ class ParticleConnectProvider {
         }
       } else if (payload.method === 'personal_sign') {
         const publicAddress = payload.params[1];
-        const result: any = await particleConnect.signMessage(this.options.walletType, publicAddress, payload.params[0]);
+        const result: any = await particleConnect.signMessage(
+          this.options.walletType,
+          publicAddress,
+          payload.params[0]
+        );
         if (result.status) {
           return result.data;
         } else {
           return Promise.reject(result.data);
         }
-      } else if (payload.method === 'wallet_switchEthereumChain' || payload.method === 'wallet_addEthereumChain') {
-
+      } else if (
+        payload.method === 'wallet_switchEthereumChain' ||
+        payload.method === 'wallet_addEthereumChain'
+      ) {
         const chainId = Number(payload.params[0].chainId);
         const chainInfo = chains.getEVMChainInfoById(chainId);
 
@@ -123,15 +137,25 @@ class ParticleConnectProvider {
           return Promise.reject({ message: 'switch chain failed' });
         }
 
-        if (this.options.walletType != WalletType.Particle &&
+        if (
+          this.options.walletType != WalletType.Particle &&
           this.options.walletType != WalletType.Phantom &&
           this.options.walletType != WalletType.EvmPrivateKey &&
-          this.options.walletType != WalletType.SolanaPrivateKey) {
+          this.options.walletType != WalletType.SolanaPrivateKey
+        ) {
           var res: any;
           if (payload.method === 'wallet_switchEthereumChain') {
-            res = await particleConnect.switchEthereumChain(this.options.walletType, this.options.publicAddress, chainInfo)
+            res = await particleConnect.switchEthereumChain(
+              this.options.walletType,
+              this.options.publicAddress,
+              chainInfo
+            );
           } else {
-            res = await particleConnect.addEthereumChain(this.options.walletType, this.options.publicAddress, chainInfo)
+            res = await particleConnect.addEthereumChain(
+              this.options.walletType,
+              this.options.publicAddress,
+              chainInfo
+            );
           }
           // it must be a wallet connect wallet
 
@@ -143,12 +167,13 @@ class ParticleConnectProvider {
         } else {
           return Promise.resolve(null);
         }
-      } else if (
-        payload.method === 'eth_signTypedData_v4'
-      ) {
+      } else if (payload.method === 'eth_signTypedData_v4') {
         const typedData = JSON.stringify(payload.params[1]);
         const publicAddress = payload.params[0];
-        const result: any = await particleConnect.signTypedData(this.options.walletType, publicAddress, typedData
+        const result: any = await particleConnect.signTypedData(
+          this.options.walletType,
+          publicAddress,
+          typedData
         );
         if (result.status) {
           return result.data;

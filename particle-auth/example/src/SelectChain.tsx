@@ -1,6 +1,6 @@
+import { ChainInfo, chains } from '@particle-network/chains';
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, SafeAreaView, FlatList, TouchableOpacity, Text } from 'react-native';
-import { chains, ChainInfo } from '@particle-network/chains';
+import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
@@ -20,11 +20,13 @@ export default class SelectChainPage extends PureComponent<SelectChainPageProps>
                     <FlatList
                         data={data}
                         renderItem={({ item }) => (
-                            <TouchableOpacity style={styles.buttonStyle}
+                            <TouchableOpacity
+                                style={styles.buttonStyle}
                                 onPress={() => {
                                     this.selectedChain(item);
-                                }}>
-                                <Text style={styles.textStyle}>{item.name + " " + item.network + " " + item.id }</Text>
+                                }}
+                            >
+                                <Text style={styles.textStyle}>{item.name + ' ' + item.network + ' ' + item.id}</Text>
                             </TouchableOpacity>
                         )}
                     />
@@ -34,13 +36,12 @@ export default class SelectChainPage extends PureComponent<SelectChainPageProps>
     };
 
     selectedChain = async (chainInfo: ChainInfo) => {
-        const { navigation, route } = this.props;
+        const { navigation } = this.props;
 
         Toast.show({
             type: 'success',
             text1: `select chain ${chainInfo.name} ${chainInfo.network} ${chainInfo.id}`,
         });
-
         navigation.navigate({
             name: 'AuthDemo',
             params: { chainInfo: chainInfo },
@@ -61,6 +62,6 @@ const styles = StyleSheet.create({
 
     textStyle: {
         color: 'white',
-        textAlign: 'center'
-    }
+        textAlign: 'center',
+    },
 });

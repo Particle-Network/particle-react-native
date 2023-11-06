@@ -1,59 +1,56 @@
-import React, { PureComponent } from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  FlatList,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
 import {
   ChainInfo,
+  Ethereum,
   PolygonMumbai,
   SolanaDevnet,
-  Ethereum,
-  Polygon,
-  EthereumGoerli,
-  EthereumSepolia,
 } from '@particle-network/chains';
-import * as particleConnect from 'react-native-particle-connect';
-import { SocialLoginPrompt } from 'react-native-particle-auth';
-import * as particleAuth from 'react-native-particle-auth';
-import { TestAccountEVM, TestAccountSolana } from './TestAccount';
-import * as Helper from './Helper';
-import { WalletType } from 'react-native-particle-connect';
+import * as particleAuth from '@particle-network/rn-auth';
 import {
-  ParticleConnectConfig,
-  DappMetaData
-} from 'react-native-particle-connect';
-import { PNAccount } from './Models/PNAccount';
-import {
-  ParticleInfo,
   Env,
   LoginType,
+  ParticleInfo,
+  SocialLoginPrompt,
   SupportAuthType,
-} from 'react-native-particle-auth';
-import { createWeb3, restoreWeb3 } from './web3Demo';
+} from '@particle-network/rn-auth';
+import * as particleConnect from '@particle-network/rn-connect';
+import {
+  AccountInfo,
+  CommonError,
+  DappMetaData,
+  LoginResp,
+  ParticleConnectConfig,
+  WalletType,
+} from '@particle-network/rn-connect';
 import BigNumber from 'bignumber.js';
+import React, { PureComponent } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+import Toast from 'react-native-toast-message';
+import Web3 from 'web3';
+import { ConnectScreenProps } from './App';
+import * as Helper from './Helper';
+import { PNAccount } from './Models/PNAccount';
+import { TestAccountEVM } from './TestAccount';
+import { createWeb3, restoreWeb3 } from './web3Demo';
 
-import type { NavigationProp, RouteProp } from '@react-navigation/native';
-
-interface ConnectDemoProps {
-  navigation: NavigationProp<any>;
-  route: RouteProp<any, any>;
-}
-
-export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
+export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   loginSourceMessage = '';
   loginSignature = '';
-
+  state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
   pnaccount = new PNAccount([], '', '', '');
 
   // Start with new web3, at this time, you don't connect with this walletType, and don't know any publicAddress
-  newWeb3: any;
+  newWeb3!: Web3;
 
   // After connected a wallet, restoreWeb3 when getAccounts.
   // We need to check if the walletType and publicAddress is connected.
-  web3: any;
+  web3!: Web3;
 
   init = () => {
     // Get your project id and client from dashboard,
@@ -90,6 +87,7 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       PNAccount.walletType
     );
 
+    Toast.show({ type: 'success', text1: 'Initialized successfully' });
     // const chainInfos = [Ethereum, Polygon, EthereumGoerli, EthereumSepolia];
     // particleConnect.setWalletConnectV2SupportChainInfos(chainInfos);
   };
@@ -97,10 +95,18 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
   newWeb3_getAccounts = async () => {
     try {
       const accounts = await this.newWeb3.eth.getAccounts();
-      this.pnaccount = new PNAccount([], '', accounts[0], '');
+      this.pnaccount = new PNAccount([], '', accounts[0] as string, '');
       console.log('web3.eth.getAccounts', accounts);
+      Toast.show({
+        type: 'success',
+        text1: 'accounts',
+        text2: accounts.join(','),
+      });
     } catch (error) {
       console.log('web3.eth.getAccounts', error);
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -115,20 +121,36 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       );
 
       const accounts = await this.web3.eth.getAccounts();
-      this.pnaccount = new PNAccount([], '', accounts[0], '');
+      this.pnaccount = new PNAccount([], '', accounts[0] as string, '');
       console.log('web3.eth.getAccounts', accounts);
+      Toast.show({
+        type: 'success',
+        text1: 'accounts',
+        text2: accounts.join(','),
+      });
     } catch (error) {
       console.log('web3.eth.getAccounts', error);
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
   web3_getBalance = async () => {
     try {
       const accounts = await this.web3.eth.getAccounts();
-      const balance = await this.web3.eth.getBalance(accounts[0]);
-      console.log('web3.eth.getBalance', balance);
+      const balance = await this.web3.eth.getBalance(accounts[0] as string);
+      console.log('web3.eth.getBalance', accounts[0], balance);
+      Toast.show({
+        type: 'success',
+        text1: 'balance',
+        text2: balance,
+      });
     } catch (error) {
       console.log('web3.eth.getBalance', error);
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -136,8 +158,16 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
     try {
       const chainId = await this.web3.eth.getChainId();
       console.log('web3.eth.getChainId', chainId);
+      Toast.show({
+        type: 'success',
+        text1: 'chainId',
+        text2: String(chainId),
+      });
     } catch (error) {
       console.log('web3.eth.getChainId', error);
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -147,14 +177,21 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
 
     try {
       const accounts = await this.web3.eth.getAccounts();
-      const result = await this.web3.currentProvider.request({
+      const result = await this.web3.currentProvider!.request({
         method: 'personal_sign',
         params: ['Hello world', accounts[0]],
       });
-
+      Toast.show({
+        type: 'success',
+        text1: 'web3_personalSign',
+        text2: result,
+      });
       console.log('web3.eth.personal.sign', result);
     } catch (error) {
       console.log('web3.eth.personal.sign', error);
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -257,8 +294,16 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
         ],
       });
       console.log('web3 eth_signTypedData_v4', result);
+      Toast.show({
+        type: 'success',
+        text1: 'web3 eth_signTypedData_v4',
+        text2: result,
+      });
     } catch (error) {
       console.log('web3 eth_signTypedData_v4', error);
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -274,8 +319,16 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
         data: '0x',
       });
       console.log('web3.eth.sendTransaction', result);
+      Toast.show({
+        type: 'success',
+        text1: 'web3 eth_signTypedData_v4',
+        text2: 'Successfully sent transaction',
+      });
     } catch (error) {
       console.log('web3.eth.sendTransaction', error);
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -290,8 +343,15 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
         params: [{ chainId: chainId }],
       });
       console.log('web3 wallet_switchEthereumChain', result);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully switched',
+      });
     } catch (error) {
       console.log('web3 wallet_switchEthereumChain', error);
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -306,13 +366,24 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
         params: [{ chainId: chainId }],
       });
       console.log('web3 wallet_addEthereumChain', result);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully added',
+      });
     } catch (error) {
       console.log('web3 wallet_addEthereumChain', error);
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
   getAccounts = async () => {
     const accounts = await particleConnect.getAccounts(PNAccount.walletType);
+    Toast.show({
+      type: 'success',
+      text1: 'Successfully get accounts',
+    });
     console.log(accounts);
   };
 
@@ -321,11 +392,19 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       this.props.route.params?.chainInfo || PolygonMumbai;
     const result = await particleAuth.setChainInfo(chainInfo);
     console.log(result);
+    Toast.show({
+      type: result ? 'success' : 'error',
+      text1: result ? 'Successfully set' : 'Setting failed',
+    });
   };
 
   getChainInfo = async () => {
     const chainInfo: ChainInfo = await particleAuth.getChainInfo();
     console.log(chainInfo);
+    Toast.show({
+      type: 'success',
+      text1: `Successfully get chain info ${chainInfo.name} ${chainInfo.network} ${chainInfo.id}`,
+    });
   };
 
   setChainInfoAsync = async () => {
@@ -333,13 +412,17 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       this.props.route.params?.chainInfo || PolygonMumbai;
     const result = await particleAuth.setChainInfoAsync(chainInfo);
     console.log(result);
+    Toast.show({
+      type: result ? 'success' : 'error',
+      text2: result ? 'Successfully set' : 'Setting failed',
+    });
   };
 
   connect = async () => {
     const result = await particleConnect.connect(PNAccount.walletType);
     if (result.status) {
       console.log('connect success');
-      const account = result.data;
+      const account = result.data as AccountInfo;
       this.pnaccount = new PNAccount(
         account.icons,
         account.name,
@@ -347,21 +430,38 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
         account.url
       );
       console.log('pnaccount = ', this.pnaccount);
+
+      this.web3 = restoreWeb3(
+        '5479798b-26a9-4943-b848-649bb104fdc3',
+        'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b',
+        PNAccount.walletType,
+        this.pnaccount.publicAddress
+      );
+
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully connected',
+      });
     } else {
-      console.log('connect failure');
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
   connectWithParticleConfig = async () => {
-    const message = '0x' + Buffer.from("Hello Particle!").toString('hex');
+    const message = '0x' + Buffer.from('Hello Particle!').toString('hex');
     const authorization = new particleAuth.LoginAuthorization(message, false);
-    const connectConfig = new ParticleConnectConfig(LoginType.Phone, '', [
-      SupportAuthType.Email,
-      SupportAuthType.Google,
-      SupportAuthType.Apple,
-    ], SocialLoginPrompt.SelectAccount, authorization);
+    const connectConfig = new ParticleConnectConfig(
+      LoginType.Phone,
+      '',
+      [SupportAuthType.Email, SupportAuthType.Google, SupportAuthType.Apple],
+      SocialLoginPrompt.SelectAccount,
+      authorization
+    );
 
     const result = await particleConnect.connect(
       WalletType.Particle,
@@ -369,7 +469,7 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
     );
     if (result.status) {
       console.log('connect success');
-      const account = result.data;
+      const account = result.data as AccountInfo;
       this.pnaccount = new PNAccount(
         account.icons,
         account.name,
@@ -377,10 +477,19 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
         account.url
       );
       console.log('pnaccount = ', this.pnaccount);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully connected',
+      });
     } else {
-      console.log('connect failure');
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -396,9 +505,18 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
     );
     if (result.status) {
       console.log(result.data);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully disconnected',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -408,11 +526,16 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       console.log('publicAddress is underfined, you need connect');
       return;
     }
-    const isConnected = await particleConnect.isConnected(
+    const result = await particleConnect.isConnected(
       PNAccount.walletType,
       publicAddress
     );
-    console.log(isConnected);
+    console.log(result);
+    Toast.show({
+      type: 'info',
+      text1: 'Is connected',
+      text2: String(result),
+    });
   };
 
   signMessage = async () => {
@@ -428,11 +551,22 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       message
     );
     if (result.status) {
-      const signedMessage = result.data;
+      const signedMessage = result.data as string;
       console.log(signedMessage);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully sign message',
+        text2: signedMessage,
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -445,29 +579,46 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       return;
     }
 
-    const publicAddress = this.pnaccount.publicAddress;
-    if (publicAddress == undefined) {
-      console.log('publicAddress is underfined, you need connect');
-      return;
-    }
+    try {
+      const publicAddress = this.pnaccount.publicAddress;
+      if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+      }
 
-    const sender = await particleAuth.getAddress();
-    console.log('sender: ', sender);
-    const transaction = await Helper.getSolanaTransaction(sender);
-    console.log('transaction:', transaction);
+      const sender = await particleAuth.getAddress();
+      console.log('sender: ', sender);
+      const transaction = await Helper.getSolanaTransaction(sender);
+      console.log('transaction:', transaction);
 
-    const result = await particleConnect.signTransaction(
-      PNAccount.walletType,
-      publicAddress,
-      transaction
-    );
+      const result = await particleConnect.signTransaction(
+        PNAccount.walletType,
+        publicAddress,
+        transaction
+      );
 
-    if (result.status) {
-      const signedTransaction = result.data;
-      console.log(signedTransaction);
-    } else {
-      const error = result.data;
-      console.log(error);
+      if (result.status) {
+        const signedTransaction = result.data as string;
+        console.log(signedTransaction);
+
+        Toast.show({
+          type: 'success',
+          text1: 'Successfully sign transaction ',
+          text2: signedTransaction,
+        });
+      } else {
+        const error = result.data as CommonError;
+        console.log(error);
+
+        Toast.show({
+          type: 'error',
+          text1: error.message,
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -480,28 +631,43 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       return;
     }
 
-    const publicAddress = this.pnaccount.publicAddress;
-    if (publicAddress == undefined) {
-      console.log('publicAddress is underfined, you need connect');
-      return;
-    }
-    const sender = await particleAuth.getAddress();
-    console.log('sender: ', sender);
-    const transaction = await Helper.getSolanaTransaction(sender);
-    console.log('transaction:', transaction);
+    try {
+      const publicAddress = this.pnaccount.publicAddress;
+      if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+      }
+      const sender = await particleAuth.getAddress();
+      console.log('sender: ', sender);
+      const transaction = await Helper.getSolanaTransaction(sender);
+      console.log('transaction:', transaction);
 
-    const transactions = [transaction, transaction];
-    const result = await particleConnect.signAllTransactions(
-      PNAccount.walletType,
-      publicAddress,
-      transactions
-    );
-    if (result.status) {
-      const signedTransactions = result.data;
-      console.log(signedTransactions);
-    } else {
-      const error = result.data;
-      console.log(error);
+      const transactions = [transaction, transaction];
+      const result = await particleConnect.signAllTransactions(
+        PNAccount.walletType,
+        publicAddress,
+        transactions
+      );
+      if (result.status) {
+        const signedTransactions = result.data as string;
+        console.log(signedTransactions);
+        Toast.show({
+          type: 'success',
+          text1: 'Successfully sign transaction ',
+          text2: signedTransactions,
+        });
+      } else {
+        const error = result.data as CommonError;
+        console.log(error);
+        Toast.show({
+          type: 'error',
+          text1: error.message,
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -517,31 +683,47 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       return;
     }
 
-    let transaction = '';
-    if (chainInfo.name.toLowerCase() == 'solana') {
-      transaction = await Helper.getSolanaTransaction(sender);
-    } else {
-      const receiver = TestAccountEVM.receiverAddress;
-      const amount = TestAccountEVM.amount;
-      transaction = await Helper.getEthereumTransacion(
-        this.pnaccount.publicAddress,
-        receiver,
-        BigNumber(amount)
-      );
-    }
+    try {
+      let transaction = '';
+      if (chainInfo.name.toLowerCase() == 'solana') {
+        transaction = await Helper.getSolanaTransaction(sender);
+      } else {
+        const receiver = TestAccountEVM.receiverAddress;
+        const amount = TestAccountEVM.amount;
+        transaction = await Helper.getEthereumTransacion(
+          this.pnaccount.publicAddress,
+          receiver,
+          BigNumber(amount)
+        );
+      }
 
-    console.log(transaction);
-    const result = await particleConnect.signAndSendTransaction(
-      PNAccount.walletType,
-      publicAddress,
-      transaction
-    );
-    if (result.status) {
-      const signature = result.data;
-      console.log('signAndSendTransaction:', signature);
-    } else {
-      const error = result.data;
-      console.log(error);
+      console.log(transaction);
+      const result = await particleConnect.signAndSendTransaction(
+        PNAccount.walletType,
+        publicAddress,
+        transaction
+      );
+      if (result.status) {
+        const signature = result.data as string;
+        console.log('signAndSendTransaction:', signature);
+        Toast.show({
+          type: 'success',
+          text1: 'Successfully sign transaction ',
+          text2: signature,
+        });
+      } else {
+        const error = result.data as CommonError;
+        console.log(error);
+        Toast.show({
+          type: 'error',
+          text1: error.message,
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log('error', error);
+        Toast.show({ type: 'error', text1: error.message });
+      }
     }
   };
 
@@ -565,11 +747,20 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       typedData
     );
     if (result.status) {
-      const signature = result.data;
+      const signature = result.data as string;
       console.log(signature);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully sign typed data',
+        text2: signature,
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -592,13 +783,22 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
     if (result.status) {
       const message = result.data.message;
       this.loginSourceMessage = message;
-      const signature = result.data.signature;
+      const signature = (result.data as LoginResp).signature;
       this.loginSignature = signature;
       console.log('login message:', message);
       console.log('login signature:', signature);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Login successfully',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+      Toast.show({
+        type: 'success',
+        text1: error.message,
+      });
     }
   };
 
@@ -610,7 +810,7 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
     }
     const message = this.loginSourceMessage;
     const signature = this.loginSignature;
-    if (message == undefined || signature == undefined) {
+    if (!message || !signature) {
       console.log('message or signature is underfined');
       return;
     }
@@ -625,9 +825,18 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
     if (result.status) {
       const flag = result.data;
       console.log(flag);
+
+      Toast.show({
+        type: 'info',
+        text1: String(flag),
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -640,11 +849,21 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       privateKey
     );
     if (result.status) {
-      const account = result.data;
+      const account = result.data as AccountInfo;
       console.log(account);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully imported private key',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -657,11 +876,21 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       mnemonic
     );
     if (result.status) {
-      const account = result.data;
+      const account = result.data as AccountInfo;
       console.log(account);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully imported mnemonic',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -673,11 +902,20 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
       publicAddress
     );
     if (result.status) {
-      const privateKey = result.data;
+      const privateKey = result.data as string;
       console.log(privateKey);
+      Toast.show({
+        type: 'success',
+        text1: privateKey,
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -696,11 +934,19 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
     );
 
     if (result.status) {
-      const data = result.data;
+      const data = result.data as string;
       console.log(data);
+      Toast.show({
+        type: 'success',
+        text1: data,
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -719,11 +965,20 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
     );
 
     if (result.status) {
-      const data = result.data;
+      const data = result.data as string;
       console.log(data);
+      Toast.show({
+        type: 'success',
+        text1: data,
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -796,8 +1051,20 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
     { key: 'ReconnectIfNeeded', function: this.reconnectIfNeeded },
   ];
 
+  componentDidMount(): void {
+    this.init();
+
+    this.props.navigation.addListener('focus', async () => {
+      const chainInfo: ChainInfo = this.props.route.params?.chainInfo;
+
+      if (chainInfo) {
+        await particleAuth.setChainInfo(chainInfo);
+      }
+    });
+  }
+
   render = () => {
-    const { navigation, route } = this.props;
+    const { navigation } = this.props;
 
     return (
       <SafeAreaView>
@@ -806,7 +1073,7 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.buttonStyle}
-              onPress={() => {
+              onPress={async () => {
                 if (item.key == 'Select Chain Page') {
                   // @ts-ignore
                   navigation.push('SelectChainPage');
@@ -814,12 +1081,21 @@ export default class ConnectDemo extends PureComponent<ConnectDemoProps> {
                   // @ts-ignore
                   navigation.push('SelectWalletTypePage');
                 } else {
+                  this.setState({
+                    currentLoadingBtn: item.key,
+                    currentKey: item.key,
+                  });
                   // @ts-ignore
-                  item.function();
+                  await item.function();
+                  this.setState({ currentLoadingBtn: '' });
                 }
               }}
             >
-              <Text style={styles.textStyle}>{item.key}</Text>
+              {this.state.currentLoadingBtn === item.key ? (
+                <ActivityIndicator color="white" />
+              ) : (
+                <Text style={styles.textStyle}>{item.key}</Text>
+              )}
             </TouchableOpacity>
           )}
         />

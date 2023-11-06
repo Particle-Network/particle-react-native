@@ -1,4 +1,4 @@
-import type { Language } from "react-native-particle-auth";
+import type { Language } from '@particle-network/rn-auth';
 
 export class BuyCryptoConfig {
   /**
@@ -24,15 +24,15 @@ export class BuyCryptoConfig {
   /**
    * If fix fiat coin, default value is false
    */
-  fixFiatCoin: boolean = false
+  fixFiatCoin: boolean = false;
   /**
    * If fix fiat amount, default value is false
    */
-  fixFiatAmt: boolean = false
+  fixFiatAmt: boolean = false;
   /**
    * If fix crypto coin, default value is false
    */
-  fixCryptoCoin: boolean = false
+  fixCryptoCoin: boolean = false;
   /**
    * Theme, light or dark
    */
@@ -75,6 +75,5 @@ export enum OpenBuyNetwork {
   ArbitrumOne = 'ArbitrumOne',
   Avalanche = 'Avalanche',
   Celo = 'Celo',
-  ZkSync = 'ZkSync'
-
+  ZkSync = 'ZkSync',
 }

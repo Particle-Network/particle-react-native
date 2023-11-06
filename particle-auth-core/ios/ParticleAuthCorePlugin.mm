@@ -37,6 +37,8 @@ RCT_EXTERN_METHOD(hasMasterPassword: (RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(hasPaymentPassword: (RCTResponseSenderBlock)callback)
 
+RCT_EXTERN_METHOD(changeMasterPassword: (RCTResponseSenderBlock)callback)
+
 RCT_EXTERN_METHOD(evmGetAddress: (RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 
@@ -45,8 +47,6 @@ RCT_EXTERN_METHOD(solanaGetAddress: (RCTPromiseResolveBlock)resolve
 
 RCT_EXTERN_METHOD(getUserInfo: (RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(openWebWallet:(NSString* _Nonnull)json)
 
 
 - (dispatch_queue_t)methodQueue {

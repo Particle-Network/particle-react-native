@@ -1,11 +1,11 @@
-# react-native-particle-connect
+# @particle-network/rn-connect
 
 React Native Particle Connect
 
 ## Installation
 
 ```sh
-npm install react-native-particle-connect
+npm install @particle-network/rn-connect
 ```
 
 

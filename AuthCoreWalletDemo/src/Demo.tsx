@@ -1,19 +1,18 @@
-import React, { PureComponent } from 'react';
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, FlatList } from 'react-native';
-import BigNumber from 'bignumber.js';
 import { PolygonMumbai, type ChainInfo } from '@particle-network/chains';
-import * as particleAuth from 'react-native-particle-auth';
-import * as particleConnect from 'react-native-particle-connect';
-import * as particleWallet from 'react-native-particle-wallet';
-import { solana, evm } from 'react-native-particle-auth-core';
-import * as particleAuthCore from 'react-native-particle-auth-core';
-import { WalletDisplay } from 'react-native-particle-auth';
-import { DappMetaData } from 'react-native-particle-connect';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
+import BigNumber from 'bignumber.js';
+import { PureComponent } from 'react';
+import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { WalletDisplay } from 'react-native-particle-auth';
+import * as particleAuthCore from 'react-native-particle-auth-core';
+import { evm, solana } from 'react-native-particle-auth-core';
+import * as particleConnect from 'react-native-particle-connect';
+import { DappMetaData } from 'react-native-particle-connect';
+import * as particleWallet from 'react-native-particle-wallet';
 
+import { Env, ParticleInfo } from 'react-native-particle-auth';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
-import { Env, ParticleInfo } from 'react-native-particle-auth';
 
 interface DemoProps {
     navigation: NavigationProp<any>;

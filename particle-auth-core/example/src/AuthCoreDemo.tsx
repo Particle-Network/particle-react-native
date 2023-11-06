@@ -1,30 +1,40 @@
+import {
+  Ethereum,
+  EthereumGoerli,
+  PolygonMumbai,
+  SolanaTestnet,
+  type ChainInfo,
+} from '@particle-network/chains';
+import * as particleAuth from '@particle-network/rn-auth';
+import { Env, ParticleInfo } from '@particle-network/rn-auth';
+import * as particleAuthCore from '@particle-network/rn-auth-core';
+import {
+  evm,
+  solana,
+  type CommonError,
+  type UserInfo,
+} from '@particle-network/rn-auth-core';
+import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';
 import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-  Text,
+  ActivityIndicator,
   FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import BigNumber from 'bignumber.js';
-import { PolygonMumbai, type ChainInfo } from '@particle-network/chains';
-import * as particleAuth from 'react-native-particle-auth';
-import { solana, evm } from 'react-native-particle-auth-core';
-import * as particleAuthCore from 'react-native-particle-auth-core';
-
-import type { NavigationProp, RouteProp } from '@react-navigation/native';
-
+import ModalSelector from 'react-native-modal-selector';
+import Toast from 'react-native-toast-message';
+import type { AuthCoreScreenProps } from './App';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
-import { Env, ParticleInfo } from 'react-native-particle-auth';
 
-interface AuthDemoDemoProps {
-  navigation: NavigationProp<any>;
-  route: RouteProp<any, any>;
-}
+export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
+  state = { currentLoadingBtn: '', currentKey: '', currentOptions: [] };
+  modalSelect: ModalSelector<any> | null = null;
 
-export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
   init = () => {
     // Get your project id and client key from dashboard, https://dashboard.particle.network
     ParticleInfo.projectId = '5479798b-26a9-4943-b848-649bb104fdc3'; // your project id
@@ -41,24 +51,57 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     const env = Env.Dev;
     particleAuth.init(chainInfo, env);
     particleAuthCore.init();
+    Toast.show({
+      type: 'success',
+      text1: 'Initialized successfully',
+    });
   };
 
   switchChain = async () => {
-    const chainInfo: ChainInfo =
-      this.props.route.params?.chainInfo || PolygonMumbai;
-    const result = await particleAuthCore.switchChain(chainInfo);
-    console.log(result);
+    this.setState({
+      currentOptions: [
+        {
+          label: 'Polygon Mumbai',
+          key: 'Polygon Mumbai',
+          value: PolygonMumbai,
+        },
+        { label: 'Ethereum', key: 'Ethereum', value: Ethereum },
+        {
+          label: 'Ethereum Goerli',
+          key: 'Ethereum Goerli',
+          Value: EthereumGoerli,
+        },
+        {
+          label: 'Solana Testnet',
+          key: 'Solana Testnet',
+          value: SolanaTestnet,
+        },
+      ],
+    });
+
+    if (this.modalSelect) {
+      this.modalSelect.open();
+    }
   };
 
   connect = async () => {
-    const jwt = ''; // your jwt
+    const jwt =
+      'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IndVUE05RHNycml0Sy1jVHE2OWNKcCJ9.eyJlbWFpbCI6InBhbnRhb3ZheUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImlzcyI6Imh0dHBzOi8vZGV2LXFyNi01OWVlLnVzLmF1dGgwLmNvbS8iLCJhdWQiOiJFVmpLMVpaUFN0UWNkV3VoandQZGRBdGdSaXdwNTRWUSIsImlhdCI6MTY5ODk4MjU0OSwiZXhwIjoxNjk5MDE4NTQ5LCJzdWIiOiJhdXRoMHw2MzAzMjE0YjZmNjE1NjM2YWM5MTdmMWIiLCJzaWQiOiJlQ01XNUhpVGp0U2RNVWUxbGlTRFVLNkpxWEtFdDNpTiJ9.etB7gTez1D6lXkcxeZO0ViRE90RujcXxLxq7dDQdtVbeWMmwKBB7cqA8pdkN4vB5l9nP81JFi-8jdVk3oCQBK5i11iL36OC2BsK5W4r6bl3NlAgJAqDio8WMcdHZcgdxOW7Zm4qWQP7Ek2YPDlch4GhtnEzMmmgWzH1Te8cgAkjN72vyvWjmqPk5u0-owWNGcNGMUSaw-1nM1R922OE5FCBglXpk8NlVKg-becJ055ozf9-fVtcjdUABsw7_r60LpzL4Ms5MMJWkqE_WbcQ9IwodpyQZ7gyJYlIfvH96TbsjoQVzWqTCLIJCqHn-N9DB_JUd7fjopVMNR4DlUMNICQ';
     const result = await particleAuthCore.connect(jwt);
     if (result.status) {
-      const userInfo = result.data;
-      console.log(userInfo);
+      const userInfo = result.data as UserInfo;
+      console.log('connect', userInfo);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully connected',
+      });
     } else {
-      const error = result.data;
-      console.log(error);
+      const error = result.data as CommonError;
+      console.log('connect', error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -67,7 +110,7 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     if (result.status) {
       console.log(result.data);
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
     }
   };
@@ -75,6 +118,21 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
   isConnected = async () => {
     const result = await particleAuthCore.isConnected();
     console.log(result);
+    Toast.show({
+      type: 'info',
+      text1: 'Is Connected',
+      text2: String(result),
+    });
+  };
+
+  changeMasterPassword = async () => {
+    const result = await particleAuthCore.changeMasterPassword();
+    if (result.status) {
+      console.log(result.data);
+    } else {
+      const error = result.data as CommonError;
+      console.log(error);
+    }
   };
 
   solana = async () => {};
@@ -82,6 +140,11 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
   solanaGetAddress = async () => {
     const address = await solana.getAddress();
     console.log('solana address ', address);
+    Toast.show({
+      type: 'success',
+      text1: 'Address',
+      text2: address,
+    });
   };
 
   solanaSignMessage = async () => {
@@ -90,9 +153,17 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     if (result.status) {
       const signature = result.data;
       console.log(signature);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully signed',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -146,17 +217,31 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
   evmGetAddress = async () => {
     const address = await evm.getAddress();
     console.log('evm address ', address);
+    Toast.show({
+      type: 'success',
+      text1: 'Address',
+      text2: address,
+    });
   };
 
   evmPersonalSign = async () => {
     const message = 'Hello world!';
     const result = await evm.personalSign(message);
+    console.log(result);
     if (result.status) {
       const signature = result.data;
       console.log(signature);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully signed',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -166,9 +251,17 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     if (result.status) {
       const signature = result.data;
       console.log(signature);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully signed',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -181,9 +274,17 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     if (result.status) {
       const signature = result.data;
       console.log(signature);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully signed',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -196,9 +297,17 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     if (result.status) {
       const signature = result.data;
       console.log(signature);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully signed',
+      });
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
       console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -281,25 +390,6 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     console.log(userInfo);
   };
 
-  openWebWallet = async () => {
-    //https://docs.particle.network/developers/wallet-service/sdks/web
-    let webConfig = {
-      supportAddToken: false,
-      supportChains: [
-        {
-          id: 1,
-          name: 'Ethereum',
-        },
-        {
-          id: 5,
-          name: 'Ethereum',
-        },
-      ],
-    };
-    const webConfigJSON = JSON.stringify(webConfig);
-    particleAuthCore.openWebWallet(webConfigJSON);
-  };
-
   hasMasterPassword = async () => {
     const hasMasterPassword = await particleAuthCore.hasMasterPassword();
     console.log('hasMasterPassword', hasMasterPassword);
@@ -310,16 +400,28 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     console.log('hasPaymentPassword', hasPaymentPassword);
   };
 
+  handleModelSelect = async ({ value }: { value: ChainInfo }) => {
+    console.log(value);
+    switch (this.state.currentKey) {
+      case 'SwitchChain':
+        const result = await particleAuthCore.switchChain(value);
+        Toast.show({
+          type: result ? 'success' : 'error',
+          text1: result ? 'Successfully switched' : 'Failed to switch chain',
+        });
+    }
+  };
+
   data = [
     { key: 'Select Chain Page', function: null },
     { key: 'Init', function: this.init },
     { key: 'Connect', function: this.connect },
     { key: 'Disconnect', function: this.disconnect },
     { key: 'IsConnected', function: this.isConnected },
+    { key: 'ChangeMasterPassword', function: this.changeMasterPassword },
     { key: 'GetUserInfo', function: this.getUserInfo },
     { key: 'SwitchChain', function: this.switchChain },
 
-    { key: 'OpenWebWallet', function: this.openWebWallet },
     { key: 'OpenAccountAndSecurity', function: this.openAccountAndSecurity },
 
     { key: 'HasMasterPassword', function: this.hasMasterPassword },
@@ -344,6 +446,10 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
     },
   ];
 
+  componentDidMount(): void {
+    this.init();
+  }
+
   render = () => {
     const { navigation } = this.props;
 
@@ -360,20 +466,38 @@ export default class AuthCoreDemo extends PureComponent<AuthDemoDemoProps> {
             }) => (
               <TouchableOpacity
                 style={styles.buttonStyle}
-                onPress={() => {
-                  if (item.key == 'Select Chain Page') {
+                onPress={async () => {
+                  if (item.key === 'Select Chain Page') {
                     // @ts-ignore
                     navigation.push('SelectChainPage');
                   } else {
-                    item.function();
+                    this.setState({
+                      currentLoadingBtn: item.key,
+                      currentKey: item.key,
+                    });
+
+                    await item.function();
+                    this.setState({ currentLoadingBtn: '' });
                   }
                 }}
               >
-                <Text style={styles.textStyle}>{item.key}</Text>
+                {this.state.currentLoadingBtn === item.key ? (
+                  <ActivityIndicator color="white" />
+                ) : (
+                  <Text style={styles.textStyle}>{item.key}</Text>
+                )}
               </TouchableOpacity>
             )}
           />
         </View>
+        <ModalSelector
+          selectStyle={{ display: 'none' }}
+          onChange={this.handleModelSelect}
+          data={this.state.currentOptions}
+          ref={(el) => {
+            this.modalSelect = el;
+          }}
+        />
       </SafeAreaView>
     );
   };

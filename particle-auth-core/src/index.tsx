@@ -28,7 +28,7 @@ export function init() {
   if (Platform.OS === 'ios') {
     ParticleAuthCorePlugin.initialize('');
   } else {
-    //Android use auth sdk  init is enough
+    ParticleAuthCorePlugin.init();
   }
 }
 

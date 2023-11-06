@@ -71,15 +71,19 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 android {
     ndkVersion rootProject.ext.ndkVersion
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 33
 
     namespace "com.particleauthcoreexample"
     defaultConfig {
         applicationId "com.particleauthcoreexample"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 23
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
+        manifestPlaceholders["PN_PROJECT_ID"] = "2ac9501b-bde1-4e09-9c1a-403768db896b"
+        manifestPlaceholders["PN_PROJECT_CLIENT_KEY"] = "c4CqHS0nbdVBthI1XDw3jky0OoFj3Yu3YcgKhNSk"
+        manifestPlaceholders["PN_APP_ID"] = "f53fe952-6562-4cd5-b1bc-1ca96a0c8e48"
+
     }
     signingConfigs {
         debug {
@@ -104,6 +108,11 @@ android {
 }
 
 dependencies {
+    modules {
+      module("org.bouncycastle:bcprov-jdk15to18") {
+        replacedBy("org.bouncycastle:bcprov-jdk15on")
+      }
+    }
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 

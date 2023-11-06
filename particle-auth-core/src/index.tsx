@@ -12,26 +12,23 @@ const LINKING_ERROR =
 export const ParticleAuthCorePlugin = NativeModules.ParticleAuthCorePlugin
   ? NativeModules.ParticleAuthCorePlugin
   : new Proxy(
-    {},
-    {
-      get() {
-        throw new Error(LINKING_ERROR);
-      },
-    }
-  );
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
 
 /**
  * Init ParticleAuthCore SDK
  */
 export function init() {
   if (Platform.OS === 'ios') {
-    ParticleAuthCorePlugin.initialize("");
+    ParticleAuthCorePlugin.initialize('');
   } else {
-
   }
 }
-
-
 
 /**
  * Connect JWT
@@ -55,7 +52,6 @@ export async function disconnect(): Promise<any> {
     });
   });
 }
-
 
 /**
  * Is user logged in, check locally.
@@ -98,7 +94,7 @@ export async function switchChain(chainInfo: ChainInfo): Promise<boolean> {
 
 /**
  * Change master password
- * @returns 
+ * @returns
  */
 export function changeMasterPassword(): Promise<any> {
   return new Promise((resolve) => {
@@ -120,8 +116,8 @@ export async function hasMasterPassword(): Promise<any> {
 }
 
 /**
-* Has payment password, get value from local user info.
-*/
+ * Has payment password, get value from local user info.
+ */
 export async function hasPaymentPassword(): Promise<any> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.hasPaymentPassword((result: string) => {
@@ -149,5 +145,4 @@ export function openWebWallet(webStyle?: string) {
   ParticleAuthCorePlugin.openWebWallet(webStyle);
 }
 
-
-export { evm, solana }  
+export { evm, solana };

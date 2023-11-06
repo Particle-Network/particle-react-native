@@ -23,7 +23,7 @@ npm install @particle-network/rn-connect
 
 ## Particle Wallet Service
 
-[![NPM Version](https://img.shields.io/npm/v/@particle-network/rn-wallet.svg)]([https://www.npmjs.com/package/fauxauth](https://www.npmjs.com/package/@particle-network/rn-wallet)
+[![NPM Version](https://img.shields.io/npm/v/@particle-network/rn-wallet.svg)](https://www.npmjs.com/package/@particle-network/rn-wallet)
 
 
 ```sh

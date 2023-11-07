@@ -28,7 +28,6 @@ target 'ParticleWalletExample' do
     pod 'ParticleAuthAdapter', '0.2.12'
     
     pod 'SkeletonView', :git => 'https://github.com/SunZhiC/SkeletonView.git', :branch => 'main'
-    pod 'SwiftMessages', :git => 'https://github.com/SunZhiC/SwiftMessages', :branch => 'master'
     
   use_react_native!(
     :path => config[:reactNativePath],

@@ -67,7 +67,6 @@ target 'AuthCoreWalletDemo' do
       pod 'ParticleAuthAdapter',  '0.2.8'
       
       pod 'SkeletonView', :git => 'https://github.com/SunZhiC/SkeletonView.git', :branch => 'main'
-      pod 'SwiftMessages', :git => 'https://github.com/SunZhiC/SwiftMessages', :branch => 'master'
 
   target 'AuthCoreWalletDemoTests' do
     inherit! :complete

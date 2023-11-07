@@ -21,8 +21,6 @@ target 'ParticleConnectExample' do
   pod 'ParticleNetworkBase', '1.2.2'
   pod 'ParticleAuthService', '1.2.2'
   
-
-  pod 'SwiftMessages', :git => 'https://github.com/SunZhiC/SwiftMessages', :branch => 'master'
   
   use_react_native!(
     :path => config[:reactNativePath],

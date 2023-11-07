@@ -1128,19 +1128,20 @@
     "@jridgewell/sourcemap-codec" "1.4.14"
 
 "@particle-network/rn-aa@file:..":
-  version "1.0.5"
+  version "1.2.0"
   resolved "file:.."
   dependencies:
-    "@particle-network/rn-auth" "file:../particle-auth"
+    "@particle-network/rn-auth" "^1.1.0"
 
-"@particle-network/rn-auth@^1.1.0":
-  version "1.1.0"
+"@particle-network/rn-auth@^1.1.0", "@particle-network/rn-auth@^1.2.0":
+  version "1.2.0"
   resolved "file:../../particle-auth"
   dependencies:
     "@particle-network/chains" "^1.2.5"
     axios "^1.3.4"
     bignumber.js "^9.1.0"
     events "^3.3.0"
+    node-fetch-native "^1.4.1"
 
 "@particle-network/rn-connect@^1.2.0":
   version "1.2.0"
@@ -4004,7 +4005,7 @@ react-native-toast-message@^2.1.6:
   resolved "https://registry.npmmirror.com/react-native-toast-message/-/react-native-toast-message-2.1.6.tgz"
   integrity sha512-VctXuq20vmRa9AE13acaNZhrLcS3FaBS2zEevS3+vhBsnVZYG0FIlWIis9tVnpnNxUb3ART+BWtwQjzSttXTng==
 
-react-native@*, react-native@^0.70.5:
+react-native@*, react-native@^0.70.8:
   version "0.70.10"
   resolved "https://registry.npmmirror.com/react-native/-/react-native-0.70.10.tgz"
   integrity sha512-RkhrISLgWooMjbXvH7ohWCYdxxvV0xcGiEFcnEWkMy2y320QyA3evDcCExLv5Es2PnJKt6FiQKzGqrfh/T1H1A==

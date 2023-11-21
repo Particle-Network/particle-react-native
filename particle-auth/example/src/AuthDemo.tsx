@@ -40,7 +40,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
     private openAccountAndSecurityEvent: any;
     modalSelect: ModalSelector<any> | null = null;
     state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
-    web3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b');
+    web3 = createWeb3('fab00091-f966-437f-8ae9-12aa495f2828', 'cif8thrddJ9Iz46tecZ9UiEQmjxRaKy42AuutAZj');
 
     web3_getAccounts = async () => {
         try {

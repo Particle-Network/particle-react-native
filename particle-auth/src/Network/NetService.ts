@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { Buffer } from 'buffer';
-import fetch from 'node-fetch-native';
 import { ParticleInfo } from './ParticleInfo';
 
 /**
@@ -49,13 +49,11 @@ export async function JsonRpcRequest(
 
     console.log(`request body = ${body}`);
 
-    const jsonRpcResponse = await fetch(fetchUrl, {
-        method: 'POST',
-        body: body,
+    const jsonRpcResponse = await axios.post(fetchUrl, body, {
         headers,
     });
 
-    const jsonRpcResponseJson = await jsonRpcResponse.json();
+    const jsonRpcResponseJson = jsonRpcResponse.data;
 
     if (!jsonRpcResponseJson || Array.isArray(jsonRpcResponseJson) || typeof jsonRpcResponseJson !== 'object') {
         throw new Error(`RPC endpoint ${rpcUrl} returned non-object response.`);

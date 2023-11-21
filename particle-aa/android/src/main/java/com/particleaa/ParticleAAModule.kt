@@ -7,7 +7,7 @@ import com.particle.base.ParticleNetwork
 import com.particle.base.data.ErrorInfo
 import com.particle.base.isSupportedERC4337
 import com.particle.erc4337.ParticleNetworkAA.initAAMode
-import com.particle.erc4337.aa.AAService
+import com.particle.erc4337.aa.BiconomyAAService
 import com.particleaa.model.BiconomyInitData
 import com.particleaa.model.ChainData
 import com.particleaa.model.FeeQuotesParams
@@ -25,7 +25,7 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
     LogUtils.d("init", initParams)
     val initData = GsonUtils.fromJson(initParams, BiconomyInitData::class.java)
     ParticleNetwork.initAAMode(initData.dAppKeys)
-    ParticleNetwork.setAAService(AAService)
+    ParticleNetwork.setAAService(BiconomyAAService)
   }
 
   @ReactMethod

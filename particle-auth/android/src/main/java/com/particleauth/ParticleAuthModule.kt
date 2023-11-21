@@ -476,7 +476,11 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
       try {
         ParticleNetwork.getAAService()
           .quickSendTransaction(transParams.transactions, feeMode, object : MessageSigner {
-            override fun signMessage(message: String, callback: WebServiceCallback<SignOutput>) {
+            override fun signMessage(
+              message: String,
+              callback: WebServiceCallback<SignOutput>,
+              chainId: Long?
+            ) {
               ParticleNetwork.signMessage(message, object : WebServiceCallback<SignOutput> {
                 override fun success(output: SignOutput) {
                   callback.success(output)

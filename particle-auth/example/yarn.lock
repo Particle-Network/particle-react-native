@@ -1415,7 +1415,7 @@
     "@jridgewell/sourcemap-codec" "1.4.14"
 
 "@particle-network/rn-auth@file:..":
-  version "1.2.0"
+  version "1.2.1"
   resolved "file:.."
   dependencies:
     "@particle-network/chains" "^1.2.5"

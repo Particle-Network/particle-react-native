@@ -622,47 +622,12 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun addEthereumChain(jsonParams: String, callback: Callback) {
-    val connectSignData = GsonUtils.fromJson(jsonParams, ConnectSignData::class.java)
-    val connectAdapter =
-      getConnectAdapter(connectSignData.publicAddress, connectSignData.walletType)
-    if (connectAdapter == null) {
-      callback.invoke(ReactCallBack.failed("failed").toGson())
-      return
-    }
-    val chainInfo: ChainInfo = ChainUtils.getChainInfo(connectSignData.chainId)
-    connectAdapter.addEthereumChain(connectSignData.publicAddress,
-      chainInfo,
-      object : AddETHChainCallback {
-        override fun onAdded() {
-          callback.invoke(ReactCallBack.success("add success").toGson())
-        }
 
-        override fun onError(error: ConnectError) {
-          callback.invoke(ReactCallBack.failed(error.toString()).toGson())
-        }
-      })
   }
 
   @ReactMethod
   fun switchEthereumChain(jsonParams: String, callback: Callback) {
-    val connectSignData = GsonUtils.fromJson(jsonParams, ConnectSignData::class.java)
-    val connectAdapter =
-      getConnectAdapter(connectSignData.publicAddress, connectSignData.walletType)
-    if (connectAdapter == null) {
-      callback.invoke(ReactCallBack.failed("failed").toGson())
-      return
-    }
-    connectAdapter.switchEthereumChain(connectSignData.publicAddress,
-      connectSignData.chainId,
-      object : SwitchETHChainCallback {
-        override fun onError(error: ConnectError) {
-          callback.invoke(ReactCallBack.failed(error.toString()).toGson())
-        }
 
-        override fun onSwitched() {
-          callback.invoke(ReactCallBack.success("switch success").toGson())
-        }
-      })
   }
 
 

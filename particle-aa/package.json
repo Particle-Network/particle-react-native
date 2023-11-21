@@ -141,8 +141,8 @@
     "trailingComma": "es5",
     "useTabs": false
   },
-  
+
   "dependencies": {
-    "@particle-network/rn-auth": "^1.1.0"
+    "@particle-network/rn-auth": "file:../particle-auth/"
   }
 }

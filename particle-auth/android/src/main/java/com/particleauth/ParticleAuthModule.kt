@@ -454,6 +454,7 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
     }
   }
 
+  @ReactMethod
   fun batchSendTransactions(transactions: String, callback: Callback) {
     LogUtils.d("batchSendTransactions", transactions)
     val transParams = GsonUtils.fromJson(transactions, TransactionsParams::class.java)

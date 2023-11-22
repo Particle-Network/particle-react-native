@@ -803,10 +803,22 @@
 "@particle-network/rn-aa@file:..":
   version "1.2.0"
   dependencies:
-    "@particle-network/rn-auth" "file:../../../../../../Library/Caches/Yarn/v6/npm-@particle-network-rn-aa-1.2.0-df8ace9d-b29a-4beb-90f9-2f7dc5e3ad2c-1700561320274/node_modules/@particle-network/particle-auth"
+    "@particle-network/rn-auth" "1.2.6"
 
-"@particle-network/rn-auth@file:../../particle-auth":
-  version "1.2.2"
+"@particle-network/rn-auth@1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@particle-network/rn-auth/-/rn-auth-1.2.5.tgz#6dfb8abf3d67953daae0d8c05d530653dac3304c"
+  integrity sha512-GK1hQcgXmwMgXkYLVdho7Q7vkx7JvfB3tTkDqm1mFxHJHi3GeCIBO8fSLbEifEBFpjkEfag8uCQkQ1t8gNCJrA==
+  dependencies:
+    "@particle-network/chains" "^1.3.2"
+    axios "^1.6.2"
+    bignumber.js "^9.1.0"
+    events "^3.3.0"
+
+"@particle-network/rn-auth@1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@particle-network/rn-auth/-/rn-auth-1.2.6.tgz#724f68e242600481ca8ff56bb46e15fb4fb10dc3"
+  integrity sha512-w1JUTSncnQ/hwinEnvBOtsRg65toBklpTZrwrVSRAN+EvX31FdEzk67Snpd6V3WlRr1F2+vTtqg0lGXF5BckVQ==
   dependencies:
     "@particle-network/chains" "^1.3.2"
     axios "^1.6.2"
@@ -814,9 +826,9 @@
     events "^3.3.0"
 
 "@particle-network/rn-connect@file:../../particle-connect":
-  version "1.2.0"
+  version "1.2.5"
   dependencies:
-    "@particle-network/rn-auth" "file:../../../../../../Library/Caches/Yarn/v6/npm-@particle-network-rn-connect-1.2.0-5100e3eb-1d50-49ae-9e1f-4a2a44790949-1700561320273/node_modules/@particle-network/particle-auth"
+    "@particle-network/rn-auth" "1.2.5"
     axios "^1.3.4"
     events "^3.3.0"
 

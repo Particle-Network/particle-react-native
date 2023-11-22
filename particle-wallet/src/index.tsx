@@ -322,12 +322,7 @@ export function setPriorityNFTContractAddresses(
  * @param isShow default value is false
  */
 export function setShowLanguageSetting(isShow: boolean) {
-  if (Platform.OS == 'ios') {
-    ParticleWalletPlugin.setShowLanguageSetting(isShow);
-  } else {
-    // todo
-    ParticleWalletPlugin.showLanguageSetting(isShow);
-  }
+  ParticleWalletPlugin.setShowLanguageSetting(isShow);
 }
 
 /**
@@ -335,12 +330,7 @@ export function setShowLanguageSetting(isShow: boolean) {
  * @param isShow default value is false
  */
 export function setShowAppearanceSetting(isShow: boolean) {
-  if (Platform.OS == 'ios') {
-    ParticleWalletPlugin.setShowAppearanceSetting(isShow);
-  } else {
-    // todo
-    ParticleWalletPlugin.showAppearanceSetting(isShow);
-  }
+  ParticleWalletPlugin.setShowAppearanceSetting(isShow);
 }
 
 /**

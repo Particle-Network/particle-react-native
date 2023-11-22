@@ -1053,8 +1053,10 @@
   resolved "https://registry.yarnpkg.com/@particle-network/chains/-/chains-1.3.2.tgz#10ed07939ccd10fbb5cffc52c28224d740ad5ac9"
   integrity sha512-OYJrYaRG1hrFSVr1LMulZRGjxqAbQocpvLE6V8SCMhIFP7g1kajTb2m5iLtkKrjByKZq4iIkopwJLFrUXvnIwA==
 
-"@particle-network/rn-auth@file:../../particle-auth":
-  version "1.2.2"
+"@particle-network/rn-auth@1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@particle-network/rn-auth/-/rn-auth-1.2.3.tgz#8b538672b5ae570441cfe9bbd9dcbd58988a9b8f"
+  integrity sha512-cJX1Mhdld3BpcNnyf4h9hoV4yptsB+yvrDoTbF5D3R2SQ/Qb/Eodsu621YGZqUpmuWyaUGD+c3DztIOOWlIX/w==
   dependencies:
     "@particle-network/chains" "^1.3.2"
     axios "^1.6.2"
@@ -1064,7 +1066,7 @@
 "@particle-network/rn-connect@file:..":
   version "1.2.0"
   dependencies:
-    "@particle-network/rn-auth" "file:../../../../../../Library/Caches/Yarn/v6/npm-@particle-network-rn-connect-1.2.0-4723fe70-9fee-4458-8147-1c72c0a85ade-1700559229285/node_modules/@particle-network/particle-auth"
+    "@particle-network/rn-auth" "1.2.3"
     axios "^1.3.4"
     events "^3.3.0"
 

@@ -49,6 +49,10 @@ npm install @particle-network/rn-auth-core
   <br>
 </div>
 
+### Expo-Examples
+
+If you are using Expo with your project, there is an expo example, for iOS development, You need to update your Podfile by following this [Expo iOS Podfile](https://github.com/Particle-Network/particle-react-native/blob/master/Expo-Examples/my-app/ios/Podfile)
+
 ### AuthCoreWalletDemo
 
 AuthCoreWalletDemo will focus on both integrate particle-auth-core and particle-wallet,

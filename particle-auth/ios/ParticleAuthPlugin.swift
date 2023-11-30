@@ -26,10 +26,13 @@ class ParticleAuthPlugin: NSObject {
     @objc
     public func initialize(_ json: String) {
         let data = JSON(parseJSON: json)
-        let name = data["chain_name"].stringValue.lowercased()
+        
         let chainId = data["chain_id"].intValue
-        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId) else {
-            return print("initialize error, can't find right chain for \(name), chainId \(chainId)")
+        let chainName = data["chain_name"].stringValue.lowercased()
+        let chainType: ChainType = chainName == "solana" ? .solana : .evm
+        
+        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId, chainType: chainType) else {
+            return print("initialize error, can't find right chain for \(chainName), chainId \(chainId)")
         }
         
         let env = data["env"].stringValue.lowercased()
@@ -51,7 +54,9 @@ class ParticleAuthPlugin: NSObject {
     public func setChainInfo(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let data = JSON(parseJSON: json)
         let chainId = data["chain_id"].intValue
-        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId) else {
+        let chainName = data["chain_name"].stringValue.lowercased()
+        let chainType: ChainType = chainName == "solana" ? .solana : .evm
+        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId, chainType: chainType) else {
             callback([false])
             return
         }
@@ -64,7 +69,10 @@ class ParticleAuthPlugin: NSObject {
         let data = JSON(parseJSON: json)
 
         let chainId = data["chain_id"].intValue
-        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId) else {
+        let chainName = data["chain_name"].stringValue.lowercased()
+        let chainType: ChainType = chainName == "solana" ? .solana : .evm
+        
+        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId, chainType: chainType) else {
             callback([false])
             return
         }
@@ -259,12 +267,13 @@ class ParticleAuthPlugin: NSObject {
         let wholeFeeQuoteData = (try? data["fee_mode"]["whole_fee_quote"].rawData()) ?? Data()
         let wholeFeeQuote = try? JSONDecoder().decode(AA.WholeFeeQuote.self, from: wholeFeeQuoteData)
                
+        let chainInfo = ParticleNetwork.getChainInfo()
         let aaService = ParticleNetwork.getAAService()
         var sendObservable: Single<String>
         if aaService != nil, aaService!.isAAModeEnable() {
-            sendObservable = aaService!.quickSendTransactions([transaction], feeMode: feeMode, messageSigner: self, wholeFeeQuote: wholeFeeQuote)
+            sendObservable = aaService!.quickSendTransactions([transaction], feeMode: feeMode, messageSigner: self, wholeFeeQuote: wholeFeeQuote, chainInfo: chainInfo)
         } else {
-            sendObservable = ParticleAuthService.signAndSendTransaction(transaction, feeMode: feeMode)
+            sendObservable = ParticleAuthService.signAndSendTransaction(transaction, feeMode: feeMode, chainInfo: chainInfo)
         }
                    
         subscribeAndCallback(observable: sendObservable, callback: callback)
@@ -310,7 +319,9 @@ class ParticleAuthPlugin: NSObject {
             callback([json])
             return
         }
-        let sendObservable: Single<String> = aaService.quickSendTransactions(transactions, feeMode: feeMode, messageSigner: self, wholeFeeQuote: wholeFeeQuote)
+        
+        let chainInfo = ParticleNetwork.getChainInfo()
+        let sendObservable: Single<String> = aaService.quickSendTransactions(transactions, feeMode: feeMode, messageSigner: self, wholeFeeQuote: wholeFeeQuote, chainInfo: chainInfo)
                
         subscribeAndCallback(observable: sendObservable, callback: callback)
     }
@@ -562,8 +573,8 @@ extension ParticleAuthPlugin {
 }
 
 extension ParticleAuthPlugin: MessageSigner {
-    func signMessage(_ message: String) -> RxSwift.Single<String> {
-        return ParticleAuthService.signMessage(message)
+    func signMessage(_ message: String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<String> {
+        return ParticleAuthService.signMessage(message, chainInfo: chainInfo)
     }
     
     func getEoaAddress() -> String {

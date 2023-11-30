@@ -1,7 +1,7 @@
 import { ChainInfo, PolygonMumbai } from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
 import {
-    AAVersion,
+    VersionNumber,
     Appearance,
     CommonError,
     Env,
@@ -36,6 +36,8 @@ import type { AuthScreenProps } from './App';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
 import { createWeb3 } from './web3Demo';
+import { SmartAccountConfig } from 'src/Models/SmartAccountConfig';
+import { AccountName } from 'src/Models/AccountName';
 export default class AuthDemo extends PureComponent<AuthScreenProps> {
     private openAccountAndSecurityEvent: any;
     modalSelect: ModalSelector<any> | null = null;
@@ -924,9 +926,9 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
                     value: iOSModalPresentStyle.FullScreen,
                 },
                 {
-                    label: iOSModalPresentStyle.FormSheet,
-                    key: iOSModalPresentStyle.FormSheet,
-                    value: iOSModalPresentStyle.FormSheet,
+                    label: iOSModalPresentStyle.PageSheet,
+                    key: iOSModalPresentStyle.PageSheet,
+                    value: iOSModalPresentStyle.PageSheet,
                 },
             ],
         });
@@ -1027,7 +1029,8 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
 
     getSmartAccount = async () => {
         const eoaAddress = await particleAuth.getAddress();
-        const result = await EvmService.getSmartAccount([eoaAddress], AAVersion.v1_0_0);
+        const smartAccountConfig = new SmartAccountConfig(AccountName.BICONOMY, VersionNumber.v1_0_0, eoaAddress);
+        const result = await EvmService.getSmartAccount([smartAccountConfig]);
         console.log('getSmartAccount', result);
         Toast.show({
             type: 'success',

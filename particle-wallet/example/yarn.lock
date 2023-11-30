@@ -806,40 +806,26 @@
   resolved "https://registry.yarnpkg.com/@particle-network/chains/-/chains-1.3.2.tgz#10ed07939ccd10fbb5cffc52c28224d740ad5ac9"
   integrity sha512-OYJrYaRG1hrFSVr1LMulZRGjxqAbQocpvLE6V8SCMhIFP7g1kajTb2m5iLtkKrjByKZq4iIkopwJLFrUXvnIwA==
 
-"@particle-network/rn-auth@1.2.5":
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/@particle-network/rn-auth/-/rn-auth-1.2.5.tgz#6dfb8abf3d67953daae0d8c05d530653dac3304c"
-  integrity sha512-GK1hQcgXmwMgXkYLVdho7Q7vkx7JvfB3tTkDqm1mFxHJHi3GeCIBO8fSLbEifEBFpjkEfag8uCQkQ1t8gNCJrA==
+"@particle-network/rn-auth@file:../../particle-auth":
+  version "1.2.6"
   dependencies:
     "@particle-network/chains" "^1.3.2"
     axios "^1.6.2"
     bignumber.js "^9.1.0"
     events "^3.3.0"
 
-"@particle-network/rn-auth@1.2.6":
+"@particle-network/rn-connect@file:../../particle-connect":
   version "1.2.6"
-  resolved "https://registry.yarnpkg.com/@particle-network/rn-auth/-/rn-auth-1.2.6.tgz#724f68e242600481ca8ff56bb46e15fb4fb10dc3"
-  integrity sha512-w1JUTSncnQ/hwinEnvBOtsRg65toBklpTZrwrVSRAN+EvX31FdEzk67Snpd6V3WlRr1F2+vTtqg0lGXF5BckVQ==
   dependencies:
-    "@particle-network/chains" "^1.3.2"
-    axios "^1.6.2"
-    bignumber.js "^9.1.0"
-    events "^3.3.0"
-
-"@particle-network/rn-connect@1.2.6":
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/@particle-network/rn-connect/-/rn-connect-1.2.6.tgz#0a6bc979288d3893f0ee04e03b38d8bfdd88dd21"
-  integrity sha512-tnPxXwFZ0qKl8K3RemX818AY3EOmo0YdoZflhD9ewXf8h0IxHBXab4HJDl82pg0ve663wxo4QkIkZcINMtOtNQ==
-  dependencies:
-    "@particle-network/rn-auth" "1.2.5"
+    "@particle-network/rn-auth" "file:../../../../Library/Caches/Yarn/v6/npm-@particle-network-rn-connect-1.2.6-40d01368-2428-4dae-9148-7ef9122486ff-1701341910209/node_modules/@particle-network/particle-auth"
     axios "^1.3.4"
     events "^3.3.0"
 
 "@particle-network/rn-wallet@file:..":
   version "1.2.6"
   dependencies:
-    "@particle-network/rn-auth" "1.2.6"
-    "@particle-network/rn-connect" "1.2.6"
+    "@particle-network/rn-auth" "file:../../../../Library/Caches/Yarn/v6/npm-@particle-network-rn-wallet-1.2.6-a6948d0f-06fb-4ea2-9c2e-5a7a8f4755e4-1701341910211/node_modules/@particle-network/particle-auth"
+    "@particle-network/rn-connect" "file:../../../../Library/Caches/Yarn/v6/npm-@particle-network-rn-wallet-1.2.6-a6948d0f-06fb-4ea2-9c2e-5a7a8f4755e4-1701341910211/node_modules/@particle-network/particle-connect"
 
 "@react-native-community/cli-clean@^9.2.1":
   version "9.2.1"

@@ -5,6 +5,8 @@ import {
   LoginType,
   ParticleInfo,
   SupportAuthType,
+  AccounName,
+  VersionNumber
 } from '@particle-network/rn-auth';
 import React, { PureComponent } from 'react';
 import {
@@ -52,13 +54,13 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     particleAuth.init(chainInfo, env);
 
     // then init particle biconomy
-    const dappAppKeys = {
+    const biconomyAppKeys = {
       1: 'your ethereum mainnet key',
       5: 'your ethereum goerli key',
       137: 'your polygon mainnet key',
       80001: 'hYZIwIsf2.e18c790b-cafb-4c4e-a438-0289fc25dba1',
     };
-    particleAA.init(dappAppKeys);
+    particleAA.init(AccounName.BICONOMY, VersionNumber.v1_0_0, biconomyAppKeys);
 
     Toast.show({
       type: 'success',
@@ -177,16 +179,6 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
         text1: error.message,
       });
     }
-  };
-
-  isSupportChainInfo = async () => {
-    const result = await particleAA.isSupportChainInfo(PolygonMumbai);
-    console.log('isSupportChainInfo result', result);
-    Toast.show({
-      type: 'info',
-      text1: 'Is support chain info',
-      text2: String(result),
-    });
   };
 
   signAndSendTransactionWithAAAuto = async () => {

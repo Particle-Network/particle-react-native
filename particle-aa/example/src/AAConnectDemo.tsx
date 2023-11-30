@@ -15,6 +15,10 @@ import {
   DappMetaData,
   WalletType,
 } from '@particle-network/rn-connect';
+import {
+  AccounName,
+  VersionNumber
+} from  '@particle-network/rn-auth';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';
@@ -80,13 +84,13 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     particleConnect.setWalletConnectV2SupportChainInfos(chainInfos);
 
     // then init particle AA
-    const dappAppKeys = {
+    const biconomyAppKeys = {
       1: 'your ethereum mainnet key',
       5: 'your ethereum goerli key',
       137: 'your polygon mainnet key',
       80001: 'hYZIwIsf2.e18c790b-cafb-4c4e-a438-0289fc25dba1',
     };
-    particleAA.init(dappAppKeys);
+    particleAA.init(AccounName.BICONOMY, VersionNumber.v1_0_0, biconomyAppKeys);
 
     Toast.show({
       type: 'success',

@@ -52,9 +52,11 @@ class ParticleConnectPlugin: NSObject {
     @objc
     public func initialize(_ json: String) {
         let data = JSON(parseJSON: json)
-        let chainName = data["chain_name"].stringValue.lowercased()
         let chainId = data["chain_id"].intValue
-        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId) else {
+        let chainName = data["chain_name"].stringValue.lowercased()
+        let chainType: ChainType = chainName == "solana" ? .solana : .evm
+        
+        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId, chainType: chainType) else {
             return print("initialize error, can't find right chain for \(chainName), chainId \(chainId)")
         }
         let env = data["env"].stringValue.lowercased()
@@ -363,14 +365,15 @@ class ParticleConnectPlugin: NSObject {
             return
         }
         
+        let chainInfo = ParticleNetwork.getChainInfo()
         let aaService = ParticleNetwork.getAAService()
         var sendObservable: Single<String>
         if aaService != nil, aaService!.isAAModeEnable() {
             latestPublicAddress = publicAddress
             latestWalletType = walletType
-            sendObservable = aaService!.quickSendTransactions([transaction], feeMode: feeMode, messageSigner: self, wholeFeeQuote: wholeFeeQuote)
+            sendObservable = aaService!.quickSendTransactions([transaction], feeMode: feeMode, messageSigner: self, wholeFeeQuote: wholeFeeQuote, chainInfo: chainInfo)
         } else {
-            sendObservable = adapter.signAndSendTransaction(publicAddress: publicAddress, transaction: transaction, feeMode: feeMode)
+            sendObservable = adapter.signAndSendTransaction(publicAddress: publicAddress, transaction: transaction, feeMode: feeMode, chainInfo: chainInfo)
         }
         
         subscribeAndCallback(observable: sendObservable, callback: callback)
@@ -432,7 +435,9 @@ class ParticleConnectPlugin: NSObject {
         latestPublicAddress = publicAddress
         latestWalletType = walletType
         
-        let sendObservable = aaService.quickSendTransactions(transactions, feeMode: feeMode, messageSigner: self, wholeFeeQuote: wholeFeeQuote)
+        let chainInfo = ParticleNetwork.getChainInfo()
+        
+        let sendObservable = aaService.quickSendTransactions(transactions, feeMode: feeMode, messageSigner: self, wholeFeeQuote: wholeFeeQuote, chainInfo: chainInfo)
         subscribeAndCallback(observable: sendObservable, callback: callback)
     }
     
@@ -751,65 +756,6 @@ class ParticleConnectPlugin: NSObject {
         subscribeAndCallback(observable: adapter.verify(message: siwe, against: signature), callback: callback)
     }
     
-    @objc
-    public func addEthereumChain(_ json: String, callback: @escaping RCTResponseSenderBlock) {
-        let data = JSON(parseJSON: json)
-        let walletTypeString = data["wallet_type"].stringValue
-        let publicAddress = data["public_address"].stringValue
-        let chainId = data["chain_id"].intValue
-        
-        guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
-            let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
-            let statusModel = ReactStatusModel(status: false, data: response)
-            let data = try! JSONEncoder().encode(statusModel)
-            guard let json = String(data: data, encoding: .utf8) else { return }
-            callback([json])
-            return
-        }
-        
-        guard let adapter = map2ConnectAdapter(from: walletType) else {
-            print("adapter for \(walletTypeString) is not init")
-            let response = ReactResponseError(code: nil, message: "adapter for \(walletTypeString) is not init", data: nil)
-            let statusModel = ReactStatusModel(status: false, data: response)
-            let data = try! JSONEncoder().encode(statusModel)
-            guard let json = String(data: data, encoding: .utf8) else { return }
-            callback([json])
-            return
-        }
-        subscribeAndCallback(observable: adapter.addEthereumChain(publicAddress: publicAddress, chainId: chainId, chainName: nil, nativeCurrency: nil, rpcUrl: nil, blockExplorerUrl: nil), callback: callback)
-    }
-    
-    @objc
-    public func switchEthereumChain(_ json: String, callback: @escaping RCTResponseSenderBlock) {
-        let data = JSON(parseJSON: json)
-        let walletTypeString = data["wallet_type"].stringValue
-        let publicAddress = data["public_address"].stringValue
-        let chainId = data["chain_id"].intValue
-        
-        guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
-            let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
-            let statusModel = ReactStatusModel(status: false, data: response)
-            let data = try! JSONEncoder().encode(statusModel)
-            guard let json = String(data: data, encoding: .utf8) else { return }
-            callback([json])
-            return
-        }
-        
-        guard let adapter = map2ConnectAdapter(from: walletType) else {
-            print("adapter for \(walletTypeString) is not init")
-            let response = ReactResponseError(code: nil, message: "adapter for \(walletTypeString) is not init", data: nil)
-            let statusModel = ReactStatusModel(status: false, data: response)
-            let data = try! JSONEncoder().encode(statusModel)
-            guard let json = String(data: data, encoding: .utf8) else { return }
-            callback([json])
-            return
-        }
-        
-        subscribeAndCallback(observable: adapter.switchEthereumChain(publicAddress: publicAddress, chainId: chainId), callback: callback)
-    }
-    
     @objc public func reconnectIfNeeded(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let data = JSON(parseJSON: json)
         let walletTypeString = data["wallet_type"].stringValue
@@ -845,11 +791,13 @@ class ParticleConnectPlugin: NSObject {
     
     @objc
     func setWalletConnectV2SupportChainInfos(_ json: String) {
-        let chainInfos = JSON(parseJSON: json).arrayValue.map {
-            $0["chain_id"].intValue
-        }.compactMap {
-            ParticleNetwork.searchChainInfo(by: $0)
+        let chainInfos = JSON(parseJSON: json).arrayValue.compactMap {
+            let chainId = $0["chain_id"].intValue
+            let chainName = $0["chain_name"].stringValue.lowercased()
+            let chainType: ChainType = chainName == "solana" ? .solana : .evm
+            return ParticleNetwork.searchChainInfo(by: chainId, chainType: chainType)
         }
+        
         ParticleConnect.setWalletConnectV2SupportChainInfos(chainInfos)
     }
 }
@@ -887,7 +835,7 @@ extension ParticleConnectPlugin {
 }
 
 extension ParticleConnectPlugin: MessageSigner {
-    public func signMessage(_ message: String) -> RxSwift.Single<String> {
+    public func signMessage(_ message: String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<String> {
         guard let walletType = latestWalletType else {
             print("walletType is nil")
             return .error(ParticleNetwork.ResponseError(code: nil, message: "walletType is nil"))
@@ -897,7 +845,7 @@ extension ParticleConnectPlugin: MessageSigner {
             print("adapter for \(walletType) is not init")
             return .error(ParticleNetwork.ResponseError(code: nil, message: "adapter for \(walletType) is not init"))
         }
-        return adapter.signMessage(publicAddress: getEoaAddress(), message: message)
+        return adapter.signMessage(publicAddress: getEoaAddress(), message: message, chainInfo: chainInfo)
     }
     
     public func getEoaAddress() -> String {

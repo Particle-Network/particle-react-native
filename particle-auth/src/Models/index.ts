@@ -1,5 +1,5 @@
 export * from './AAFeeMode';
-export * from './AAVersion';
+export * from './VersionNumber';
 export * from './Account';
 export * from './Appearance';
 export * from './FiatCoin';

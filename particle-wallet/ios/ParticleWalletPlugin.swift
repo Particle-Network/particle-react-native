@@ -204,16 +204,22 @@ public class ParticleWalletPlugin: NSObject {
     }
     
     @objc
+    public func setShowSmartAccountSetting(_ show: Bool) {
+        ParticleWalletGUI.setShowSmartAccountSetting(show)
+    }
+    
+    @objc
     public func setShowManageWallet(_ show: Bool) {
         ParticleWalletGUI.setShowManageWallet(show)
     }
     
     @objc
     public func setSupportChain(_ json: String) {
-        let chains = JSON(parseJSON: json).arrayValue.map {
-            $0["chain_id"].intValue
-        }.compactMap {
-            ParticleNetwork.searchChainInfo(by: $0)?.chain
+        let chains = JSON(parseJSON: json).arrayValue.compactMap {
+            let chainId = $0["chain_id"].intValue
+            let chainName = $0["chain_name"].stringValue.lowercased()
+            let chainType: ChainType = chainName == "solana" ? .solana : .evm
+            return ParticleNetwork.searchChainInfo(by: chainId, chainType: chainType)?.chain
         }
         ParticleWalletGUI.setSupportChain(chains)
     }

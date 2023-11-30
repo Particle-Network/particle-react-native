@@ -188,6 +188,15 @@ export function setShowTestNetwork(isShow: boolean) {
   ParticleWalletPlugin.setShowTestNetwork(isShow);
 }
 
+
+/**
+ * Show smart account in setting page, default is true, works when add particle-aa and enable aa service.
+ * @param isShow
+ */
+export function setShowSmartAccountSetting(isShow: boolean) {
+  ParticleWalletPlugin.setShowSmartAccountSetting(isShow);
+}
+
 /**
  * Show manage wallet page, default is true
  * @param isShow

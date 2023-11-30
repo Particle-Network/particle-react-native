@@ -20,6 +20,8 @@ RCT_EXTERN_METHOD(navigatorSwap:(NSString* _Nullable)json)
 
 RCT_EXTERN_METHOD(setShowTestNetwork:(BOOL _Nonnull)json)
 
+RCT_EXTERN_METHOD(setShowSmartAccountSetting:(BOOL _Nonnull)json)
+
 RCT_EXTERN_METHOD(setShowManageWallet:(BOOL _Nonnull)json)
 
 RCT_EXTERN_METHOD(setSupportChain:(NSString* _Nonnull)json)

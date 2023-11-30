@@ -1,6 +1,4 @@
-/**
- * Dapp meta data
- */
+
 export class SecurityAccountConfig {
     promptSettingWhenSign: number;
     promptMasterPasswordSettingWhenLogin: number;

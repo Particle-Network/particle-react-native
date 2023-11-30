@@ -453,59 +453,6 @@ export function exportPrivateKey(
 }
 
 /**
- * Add ethereum chain, works with walletconnect, not support wallet type Particle, EvmPrivateKey or SolanaPrivateKey
- * @param walletType Wallet type
- * @param publicAddress Public address
- * @returns Result
- */
-export function addEthereumChain(
-  walletType: WalletType,
-  publicAddress: string,
-  chainInfo: ChainInfo
-): Promise<CommonResp<string>> {
-  const obj = {
-    wallet_type: walletType,
-    public_address: publicAddress,
-    chain_name: chainInfo.name,
-    chain_id: chainInfo.id,
-    chain_id_name: chainInfo.network,
-  };
-  const json = JSON.stringify(obj);
-  console.log(json);
-  return new Promise((resolve) => {
-    ParticleConnectPlugin.addEthereumChain(json, (result: string) => {
-      console.log('addEthereumChain', JSON.parse(result));
-      resolve(formatRespData(result));
-    });
-  });
-}
-
-/**
- * Switch ethereum chain, works with walletconnect, not support wallet type Particle, EvmPrivateKey or SolanaPrivateKey
- * @param walletType Wallet type
- * @param publicAddress Public address
- * @returns Result
- */
-export function switchEthereumChain(
-  walletType: WalletType,
-  publicAddress: string,
-  chainInfo: ChainInfo
-): Promise<CommonResp<string>> {
-  const obj = {
-    wallet_type: walletType,
-    public_address: publicAddress,
-    chain_id: chainInfo.id,
-  };
-  const json = JSON.stringify(obj);
-  console.log(json);
-  return new Promise((resolve) => {
-    ParticleConnectPlugin.switchEthereumChain(json, (result: string) => {
-      resolve(formatRespData(result));
-    });
-  });
-}
-
-/**
  * Only support iOS
  *
  * Reconnect wallet connect, works with walletconnect, not support wallet type Particle, EvmPrivateKey or SolanaPrivateKey

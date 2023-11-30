@@ -1,6 +1,7 @@
 import type { ChainInfo } from '@particle-network/chains';
 import { NativeModules, Platform } from 'react-native';
 import type { CommonError, CommonResp, FeeQuote } from './Models';
+import type { AccountName, VersionNumber } from '@particle-network/rn-auth';
 
 const LINKING_ERROR =
   `The package '@particle-network/rn-aa' doesn't seem to be linked. Make sure: \n\n` +
@@ -11,23 +12,25 @@ const LINKING_ERROR =
 const ParticleAAPlugin = NativeModules.ParticleAAPlugin
   ? NativeModules.ParticleAAPlugin
   : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    {},
+    {
+      get() {
+        throw new Error(LINKING_ERROR);
+      },
+    }
+  );
 
 /**
  * Init particle AA service
- * @param dappAppKeys AA dapp keys
+ * @param biconomyAppKeys AA dapp keys
  */
-export function init(
-  dappAppKeys: { [key: number]: string }
+export function init(name: AccountName, version: VersionNumber,
+  biconomyAppKeys: { [key: number]: string }
 ) {
   const obj = {
-    dapp_app_keys: dappAppKeys,
+    biconomy_app_keys: biconomyAppKeys,
+    name: name,
+    version: version
   };
   const json = JSON.stringify(obj);
 
@@ -36,26 +39,6 @@ export function init(
   } else {
     ParticleAAPlugin.init(json);
   }
-}
-
-/**
- * Is support chain info
- * @param chainInfo ChainInfo
- * @returns
- */
-export async function isSupportChainInfo(
-  chainInfo: ChainInfo
-): Promise<boolean> {
-  const obj = {
-    chain_id: chainInfo.id,
-    chain_name: chainInfo.name,
-  };
-  const json = JSON.stringify(obj);
-  return new Promise((resolve) => {
-    ParticleAAPlugin.isSupportChainInfo(json, (result: boolean) => {
-      resolve(result);
-    });
-  });
 }
 
 /**

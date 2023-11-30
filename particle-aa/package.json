@@ -143,6 +143,6 @@
   },
 
   "dependencies": {
-    "@particle-network/rn-auth": "1.2.6"
+    "@particle-network/rn-auth": "file:../particle-auth"
   }
 }

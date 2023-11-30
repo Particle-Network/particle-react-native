@@ -323,11 +323,15 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     );
 
     const transactions = [transaction, transaction];
+    const feeQutotes = await particleAA.rpcGetFeeQuotes(
+      eoaAddress,
+      transactions
+    );
     const result = await particleConnect.batchSendTransactions(
       this.walletType,
       this.publicAddress,
       transactions,
-      AAFeeMode.auto()
+      AAFeeMode.gasless(feeQutotes)
     );
     if (result.status) {
       const signature = result.data;

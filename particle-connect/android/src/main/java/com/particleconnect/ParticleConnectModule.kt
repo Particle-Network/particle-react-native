@@ -14,10 +14,14 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.particle.base.Env
 import com.particle.base.ParticleNetwork
+import com.particle.base.data.ErrorInfo
+import com.particle.base.data.SignOutput
+import com.particle.base.data.WebServiceCallback
 import com.particle.base.iaa.FeeMode
 import com.particle.base.iaa.FeeModeNative
 import com.particle.base.iaa.FeeModeToken
 import com.particle.base.iaa.FeeModeGasless
+import com.particle.base.iaa.MessageSigner
 import com.particle.base.model.LoginType
 import com.particle.base.model.ResultCallback
 import com.particle.base.model.SupportAuthType
@@ -34,6 +38,8 @@ import com.particleconnect.utils.MessageProcess
 import com.phantom.adapter.PhantomConnectAdapter
 import com.solana.adapter.SolanaConnectAdapter
 import com.wallet.connect.adapter.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import network.particle.chains.ChainInfo
 import org.json.JSONException
@@ -98,13 +104,13 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
 
         override fun failure() {
           LogUtils.d("Connect setChainNameAsync failed");
-          callback.invoke(ReactCallBack.failed("failed").toGson())
+          callback.invoke(ReactCallBack.failed(ErrorInfo("failed",100000)).toGson())
         }
       })
 
-    } catch (e: java.lang.Exception) {
+    } catch (e: Exception) {
       LogUtils.e("setChainName", e.message)
-      callback.invoke(ReactCallBack.failed("failed").toGson())
+      callback.invoke(ReactCallBack.failed(ErrorInfo("failed",100000)).toGson())
     }
   }
 
@@ -370,6 +376,7 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
             )
 
           }
+
           override fun onTransaction(transactionId: String?) {
             LogUtils.d("onTransaction", transactionId)
             callback.invoke(ReactCallBack.success(transactionId).toGson())
@@ -622,47 +629,12 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun addEthereumChain(jsonParams: String, callback: Callback) {
-    val connectSignData = GsonUtils.fromJson(jsonParams, ConnectSignData::class.java)
-    val connectAdapter =
-      getConnectAdapter(connectSignData.publicAddress, connectSignData.walletType)
-    if (connectAdapter == null) {
-      callback.invoke(ReactCallBack.failed("failed").toGson())
-      return
-    }
-    val chainInfo: ChainInfo = ChainUtils.getChainInfo(connectSignData.chainId)
-    connectAdapter.addEthereumChain(connectSignData.publicAddress,
-      chainInfo,
-      object : AddETHChainCallback {
-        override fun onAdded() {
-          callback.invoke(ReactCallBack.success("add success").toGson())
-        }
 
-        override fun onError(error: ConnectError) {
-          callback.invoke(ReactCallBack.failed(error.toString()).toGson())
-        }
-      })
   }
 
   @ReactMethod
   fun switchEthereumChain(jsonParams: String, callback: Callback) {
-    val connectSignData = GsonUtils.fromJson(jsonParams, ConnectSignData::class.java)
-    val connectAdapter =
-      getConnectAdapter(connectSignData.publicAddress, connectSignData.walletType)
-    if (connectAdapter == null) {
-      callback.invoke(ReactCallBack.failed("failed").toGson())
-      return
-    }
-    connectAdapter.switchEthereumChain(connectSignData.publicAddress,
-      connectSignData.chainId,
-      object : SwitchETHChainCallback {
-        override fun onError(error: ConnectError) {
-          callback.invoke(ReactCallBack.failed(error.toString()).toGson())
-        }
 
-        override fun onSwitched() {
-          callback.invoke(ReactCallBack.success("switch success").toGson())
-        }
-      })
   }
 
 
@@ -729,6 +701,96 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
       adapters.add(SolanaConnectAdapter())
     }
     return adapters;
+  }
+  @ReactMethod
+  fun batchSendTransactions(transactions: String, result: Callback) {
+    LogUtils.d("batchSendTransactions", transactions)
+    val transParams =
+      GsonUtils.fromJson<ConnectSignData>(transactions, ConnectSignData::class.java)
+    val connectAdapter = getConnectAdapter(transParams.publicAddress, transParams.walletType)
+    if (connectAdapter == null) {
+      result.invoke(
+        ReactCallBack.failed(
+          ReactErrorMessage.parseConnectError(
+            ConnectError.Unauthorized()
+          )
+        ).toGson()
+      )
+      return
+    }
+
+    var feeMode: FeeMode = FeeModeNative()
+    if (transParams.feeMode != null) {
+      when (transParams.feeMode.option) {
+          "token" -> {
+            val tokenPaymasterAddress = transParams.feeMode.tokenPaymasterAddress
+            val feeQuote = transParams.feeMode.feeQuote!!
+            feeMode = FeeModeToken(feeQuote, tokenPaymasterAddress!!)
+          }
+          "gasless" -> {
+            val verifyingPaymasterGasless =
+              transParams.feeMode.wholeFeeQuote.verifyingPaymasterGasless
+            feeMode = FeeModeGasless(verifyingPaymasterGasless)
+          }
+          "native" -> {
+            val verifyingPaymasterNative =
+              transParams.feeMode.wholeFeeQuote.verifyingPaymasterNative
+            feeMode = FeeModeNative(verifyingPaymasterNative)
+          }
+      }
+    }
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        ParticleNetwork.getAAService()
+          .quickSendTransaction(
+            transParams.transactions,
+            feeMode,
+            object : MessageSigner {
+              override fun signMessage(
+                message: String,
+                callback: WebServiceCallback<SignOutput>,
+                chainId: Long?
+              ) {
+                connectAdapter.signMessage(
+                  transParams.publicAddress,
+                  message,
+                  object : SignCallback {
+                    override fun onError(error: ConnectError) {
+                      callback.failure(
+                        ErrorInfo(
+                          error.message,
+                          error.code
+                        )
+                      )
+                    }
+
+                    override fun onSigned(signature: String) {
+                      callback.success(SignOutput(signature))
+                    }
+
+                  })
+
+              }
+
+              override fun eoaAddress(): String {
+                return connectAdapter.getAccounts()[0].publicAddress
+              }
+
+            },
+            object : WebServiceCallback<SignOutput> {
+              override fun success(output: SignOutput) {
+                result.invoke(ReactCallBack.success(output.signature!!).toGson())
+              }
+
+              override fun failure(errMsg: ErrorInfo) {
+                result.invoke(ReactCallBack.failed(errMsg).toGson())
+              }
+            })
+      } catch (e: Exception) {
+        e.printStackTrace()
+        result.invoke((ReactCallBack.failed(ErrorInfo("failed",100000))).toGson())
+      }
+    }
   }
 
   override fun getName(): String {

@@ -37,7 +37,8 @@ import com.particle.gui.ParticleWallet.setSwapDisabled
 import com.particle.gui.ui.swap.SwapConfig
 import network.particle.chains.ChainInfo
 
-class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
+class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
+  ReactContextBaseJavaModule(reactContext) {
   companion object {
     var loginOptCallback: Callback? = null
     var isUIInit = false
@@ -76,9 +77,7 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
    */
   @ReactMethod
   fun navigatorWallet(display: Int) {
-    LogUtils.d("navigatorWallet1", display)
     if (!isUIModuleInit()) return;
-    LogUtils.d("navigatorWallet2", display)
     PNRouter.build(RouterPath.Wallet).withInt(RouterPath.Wallet.toString(), display)
       .navigation();
   }
@@ -172,24 +171,23 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
   }
 
   @ReactMethod
-  fun getEnablePay(callback: Callback) {
-    callback.invoke(ParticleNetwork.getEnablePay())
+  fun getPayDisabled(callback: Callback) {
+    callback.invoke(!ParticleNetwork.getEnablePay())
   }
 
   @ReactMethod
-  fun enablePay(enable: Boolean) {
-    ParticleNetwork.setPayDisabled(!enable)
+  fun setPayDisabled(enable: Boolean) {
+    ParticleNetwork.setPayDisabled(enable)
   }
 
   @ReactMethod
-  fun enableSwap(enable: Boolean) {
-//        LogUtils.d("enableSwap", enable.toString());
-    ParticleNetwork.setSwapDisabled(!enable)
+  fun setSwapDisabled(disabled: Boolean) {
+    ParticleNetwork.setSwapDisabled(disabled)
   }
 
   @ReactMethod
-  fun getEnableSwap(callback: Callback) {
-    callback.invoke(ParticleNetwork.getEnableSwap())
+  fun getSwapDisabled(callback: Callback) {
+    callback.invoke(!ParticleNetwork.getEnableSwap())
   }
 
   @ReactMethod
@@ -208,7 +206,8 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
     //unsupported jsonParams
     try {
       val jobj = JSONObject(jsonParams)
-      val swapConfig = SwapConfig(jobj.optString("from_token_address"), jobj.optString("to_token_address"), "0")
+      val swapConfig =
+        SwapConfig(jobj.optString("from_token_address"), jobj.optString("to_token_address"), "0")
       PNRouter.navigatorSwap(swapConfig);
     } catch (e: Exception) {
       e.printStackTrace()
@@ -218,14 +217,12 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
   }
 
   @ReactMethod
-  fun showTestNetwork(show: Boolean) {
-//        LogUtils.d("showTestNetwork", show);
+  fun setShowTestNetwork(show: Boolean) {
     ParticleWallet.setShowTestNetworkSetting(show)
   }
 
   @ReactMethod
-  fun showManageWallet(show: Boolean) {
-//        LogUtils.d("showManageWallet", show);
+  fun setShowManageWallet(show: Boolean) {
     ParticleWallet.setShowManageWalletSetting(show)
   }
 
@@ -244,7 +241,7 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
    * GUI
    */
   @ReactMethod
-  fun supportChain(jsonParams: String) {
+  fun setSupportChain(jsonParams: String) {
     if (!isUIModuleInit()) return;
     val chains = GsonUtils.fromJson<List<InitData>>(
       jsonParams, object : TypeToken<List<InitData>>() {}.type
@@ -273,6 +270,7 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
     }
 
   }
+
   @ReactMethod
   fun setLanguage(language: String) {
     if (language.isEmpty()) {
@@ -292,7 +290,7 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
   }
 
   @ReactMethod
-  fun supportWalletConnect(isEnable: Boolean) {
+  fun setSupportWalletConnect(isEnable: Boolean) {
     ParticleNetwork.setSupportWalletConnect(isEnable)
   }
 
@@ -337,26 +335,39 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) : ReactContext
     )
     ParticleNetwork.displayTokenAddresses(tokenAddresses as MutableList<String>)
   }
+
   @ReactMethod
   fun setDisplayNFTContractAddresses(nftContractAddresses: String) {
     val nftContractAddressList = GsonUtils.fromJson<List<String>>(
       nftContractAddresses, object : TypeToken<List<String>>() {}.type
     )
     ParticleNetwork.displayNFTContractAddresses(nftContractAddressList as MutableList<String>)
-   }
-  @ReactMethod
-  fun showLanguageSetting(isShow: Boolean){
-    ParticleWallet.setShowLanguageSetting(isShow)
-  }
-  @ReactMethod
-  fun showSettingAppearance(isShow: Boolean){
-    ParticleWallet.setShowAppearanceSetting(isShow)
-  }
-  @ReactMethod
-  fun setSupportAddToken(isShow: Boolean){
-    ParticleWallet.setSupportAddToken(isShow)
   }
 
+  @ReactMethod
+  fun setPriorityTokenAddresses(addresses: String) {
+  // todo
+  }
+  @ReactMethod
+  fun setPriorityNFTContractAddresses(addresses: String) {
+  // todo
+  }
+
+
+  @ReactMethod
+  fun setShowLanguageSetting(isShow: Boolean) {
+    ParticleWallet.setShowLanguageSetting(isShow)
+  }
+
+  @ReactMethod
+  fun setShowAppearanceSetting(isShow: Boolean) {
+    ParticleWallet.setShowAppearanceSetting(isShow)
+  }
+
+  @ReactMethod
+  fun setSupportAddToken(isShow: Boolean) {
+    ParticleWallet.setSupportAddToken(isShow)
+  }
 
 
   override fun getName(): String {

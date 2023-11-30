@@ -1,6 +1,6 @@
 {
   "name": "@particle-network/rn-auth-core",
-  "version": "1.2.1",
+  "version": "1.2.6",
   "description": "@particle-network/rn-auth-core",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -145,6 +145,6 @@
     "useTabs": false
   },
   "dependencies": {
-    "@particle-network/rn-auth": "^1.1.0"
+    "@particle-network/rn-auth": "1.2.6"
   }
 }

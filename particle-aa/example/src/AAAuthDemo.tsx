@@ -290,7 +290,7 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     console.log('feeQutotes', feeQutotes);
     const result = await particleAuth.batchSendTransactions(
       transactions,
-      AAFeeMode.native(feeQutotes)
+      AAFeeMode.gasless(feeQutotes)
     );
     if (result.status) {
       const signature = result.data;

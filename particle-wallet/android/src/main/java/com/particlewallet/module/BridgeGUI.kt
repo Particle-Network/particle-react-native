@@ -180,25 +180,25 @@ class BridgeGUI(reactContext: ReactApplicationContext) : ReactContextBaseJavaMod
   }
 
   @ReactMethod
-  fun getEnablePay(callback: Callback) {
-    callback.invoke(ParticleNetwork.getEnablePay())
+  fun getPayDisabled(callback: Callback) {
+    callback.invoke(!ParticleNetwork.getEnablePay())
   }
 
   @ReactMethod
-  fun enablePay(enable: Boolean) {
-    LogUtils.d("enablePay", enable.toString());
-    ParticleNetwork.setPayDisabled(!enable)
+  fun setPayDisabled(disable: Boolean) {
+    LogUtils.d("setPayDisabled", disable.toString());
+    ParticleNetwork.setPayDisabled(disable)
   }
 
   @ReactMethod
-  fun enableSwap(enable: Boolean) {
-    LogUtils.d("enableSwap", enable.toString());
-    ParticleNetwork.setSwapDisabled(!enable)
+  fun setSwapDisabled(disable: Boolean) {
+    LogUtils.d("setSwapDisabled", disable.toString());
+    ParticleNetwork.setSwapDisabled(disable)
   }
 
   @ReactMethod
-  fun getEnableSwap(callback: Callback) {
-    callback.invoke(ParticleNetwork.getEnableSwap())
+  fun getSwapDisabled(callback: Callback) {
+    callback.invoke(!ParticleNetwork.getEnableSwap())
   }
 
   @ReactMethod

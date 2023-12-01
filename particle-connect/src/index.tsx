@@ -259,6 +259,8 @@ export async function signAndSendTransaction(
     fee_mode: {
       option: feeMode?.getOption(),
       fee_quote: feeMode?.getFeeQuote(),
+      token_paymaster_address: feeMode?.getTokenPaymasterAddress(),
+      whole_fee_quote: feeMode?.getWholeFeeQuote(),
     },
   };
 
@@ -290,6 +292,8 @@ export async function batchSendTransactions(
     fee_mode: {
       option: feeMode?.getOption(),
       fee_quote: feeMode?.getFeeQuote(),
+      token_paymaster_address: feeMode?.getTokenPaymasterAddress(),
+      whole_fee_quote: feeMode?.getWholeFeeQuote(),
     },
   };
   const json = JSON.stringify(obj);

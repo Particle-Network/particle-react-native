@@ -1,6 +1,6 @@
 {
   "name": "@particle-network/rn-connect",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "Particle Connect in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -90,6 +90,20 @@
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
+    ]
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
     ]
   },
   "release-it": {

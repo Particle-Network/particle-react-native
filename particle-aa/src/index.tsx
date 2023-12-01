@@ -1,7 +1,6 @@
-import type { ChainInfo } from '@particle-network/chains';
 import { NativeModules, Platform } from 'react-native';
-import type { CommonError, CommonResp, FeeQuote } from './Models';
-import type { AccountName, VersionNumber } from '@particle-network/rn-auth';
+import type { CommonError, CommonResp, WholeFeeQuote} from './Models';
+import { AccountName, VersionNumber } from '@particle-network/rn-auth';
 
 const LINKING_ERROR =
   `The package '@particle-network/rn-aa' doesn't seem to be linked. Make sure: \n\n` +
@@ -22,6 +21,8 @@ const ParticleAAPlugin = NativeModules.ParticleAAPlugin
 
 /**
  * Init particle AA service
+ * @param name AccountName
+ * @param version VersionNumber
  * @param biconomyAppKeys AA dapp keys
  */
 export function init(name: AccountName, version: VersionNumber,
@@ -92,13 +93,13 @@ export function disableAAMode() {
 export async function rpcGetFeeQuotes(
   eoaAddress: string,
   transactions: string[]
-): Promise<FeeQuote[] | CommonError> {
+): Promise<WholeFeeQuote | CommonError> {
   const obj = {
     eoa_address: eoaAddress,
     transactions: transactions,
   };
   const json = JSON.stringify(obj);
-  const result: CommonResp<FeeQuote[]> = await new Promise((resolve) => {
+  const result: CommonResp<WholeFeeQuote> = await new Promise((resolve) => {
     ParticleAAPlugin.rpcGetFeeQuotes(json, (result: string) => {
       resolve(JSON.parse(result));
     });

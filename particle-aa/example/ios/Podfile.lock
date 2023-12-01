@@ -302,11 +302,11 @@ PODS:
   - react-native-particle-aa (1.2.6):
     - ParticleAA
     - React-Core
-  - react-native-particle-auth (1.2.6):
+  - react-native-particle-auth (1.2.8):
     - ParticleAuthService
     - ParticleNetworkBase
     - React-Core
-  - react-native-particle-connect (1.2.0):
+  - react-native-particle-connect (1.2.7):
     - ConnectCommon
     - ConnectEVMAdapter
     - ConnectPhantomAdapter
@@ -653,8 +653,8 @@ SPEC CHECKSUMS:
   React-jsinspector: 2a1985769123b199c195a96f46478b35db139712
   React-logger: 7fbdc3576b2ed3834360c8ea3c1c2ec54ac3043a
   react-native-particle-aa: 907eda20fcc85c005ff0dfbcd524baae1ce595dd
-  react-native-particle-auth: 82d37118f5ec7c29ffb900e92228b36a81bca64e
-  react-native-particle-connect: b60a4a1656007301a9460294a599133037f5c54a
+  react-native-particle-auth: 26fe23f0002b544890a4c86f8c13ff518504bbe8
+  react-native-particle-connect: 7b96d11b39a273b7d49e57a3098214bca3c29480
   react-native-safe-area-context: 6c12e3859b6f27b25de4fee8201cfb858432d8de
   React-perflogger: f86e85eb59151d09e9b44b8931f5c088e4f08bbc
   React-RCTActionSheet: cd3d76501a6069e164986b93f144be34b593955c

@@ -1,7 +1,7 @@
 import { ChainInfo, PolygonMumbai } from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
 import {
-    VersionNumber,
+    AccountName,
     Appearance,
     CommonError,
     Env,
@@ -13,7 +13,9 @@ import {
     ParticleInfo,
     SecurityAccount,
     SecurityAccountConfig,
+    SmartAccountConfig,
     SupportAuthType,
+    VersionNumber,
     iOSModalPresentStyle,
 } from '@particle-network/rn-auth';
 import BigNumber from 'bignumber.js';
@@ -36,8 +38,6 @@ import type { AuthScreenProps } from './App';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
 import { createWeb3 } from './web3Demo';
-import { SmartAccountConfig } from 'src/Models/SmartAccountConfig';
-import { AccountName } from 'src/Models/AccountName';
 export default class AuthDemo extends PureComponent<AuthScreenProps> {
     private openAccountAndSecurityEvent: any;
     modalSelect: ModalSelector<any> | null = null;

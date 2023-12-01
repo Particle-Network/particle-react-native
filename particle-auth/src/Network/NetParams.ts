@@ -10,6 +10,7 @@ export const EVMReqBodyMethod = {
     ethEstimateGas: 'eth_estimateGas',
     particleGetTokensByTokenAddresses: 'particle_getTokensByTokenAddresses',
     particleBiconomyGetSmartAccount: 'particle_biconomy_getSmartAccount',
+    particleAAGetSmartAccount: 'particle_aa_getSmartAccount',
 };
 
 export const AbiEncodeFunction = {

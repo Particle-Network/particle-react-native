@@ -357,6 +357,6 @@ export class EvmService {
      * @returns Smart account json object
      */
     static async getSmartAccount(smartAccountConfigList: SmartAccountConfig[]): Promise<AccountInfo[]> {
-        return await this.rpc(EVMReqBodyMethod.particleBiconomyGetSmartAccount, smartAccountConfigList);
+        return await this.rpc(EVMReqBodyMethod.particleAAGetSmartAccount, smartAccountConfigList);
     }
 }

@@ -1,5 +1,5 @@
-import { AccountName } from "./AccountName";
-import { VersionNumber } from "./VersionNumber";
+import { AccountName } from './AccountName';
+import { VersionNumber } from './VersionNumber';
 
 export class SmartAccountConfig {
     name: AccountName;

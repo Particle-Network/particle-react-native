@@ -12,8 +12,8 @@
     "react": "18.1.0",
     "react-native": "0.70.8",
     "react-native-modal-selector": "^2.1.2",
-    "@particle-network/rn-auth": "file:../../particle-auth",
-    "@particle-network/rn-connect": "file:../../particle-connect",
+    "@particle-network/rn-auth": "^1.2.8",
+    "@particle-network/rn-connect": "^1.2.8",
     "@particle-network/rn-wallet": "file:..",
     "react-native-toast-message": "^2.1.6"
   },

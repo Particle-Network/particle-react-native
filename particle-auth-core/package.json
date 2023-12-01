@@ -30,6 +30,7 @@
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "prepack": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
     "build:android": "cd example/android && ./gradlew assembleDebug --no-daemon --console=plain -PreactNativeArchitectures=arm64-v8a",
@@ -65,6 +66,7 @@
     "eslint": "^8.4.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "react-native-builder-bob": "^0.20.4",
     "jest": "^28.1.1",
     "pod-install": "^0.1.0",
     "prettier": "^2.0.5",
@@ -145,6 +147,6 @@
     "useTabs": false
   },
   "dependencies": {
-    "@particle-network/rn-auth": "file:../particle-auth"
+    "@particle-network/rn-auth": "^1.2.8"
   }
 }

@@ -1,9 +1,7 @@
-import { chains } from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
 import { EventEmitter } from 'events';
 import type { AccountInfo } from '../Models';
 import * as particleConnect from '../index';
-import { WalletType } from '../index';
 import { sendEVMRpc } from './connection';
 import type { ParticleConnectOptions, RequestArguments } from './types';
 import { notSupportMethods, signerMethods } from './types';
@@ -111,61 +109,6 @@ class ParticleConnectProvider {
           return result.data;
         } else {
           return Promise.reject(result.data);
-        }
-      } else if (
-        payload.method === 'wallet_switchEthereumChain' ||
-        payload.method === 'wallet_addEthereumChain'
-      ) {
-        const chainId = Number(payload.params[0].chainId);
-        const chainInfo = chains.getEVMChainInfoById(chainId);
-
-        if (this.options.publicAddress == undefined) {
-          return Promise.reject({
-            code: 4900,
-            message: 'The Provider is disconnected from chain',
-          });
-        }
-
-        if (!chainInfo) {
-          return Promise.reject({
-            code: 4201,
-            message: 'The Provider does not support the chain',
-          });
-        }
-        const result = await particleAuth.setChainInfo(chainInfo);
-        if (!result) {
-          return Promise.reject({ message: 'switch chain failed' });
-        }
-
-        if (
-          this.options.walletType != WalletType.Particle &&
-          this.options.walletType != WalletType.Phantom &&
-          this.options.walletType != WalletType.EvmPrivateKey &&
-          this.options.walletType != WalletType.SolanaPrivateKey
-        ) {
-          var res: any;
-          if (payload.method === 'wallet_switchEthereumChain') {
-            res = await particleConnect.switchEthereumChain(
-              this.options.walletType,
-              this.options.publicAddress,
-              chainInfo
-            );
-          } else {
-            res = await particleConnect.addEthereumChain(
-              this.options.walletType,
-              this.options.publicAddress,
-              chainInfo
-            );
-          }
-          // it must be a wallet connect wallet
-
-          if (res.status) {
-            return Promise.resolve(null);
-          } else {
-            return Promise.reject({ message: 'switch chain failed' });
-          }
-        } else {
-          return Promise.resolve(null);
         }
       } else if (payload.method === 'eth_signTypedData_v4') {
         const typedData = JSON.stringify(payload.params[1]);

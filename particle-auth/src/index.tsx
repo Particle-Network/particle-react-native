@@ -2,8 +2,6 @@ import type { ChainInfo } from '@particle-network/chains';
 import { chains } from '@particle-network/chains';
 import { NativeModules, Platform } from 'react-native';
 import type {
-    AccountName,
-    VersionNumber,
     AAFeeMode,
     Appearance,
     CommonResp,

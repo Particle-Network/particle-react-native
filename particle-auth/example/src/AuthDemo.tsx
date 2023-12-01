@@ -13,7 +13,6 @@ import {
     ParticleInfo,
     SecurityAccount,
     SecurityAccountConfig,
-    SmartAccountConfig,
     SupportAuthType,
     VersionNumber,
     iOSModalPresentStyle,
@@ -1029,8 +1028,12 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
 
     getSmartAccount = async () => {
         const eoaAddress = await particleAuth.getAddress();
-        const smartAccountConfig = new SmartAccountConfig(AccountName.BICONOMY, VersionNumber.v1_0_0, eoaAddress);
-        const result = await EvmService.getSmartAccount([smartAccountConfig]);
+        const smartAccountParam = {
+            name: AccountName.BICONOMY,
+            version: VersionNumber.v1_0_0,
+            ownerAddress: eoaAddress,
+        };
+        const result = await EvmService.getSmartAccount([smartAccountParam]);
         console.log('getSmartAccount', result);
         Toast.show({
             type: 'success',

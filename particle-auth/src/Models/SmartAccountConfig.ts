@@ -1,14 +1,8 @@
-import { AccountName } from './AccountName';
-import { VersionNumber } from './VersionNumber';
+type AccountNameType = 'BICONOMY' | 'SIMPLE' | 'CYBERCONNECT';
+type VersionNumberType = '1.0.0' | '2.0.0';
 
-export class SmartAccountConfig {
-    name: AccountName;
-    version: VersionNumber;
+export interface SmartAccountParamType {
+    name: AccountNameType;
+    version: VersionNumberType;
     ownerAddress: string;
-
-    constructor(name: AccountName, version: VersionNumber, ownerAddress: string) {
-        this.name = name;
-        this.version = version;
-        this.ownerAddress = ownerAddress;
-    }
 }

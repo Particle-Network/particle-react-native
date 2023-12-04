@@ -1,13 +1,13 @@
 import { PolygonMumbai } from '@particle-network/chains';
 import {
   AAFeeMode,
+  AccountName,
   Env,
+  EvmService,
   LoginType,
   ParticleInfo,
   SupportAuthType,
   VersionNumber,
-  EvmService,
-  AccountName,
 } from '@particle-network/rn-auth';
 import React, { PureComponent } from 'react';
 import {
@@ -62,7 +62,11 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
       80001: 'hYZIwIsf2.e18c790b-cafb-4c4e-a438-0289fc25dba1',
     };
 
-    particleAA.init(AccountName.BICONOMY, VersionNumber.v1_0_0, biconomyAppKeys);
+    particleAA.init(
+      AccountName.BICONOMY,
+      VersionNumber.v1_0_0,
+      biconomyAppKeys
+    );
 
     Toast.show({
       type: 'success',
@@ -187,13 +191,13 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     const config = {
       name: AccountName.BICONOMY,
       version: VersionNumber.v1_0_0,
-      ownerAddress: eoaAddress
+      ownerAddress: eoaAddress,
     };
     const accountInfo = await EvmService.getSmartAccount([config]);
     const smartAccountAddress = accountInfo[0]?.smartAccountAddress;
     console.log('smartAccountAddress', smartAccountAddress);
     return smartAccountAddress;
-  }
+  };
 
   signAndSendTransactionWithNative = async () => {
     const eoaAddress = await particleAuth.getAddress();
@@ -208,20 +212,20 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
       receiver,
       BigNumber(amount)
     );
-    const wholeFeeQuote = await particleAA.rpcGetFeeQuotes(eoaAddress, [
+    const wholeFeeQuote = (await particleAA.rpcGetFeeQuotes(eoaAddress, [
       transaction,
-    ]) as WholeFeeQuote;
+    ])) as WholeFeeQuote;
 
     console.log('wholeFeeQuote', wholeFeeQuote);
 
-    const feeQuote = wholeFeeQuote.verifyingPaymasterNative['feeQuote'];
-    const fee = BigNumber(feeQuote['fee']);
-    const balance = BigNumber(feeQuote['balance']);
+    const feeQuote = wholeFeeQuote.verifyingPaymasterNative.feeQuote;
+    const fee = BigNumber(feeQuote.fee);
+    const balance = BigNumber(feeQuote.balance);
 
     console.log(`balance: ${balance}, fee: ${fee}`);
 
     if (balance.isLessThan(fee)) {
-      console.log("native balance if not enough for gas fee");
+      console.log('native balance if not enough for gas fee');
       return;
     }
 
@@ -253,13 +257,13 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
       BigNumber(amount)
     );
 
-    const wholeFeeQuote = await particleAA.rpcGetFeeQuotes(eoaAddress, [
+    const wholeFeeQuote = (await particleAA.rpcGetFeeQuotes(eoaAddress, [
       transaction,
-    ]) as WholeFeeQuote;
+    ])) as WholeFeeQuote;
 
     const verifyingPaymasterGasless = wholeFeeQuote.verifyingPaymasterGasless;
     if (verifyingPaymasterGasless == undefined) {
-      console.log("gasless is not available");
+      console.log('gasless is not available');
       return;
     }
 
@@ -291,16 +295,16 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
       BigNumber(amount)
     );
 
-    const wholeFeeQuote = await particleAA.rpcGetFeeQuotes(eoaAddress, [
+    const wholeFeeQuote = (await particleAA.rpcGetFeeQuotes(eoaAddress, [
       transaction,
-    ]) as WholeFeeQuote;
+    ])) as WholeFeeQuote;
     console.log('wholeFeeQuote', wholeFeeQuote);
 
-    const feeQuotes = wholeFeeQuote.tokenPaymaster['feeQuotes'] as any[];
+    const feeQuotes = wholeFeeQuote.tokenPaymaster.feeQuotes as any[];
 
-    const validFeeQuotes = feeQuotes.filter(item => {
-      const fee = BigNumber(item['fee']);
-      const balance = BigNumber(item['balance']);
+    const validFeeQuotes = feeQuotes.filter((item) => {
+      const fee = BigNumber(item.fee);
+      const balance = BigNumber(item.balance);
       if (balance.isLessThan(fee)) {
         return false;
       } else {
@@ -308,16 +312,15 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
       }
     });
 
-
     if (validFeeQuotes.length == 0) {
-      console.log("no valid token for gas fee");
+      console.log('no valid token for gas fee');
       return;
     }
 
     const feeQuote = validFeeQuotes[0];
 
-    const tokenPaymasterAddress =
-      wholeFeeQuote.tokenPaymaster["tokenPaymasterAddress"] as string;
+    const tokenPaymasterAddress = wholeFeeQuote.tokenPaymaster
+      .tokenPaymasterAddress as string;
 
     const result = await particleAuth.signAndSendTransaction(
       transaction,
@@ -348,19 +351,19 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     );
 
     const transactions = [transaction, transaction];
-    const wholeFeeQuote = await particleAA.rpcGetFeeQuotes(
+    const wholeFeeQuote = (await particleAA.rpcGetFeeQuotes(
       eoaAddress,
       transactions
-    ) as WholeFeeQuote;
+    )) as WholeFeeQuote;
 
     console.log('wholeFeeQuote', wholeFeeQuote);
 
-    const feeQuote = wholeFeeQuote.verifyingPaymasterNative['feeQuote'];
-    const fee = BigNumber(feeQuote['fee']);
-    const balance = BigNumber(feeQuote['balance']);
+    const feeQuote = wholeFeeQuote.verifyingPaymasterNative.feeQuote;
+    const fee = BigNumber(feeQuote.fee);
+    const balance = BigNumber(feeQuote.balance);
 
     if (balance.isLessThan(fee)) {
-      console.log("native balance if not enough for gas fee");
+      console.log('native balance if not enough for gas fee');
       return;
     }
 

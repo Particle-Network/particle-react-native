@@ -25,7 +25,16 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
     LogUtils.d("init", initParams)
     val initData = GsonUtils.fromJson(initParams, BiconomyInitData::class.java)
     ParticleNetwork.initAAMode(initData.dAppKeys)
-    ParticleNetwork.setAAService(BiconomyAAService)
+    val aaService = ParticleNetwork.getRegisterAAServices().values.firstOrNull {
+      it.getIAAProvider().apiName.equals(
+        initData.name,
+        true
+      )
+    }
+    aaService?.apply {
+      getIAAProvider().version = initData.version
+      ParticleNetwork.setAAService(aaService)
+    }
   }
 
   @ReactMethod

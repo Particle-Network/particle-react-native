@@ -1,6 +1,6 @@
-import { NativeModules, Platform } from 'react-native';
-import type { CommonError, CommonResp, WholeFeeQuote} from './Models';
 import { AccountName, VersionNumber } from '@particle-network/rn-auth';
+import { NativeModules, Platform } from 'react-native';
+import type { CommonError, CommonResp, WholeFeeQuote } from './Models';
 
 const LINKING_ERROR =
   `The package '@particle-network/rn-aa' doesn't seem to be linked. Make sure: \n\n` +
@@ -11,13 +11,13 @@ const LINKING_ERROR =
 const ParticleAAPlugin = NativeModules.ParticleAAPlugin
   ? NativeModules.ParticleAAPlugin
   : new Proxy(
-    {},
-    {
-      get() {
-        throw new Error(LINKING_ERROR);
-      },
-    }
-  );
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
 
 /**
  * Init particle AA service
@@ -25,13 +25,15 @@ const ParticleAAPlugin = NativeModules.ParticleAAPlugin
  * @param version VersionNumber
  * @param biconomyAppKeys AA dapp keys
  */
-export function init(name: AccountName, version: VersionNumber,
+export function init(
+  name: AccountName,
+  version: VersionNumber,
   biconomyAppKeys: { [key: number]: string }
 ) {
   const obj = {
     biconomy_app_keys: biconomyAppKeys,
     name: name,
-    version: version
+    version: version,
   };
   const json = JSON.stringify(obj);
 

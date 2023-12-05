@@ -1,7 +1,7 @@
 import { ChainInfo, PolygonMumbai } from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
 import {
-    AAVersion,
+    AccountName,
     Appearance,
     CommonError,
     Env,
@@ -14,6 +14,7 @@ import {
     SecurityAccount,
     SecurityAccountConfig,
     SupportAuthType,
+    VersionNumber,
     iOSModalPresentStyle,
 } from '@particle-network/rn-auth';
 import BigNumber from 'bignumber.js';
@@ -924,9 +925,9 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
                     value: iOSModalPresentStyle.FullScreen,
                 },
                 {
-                    label: iOSModalPresentStyle.FormSheet,
-                    key: iOSModalPresentStyle.FormSheet,
-                    value: iOSModalPresentStyle.FormSheet,
+                    label: iOSModalPresentStyle.PageSheet,
+                    key: iOSModalPresentStyle.PageSheet,
+                    value: iOSModalPresentStyle.PageSheet,
                 },
             ],
         });
@@ -1027,7 +1028,12 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
 
     getSmartAccount = async () => {
         const eoaAddress = await particleAuth.getAddress();
-        const result = await EvmService.getSmartAccount([eoaAddress], AAVersion.v1_0_0);
+        const smartAccountParam = {
+            name: AccountName.BICONOMY,
+            version: VersionNumber.v1_0_0,
+            ownerAddress: eoaAddress,
+        };
+        const result = await EvmService.getSmartAccount([smartAccountParam]);
         console.log('getSmartAccount', result);
         Toast.show({
             type: 'success',

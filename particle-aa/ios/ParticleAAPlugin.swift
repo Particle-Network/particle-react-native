@@ -26,30 +26,21 @@ class ParticleAAPlugin: NSObject {
     public func initialize(_ json: String) {
         let data = JSON(parseJSON: json)
         
-        let dictionary: [String: JSON] = data["dapp_app_keys"].dictionaryValue
+        let biconomyAppKeysDict = data["biconomy_app_keys"].dictionaryValue
+        var biconomyAppKeys: [Int: String] = [:]
 
-        var dappApiKeys: [Int: String] = [:]
-
-        for (key, value) in dictionary {
+        for (key, value) in biconomyAppKeysDict {
             if let intKey = Int(key) {
-                dappApiKeys[intKey] = value.stringValue
+                biconomyAppKeys[intKey] = value.stringValue
             }
         }
         
-        AAService.initialize(dappApiKeys: dappApiKeys)
+        let accountName = AA.AccountName(rawValue: data["name"].stringValue.uppercased()) ?? .biconomy
+        
+        let version = AA.VersionNumber(rawValue: data["version"].stringValue.uppercased()) ?? .v1_0_0
+        
+        AAService.initialize(name: accountName, version: version, biconomyApiKeys: biconomyAppKeys)
         ParticleNetwork.setAAService(aaService)
-    }
-    
-    @objc
-    public func isSupportChainInfo(_ json: String, callback: @escaping RCTResponseSenderBlock) {
-        let data = JSON(parseJSON: json)
-        let chainId = data["chain_id"].intValue
-        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId) else {
-            callback([false])
-            return
-        }
-        let isSupport = aaService.isSupportChainInfo(chainInfo)
-        callback([isSupport])
     }
     
     @objc
@@ -69,7 +60,8 @@ class ParticleAAPlugin: NSObject {
     
     @objc
     public func isDeploy(_ eoaAddress: String, callback: @escaping RCTResponseSenderBlock) {
-        subscribeAndCallback(observable: aaService.isDeploy(eoaAddress: eoaAddress), callback: callback)
+        let chainInfo = ParticleNetwork.getChainInfo()
+        subscribeAndCallback(observable: aaService.isDeploy(eoaAddress: eoaAddress, chainInfo: chainInfo), callback: callback)
     }
     
     @objc
@@ -79,7 +71,8 @@ class ParticleAAPlugin: NSObject {
         let transactions = data["transactions"].arrayValue.map {
             $0.stringValue
         }
-        subscribeAndCallback(observable: aaService.rpcGetFeeQuotes(eoaAddress: eoaAddress, transactions: transactions), callback: callback)
+        let chainInfo = ParticleNetwork.getChainInfo()
+        subscribeAndCallback(observable: aaService.rpcGetFeeQuotes(eoaAddress: eoaAddress, transactions: transactions, chainInfo: chainInfo), callback: callback)
     }
 }
 

@@ -10,6 +10,5 @@ export interface AccountInfo {
     implementationAddress: string;
     fallBackHandlerAddress: string;
     version: string;
-    createdAt: number;
-    updatedAt: string;
+    name: string;
 }

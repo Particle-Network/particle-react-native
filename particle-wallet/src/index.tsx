@@ -185,11 +185,16 @@ export function navigatorSwap(
  * @param isShow
  */
 export function setShowTestNetwork(isShow: boolean) {
-  if (Platform.OS == 'ios') {
-    ParticleWalletPlugin.setShowTestNetwork(isShow);
-  } else {
-    // todo
-    ParticleWalletPlugin.showTestNetwork(isShow);
+  ParticleWalletPlugin.setShowTestNetwork(isShow);
+}
+
+/**
+ * Show smart account in setting page, default is true, works when add particle-aa and enable aa service.
+ * @param isShow
+ */
+export function setShowSmartAccountSetting(isShow: boolean) {
+  if (Platform.OS === 'ios') {
+    ParticleWalletPlugin.setShowSmartAccountSetting(isShow);
   }
 }
 
@@ -198,12 +203,7 @@ export function setShowTestNetwork(isShow: boolean) {
  * @param isShow
  */
 export function setShowManageWallet(isShow: boolean) {
-  if (Platform.OS == 'ios') {
-    ParticleWalletPlugin.setShowManageWallet(isShow);
-  } else {
-    // todo
-    ParticleWalletPlugin.showManageWallet(isShow);
-  }
+  ParticleWalletPlugin.setShowManageWallet(isShow);
 }
 
 /**
@@ -217,13 +217,7 @@ export function setSupportChain(chainInfos: ChainInfo[]) {
     chain_id: info.id,
   }));
   const json = JSON.stringify(chainInfoObjects);
-
-  if (Platform.OS == 'ios') {
-    ParticleWalletPlugin.setSupportChain(json);
-  } else {
-    // todo
-    ParticleWalletPlugin.supportChain(json);
-  }
+  ParticleWalletPlugin.setSupportChain(json);
 }
 
 /**
@@ -239,17 +233,12 @@ export function setPayDisabled(disabled: boolean) {
  * @returns Trus if disabled, otherwise false
  */
 export function getPayDisabled(): Promise<any> {
-  if (Platform.OS == 'ios') {
-    return new Promise((resolve) => {
-      ParticleWalletPlugin.getPayDisabled((result: string) => {
-        console.log('getPayDisabled', result);
-        resolve(result);
-      });
+  return new Promise((resolve) => {
+    ParticleWalletPlugin.getPayDisabled((result: string) => {
+      console.log('getPayDisabled', result);
+      resolve(result);
     });
-  } else {
-    // todo
-    return Promise.resolve();
-  }
+  });
 }
 
 /**
@@ -265,16 +254,11 @@ export function setSwapDisabled(disabled: boolean) {
  * @returns Trus if disabled, otherwise true
  */
 export function getSwapDisabled(): Promise<any> {
-  if (Platform.OS == 'ios') {
-    return new Promise((resolve) => {
-      ParticleWalletPlugin.getSwapDisabled((result: string) => {
-        resolve(result);
-      });
+  return new Promise((resolve) => {
+    ParticleWalletPlugin.getSwapDisabled((result: string) => {
+      resolve(result);
     });
-  } else {
-    // todo
-    return Promise.resolve();
-  }
+  });
 }
 
 /**
@@ -348,12 +332,7 @@ export function setPriorityNFTContractAddresses(
  * @param isShow default value is false
  */
 export function setShowLanguageSetting(isShow: boolean) {
-  if (Platform.OS == 'ios') {
-    ParticleWalletPlugin.setShowLanguageSetting(isShow);
-  } else {
-    // todo
-    ParticleWalletPlugin.showLanguageSetting(isShow);
-  }
+  ParticleWalletPlugin.setShowLanguageSetting(isShow);
 }
 
 /**
@@ -361,12 +340,7 @@ export function setShowLanguageSetting(isShow: boolean) {
  * @param isShow default value is false
  */
 export function setShowAppearanceSetting(isShow: boolean) {
-  if (Platform.OS == 'ios') {
-    ParticleWalletPlugin.setShowAppearanceSetting(isShow);
-  } else {
-    // todo
-    ParticleWalletPlugin.showAppearanceSetting(isShow);
-  }
+  ParticleWalletPlugin.setShowAppearanceSetting(isShow);
 }
 
 /**
@@ -383,12 +357,7 @@ export function setSupportAddToken(isShow: boolean) {
  * @param isEnable
  */
 export function setSupportWalletConnect(isEnable: boolean) {
-  if (Platform.OS == 'ios') {
-    ParticleWalletPlugin.setSupportWalletConnect(isEnable);
-  } else {
-    // todo
-    ParticleWalletPlugin.supportWalletConnect(isEnable);
-  }
+  ParticleWalletPlugin.setSupportWalletConnect(isEnable);
 }
 
 export function setWalletConnectV2ProjectId(walletConnectV2ProjectId: string) {

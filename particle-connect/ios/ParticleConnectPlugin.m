@@ -35,10 +35,6 @@ RCT_EXTERN_METHOD(importMnemonic:(NSString* _Nonnull)json callback:(RCTResponseS
 
 RCT_EXTERN_METHOD(exportPrivateKey:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
-RCT_EXTERN_METHOD(switchEthereumChain:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
-
-RCT_EXTERN_METHOD(addEthereumChain:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
-
 RCT_EXTERN_METHOD(reconnectIfNeeded:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(setWalletConnectV2SupportChainInfos:(NSString* _Nonnull)json)

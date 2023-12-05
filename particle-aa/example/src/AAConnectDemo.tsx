@@ -6,15 +6,22 @@ import {
   PolygonMumbai,
 } from '@particle-network/chains';
 import * as particleAA from '@particle-network/rn-aa';
-import { CommonError, FeeQuote } from '@particle-network/rn-aa';
+import { CommonError, WholeFeeQuote } from '@particle-network/rn-aa';
 import * as particleAuth from '@particle-network/rn-auth';
-import { AAFeeMode, Env, ParticleInfo } from '@particle-network/rn-auth';
 import * as particleConnect from '@particle-network/rn-connect';
 import {
   AccountInfo,
   DappMetaData,
   WalletType,
 } from '@particle-network/rn-connect';
+import {
+  Env,
+  ParticleInfo,
+  AccountName,
+  VersionNumber,
+  EvmService,
+  AAFeeMode
+} from '@particle-network/rn-auth';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';
@@ -75,18 +82,22 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     particleConnect.init(chainInfo, env, metadata, rpcUrl);
 
     // then set wallet connect project id
-    const chainInfos = [Ethereum, Polygon, EthereumGoerli, EthereumSepolia];
+    let chainInfos = [Ethereum, Polygon, EthereumGoerli, EthereumSepolia];
+    // Note, metamask doesn't support more than one chain info when connect.
+    // here we test with metamask, so we set only one chainInfo
+    chainInfos = [PolygonMumbai];
     // set support wallet connect chain list
     particleConnect.setWalletConnectV2SupportChainInfos(chainInfos);
 
     // then init particle AA
-    const dappAppKeys = {
+    const biconomyAppKeys = {
       1: 'your ethereum mainnet key',
       5: 'your ethereum goerli key',
       137: 'your polygon mainnet key',
       80001: 'hYZIwIsf2.e18c790b-cafb-4c4e-a438-0289fc25dba1',
     };
-    particleAA.init(dappAppKeys);
+
+    particleAA.init(AccountName.BICONOMY, VersionNumber.v1_0_0, biconomyAppKeys);
 
     Toast.show({
       type: 'success',
@@ -152,11 +163,16 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
 
   rpcGetFeeQuotes = async () => {
     const eoaAddress = this.publicAddress;
+    const smartAccountAddress = await this.getSmartAccountAddress(eoaAddress);
+    if (smartAccountAddress == undefined) {
+      return;
+    }
+
     console.log('eoaAddress', eoaAddress);
     const receiver = TestAccountEVM.receiverAddress;
     const amount = TestAccountEVM.amount;
     const transaction = await Helper.getEthereumTransacion(
-      eoaAddress,
+      smartAccountAddress,
       receiver,
       BigNumber(amount)
     );
@@ -178,6 +194,18 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
       });
     }
   };
+
+  getSmartAccountAddress = async (eoaAddress: string) => {
+    const config = {
+      name: AccountName.BICONOMY,
+      version: VersionNumber.v1_0_0,
+      ownerAddress: eoaAddress
+    };
+    const accountInfo = await EvmService.getSmartAccount([config]);
+    const smartAccountAddress = accountInfo[0]?.smartAccountAddress;
+    console.log('smartAccountAddress', smartAccountAddress);
+    return smartAccountAddress;
+  }
 
   isDeploy = async () => {
     const eoaAddress = this.publicAddress;
@@ -203,108 +231,156 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     }
   };
 
-  isSupportChainInfo = async () => {
-    const result = await particleAA.isSupportChainInfo(PolygonMumbai);
-    console.log('isSupportChainInfo result', result);
-    Toast.show({
-      type: 'info',
-      text1: 'Is support chain info',
-      text2: String(result),
+  signAndSendTransactionWithNative = async () => {
+    const eoaAddress = this.publicAddress;
+    const smartAccountAddress = await this.getSmartAccountAddress(eoaAddress);
+    if (smartAccountAddress == undefined) {
+      return;
+    }
+
+    const receiver = TestAccountEVM.receiverAddress;
+    const amount = TestAccountEVM.amount;
+    const transaction = await Helper.getEthereumTransacion(
+      smartAccountAddress,
+      receiver,
+      BigNumber(amount)
+    );
+
+    const wholeFeeQuote = await particleAA.rpcGetFeeQuotes(eoaAddress, [
+      transaction,
+    ]) as WholeFeeQuote;
+
+    console.log('wholeFeeQuote', wholeFeeQuote);
+
+    const feeQuote = wholeFeeQuote.verifyingPaymasterNative['feeQuote'];
+    const fee = BigNumber(feeQuote['fee']);
+    const balance = BigNumber(feeQuote['balance']);
+
+    console.log(`balance: ${balance}, fee: ${fee}`);
+
+    if (balance.isLessThan(fee)) {
+      console.log("native balance if not enough for gas fee");
+      return;
+    }
+
+    const result = await particleConnect.signAndSendTransaction(
+      this.walletType,
+      this.publicAddress,
+      transaction,
+      AAFeeMode.native(wholeFeeQuote)
+    );
+    if (result.status) {
+      const signature = result.data;
+      console.log('signAndSendTransactionWithNative result', signature);
+    } else {
+      const error = result.data as CommonError;
+      console.log('signAndSendTransactionWithNative result', error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
+    }
+  };
+
+  signAndSendTransactionWithGasless = async () => {
+    const eoaAddress = this.publicAddress;
+    const smartAccountAddress = await this.getSmartAccountAddress(eoaAddress);
+    if (smartAccountAddress == undefined) {
+      return;
+    }
+    const receiver = TestAccountEVM.receiverAddress;
+    const amount = TestAccountEVM.amount;
+    const transaction = await Helper.getEthereumTransacion(
+      smartAccountAddress,
+      receiver,
+      BigNumber(amount)
+    );
+    const wholeFeeQuote = await particleAA.rpcGetFeeQuotes(eoaAddress, [
+      transaction,
+    ]) as WholeFeeQuote;
+
+    const verifyingPaymasterGasless = wholeFeeQuote.verifyingPaymasterGasless;
+    if (verifyingPaymasterGasless == undefined) {
+      console.log("gasless is not available");
+      return;
+    }
+
+    const result = await particleConnect.signAndSendTransaction(
+      this.walletType,
+      this.publicAddress,
+      transaction,
+      AAFeeMode.gasless(wholeFeeQuote)
+    );
+    if (result.status) {
+      const signature = result.data;
+      console.log('signAndSendTransactionWithGasless result', signature);
+    } else {
+      const error = result.data as CommonError;
+      console.log('signAndSendTransactionWithGasless result', error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
+    }
+  };
+
+  signAndSendTransactionWithToken = async () => {
+    const eoaAddress = this.publicAddress;
+    const smartAccountAddress = await this.getSmartAccountAddress(eoaAddress);
+    if (smartAccountAddress == undefined) {
+      return;
+    }
+
+    const receiver = TestAccountEVM.receiverAddress;
+    const amount = TestAccountEVM.amount;
+    const transaction = await Helper.getEthereumTransacion(
+      smartAccountAddress,
+      receiver,
+      BigNumber(amount)
+    );
+
+    const wholeFeeQuote = await particleAA.rpcGetFeeQuotes(eoaAddress, [
+      transaction,
+    ]) as WholeFeeQuote;
+    console.log('wholeFeeQuote', wholeFeeQuote);
+
+    const feeQuotes = wholeFeeQuote.tokenPaymaster['feeQuotes'] as any[];
+
+    const validFeeQuotes = feeQuotes.filter(item => {
+      const fee = BigNumber(item['fee']);
+      const balance = BigNumber(item['balance']);
+      if (balance.isLessThan(fee)) {
+        return false;
+      } else {
+        return true;
+      }
     });
-  };
 
-  signAndSendTransactionWithAAAuto = async () => {
-    const eoaAddress = this.publicAddress;
-    const receiver = TestAccountEVM.receiverAddress;
-    const amount = TestAccountEVM.amount;
-    const transaction = await Helper.getEthereumTransacion(
-      eoaAddress,
-      receiver,
-      BigNumber(amount)
-    );
 
-    const feeQutotes = (await particleAA.rpcGetFeeQuotes(eoaAddress, [
-      transaction,
-    ])) as FeeQuote[];
-    const result = await particleConnect.signAndSendTransaction(
-      this.walletType,
-      this.publicAddress,
-      transaction,
-      AAFeeMode.native(feeQutotes)
-    );
-    if (result.status) {
-      const signature = result.data;
-      console.log('signAndSendTransactionWithAAAuto result', signature);
-    } else {
-      const error = result.data as CommonError;
-      console.log('signAndSendTransactionWithAAAuto result', error);
-      Toast.show({
-        type: 'error',
-        text1: error.message,
-      });
+    if (validFeeQuotes.length == 0) {
+      console.log("no valid token for gas fee");
+      return;
     }
-  };
 
-  signAndSendTransactionWithAAGasless = async () => {
-    const eoaAddress = this.publicAddress;
-    const receiver = TestAccountEVM.receiverAddress;
-    const amount = TestAccountEVM.amount;
-    const transaction = await Helper.getEthereumTransacion(
-      eoaAddress,
-      receiver,
-      BigNumber(amount)
-    );
-    const feeQutotes = (await particleAA.rpcGetFeeQuotes(eoaAddress, [
-      transaction,
-    ])) as FeeQuote[];
+    const feeQuote = validFeeQuotes[0];
+
+    const tokenPaymasterAddress =
+      wholeFeeQuote.tokenPaymaster["tokenPaymasterAddress"] as string;
+
+    console.log(`feeQuote: ${JSON.stringify(feeQuote)}`);
+    console.log(`tokenPaymasterAddress: ${tokenPaymasterAddress}`);
     const result = await particleConnect.signAndSendTransaction(
       this.walletType,
       this.publicAddress,
       transaction,
-      AAFeeMode.gasless(feeQutotes)
+      AAFeeMode.token(feeQuote, tokenPaymasterAddress)
     );
     if (result.status) {
       const signature = result.data;
-      console.log('signAndSendTransactionWithAAGasless result', signature);
+      console.log('signAndSendTransactionWithToken result', signature);
     } else {
       const error = result.data as CommonError;
-      console.log('signAndSendTransactionWithAAGasless result', error);
-      Toast.show({
-        type: 'error',
-        text1: error.message,
-      });
-    }
-  };
-
-  signAndSendTransactionWithAACustom = async () => {
-    const eoaAddress = this.publicAddress;
-    const receiver = TestAccountEVM.receiverAddress;
-    const amount = TestAccountEVM.amount;
-    const transaction = await Helper.getEthereumTransacion(
-      eoaAddress,
-      receiver,
-      BigNumber(amount)
-    );
-
-    const feeQutotes = (await particleAA.rpcGetFeeQuotes(eoaAddress, [
-      transaction,
-    ])) as FeeQuote[];
-
-    const result = await particleConnect.signAndSendTransaction(
-      this.walletType,
-      this.publicAddress,
-      transaction,
-      AAFeeMode.token(
-        feeQutotes?.tokenPaymaster.feeQuotes[0],
-        feeQutotes?.tokenPaymaster?.tokenPaymasterAddress
-      )
-    );
-    if (result.status) {
-      const signature = result.data;
-      console.log('signAndSendTransactionWithAACustom result', signature);
-    } else {
-      const error = result.data as CommonError;
-      console.log('signAndSendTransactionWithAACustom result', error);
+      console.log('signAndSendTransactionWithToken result', error);
       Toast.show({
         type: 'error',
         text1: error.message,
@@ -314,20 +390,42 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
 
   batchSendTransactions = async () => {
     const eoaAddress = this.publicAddress;
+    const smartAccountAddress = await this.getSmartAccountAddress(eoaAddress);
+    if (smartAccountAddress == undefined) {
+      return;
+    }
+
     const receiver = TestAccountEVM.receiverAddress;
     const amount = TestAccountEVM.amount;
     const transaction = await Helper.getEthereumTransacion(
-      eoaAddress,
+      smartAccountAddress,
       receiver,
       BigNumber(amount)
     );
 
     const transactions = [transaction, transaction];
+
+    const wholeFeeQuote = await particleAA.rpcGetFeeQuotes(
+      eoaAddress,
+      transactions
+    ) as WholeFeeQuote;
+
+    console.log('wholeFeeQuote', wholeFeeQuote);
+
+    const feeQuote = wholeFeeQuote.verifyingPaymasterNative['feeQuote'];
+    const fee = BigNumber(feeQuote['fee']);
+    const balance = BigNumber(feeQuote['balance']);
+
+    if (balance.isLessThan(fee)) {
+      console.log("native balance if not enough for gas fee");
+      return;
+    }
+
     const result = await particleConnect.batchSendTransactions(
       this.walletType,
       this.publicAddress,
       transactions,
-      AAFeeMode.auto()
+      AAFeeMode.native(wholeFeeQuote)
     );
     if (result.status) {
       const signature = result.data;
@@ -351,19 +449,18 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     { key: 'IsEnable', function: this.isEnable },
     { key: 'rpcGetFeeQuotes', function: this.rpcGetFeeQuotes },
     { key: 'isDeploy', function: this.isDeploy },
-    { key: 'isSupportChainInfo', function: this.isSupportChainInfo },
     { key: 'batchSendTransactions', function: this.batchSendTransactions },
     {
-      key: 'signAndSendTransactionWithAAAuto',
-      function: this.signAndSendTransactionWithAAAuto,
+      key: 'signAndSendTransactionWithNative',
+      function: this.signAndSendTransactionWithNative,
     },
     {
-      key: 'signAndSendTransactionWithAAGasless',
-      function: this.signAndSendTransactionWithAAGasless,
+      key: 'signAndSendTransactionWithGasless',
+      function: this.signAndSendTransactionWithGasless,
     },
     {
-      key: 'signAndSendTransactionWithAACustom',
-      function: this.signAndSendTransactionWithAACustom,
+      key: 'signAndSendTransactionWithToken',
+      function: this.signAndSendTransactionWithToken,
     },
   ];
 

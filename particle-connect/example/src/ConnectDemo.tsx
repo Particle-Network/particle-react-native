@@ -919,69 +919,6 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     }
   };
 
-  addEthereumChain = async () => {
-    const publicAddress = this.pnaccount.publicAddress;
-    if (publicAddress == undefined) {
-      console.log('publicAddress is underfined, you need connect');
-      return;
-    }
-
-    console.log(publicAddress);
-    const result = await particleConnect.addEthereumChain(
-      PNAccount.walletType,
-      publicAddress,
-      PolygonMumbai
-    );
-
-    if (result.status) {
-      const data = result.data as string;
-      console.log(data);
-      Toast.show({
-        type: 'success',
-        text1: data,
-      });
-    } else {
-      const error = result.data as CommonError;
-      console.log(error);
-      Toast.show({
-        type: 'error',
-        text1: error.message,
-      });
-    }
-  };
-
-  switchEthereumChain = async () => {
-    const publicAddress = this.pnaccount.publicAddress;
-
-    if (publicAddress == undefined) {
-      console.log('publicAddress is underfined, you need connect');
-      return;
-    }
-
-    const result = await particleConnect.switchEthereumChain(
-      PNAccount.walletType,
-      publicAddress,
-      PolygonMumbai
-    );
-
-    if (result.status) {
-      const data = result.data as string;
-      console.log(data);
-      Toast.show({
-        type: 'success',
-        text1: data,
-      });
-    } else {
-      const error = result.data as CommonError;
-      console.log(error);
-
-      Toast.show({
-        type: 'error',
-        text1: error.message,
-      });
-    }
-  };
-
   reconnectIfNeeded = async () => {
     const publicAddress = TestAccountEVM.publicAddress;
 
@@ -1046,8 +983,6 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     { key: 'ImportPrivateKey', function: this.importPrivateKey },
     { key: 'ImportMnemonic', function: this.importMnemonic },
     { key: 'ExportPrivateKey', function: this.exportPrivateKey },
-    { key: 'AddEthereumChain', function: this.addEthereumChain },
-    { key: 'SwitchEthereumChain', function: this.switchEthereumChain },
     { key: 'ReconnectIfNeeded', function: this.reconnectIfNeeded },
   ];
 

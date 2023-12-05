@@ -203,6 +203,16 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     });
   };
 
+  setShowSmartAccountSetting = async () => {
+    const isShow = false;
+    particleWallet.setShowSmartAccountSetting(isShow);
+
+    Toast.show({
+      type: 'success',
+      text1: 'Successfully set',
+    });
+  };
+
   setShowManageWallet = async () => {
     const isShow = false;
     particleWallet.setShowManageWallet(isShow);
@@ -372,6 +382,11 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     {
       key: 'SetPriorityTokenAddresses',
       function: this.setPriorityTokenAddresses,
+    },
+
+    {
+      key: 'SetShowSmartAccountSetting',
+      function: this.setShowSmartAccountSetting,
     },
     {
       key: 'SetPriorityNFTContractAddresses',

@@ -1,6 +1,6 @@
-import type { ChainInfo } from '@particle-network/chains';
+import { AccountName, VersionNumber } from '@particle-network/rn-auth';
 import { NativeModules, Platform } from 'react-native';
-import type { CommonError, CommonResp, FeeQuote } from './Models';
+import type { CommonError, CommonResp, WholeFeeQuote } from './Models';
 
 const LINKING_ERROR =
   `The package '@particle-network/rn-aa' doesn't seem to be linked. Make sure: \n\n` +
@@ -21,13 +21,19 @@ const ParticleAAPlugin = NativeModules.ParticleAAPlugin
 
 /**
  * Init particle AA service
- * @param dappAppKeys AA dapp keys
+ * @param name AccountName
+ * @param version VersionNumber
+ * @param biconomyAppKeys AA dapp keys
  */
 export function init(
-  dappAppKeys: { [key: number]: string }
+  name: AccountName,
+  version: VersionNumber,
+  biconomyAppKeys: { [key: number]: string }
 ) {
   const obj = {
-    dapp_app_keys: dappAppKeys,
+    biconomy_app_keys: biconomyAppKeys,
+    name: name,
+    version: version,
   };
   const json = JSON.stringify(obj);
 
@@ -36,26 +42,6 @@ export function init(
   } else {
     ParticleAAPlugin.init(json);
   }
-}
-
-/**
- * Is support chain info
- * @param chainInfo ChainInfo
- * @returns
- */
-export async function isSupportChainInfo(
-  chainInfo: ChainInfo
-): Promise<boolean> {
-  const obj = {
-    chain_id: chainInfo.id,
-    chain_name: chainInfo.name,
-  };
-  const json = JSON.stringify(obj);
-  return new Promise((resolve) => {
-    ParticleAAPlugin.isSupportChainInfo(json, (result: boolean) => {
-      resolve(result);
-    });
-  });
 }
 
 /**
@@ -109,13 +95,13 @@ export function disableAAMode() {
 export async function rpcGetFeeQuotes(
   eoaAddress: string,
   transactions: string[]
-): Promise<FeeQuote[] | CommonError> {
+): Promise<WholeFeeQuote | CommonError> {
   const obj = {
     eoa_address: eoaAddress,
     transactions: transactions,
   };
   const json = JSON.stringify(obj);
-  const result: CommonResp<FeeQuote[]> = await new Promise((resolve) => {
+  const result: CommonResp<WholeFeeQuote> = await new Promise((resolve) => {
     ParticleAAPlugin.rpcGetFeeQuotes(json, (result: string) => {
       resolve(JSON.parse(result));
     });

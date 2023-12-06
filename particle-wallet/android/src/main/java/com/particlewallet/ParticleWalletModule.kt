@@ -40,17 +40,8 @@ import com.particle.gui.ParticleWallet.displayTokenAddresses
 import com.particle.gui.ParticleWallet.setPayDisabled
 import com.particle.gui.ParticleWallet.setSupportWalletConnect
 import com.particle.gui.ParticleWallet.setSwapDisabled
-import com.particle.gui.ui.setting.manage_wallet.dialog.WalletConnectQRFragment
 import com.particle.gui.ui.swap.SwapConfig
-import com.particlewallet.model.ReactCallBack
-import com.wallet.connect.adapter.WalletConnectAdapter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import network.particle.chains.ChainInfo
-import network.particle.flutter.bridge.module.BridgeGUI
 
 class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {

@@ -45,8 +45,6 @@ import particle.auth.adapter.ParticleConnectConfig
 
 class PNLoginOptActivity : AppCompatActivity() {
   companion object {
-
-
     fun newIntent(activity: Activity, walletConnect: Boolean): Intent {
       return Intent(activity, PNLoginOptActivity::class.java).apply {
         putExtra("walletConnect", walletConnect)
@@ -65,11 +63,11 @@ class PNLoginOptActivity : AppCompatActivity() {
     findViewById<RelativeLayout>(R.id.rlMain).setOnClickListener {
       finish()
     }
-    if(walletConnect){
-      ParticleConnect.getAdapters().firstOrNull{it is WalletConnectAdapter}?.let {
+    if (walletConnect) {
+      ParticleConnect.getAdapters().firstOrNull { it is WalletConnectAdapter }?.let {
         walletConnect(it as WalletConnectAdapter)
+        return
       }
-      return
     }
     loginFragment = LoginOptFragment.show(supportFragmentManager, true)
     loginFragment?.setCallBack(object : LoginTypeCallBack {
@@ -104,7 +102,9 @@ class PNLoginOptActivity : AppCompatActivity() {
             }
 
             override fun onError(error: ConnectError) {
-              ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
+              ParticleWalletPlugin.loginOptCallback?.invoke(
+                ReactCallBack.failed(error.message).toGson()
+              )
             }
           })
         }
@@ -168,35 +168,50 @@ class PNLoginOptActivity : AppCompatActivity() {
 //    })
   }
 
-  var qrFragment: WalletConnectQRFragment? = null
+  var qrFragment: RNWalletConnectQRFragment? = null
   var job: Job? = null
   private fun walletConnect(adapter: WalletConnectAdapter) {
     adapter.connect(null, object : ConnectCallback {
       override fun onConnected(account: Account) {
         qrFragment?.dismissAllowingStateLoss()
         lifecycleScope.launch {
-          val wallet =
-            WalletUtils.createSelectedWallet(account.publicAddress, adapter)
-          WalletUtils.setWalletChain(wallet)
-          val map = mutableMapOf<String, Any>()
-          map["account"] = account
-          map["walletType"] = "WalletConnect"
-          ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
-          loginFragment?.dismissAllowingStateLoss()
+          try {
+            val wallet =
+              WalletUtils.createSelectedWallet(account.publicAddress, adapter)
+            WalletUtils.setWalletChain(wallet)
+            val map = mutableMapOf<String, Any>()
+            map["account"] = account
+            map["walletType"] = "WalletConnect"
+            ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
+            loginFragment?.dismissAllowingStateLoss()
+            finish()
+          }catch (_:Exception){
+
+          }
+
         }
       }
 
       override fun onError(error: ConnectError) {
-        LogUtils.d("MetaMask error: $error")
-        qrFragment?.dismissAllowingStateLoss()
-        ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
+        try {
+          LogUtils.d("MetaMask error: $error")
+          qrFragment?.dismissAllowingStateLoss()
+          ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
+          finish()
+        }catch (_:Exception){
+
+        }
+
       }
     })
     job = adapter.qrUriModel.onEach {
+
       if (!TextUtils.isEmpty(it)) job?.cancel()
       val qrUrl = adapter.qrCodeUri()
-      qrFragment = WalletConnectQRFragment.show(supportFragmentManager, qrUrl!!)
-
+      try {
+        qrFragment = RNWalletConnectQRFragment.show(supportFragmentManager, qrUrl!!)
+      }catch (_:Exception){
+      }
     }.launchIn(CoroutineScope(Dispatchers.Main))
   }
 

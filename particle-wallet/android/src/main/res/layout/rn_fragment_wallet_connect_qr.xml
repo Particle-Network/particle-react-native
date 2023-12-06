@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="imageURI"
+            type="String" />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/flWalletInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pn_bg_bottom_sheet_dialog"
+        tools:theme="@style/PnThemeWallet">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/pn_slide_bottom_view_margin_top"
+            android:orientation="vertical"
+            android:paddingHorizontal="18dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="40dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/pn_wallet_connect"
+                    android:textColor="@color/pn_black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:text="@string/pn_wallet_connect_tips"
+                android:textColor="@color/pn_black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/ivQr"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginVertical="18dp"
+                android:src="@drawable/pn_ic_qr" />
+
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/pnSlide"
+            android:layout_width="@dimen/pn_slide_width"
+            android:layout_height="@dimen/pn_slide_height"
+            android:layout_gravity="center_horizontal" />
+
+
+    </FrameLayout>
+</layout>

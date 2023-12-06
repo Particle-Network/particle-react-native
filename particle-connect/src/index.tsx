@@ -501,6 +501,14 @@ export function connectWalletConnect(): Promise<CommonResp<AccountInfo>> {
       });
     });
   }
+
+  return Promise.resolve({
+    status: 0,
+    data: {
+      code: 400,
+      message: 'Only supports Android platform',
+    },
+  });
 }
 
 export * from './Models';

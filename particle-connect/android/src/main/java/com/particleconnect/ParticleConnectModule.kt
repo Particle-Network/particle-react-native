@@ -41,6 +41,8 @@ import com.solana.adapter.SolanaConnectAdapter
 import com.wallet.connect.adapter.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import network.particle.chains.ChainInfo
@@ -74,6 +76,7 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
     ) { initAdapter(rpcUrl) }
   }
 
+  var job: Job? = null
   @ReactMethod
   fun connectWalletConnect(callback: Callback) {
     val connectAdapter = ParticleConnect.getAdapters()
@@ -81,23 +84,28 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
     connectAdapter.connect<ConnectConfig>(null, object : ConnectCallback {
       override fun onConnected(account: Account) {
         LogUtils.d("onConnected", account.toString())
-        callback.invoke(ReactCallBack.success(account).toGson())
+        try {
+          callback.invoke(ReactCallBack.success(account).toGson())
+        } catch (_: Exception) {
+        }
       }
 
       override fun onError(connectError: ConnectError) {
         LogUtils.d("onError", connectError.toString())
-        callback.invoke(ReactCallBack.failed(ReactErrorMessage.parseConnectError(connectError)).toGson())
+        callback.invoke(
+          ReactCallBack.failed(ReactErrorMessage.parseConnectError(connectError)).toGson()
+        )
       }
     })
-    LogUtils.d("qrCodeUri", connectAdapter.qrCodeUri())
 
-    connectAdapter.qrUriModel.onEach {
+    job = connectAdapter.qrUriModel.onEach {
+      if (!TextUtils.isEmpty(it)) job?.cancel()
       reactContext
         .getJSModule(
           DeviceEventManagerModule.RCTDeviceEventEmitter::class.java
         )
         .emit("qrCodeUri", it)
-    }
+    }.launchIn(CoroutineScope(Dispatchers.Main))
   }
 
   @ReactMethod
@@ -133,13 +141,13 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
 
         override fun failure() {
           LogUtils.d("Connect setChainNameAsync failed");
-          callback.invoke(ReactCallBack.failed(ErrorInfo("failed",100000)).toGson())
+          callback.invoke(ReactCallBack.failed(ErrorInfo("failed", 100000)).toGson())
         }
       })
 
     } catch (e: Exception) {
       LogUtils.e("setChainName", e.message)
-      callback.invoke(ReactCallBack.failed(ErrorInfo("failed",100000)).toGson())
+      callback.invoke(ReactCallBack.failed(ErrorInfo("failed", 100000)).toGson())
     }
   }
 
@@ -731,6 +739,7 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
     }
     return adapters;
   }
+
   @ReactMethod
   fun batchSendTransactions(transactions: String, result: Callback) {
     LogUtils.d("batchSendTransactions", transactions)
@@ -751,21 +760,23 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
     var feeMode: FeeMode = FeeModeNative()
     if (transParams.feeMode != null) {
       when (transParams.feeMode.option) {
-          "token" -> {
-            val tokenPaymasterAddress = transParams.feeMode.tokenPaymasterAddress
-            val feeQuote = transParams.feeMode.feeQuote!!
-            feeMode = FeeModeToken(feeQuote, tokenPaymasterAddress!!)
-          }
-          "gasless" -> {
-            val verifyingPaymasterGasless =
-              transParams.feeMode.wholeFeeQuote.verifyingPaymasterGasless
-            feeMode = FeeModeGasless(verifyingPaymasterGasless)
-          }
-          "native" -> {
-            val verifyingPaymasterNative =
-              transParams.feeMode.wholeFeeQuote.verifyingPaymasterNative
-            feeMode = FeeModeNative(verifyingPaymasterNative)
-          }
+        "token" -> {
+          val tokenPaymasterAddress = transParams.feeMode.tokenPaymasterAddress
+          val feeQuote = transParams.feeMode.feeQuote!!
+          feeMode = FeeModeToken(feeQuote, tokenPaymasterAddress!!)
+        }
+
+        "gasless" -> {
+          val verifyingPaymasterGasless =
+            transParams.feeMode.wholeFeeQuote.verifyingPaymasterGasless
+          feeMode = FeeModeGasless(verifyingPaymasterGasless)
+        }
+
+        "native" -> {
+          val verifyingPaymasterNative =
+            transParams.feeMode.wholeFeeQuote.verifyingPaymasterNative
+          feeMode = FeeModeNative(verifyingPaymasterNative)
+        }
       }
     }
     CoroutineScope(Dispatchers.IO).launch {
@@ -817,7 +828,7 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
             })
       } catch (e: Exception) {
         e.printStackTrace()
-        result.invoke((ReactCallBack.failed(ErrorInfo("failed",100000))).toGson())
+        result.invoke((ReactCallBack.failed(ErrorInfo("failed", 100000))).toGson())
       }
     }
   }

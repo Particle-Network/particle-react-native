@@ -1,9 +1,14 @@
 package com.particlewallet
 
 import android.content.Intent
+import android.text.TextUtils
 import android.util.Log
+import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
+import com.connect.common.ConnectCallback
+import com.connect.common.model.Account
+import com.connect.common.model.ConnectError
 import com.facebook.react.bridge.Callback
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -29,13 +34,23 @@ import org.json.JSONObject
 import java.math.BigInteger
 import com.particle.api.service.DBService
 import com.particle.base.LanguageEnum
+import com.particle.connect.ParticleConnect
 import com.particle.gui.ParticleWallet.displayNFTContractAddresses
 import com.particle.gui.ParticleWallet.displayTokenAddresses
 import com.particle.gui.ParticleWallet.setPayDisabled
 import com.particle.gui.ParticleWallet.setSupportWalletConnect
 import com.particle.gui.ParticleWallet.setSwapDisabled
+import com.particle.gui.ui.setting.manage_wallet.dialog.WalletConnectQRFragment
 import com.particle.gui.ui.swap.SwapConfig
+import com.particlewallet.model.ReactCallBack
+import com.wallet.connect.adapter.WalletConnectAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import network.particle.chains.ChainInfo
+import network.particle.flutter.bridge.module.BridgeGUI
 
 class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
@@ -237,6 +252,17 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
     )
   }
 
+  @ReactMethod
+  fun navigatorWalletConnect(callback: Callback) {
+    loginOptCallback = callback
+    currentActivity?.startActivity(
+      PNLoginOptActivity.newIntent(
+        currentActivity!!,
+        true
+      )
+    )
+  }
+
   /**
    * GUI
    */
@@ -346,11 +372,12 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun setPriorityTokenAddresses(addresses: String) {
-  // todo
+    // todo
   }
+
   @ReactMethod
   fun setPriorityNFTContractAddresses(addresses: String) {
-  // todo
+    // todo
   }
 
 

@@ -3,6 +3,7 @@ package com.particlewallet.ui;
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.widget.RelativeLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,6 +14,7 @@ import com.connect.common.ConnectCallback
 import com.connect.common.model.Account
 import com.connect.common.model.ConnectError
 import com.evm.adapter.EVMConnectAdapter
+import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.particle.api.infrastructure.db.table.WalletInfo
 import com.particle.base.ParticleNetwork
 import com.particle.base.model.ChainType
@@ -32,19 +34,42 @@ import com.particlewallet.model.ReactCallBack
 import com.phantom.adapter.PhantomConnectAdapter
 import com.solana.adapter.SolanaConnectAdapter
 import com.wallet.connect.adapter.WalletConnectAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import network.particle.flutter.bridge.module.BridgeGUI
 import particle.auth.adapter.ParticleConnectConfig
 
 class PNLoginOptActivity : AppCompatActivity() {
+  companion object {
+
+
+    fun newIntent(activity: Activity, walletConnect: Boolean): Intent {
+      return Intent(activity, PNLoginOptActivity::class.java).apply {
+        putExtra("walletConnect", walletConnect)
+      }
+    }
+  }
+
   lateinit var launcherResult: ActivityResultLauncher<Intent>
   var loginFragment: LoginOptFragment? = null
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    val walletConnect = intent.getBooleanExtra("walletConnect", false)
     setContentView(R.layout.activity_rn_login_opt)
     setObserver()
     findViewById<RelativeLayout>(R.id.rlMain).setOnClickListener {
       finish()
+    }
+    if(walletConnect){
+      ParticleConnect.getAdapters().firstOrNull{it is WalletConnectAdapter}?.let {
+        walletConnect(it as WalletConnectAdapter)
+      }
+      return
     }
     loginFragment = LoginOptFragment.show(supportFragmentManager, true)
     loginFragment?.setCallBack(object : LoginTypeCallBack {
@@ -144,7 +169,8 @@ class PNLoginOptActivity : AppCompatActivity() {
   }
 
   var qrFragment: WalletConnectQRFragment? = null
-  private fun walletConnect(adapter:WalletConnectAdapter) {
+  var job: Job? = null
+  private fun walletConnect(adapter: WalletConnectAdapter) {
     adapter.connect(null, object : ConnectCallback {
       override fun onConnected(account: Account) {
         qrFragment?.dismissAllowingStateLoss()
@@ -166,9 +192,14 @@ class PNLoginOptActivity : AppCompatActivity() {
         BridgeGUI.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
       }
     })
-    val qrUrl = adapter.qrCodeUri()
-    qrFragment = WalletConnectQRFragment.show(supportFragmentManager, qrUrl!!)
+    job = adapter.qrUriModel.onEach {
+      if (!TextUtils.isEmpty(it)) job?.cancel()
+      val qrUrl = adapter.qrCodeUri()
+      qrFragment = WalletConnectQRFragment.show(supportFragmentManager, qrUrl!!)
+
+    }.launchIn(CoroutineScope(Dispatchers.Main))
   }
+
   private fun connectPhantom() {
     val adapter =
       ParticleConnect.getAdapters(ChainType.Solana).first { it.name == "Phantom" }

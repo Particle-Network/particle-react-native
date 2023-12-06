@@ -185,7 +185,10 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     const result = await particleWallet.navigatorLoginList();
     console.log('navigatorLoginList', result);
   };
-
+  navigatorWalletConnect = async () => {
+    const result = await particleWallet.navigatorWalletConnect();
+    console.log('navigatorWalletConnect', result);
+  };
   navigatorSwap = async () => {
     const fromTokenAddress = '';
     const toTokenAddress = '';
@@ -362,6 +365,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     { key: 'NavigatorNFTDetails', function: this.navigatorNFTDetails },
     { key: 'NavigatorBuyCrypto', function: this.navigatorBuyCrypto },
     { key: 'NavigatorLoginList', function: this.navigatorLoginList },
+    { key: 'NavigatorWalletConnect', function: this.navigatorWalletConnect },
     { key: 'NavigatorSwap', function: this.navigatorSwap },
     { key: 'SetShowTestNetwork', function: this.setShowTestNetwork },
     { key: 'SetShowManageWallet', function: this.setShowManageWallet },

@@ -159,6 +159,18 @@ export function navigatorLoginList(): Promise<any> {
     });
   });
 }
+export function navigatorWalletConnect(): Promise<any> {
+  if (Platform.OS === 'android') {
+    return new Promise((resolve) => {
+      ParticleWalletPlugin.navigatorWalletConnect((result: string) => {
+        console.log('navigatorLoginList', JSON.parse(result));
+        resolve(JSON.parse(result));
+      });
+    });
+  }
+
+  return Promise.resolve(null);
+}
 
 /**
  * Navigatro Swap page

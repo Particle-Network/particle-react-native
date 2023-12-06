@@ -3,6 +3,7 @@ package com.particlewallet.ui;
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.widget.RelativeLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,6 +14,7 @@ import com.connect.common.ConnectCallback
 import com.connect.common.model.Account
 import com.connect.common.model.ConnectError
 import com.evm.adapter.EVMConnectAdapter
+import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.particle.api.infrastructure.db.table.WalletInfo
 import com.particle.base.ParticleNetwork
 import com.particle.base.model.ChainType
@@ -27,24 +29,47 @@ import com.particle.gui.ui.setting.manage_wallet.private_login.PrivateKeyLoginAc
 import com.particle.gui.utils.Constants
 import com.particle.gui.utils.WalletUtils
 import com.particle.network.ParticleNetworkAuth.getAddress
+import com.particlewallet.ParticleWalletPlugin
 import com.particlewallet.R
 import com.particlewallet.model.ReactCallBack
 import com.phantom.adapter.PhantomConnectAdapter
 import com.solana.adapter.SolanaConnectAdapter
 import com.wallet.connect.adapter.WalletConnectAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import network.particle.flutter.bridge.module.BridgeGUI
 import particle.auth.adapter.ParticleConnectConfig
 
 class PNLoginOptActivity : AppCompatActivity() {
+  companion object {
+
+
+    fun newIntent(activity: Activity, walletConnect: Boolean): Intent {
+      return Intent(activity, PNLoginOptActivity::class.java).apply {
+        putExtra("walletConnect", walletConnect)
+      }
+    }
+  }
+
   lateinit var launcherResult: ActivityResultLauncher<Intent>
   var loginFragment: LoginOptFragment? = null
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    val walletConnect = intent.getBooleanExtra("walletConnect", false)
     setContentView(R.layout.activity_rn_login_opt)
     setObserver()
     findViewById<RelativeLayout>(R.id.rlMain).setOnClickListener {
       finish()
+    }
+    if(walletConnect){
+      ParticleConnect.getAdapters().firstOrNull{it is WalletConnectAdapter}?.let {
+        walletConnect(it as WalletConnectAdapter)
+      }
+      return
     }
     loginFragment = LoginOptFragment.show(supportFragmentManager, true)
     loginFragment?.setCallBack(object : LoginTypeCallBack {
@@ -73,13 +98,13 @@ class PNLoginOptActivity : AppCompatActivity() {
                 val map = mutableMapOf<String, Any>()
                 map["account"] = account
                 map["walletType"] = adapter.name
-                BridgeGUI.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
+                ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
                 loginFragment?.dismissAllowingStateLoss()
               }
             }
 
             override fun onError(error: ConnectError) {
-              BridgeGUI.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
+              ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
             }
           })
         }
@@ -109,13 +134,13 @@ class PNLoginOptActivity : AppCompatActivity() {
           val map = mutableMapOf<String, Any>()
           map["account"] = account
           map["walletType"] = "Particle"
-          BridgeGUI.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
+          ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
           loginFragment?.dismissAllowingStateLoss()
         }
       }
 
       override fun onError(error: ConnectError) {
-        BridgeGUI.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
+        ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
 
       }
     })
@@ -132,19 +157,20 @@ class PNLoginOptActivity : AppCompatActivity() {
 //          val map = mutableMapOf<String, Any>()
 //          map["account"] = account
 //          map["walletType"] = mobileWallet.name
-//          BridgeGUI.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
+//          ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
 //          loginFragment?.hide()
 //        }
 //      }
 //
 //      override fun onError(error: ConnectError) {
-//        BridgeGUI.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
+//        ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
 //      }
 //    })
   }
 
   var qrFragment: WalletConnectQRFragment? = null
-  private fun walletConnect(adapter:WalletConnectAdapter) {
+  var job: Job? = null
+  private fun walletConnect(adapter: WalletConnectAdapter) {
     adapter.connect(null, object : ConnectCallback {
       override fun onConnected(account: Account) {
         qrFragment?.dismissAllowingStateLoss()
@@ -155,7 +181,7 @@ class PNLoginOptActivity : AppCompatActivity() {
           val map = mutableMapOf<String, Any>()
           map["account"] = account
           map["walletType"] = "WalletConnect"
-          BridgeGUI.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
+          ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
           loginFragment?.dismissAllowingStateLoss()
         }
       }
@@ -163,12 +189,17 @@ class PNLoginOptActivity : AppCompatActivity() {
       override fun onError(error: ConnectError) {
         LogUtils.d("MetaMask error: $error")
         qrFragment?.dismissAllowingStateLoss()
-        BridgeGUI.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
+        ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
       }
     })
-    val qrUrl = adapter.qrCodeUri()
-    qrFragment = WalletConnectQRFragment.show(supportFragmentManager, qrUrl!!)
+    job = adapter.qrUriModel.onEach {
+      if (!TextUtils.isEmpty(it)) job?.cancel()
+      val qrUrl = adapter.qrCodeUri()
+      qrFragment = WalletConnectQRFragment.show(supportFragmentManager, qrUrl!!)
+
+    }.launchIn(CoroutineScope(Dispatchers.Main))
   }
+
   private fun connectPhantom() {
     val adapter =
       ParticleConnect.getAdapters(ChainType.Solana).first { it.name == "Phantom" }
@@ -180,13 +211,13 @@ class PNLoginOptActivity : AppCompatActivity() {
           val map = mutableMapOf<String, Any>()
           map["account"] = account
           map["walletType"] = "Phantom"
-          BridgeGUI.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
+          ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
           loginFragment?.hide()
         }
       }
 
       override fun onError(error: ConnectError) {
-        BridgeGUI.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
+        ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
       }
     })
   }
@@ -200,13 +231,13 @@ class PNLoginOptActivity : AppCompatActivity() {
           val map = mutableMapOf<String, Any>()
           map["account"] = account
           map["walletType"] = "Phantom"
-          BridgeGUI.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
+          ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
           loginFragment?.hide()
         }
       }
 
       override fun onError(error: ConnectError) {
-        BridgeGUI.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
+        ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.failed(error.message).toGson())
       }
     })
   }
@@ -227,10 +258,10 @@ class PNLoginOptActivity : AppCompatActivity() {
               map["account"] = Account(wallet.address, wallet.name)
               map["walletType"] = "SolanaPrivateKey"
             }
-            BridgeGUI.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
+            ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.success(map).toGson())
           } catch (e: Exception) {
             e.printStackTrace()
-            BridgeGUI.loginOptCallback?.invoke(ReactCallBack.failed("Failed").toGson())
+            ParticleWalletPlugin.loginOptCallback?.invoke(ReactCallBack.failed("Failed").toGson())
           }
         }
       }

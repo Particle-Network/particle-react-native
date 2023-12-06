@@ -36,10 +36,12 @@ import com.particleconnect.utils.ChainUtils
 import com.particleconnect.utils.EncodeUtils
 import com.particleconnect.utils.MessageProcess
 import com.phantom.adapter.PhantomConnectAdapter
+import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.solana.adapter.SolanaConnectAdapter
 import com.wallet.connect.adapter.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import network.particle.chains.ChainInfo
 import org.json.JSONException
@@ -47,7 +49,7 @@ import org.json.JSONObject
 import particle.auth.adapter.ParticleConnectAdapter
 import particle.auth.adapter.ParticleConnectConfig
 
-class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
+class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
 
   /**
@@ -73,11 +75,38 @@ class ParticleConnectPlugin(reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
+  fun connectWalletConnect(callback: Callback) {
+    val connectAdapter = ParticleConnect.getAdapters()
+      .first { it is WalletConnectAdapter } as WalletConnectAdapter
+    connectAdapter.connect<ConnectConfig>(null, object : ConnectCallback {
+      override fun onConnected(account: Account) {
+        LogUtils.d("onConnected", account.toString())
+        callback.invoke(ReactCallBack.success(account).toGson())
+      }
+
+      override fun onError(connectError: ConnectError) {
+        LogUtils.d("onError", connectError.toString())
+        callback.invoke(ReactCallBack.failed(ReactErrorMessage.parseConnectError(connectError)).toGson())
+      }
+    })
+    LogUtils.d("qrCodeUri", connectAdapter.qrCodeUri())
+
+    connectAdapter.qrUriModel.onEach {
+      reactContext
+        .getJSModule(
+          DeviceEventManagerModule.RCTDeviceEventEmitter::class.java
+        )
+        .emit("qrCodeUri", it)
+    }
+  }
+
+  @ReactMethod
   fun setChainInfo(chainParams: String, callback: Callback) {
     LogUtils.d("setChainInfo", chainParams)
     val chainData: ChainData = GsonUtils.fromJson(
       chainParams, ChainData::class.java
     )
+
     try {
       val chainInfo = ChainUtils.getChainInfo(chainData.chainId)
       setChain(chainInfo)

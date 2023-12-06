@@ -26,6 +26,7 @@ import React, { PureComponent } from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  NativeEventEmitter,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -44,6 +45,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   loginSignature = '';
   state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
   pnaccount = new PNAccount([], '', '', '');
+  emitter = new NativeEventEmitter(particleConnect.ParticleConnectEvent);
 
   // Start with new web3, at this time, you don't connect with this walletType, and don't know any publicAddress
   newWeb3!: Web3;
@@ -941,6 +943,18 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     }
   };
 
+  connectWalletConnect = async () => {
+    const result = await particleConnect.connectWalletConnect();
+
+    if (result.status) {
+      const data = result.data;
+      console.log(data);
+    } else {
+      const error = result.data;
+      console.log(error);
+    }
+  };
+
   data = [
     { key: 'Select Chain Page', function: null },
     { key: 'Select Wallet Type Page', function: null },
@@ -984,6 +998,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     { key: 'ImportMnemonic', function: this.importMnemonic },
     { key: 'ExportPrivateKey', function: this.exportPrivateKey },
     { key: 'ReconnectIfNeeded', function: this.reconnectIfNeeded },
+    { key: 'ConnectWalletConnect', function: this.connectWalletConnect },
   ];
 
   componentDidMount(): void {
@@ -996,6 +1011,14 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
         await particleAuth.setChainInfo(chainInfo);
       }
     });
+
+    this.emitter.addListener('qrCodeUri', (message) => {
+      console.log('qrCodeUri', message);
+    });
+  }
+
+  componentWillUnmount(): void {
+    this.emitter.removeAllListeners('qrCodeUri');
   }
 
   render = () => {

@@ -33,7 +33,16 @@ const ParticleConnectPlugin = NativeModules.ParticleConnectPlugin
         },
       }
     );
-
+export const ParticleConnectEvent = NativeModules.ParticleConnectEvent
+  ? NativeModules.ParticleConnectEvent
+  : new Proxy(
+      {},
+      {
+        get() {
+          // throw new Error(LINKING_ERROR);
+        },
+      }
+    );
 /**
  * Init Particle Connect Service
  * @param chainInfo ChainInfo
@@ -480,6 +489,17 @@ export function reconnectIfNeeded(
     });
   } else {
     return Promise.resolve();
+  }
+}
+
+export function connectWalletConnect(): Promise<CommonResp<AccountInfo>> {
+  if (Platform.OS === 'android') {
+    return new Promise((resolve) => {
+      ParticleConnectPlugin.connectWalletConnect((result: string) => {
+        console.log('result', result);
+        resolve(JSON.parse(result));
+      });
+    });
   }
 }
 

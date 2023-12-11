@@ -1,4 +1,16 @@
 #import <React/RCTBridgeModule.h>
+#import <React/RCTEventEmitter.h>
+
+@interface RCT_EXTERN_MODULE(ParticleConnectEvent, RCTEventEmitter)
+
+RCT_EXTERN_METHOD(supportedEvents)
+
+- (dispatch_queue_t)methodQueue {
+  return dispatch_get_main_queue();
+}
+
+
+@end
 
 @interface RCT_EXTERN_MODULE(ParticleConnectPlugin, NSObject)
 
@@ -38,6 +50,8 @@ RCT_EXTERN_METHOD(exportPrivateKey:(NSString* _Nonnull)json callback:(RCTRespons
 RCT_EXTERN_METHOD(reconnectIfNeeded:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(setWalletConnectV2SupportChainInfos:(NSString* _Nonnull)json)
+
+RCT_EXTERN_METHOD(connectWalletConnect:(RCTResponseSenderBlock)callback)
 
 - (dispatch_queue_t)methodQueue {
   return dispatch_get_main_queue();

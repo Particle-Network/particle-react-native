@@ -39,11 +39,12 @@ import * as Helper from './Helper';
 import { PNAccount } from './Models/PNAccount';
 import { TestAccountEVM } from './TestAccount';
 import { createWeb3, restoreWeb3 } from './web3Demo';
+import QRCode from 'react-native-qrcode-svg';
 
 export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   loginSourceMessage = '';
   loginSignature = '';
-  state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
+  state = { currentLoadingBtn: '', currentOptions: [], currentKey: '', qrCodeUri: '' };
   pnaccount = new PNAccount([], '', '', '');
   emitter = new NativeEventEmitter(particleConnect.ParticleConnectEvent);
 
@@ -424,6 +425,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     const result = await particleConnect.connect(PNAccount.walletType);
     if (result.status) {
       console.log('connect success');
+      console.log('result.data', result.data);
       const account = result.data as AccountInfo;
       this.pnaccount = new PNAccount(
         account.icons,
@@ -1013,7 +1015,12 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     });
 
     this.emitter.addListener('qrCodeUri', (message) => {
-      console.log('qrCodeUri', message);
+      const qrCodeUri = (message as string[])[0];
+      console.log('qrCodeUri', qrCodeUri);
+      this.setState
+        ({
+          qrCodeUri: qrCodeUri,
+        });
     });
   }
 
@@ -1057,6 +1064,14 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
             </TouchableOpacity>
           )}
         />
+
+        {this.state.qrCodeUri !== '' && (
+          <QRCode
+            value={this.state.qrCodeUri}
+          // 其他 QRCode 组件的属性
+          />
+        )}
+
       </SafeAreaView>
     );
   };

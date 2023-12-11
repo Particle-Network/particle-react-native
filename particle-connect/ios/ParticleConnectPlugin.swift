@@ -41,6 +41,7 @@ typealias ParticleCallBack = RCTResponseSenderBlock
 class ParticleConnectPlugin: NSObject {
     let bag = DisposeBag()
     
+    var walletConnectAdapter: WalletConnectAdapter?
     var latestPublicAddress: String?
     var latestWalletType: WalletType?
     
@@ -800,6 +801,33 @@ class ParticleConnectPlugin: NSObject {
         
         ParticleConnect.setWalletConnectV2SupportChainInfos(chainInfos)
     }
+    
+    @objc
+    func connectWalletConnect(_ callback: @escaping RCTResponseSenderBlock) {
+        guard let adapter = map2ConnectAdapter(from: .walletConnect) else {
+            print("adapter for walletConnect is not init")
+            return
+        }
+        
+        walletConnectAdapter = adapter as? WalletConnectAdapter
+        Task {
+            do {
+                let (uri, observable) = try await self.walletConnectAdapter!.getConnectionUrl()
+                
+                subscribeAndCallback(observable: observable, callback: callback)
+                
+                // post message to RN
+                ParticleConnectEvent.emitter.sendEvent(withName: "qrCodeUri", body: [uri])
+            } catch {
+                print("error \(error)")
+                let response = self.ResponseFromError(error)
+                let statusModel = ReactStatusModel(status: false, data: response)
+                let data = try! JSONEncoder().encode(statusModel)
+                guard let json = String(data: data, encoding: .utf8) else { return }
+                callback([json])
+            }
+        }
+    }
 }
 
 public extension Dictionary {
@@ -850,5 +878,45 @@ extension ParticleConnectPlugin: MessageSigner {
     
     public func getEoaAddress() -> String {
         return latestPublicAddress ?? ""
+    }
+}
+
+
+@objc(ParticleConnectEvent)
+class ParticleConnectEvent: RCTEventEmitter {
+    public static var emitter: RCTEventEmitter!
+
+    var hasListeners: Bool = false
+    
+    @objc
+    override static func requiresMainQueueSetup() -> Bool {
+        return true
+    }
+    
+    override init() {
+        super.init()
+        ParticleConnectEvent.emitter = self
+    }
+
+    override open func supportedEvents() -> [String] {
+        ["qrCodeUri"]
+    }
+    
+    override func startObserving() {
+        hasListeners = true
+        print("startObserving")
+    }
+    
+    override func stopObserving() {
+        hasListeners = false
+        print("stopObserving")
+    }
+    
+    override func addListener(_ eventName: String!) {
+        super.addListener(eventName)
+    }
+    
+    override func removeListeners(_ count: Double) {
+        super.removeListeners(count)
     }
 }

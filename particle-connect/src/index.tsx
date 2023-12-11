@@ -26,23 +26,23 @@ const LINKING_ERROR =
 const ParticleConnectPlugin = NativeModules.ParticleConnectPlugin
   ? NativeModules.ParticleConnectPlugin
   : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    {},
+    {
+      get() {
+        throw new Error(LINKING_ERROR);
+      },
+    }
+  );
 export const ParticleConnectEvent = NativeModules.ParticleConnectEvent
   ? NativeModules.ParticleConnectEvent
   : new Proxy(
-      {},
-      {
-        get() {
-          // throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    {},
+    {
+      get() {
+        // throw new Error(LINKING_ERROR);
+      },
+    }
+  );
 /**
  * Init Particle Connect Service
  * @param chainInfo ChainInfo
@@ -493,21 +493,11 @@ export function reconnectIfNeeded(
 }
 
 export function connectWalletConnect(): Promise<CommonResp<AccountInfo>> {
-  if (Platform.OS === 'android') {
-    return new Promise((resolve) => {
-      ParticleConnectPlugin.connectWalletConnect((result: string) => {
-        console.log('result', result);
-        resolve(JSON.parse(result));
-      });
+  return new Promise((resolve) => {
+    ParticleConnectPlugin.connectWalletConnect((result: string) => {
+      console.log('result', result);
+      resolve(JSON.parse(result));
     });
-  }
-
-  return Promise.resolve({
-    status: 0,
-    data: {
-      code: 400,
-      message: 'Only supports Android platform',
-    },
   });
 }
 

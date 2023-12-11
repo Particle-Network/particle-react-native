@@ -1012,6 +1012,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
                     name: 'Ethereum',
                 },
             ],
+            evmSupportWalletConnect: false
         };
         const webConfigJSON = JSON.stringify(webConfig);
         particleAuth.openWebWallet(webConfigJSON);

@@ -28,6 +28,7 @@ export default class SelectWalletTypePage extends PureComponent<SelectWalletType
       { key: 'Imtoken', value: WalletType.ImToken },
       { key: 'EvmPrivateKey', value: WalletType.EvmPrivateKey },
       { key: 'SoalnaPrivateKey', value: WalletType.SolanaPrivateKey },
+      { key: 'WalletConnect', value: WalletType.WalletConnect },
       // available walletType is defined in WalletType.ts
       // you can edit, add other wallet type to test
     ];

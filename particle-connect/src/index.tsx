@@ -473,7 +473,6 @@ export function exportPrivateKey(
  * @param publicAddress Public address
  * @returns Result
  */
-
 export function reconnectIfNeeded(
   walletType: WalletType,
   publicAddress: string
@@ -492,6 +491,11 @@ export function reconnectIfNeeded(
   }
 }
 
+/**
+ * Connect get a wallet connect qrcode uri, should use with NativeEventEmitter, event name 'qrCodeUri', 
+ * you can explore example for more details.
+ * @returns Account
+ */
 export function connectWalletConnect(): Promise<CommonResp<AccountInfo>> {
   return new Promise((resolve) => {
     ParticleConnectPlugin.connectWalletConnect((result: string) => {

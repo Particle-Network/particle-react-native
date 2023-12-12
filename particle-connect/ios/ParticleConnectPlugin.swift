@@ -817,7 +817,7 @@ class ParticleConnectPlugin: NSObject {
                 subscribeAndCallback(observable: observable, callback: callback)
                 
                 // post message to RN
-                ParticleConnectEvent.emitter.sendEvent(withName: "qrCodeUri", body: [uri])
+                ParticleConnectEvent.emitter.sendEvent(withName: "qrCodeUri", body: uri)
             } catch {
                 print("error \(error)")
                 let response = self.ResponseFromError(error)

@@ -1,6 +1,6 @@
 {
   "name": "@particle-network/rn-auth-core",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "@particle-network/rn-auth-core",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -86,7 +86,6 @@
   "engines": {
     "node": ">= 16.0.0"
   },
-  "packageManager": "^yarn@1.22.15",
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
@@ -147,7 +146,7 @@
     "useTabs": false
   },
   "dependencies": {
-    "@particle-network/rn-auth": "^1.3.3"
+    "@particle-network/rn-auth": "^1.3.4"
   },
   "react-native-builder-bob": {
     "source": "src",

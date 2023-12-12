@@ -32,6 +32,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+import QRCode from 'react-native-qrcode-svg';
 import Toast from 'react-native-toast-message';
 import Web3 from 'web3';
 import { ConnectScreenProps } from './App';
@@ -39,12 +40,16 @@ import * as Helper from './Helper';
 import { PNAccount } from './Models/PNAccount';
 import { TestAccountEVM } from './TestAccount';
 import { createWeb3, restoreWeb3 } from './web3Demo';
-import QRCode from 'react-native-qrcode-svg';
 
 export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   loginSourceMessage = '';
   loginSignature = '';
-  state = { currentLoadingBtn: '', currentOptions: [], currentKey: '', qrCodeUri: '' };
+  state = {
+    currentLoadingBtn: '',
+    currentOptions: [],
+    currentKey: '',
+    qrCodeUri: '',
+  };
   pnaccount = new PNAccount([], '', '', '');
   emitter = new NativeEventEmitter(particleConnect.ParticleConnectEvent);
 
@@ -1014,13 +1019,12 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
       }
     });
 
-    this.emitter.addListener('qrCodeUri', (message) => {
-      const qrCodeUri = (message as string[])[0];
+    this.emitter.addListener('qrCodeUri', (message: string) => {
+      const qrCodeUri = message;
       console.log('qrCodeUri', qrCodeUri);
-      this.setState
-        ({
-          qrCodeUri: qrCodeUri,
-        });
+      this.setState({
+        qrCodeUri: qrCodeUri,
+      });
     });
   }
 
@@ -1068,10 +1072,9 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
         {this.state.qrCodeUri !== '' && (
           <QRCode
             value={this.state.qrCodeUri}
-          // 其他 QRCode 组件的属性
+            // 其他 QRCode 组件的属性
           />
         )}
-
       </SafeAreaView>
     );
   };

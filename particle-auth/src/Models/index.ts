@@ -8,7 +8,6 @@ export * from './Language';
 export * from './LoginInfo';
 export * from './SecurityAccountConfig';
 export * from './SmartAccountConfig';
-export * from './VersionNumber';
 export * from './WalletDisplay';
 
 export interface CommonError {

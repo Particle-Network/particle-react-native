@@ -14,7 +14,6 @@ import {
     SecurityAccount,
     SecurityAccountConfig,
     SupportAuthType,
-    VersionNumber,
     iOSModalPresentStyle,
 } from '@particle-network/rn-auth';
 import BigNumber from 'bignumber.js';
@@ -1030,15 +1029,15 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
     getSmartAccount = async () => {
         const eoaAddress = await particleAuth.getAddress();
         const smartAccountParam = {
-            name: AccountName.BICONOMY,
-            version: VersionNumber.v1_0_0,
+            name: AccountName.BICONOMY_V1().name,
+            version: AccountName.BICONOMY_V1().version,
             ownerAddress: eoaAddress,
         };
-        const result = await EvmService.getSmartAccount([smartAccountParam]);
-        console.log('getSmartAccount', result);
+        const result: [any] = await EvmService.getSmartAccount([smartAccountParam]);
+        console.log('getSmartAccount', result[0]);
         Toast.show({
             type: 'success',
-            text1: `Successfully get smart account`,
+            text1: `Successfully get smart account ${result[0].smartAccountAddress}`,
         });
     };
 

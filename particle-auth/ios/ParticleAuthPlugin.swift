@@ -211,7 +211,7 @@ class ParticleAuthPlugin: NSObject {
     @objc
     public func signMessage(_ message: String, callback: @escaping RCTResponseSenderBlock) {
         var serializedMessage = ""
-        switch ParticleNetwork.getChainInfo().chain {
+        switch ParticleNetwork.getChainInfo().chainType {
         case .solana:
             serializedMessage = Base58.encode(message.data(using: .utf8)!)
         default:
@@ -224,7 +224,7 @@ class ParticleAuthPlugin: NSObject {
     @objc
     public func signMessageUnique(_ message: String, callback: @escaping RCTResponseSenderBlock) {
         var serializedMessage = ""
-        switch ParticleNetwork.getChainInfo().chain {
+        switch ParticleNetwork.getChainInfo().chainType {
         case .solana:
             serializedMessage = Base58.encode(message.data(using: .utf8)!)
         default:

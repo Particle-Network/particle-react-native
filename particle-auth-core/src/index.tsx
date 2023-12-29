@@ -3,6 +3,7 @@ import { NativeModules, Platform } from 'react-native';
 import type { CommonResp, UserInfo } from './Models';
 import * as evm from './evm';
 import * as solana from './solana';
+import { LoginType, SupportAuthType, type SocialLoginPrompt } from '@particle-network/rn-auth';
 
 const LINKING_ERROR =
   `The package '@particle-network/rn-auth' doesn't seem to be linked. Make sure: \n\n` +
@@ -13,13 +14,13 @@ const LINKING_ERROR =
 export const ParticleAuthCorePlugin = NativeModules.ParticleAuthCorePlugin
   ? NativeModules.ParticleAuthCorePlugin
   : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    {},
+    {
+      get() {
+        throw new Error(LINKING_ERROR);
+      },
+    }
+  );
 
 /**
  * Init ParticleAuthCore SDK
@@ -33,12 +34,80 @@ export function init() {
 }
 
 /**
+ * Connect 
+ * @param type LoginType
+ * @param account Optional, phone number, email or jwt
+ * @param code Phone code or email code
+ * @param socialLoginPrompt SocialLoginPrompt
+ */
+export async function connect(type: LoginType, account?: String | null, code?: string | null, socialLoginPrompt?: SocialLoginPrompt | null): Promise<CommonResp<UserInfo>> {
+  const obj = {
+    login_type: type,
+    account: account,
+    code: code,
+    social_login_prompt: socialLoginPrompt
+  };
+  const json = JSON.stringify(obj);
+  return new Promise((resolve) => {
+    ParticleAuthCorePlugin.connect(json, (result: string) => {
+      resolve(JSON.parse(result));
+    });
+  });
+}
+
+/**
  * Connect JWT
  * @param jwt JWT
  */
-export async function connect(jwt: String): Promise<CommonResp<UserInfo>> {
+export async function connectJWT(jwt: String): Promise<CommonResp<UserInfo>> {
+  return connect(LoginType.JWT, jwt);
+}
+
+/**
+ * Send phone code
+ * @param phone Phone number
+ */
+export async function sendPhoneCode(phone: String): Promise<CommonResp<UserInfo>> {
   return new Promise((resolve) => {
-    ParticleAuthCorePlugin.connect(jwt, (result: string) => {
+    ParticleAuthCorePlugin.sendPhoneCode(phone, (result: string) => {
+      resolve(JSON.parse(result));
+    });
+  });
+}
+
+/**
+ * Send email code
+ * @param email Email number
+ */
+export async function sendEmailCode(email: String): Promise<CommonResp<UserInfo>> {
+  return new Promise((resolve) => {
+    ParticleAuthCorePlugin.sendEmailCode(email, (result: string) => {
+      resolve(JSON.parse(result));
+    });
+  });
+}
+
+/**
+ * Present login page
+ * @param type Login type
+ * @param account Optional phone number, email or jwt.
+ * @param socialLoginPrompt Optional, socialLoginPrompt
+ * @param loginPageConfig Optional, loginPageConfig, contains project name, description, imageType and imagePath.
+ * @returns  UserInfo
+ */
+export async function presentLoginPage(type: LoginType, account?: String | null, supportAuthType?: SupportAuthType[] | null, socialLoginPrompt?: SocialLoginPrompt | null, loginPageConfig?: { projectName: string, description: string, imagePath: string, imageType: "base64" | "url" } | null,): Promise<CommonResp<UserInfo>> {
+
+  const obj = {
+    login_type: type,
+    account: account,
+    support_auth_type_values: supportAuthType,
+    social_login_prompt: socialLoginPrompt,
+    login_page_config: loginPageConfig
+  };
+  const json = JSON.stringify(obj);
+
+  return new Promise((resolve) => {
+    ParticleAuthCorePlugin.presentLoginPage(json, (result: string) => {
       resolve(JSON.parse(result));
     });
   });
@@ -145,6 +214,15 @@ export async function openAccountAndSecurity(): Promise<CommonResp<string>> {
     });
   });
 }
+
+export function setBlindEnable(enable: boolean) {
+  ParticleAuthCorePlugin.setBlindEnable(enable);
+}
+
+export async function getBlindEnable(): Promise<boolean> {
+  return await ParticleAuthCorePlugin.getBlindEnable();
+}
+
 
 export * from './Models';
 export { evm, solana };

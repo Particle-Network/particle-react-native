@@ -475,6 +475,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     { key: 'Connect', function: this.connect },
     { key: 'ConnectJWT', function: this.connectJWT },
     { key: 'PresentLoginPage', function: this.presentLoginPage },
+    { key: 'Email Login Page', function: null },
     { key: 'Disconnect', function: this.disconnect },
     { key: 'IsConnected', function: this.isConnected },
     { key: 'ChangeMasterPassword', function: this.changeMasterPassword },
@@ -532,6 +533,9 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
                   if (item.key === 'Select Chain Page') {
                     // @ts-ignore
                     navigation.push('SelectChainPage');
+                  } else if (item.key === 'Email Login Page') {
+                    // @ts-ignore
+                    navigation.push('EmailLoginPage');
                   } else {
                     this.setState({
                       currentLoadingBtn: item.key,

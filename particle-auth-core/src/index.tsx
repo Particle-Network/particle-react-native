@@ -79,7 +79,7 @@ export async function sendPhoneCode(phone: String): Promise<CommonResp<UserInfo>
  * Send email code
  * @param email Email number
  */
-export async function sendEmailCode(email: String): Promise<CommonResp<UserInfo>> {
+export async function sendEmailCode(email: String): Promise<CommonResp<boolean>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.sendEmailCode(email, (result: string) => {
       resolve(JSON.parse(result));

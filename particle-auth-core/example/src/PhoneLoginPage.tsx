@@ -18,26 +18,26 @@ import * as particleAuthCore from '@particle-network/rn-auth-core';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import { LoginType } from '@particle-network/rn-auth';
 
-interface EmailLoginPagePageProps {
+interface PhoneLoginPagePageProps {
     navigation: NavigationProp<any>;
     route: RouteProp<any, any>;
 }
 
-export default class EmailLoginPage extends PureComponent<EmailLoginPagePageProps> {
+export default class PhoneLoginPage extends PureComponent<PhoneLoginPagePageProps> {
 
-    state = { email: '', code: '' };
-    emailTextInput: TextInput | null = null;
+    state = { phone: '', code: '' };
+    phoneTextInput: TextInput | null = null;
     codeTextInput: TextInput | null = null;
-    handleEmailTextChange = (text: string) => {
-        this.setState({ email: text });
+    handlePhoneTextChange = (text: string) => {
+        this.setState({ phone: text });
     };
 
     handleCodeTextChange = (text: string) => {
         this.setState({ code: text });
     };
 
-    handleEmailKeyboardDismiss = () => {
-        this.emailTextInput?.blur();
+    handlePhoneKeyboardDismiss = () => {
+        this.phoneTextInput?.blur();
     };
 
     handleCodeKeyboardDismiss = () => {
@@ -50,14 +50,13 @@ export default class EmailLoginPage extends PureComponent<EmailLoginPagePageProp
             <SafeAreaView>
                 <View>
                     <TextInput
-                        placeholder="Enter your email..."
+                        placeholder="Enter your phone number..."
                         placeholderTextColor='gray'
-                        value={this.state.email}
-                        onChangeText={this.handleEmailTextChange}
-                        keyboardType="email-address"
+                        value={this.state.phone}
+                        onChangeText={this.handlePhoneTextChange}
                         returnKeyType="done"
-                        onSubmitEditing={this.handleEmailKeyboardDismiss}
-                        ref={(input: TextInput | null) => (this.emailTextInput = input)}
+                        onSubmitEditing={this.handlePhoneKeyboardDismiss}
+                        ref={(input: TextInput | null) => (this.phoneTextInput = input)}
                         onKeyPress={(e) => {
                             e.preventDefault();
                         }}
@@ -67,13 +66,13 @@ export default class EmailLoginPage extends PureComponent<EmailLoginPagePageProp
                 <TouchableOpacity
                     style={styles.buttonStyle}
                     onPress={async () => {
-                        const result = await particleAuthCore.sendEmailCode(this.state.email);
+                        const result = await particleAuthCore.sendPhoneCode(this.state.phone);
                         if (result.status) {
                             const isSuccess = result.data as boolean;
-                            console.log('sendEmailCode', isSuccess);
+                            console.log('sendPhoneCode', isSuccess);
                             Toast.show({
                                 type: 'success',
-                                text1: `sendEmailCode ${isSuccess}`,
+                                text1: `sendPhoneCode ${isSuccess}`,
                             });
                         } else {
                             const error = result.data as CommonError;
@@ -85,7 +84,7 @@ export default class EmailLoginPage extends PureComponent<EmailLoginPagePageProp
                         }
                     }}
                 >
-                    <Text style={styles.textStyle}>{'Send Email Code'}</Text>
+                    <Text style={styles.textStyle}>{'Send Phone Code'}</Text>
 
                 </TouchableOpacity>
 
@@ -109,7 +108,7 @@ export default class EmailLoginPage extends PureComponent<EmailLoginPagePageProp
                 <TouchableOpacity
                     style={styles.buttonStyle}
                     onPress={async () => {
-                        const result = await particleAuthCore.connect(LoginType.Email, this.state.email, this.state.code);
+                        const result = await particleAuthCore.connect(LoginType.Phone, this.state.phone, this.state.code);
                         if (result.status) {
                             const userInfo = result.data as UserInfo;
                             console.log('connect', userInfo);

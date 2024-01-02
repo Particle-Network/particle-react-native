@@ -67,7 +67,7 @@ export async function connectJWT(jwt: String): Promise<CommonResp<UserInfo>> {
  * Send phone code
  * @param phone Phone number
  */
-export async function sendPhoneCode(phone: String): Promise<CommonResp<UserInfo>> {
+export async function sendPhoneCode(phone: String): Promise<CommonResp<boolean>> {
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.sendPhoneCode(phone, (result: string) => {
       resolve(JSON.parse(result));

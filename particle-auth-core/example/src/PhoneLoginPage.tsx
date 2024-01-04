@@ -50,6 +50,7 @@ export default class PhoneLoginPage extends PureComponent<PhoneLoginPagePageProp
             <SafeAreaView>
                 <View>
                     <TextInput
+                        style={styles.input}
                         placeholder="Enter your phone number..."
                         placeholderTextColor='gray'
                         value={this.state.phone}
@@ -91,6 +92,7 @@ export default class PhoneLoginPage extends PureComponent<PhoneLoginPagePageProp
 
                 <View>
                     <TextInput
+                        style={styles.input}
                         placeholder="Enter your code..."
                         placeholderTextColor='gray'
                         value={this.state.code}
@@ -147,5 +149,14 @@ const styles = StyleSheet.create({
     textStyle: {
         color: 'white',
         textAlign: 'center',
+    },
+
+    input: {
+        height: 40,
+        margin: 10,
+        borderWidth: 1,
+        padding: 10,
+        borderColor: 'gray',
+        borderRadius: 5,
     },
 });

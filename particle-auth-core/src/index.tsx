@@ -36,16 +36,17 @@ export function init() {
 /**
  * Connect 
  * @param type LoginType
- * @param account Optional, phone number, email or jwt
+ * @param account Optional, phone number, email or jwt, phone number request format E.164, such as '+11234567890' '+442012345678' '+8613611112222'
  * @param code Phone code or email code
  * @param socialLoginPrompt SocialLoginPrompt
  */
-export async function connect(type: LoginType, account?: String | null, code?: string | null, socialLoginPrompt?: SocialLoginPrompt | null): Promise<CommonResp<UserInfo>> {
+export async function connect(type: LoginType, account?: String | null, supportAuthType?: SupportAuthType[], socialLoginPrompt?: SocialLoginPrompt | null, loginPageConfig?: { projectName: string, description: string, imagePath: string } | null): Promise<CommonResp<UserInfo>> {
   const obj = {
     login_type: type,
     account: account,
-    code: code,
-    social_login_prompt: socialLoginPrompt
+    support_auth_type_values: supportAuthType,
+    social_login_prompt: socialLoginPrompt,
+    login_page_config: loginPageConfig
   };
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
@@ -64,8 +65,29 @@ export async function connectJWT(jwt: String): Promise<CommonResp<UserInfo>> {
 }
 
 /**
+ * Connect with code
+ * @param phone Phone number format E.164, such as '+11234567890' '+442012345678' '+8613611112222'
+ * @param email Email address
+ * @param code Verification code
+ * @returns 
+ */
+export async function connectWithCode(phone: string | null, email: string | null, code: string) {
+  const obj = {
+    email: email,
+    phone: phone,
+    code: code,
+  };
+  const json = JSON.stringify(obj);
+  return new Promise((resolve) => {
+    ParticleAuthCorePlugin.connectWithCode(json, (result: string) => {
+      resolve(JSON.parse(result));
+    });
+  });
+}
+
+/**
  * Send phone code
- * @param phone Phone number
+ * @param phone Phone number format E.164, such as '+11234567890' '+442012345678' '+8613611112222'
  */
 export async function sendPhoneCode(phone: String): Promise<CommonResp<boolean>> {
   return new Promise((resolve) => {
@@ -87,31 +109,6 @@ export async function sendEmailCode(email: String): Promise<CommonResp<boolean>>
   });
 }
 
-/**
- * Present login page
- * @param type Login type
- * @param account Optional phone number, email or jwt.
- * @param socialLoginPrompt Optional, socialLoginPrompt
- * @param loginPageConfig Optional, loginPageConfig, contains project name, description, imageType and imagePath.
- * @returns  UserInfo
- */
-export async function presentLoginPage(type: LoginType, account?: String | null, supportAuthType?: SupportAuthType[] | null, socialLoginPrompt?: SocialLoginPrompt | null, loginPageConfig?: { projectName: string, description: string, imagePath: string, imageType: "base64" | "url" } | null,): Promise<CommonResp<UserInfo>> {
-
-  const obj = {
-    login_type: type,
-    account: account,
-    support_auth_type_values: supportAuthType,
-    social_login_prompt: socialLoginPrompt,
-    login_page_config: loginPageConfig
-  };
-  const json = JSON.stringify(obj);
-
-  return new Promise((resolve) => {
-    ParticleAuthCorePlugin.presentLoginPage(json, (result: string) => {
-      resolve(JSON.parse(result));
-    });
-  });
-}
 
 /**
  * Disconnect

@@ -456,6 +456,10 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     }
   };
 
+  setSecurityAccountConfig = async () => {
+    particleAuth.setSecurityAccountConfig(new particleAuth.SecurityAccountConfig(0, 0));
+  }
+
   setBlindEnable = async () => {
     particleAuthCore.setBlindEnable(true);
   }
@@ -506,6 +510,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
       function: this.solanaSignAndSendTransaction,
     },
 
+    { key: 'SetSecurityAccountConfig', function: this.setSecurityAccountConfig },
     { key: 'SetBlindEnable', function: this.setBlindEnable },
     { key: 'GetBlindEnable', function: this.getBlindEnable },
   ];

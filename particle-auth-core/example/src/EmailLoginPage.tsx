@@ -50,6 +50,7 @@ export default class EmailLoginPage extends PureComponent<EmailLoginPagePageProp
             <SafeAreaView>
                 <View>
                     <TextInput
+                        style={styles.input}
                         placeholder="Enter your email..."
                         placeholderTextColor='gray'
                         value={this.state.email}
@@ -92,6 +93,7 @@ export default class EmailLoginPage extends PureComponent<EmailLoginPagePageProp
 
                 <View>
                     <TextInput
+                        style={styles.input}
                         placeholder="Enter your code..."
                         placeholderTextColor='gray'
                         value={this.state.code}
@@ -148,5 +150,14 @@ const styles = StyleSheet.create({
     textStyle: {
         color: 'white',
         textAlign: 'center',
+    },
+
+    input: {
+        height: 40,
+        margin: 10,
+        borderWidth: 1,
+        padding: 10,
+        borderColor: 'gray',
+        borderRadius: 5,
     },
 });

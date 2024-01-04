@@ -1,5 +1,6 @@
 export enum WalletType {
   Particle = 'Particle',
+  AuthCore = 'AuthCore',
   EvmPrivateKey = 'EvmPrivateKey',
   SolanaPrivateKey = 'SolanaPrivateKey',
   MetaMask = 'MetaMask',

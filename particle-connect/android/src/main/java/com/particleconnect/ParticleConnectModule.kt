@@ -225,8 +225,12 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
       ParticleConnect.getAdapters().first { it.name.equals(walletType, ignoreCase = true) }
     connectAdapter!!.connect(config, object : ConnectCallback {
       override fun onConnected(account: Account) {
-        LogUtils.d("onConnected", account.toString())
-        callback.invoke(ReactCallBack.success(account).toGson())
+        try {
+          LogUtils.d("onConnected", account.toString())
+          callback.invoke(ReactCallBack.success(account).toGson())
+        }catch (_:Exception){
+
+        }
       }
 
       override fun onError(connectError: ConnectError) {

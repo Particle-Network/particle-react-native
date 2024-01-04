@@ -1,7 +1,7 @@
 import { chains } from '@particle-network/chains';
 import BigNumber from 'bignumber.js';
 import { Buffer } from 'buffer';
-import { AccountInfo, GasFeeLevel } from '../Models';
+import { SmartAccountInfo, GasFeeLevel } from '../Models';
 import type { SmartAccountParamType } from '../Models/SmartAccountConfig';
 import { getChainId, getChainInfo } from '../index';
 import { AbiEncodeFunction, EVMReqBodyMethod } from './NetParams';
@@ -356,7 +356,7 @@ export class EvmService {
      * @param smartAccountConfigList Smart account config list
      * @returns Smart account json object
      */
-    static async getSmartAccount(smartAccountConfigList: SmartAccountParamType[]): Promise<AccountInfo[]> {
+    static async getSmartAccount(smartAccountConfigList: SmartAccountParamType[]): Promise<SmartAccountInfo[]> {
         return await this.rpc(EVMReqBodyMethod.particleAAGetSmartAccount, smartAccountConfigList);
     }
 }

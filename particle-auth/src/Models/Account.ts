@@ -1,4 +1,4 @@
-export interface AccountInfo {
+export interface SmartAccountInfo {
     isDeployed: boolean;
     chainId: number;
     eoaAddress: string;

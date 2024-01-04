@@ -18,9 +18,9 @@ import {
   Env,
   ParticleInfo,
   AccountName,
-  VersionNumber,
   EvmService,
-  AAFeeMode
+  AAFeeMode,
+  SmartAccountInfo
 } from '@particle-network/rn-auth';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import BigNumber from 'bignumber.js';
@@ -196,13 +196,13 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
   };
 
   getSmartAccountAddress = async (eoaAddress: string) => {
-    const config = {
-      name: AccountName.BICONOMY,
-      version: VersionNumber.v1_0_0,
-      ownerAddress: eoaAddress
+    const smartAccountParam = {
+      name: AccountName.BICONOMY_V1().name,
+      version: AccountName.BICONOMY_V1().version,
+      ownerAddress: eoaAddress,
     };
-    const accountInfo = await EvmService.getSmartAccount([config]);
-    const smartAccountAddress = accountInfo[0]?.smartAccountAddress;
+    const result: SmartAccountInfo[] = await EvmService.getSmartAccount([smartAccountParam]);
+    const smartAccountAddress = result[0]?.smartAccountAddress;
     console.log('smartAccountAddress', smartAccountAddress);
     return smartAccountAddress;
   }

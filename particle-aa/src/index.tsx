@@ -21,19 +21,17 @@ const ParticleAAPlugin = NativeModules.ParticleAAPlugin
 
 /**
  * Init particle AA service
- * @param name AccountName
- * @param version VersionNumber
+ * @param accountName AccountName
  * @param biconomyAppKeys AA dapp keys
  */
 export function init(
-  name: AccountName,
-  version: VersionNumber,
+  accountName: AccountName,
   biconomyAppKeys: { [key: number]: string }
 ) {
   const obj = {
     biconomy_app_keys: biconomyAppKeys,
-    name: name,
-    version: version,
+    name: accountName.name,
+    version: accountName.version,
   };
   const json = JSON.stringify(obj);
 

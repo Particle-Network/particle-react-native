@@ -7,7 +7,7 @@ import {
   LoginType,
   ParticleInfo,
   SupportAuthType,
-  VersionNumber,
+  SmartAccountInfo
 } from '@particle-network/rn-auth';
 import React, { PureComponent } from 'react';
 import {
@@ -63,8 +63,7 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     };
 
     particleAA.init(
-      AccountName.BICONOMY,
-      VersionNumber.v1_0_0,
+      AccountName.BICONOMY_V1(),
       biconomyAppKeys
     );
 
@@ -188,13 +187,13 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
   };
 
   getSmartAccountAddress = async (eoaAddress: string) => {
-    const config = {
-      name: AccountName.BICONOMY,
-      version: VersionNumber.v1_0_0,
+    const smartAccountParam = {
+      name: AccountName.BICONOMY_V1().name,
+      version: AccountName.BICONOMY_V1().version,
       ownerAddress: eoaAddress,
     };
-    const accountInfo = await EvmService.getSmartAccount([config]);
-    const smartAccountAddress = accountInfo[0]?.smartAccountAddress;
+    const result: SmartAccountInfo[] = await EvmService.getSmartAccount([smartAccountParam]);
+    const smartAccountAddress = result[0]?.smartAccountAddress;
     console.log('smartAccountAddress', smartAccountAddress);
     return smartAccountAddress;
   };

@@ -15,7 +15,7 @@ import {
     SecurityAccountConfig,
     SupportAuthType,
     iOSModalPresentStyle,
-    AccountInfo
+    SmartAccountInfo
 } from '@particle-network/rn-auth';
 import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';
@@ -1034,7 +1034,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
             version: AccountName.BICONOMY_V1().version,
             ownerAddress: eoaAddress,
         };
-        const result: AccountInfo[] = await EvmService.getSmartAccount([smartAccountParam]);
+        const result: SmartAccountInfo[] = await EvmService.getSmartAccount([smartAccountParam]);
         console.log('getSmartAccount', result[0]);
         Toast.show({
             type: 'success',

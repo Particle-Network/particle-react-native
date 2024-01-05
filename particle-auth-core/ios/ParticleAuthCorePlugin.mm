@@ -9,13 +9,9 @@ RCT_EXTERN_METHOD(switchChain: (NSString* _Nonnull)json callback:(RCTResponseSen
 
 RCT_EXTERN_METHOD(connect: (NSString* _Nonnull)json callback: (RCTResponseSenderBlock)callback)
 
-RCT_EXTERN_METHOD(connectJWT: (NSString* _Nonnull)json callback: (RCTResponseSenderBlock)callback)
-
 RCT_EXTERN_METHOD(sendPhoneCode: (NSString* _Nonnull)json callback: (RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(sendEmailCode: (NSString* _Nonnull)json callback: (RCTResponseSenderBlock)callback)
-
-RCT_EXTERN_METHOD(presentLoginPage: (NSString* _Nonnull)json callback: (RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(setBlindEnable: (BOOL)enable)
 

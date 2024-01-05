@@ -62,7 +62,30 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    func presentLoginPage(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+    public func switchChain(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+        let data = JSON(parseJSON: json)
+
+        let chainId = data["chain_id"].intValue
+        let chainName = data["chain_name"].stringValue.lowercased()
+        let chainType: ChainType = chainName == "solana" ? .solana : .evm
+
+        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId, chainType: chainType) else {
+            callback([false])
+            return
+        }
+
+        Task {
+            do {
+                let flag = try await auth.switchChain(chainInfo: chainInfo)
+                callback([flag])
+            } catch {
+                callback([false])
+            }
+        }
+    }
+
+    @objc
+    func connect(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let data = JSON(parseJSON: json)
 
         let type = data["login_type"].stringValue.lowercased()
@@ -120,90 +143,14 @@ class ParticleAuthCorePlugin: NSObject {
             let projectName = config["projectName"].stringValue
             let description = config["description"].stringValue
             let data = config["imagePath"].stringValue
-            let imageType = config["imageType"].stringValue.lowercased()
-            var imagePath: ImagePath
+            let path = config["imagePath"].stringValue.lowercased()
+            let imagePath = ImagePath.url(path)
 
-            if imageType == "base64" {
-                imagePath = ImagePath.data(data)
-            } else {
-                imagePath = ImagePath.url(data)
-            }
             loginPageConfig = LoginPageConfig(imagePath: imagePath, projectName: projectName, description: description)
         }
         let observable = Single<Void>.fromAsync { [weak self] in
             guard let self = self else { throw ParticleNetwork.ResponseError(code: nil, message: "self is nil") }
             return try await self.auth.presentLoginPage(type: loginType, account: account, supportAuthType: supportAuthTypeArray, socialLoginPrompt: socialLoginPrompt, config: loginPageConfig)
-        }.map { userInfo in
-            let userInfoJsonString = userInfo.jsonStringFullSnake()
-            let newUserInfo = JSON(parseJSON: userInfoJsonString)
-            return newUserInfo
-        }
-
-        subscribeAndCallback(observable: observable, callback: callback)
-    }
-
-    @objc
-    public func switchChain(_ json: String, callback: @escaping RCTResponseSenderBlock) {
-        let data = JSON(parseJSON: json)
-
-        let chainId = data["chain_id"].intValue
-        let chainName = data["chain_name"].stringValue.lowercased()
-        let chainType: ChainType = chainName == "solana" ? .solana : .evm
-
-        guard let chainInfo = ParticleNetwork.searchChainInfo(by: chainId, chainType: chainType) else {
-            callback([false])
-            return
-        }
-
-        Task {
-            do {
-                let flag = try await auth.switchChain(chainInfo: chainInfo)
-                callback([flag])
-            } catch {
-                callback([false])
-            }
-        }
-    }
-
-    @objc
-    func connect(_ json: String, callback: @escaping RCTResponseSenderBlock) {
-        let data = JSON(parseJSON: json)
-
-        let type = data["login_type"].stringValue.lowercased()
-        let account = data["account"].string
-        let code = data["code"].string
-
-        let socialLoginPromptString = data["social_login_prompt"].stringValue.lowercased()
-        let socialLoginPrompt: SocialLoginPrompt? = SocialLoginPrompt(rawValue: socialLoginPromptString)
-
-        let loginType = LoginType(rawValue: type) ?? .email
-
-        var acc = account
-        if acc != nil, acc!.isEmpty {
-            acc = nil
-        }
-
-        let observable = Single<Void>.fromAsync { [weak self] in
-            guard let self = self else { throw ParticleNetwork.ResponseError(code: nil, message: "self is nil") }
-            return try await self.auth.connect(type: loginType, account: account, code: code, socialLoginPrompt: socialLoginPrompt)
-        }.map { userInfo in
-            let userInfoJsonString = userInfo.jsonStringFullSnake()
-            let newUserInfo = JSON(parseJSON: userInfoJsonString)
-            return newUserInfo
-        }
-
-        subscribeAndCallback(observable: observable, callback: callback)
-    }
-
-    @objc
-    public func connectJWT(_ json: String, callback: @escaping RCTResponseSenderBlock) {
-        let jwt = json
-
-        let observable = Single<String>.fromAsync { [weak self] in
-            guard let self = self else {
-                throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
-            }
-            return try await self.auth.connect(jwt: jwt)
         }.map { userInfo in
             let userInfoJsonString = userInfo.jsonStringFullSnake()
             let newUserInfo = JSON(parseJSON: userInfoJsonString)

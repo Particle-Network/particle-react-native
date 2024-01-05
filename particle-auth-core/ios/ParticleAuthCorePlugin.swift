@@ -142,7 +142,6 @@ class ParticleAuthCorePlugin: NSObject {
         if config != JSON.null {
             let projectName = config["projectName"].stringValue
             let description = config["description"].stringValue
-            let data = config["imagePath"].stringValue
             let path = config["imagePath"].stringValue.lowercased()
             let imagePath = ImagePath.url(path)
 
@@ -158,6 +157,37 @@ class ParticleAuthCorePlugin: NSObject {
         }
 
         subscribeAndCallback(observable: observable, callback: callback)
+    }
+    
+    @objc
+    func connectWithCode(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+        let data = JSON(parseJSON: json)
+        let email = data["email"].stringValue
+        let phone = data["phone"].stringValue
+        let code = data["code"].stringValue
+        if !email.isEmpty {
+            let observable = Single<Void>.fromAsync { [weak self] in
+                guard let self = self else { throw ParticleNetwork.ResponseError(code: nil, message: "self is nil") }
+                return try await self.auth.connect(type: LoginType.email, account: email, code: code)
+            }.map { userInfo in
+                let userInfoJsonString = userInfo.jsonStringFullSnake()
+                let newUserInfo = JSON(parseJSON: userInfoJsonString)
+                return newUserInfo
+            }
+    
+            subscribeAndCallback(observable: observable, callback: callback)
+        } else {
+            let observable = Single<Void>.fromAsync { [weak self] in
+                guard let self = self else { throw ParticleNetwork.ResponseError(code: nil, message: "self is nil") }
+                return try await self.auth.connect(type: LoginType.phone, account: phone, code: code)
+            }.map { userInfo in
+                let userInfoJsonString = userInfo.jsonStringFullSnake()
+                let newUserInfo = JSON(parseJSON: userInfoJsonString)
+                return newUserInfo
+            }
+    
+            subscribeAndCallback(observable: observable, callback: callback)
+        }
     }
 
     @objc

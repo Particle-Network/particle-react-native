@@ -71,7 +71,7 @@ export async function connectJWT(jwt: String): Promise<CommonResp<UserInfo>> {
  * @param code Verification code
  * @returns 
  */
-export async function connectWithCode(phone: string | null, email: string | null, code: string) {
+export async function connectWithCode(phone: string | null, email: string | null, code: string): Promise<CommonResp<UserInfo>> {
   const obj = {
     email: email,
     phone: phone,

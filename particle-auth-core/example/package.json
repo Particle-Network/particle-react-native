@@ -10,7 +10,7 @@
   },
 
   "dependencies": {
-    "@particle-network/rn-auth": "file:../../particle-auth",
+    "@particle-network/rn-auth": "^1.3.6",
     "@particle-network/rn-auth-core": "file:..",
     "@react-navigation/elements": "^1.3.6",
     "@react-navigation/native": "^6.0.13",

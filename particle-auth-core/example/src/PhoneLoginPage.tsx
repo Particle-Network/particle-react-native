@@ -16,7 +16,6 @@ import {
 import Toast from 'react-native-toast-message';
 import * as particleAuthCore from '@particle-network/rn-auth-core';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
-import { LoginType } from '@particle-network/rn-auth';
 
 interface PhoneLoginPagePageProps {
     navigation: NavigationProp<any>;
@@ -110,7 +109,7 @@ export default class PhoneLoginPage extends PureComponent<PhoneLoginPagePageProp
                 <TouchableOpacity
                     style={styles.buttonStyle}
                     onPress={async () => {
-                        const result = await particleAuthCore.connect(LoginType.Phone, this.state.phone, this.state.code);
+                        const result = await particleAuthCore.connectWithCode(this.state.phone, null, this.state.code);
                         if (result.status) {
                             const userInfo = result.data as UserInfo;
                             console.log('connect', userInfo);

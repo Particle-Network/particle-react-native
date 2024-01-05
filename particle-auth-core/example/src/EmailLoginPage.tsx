@@ -16,7 +16,6 @@ import {
 import Toast from 'react-native-toast-message';
 import * as particleAuthCore from '@particle-network/rn-auth-core';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
-import { LoginType } from '@particle-network/rn-auth';
 
 interface EmailLoginPagePageProps {
     navigation: NavigationProp<any>;
@@ -111,7 +110,7 @@ export default class EmailLoginPage extends PureComponent<EmailLoginPagePageProp
                 <TouchableOpacity
                     style={styles.buttonStyle}
                     onPress={async () => {
-                        const result = await particleAuthCore.connect(LoginType.Email, this.state.email, this.state.code);
+                        const result = await particleAuthCore.connectWithCode(null, this.state.email, this.state.code);
                         if (result.status) {
                             const userInfo = result.data as UserInfo;
                             console.log('connect', userInfo);

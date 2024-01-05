@@ -1,14 +1,9 @@
 package com.particlewallet
 
 import android.content.Intent
-import android.text.TextUtils
 import android.util.Log
-import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
-import com.connect.common.ConnectCallback
-import com.connect.common.model.Account
-import com.connect.common.model.ConnectError
 import com.facebook.react.bridge.Callback
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -16,8 +11,6 @@ import com.facebook.react.bridge.ReactMethod
 import com.google.gson.reflect.TypeToken
 import com.particle.base.ParticleNetwork
 import com.particle.gui.ParticleWallet
-import com.particle.gui.ParticleWallet.getEnablePay
-import com.particle.gui.ParticleWallet.getEnableSwap
 import com.particle.gui.router.PNRouter
 import com.particle.gui.router.RouterPath
 import com.particle.gui.ui.nft_detail.NftDetailParams
@@ -34,12 +27,7 @@ import org.json.JSONObject
 import java.math.BigInteger
 import com.particle.api.service.DBService
 import com.particle.base.LanguageEnum
-import com.particle.connect.ParticleConnect
 import com.particle.gui.ParticleWallet.displayNFTContractAddresses
-import com.particle.gui.ParticleWallet.displayTokenAddresses
-import com.particle.gui.ParticleWallet.setPayDisabled
-import com.particle.gui.ParticleWallet.setSupportWalletConnect
-import com.particle.gui.ParticleWallet.setSwapDisabled
 import com.particle.gui.ui.swap.SwapConfig
 import network.particle.chains.ChainInfo
 
@@ -178,22 +166,22 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun getPayDisabled(callback: Callback) {
-    callback.invoke(!ParticleNetwork.getEnablePay())
+    callback.invoke(ParticleWallet.getPayDisabled())
   }
 
   @ReactMethod
   fun setPayDisabled(enable: Boolean) {
-    ParticleNetwork.setPayDisabled(enable)
+    ParticleWallet.setPayDisabled(enable)
   }
 
   @ReactMethod
   fun setSwapDisabled(disabled: Boolean) {
-    ParticleNetwork.setSwapDisabled(disabled)
+    ParticleWallet.setSwapDisabled(disabled)
   }
 
   @ReactMethod
   fun getSwapDisabled(callback: Callback) {
-    callback.invoke(!ParticleNetwork.getEnableSwap())
+    callback.invoke(ParticleWallet.getSwapDisabled())
   }
 
   @ReactMethod
@@ -308,7 +296,7 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun setSupportWalletConnect(isEnable: Boolean) {
-    ParticleNetwork.setSupportWalletConnect(isEnable)
+    ParticleWallet.setSupportWalletConnect(isEnable)
   }
 
   @ReactMethod
@@ -350,7 +338,7 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
     val tokenAddresses = GsonUtils.fromJson<List<String>>(
       tokenAddressJson, object : TypeToken<List<String>>() {}.type
     )
-    ParticleNetwork.displayTokenAddresses(tokenAddresses as MutableList<String>)
+    ParticleWallet.displayTokenAddresses(tokenAddresses as MutableList<String>)
   }
 
   @ReactMethod

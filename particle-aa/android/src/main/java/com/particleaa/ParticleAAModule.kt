@@ -18,21 +18,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
-    ReactContextBaseJavaModule(reactContext) {
+  ReactContextBaseJavaModule(reactContext) {
 
   @ReactMethod
   fun init(initParams: String) {
     LogUtils.d("init", initParams)
     val initData = GsonUtils.fromJson(initParams, BiconomyInitData::class.java)
     ParticleNetwork.initAAMode(initData.dAppKeys)
+    val providerName = initData.name
+    val providerVersion = initData.version
+    LogUtils.d("providerName", providerName)
     val aaService = ParticleNetwork.getRegisterAAServices().values.firstOrNull {
-      it.getIAAProvider().apiName.equals(
-        initData.name,
+      it.getIAAProvider().apiName.equals(providerName, true) && it.getIAAProvider().version.equals(
+        providerVersion,
         true
       )
     }
     aaService?.apply {
-      getIAAProvider().version = initData.version
       ParticleNetwork.setAAService(aaService)
     }
   }
@@ -89,17 +91,17 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
     CoroutineScope(Dispatchers.IO).launch {
       try {
         val resp =
-            ParticleNetwork.getAAService()
-                .rpcGetFeeQuotes(feeQuotesParams.eoaAddress, feeQuotesParams.transactions)
+          ParticleNetwork.getAAService()
+            .rpcGetFeeQuotes(feeQuotesParams.eoaAddress, feeQuotesParams.transactions)
         LogUtils.d("rpcGetFeeQuotes", resp)
         if (resp.isSuccess()) {
           callback.invoke(ReactCallBack.success(resp.result).toGson())
         } else {
           callback.invoke(
-              ReactCallBack.failed(
-                      ErrorInfo(resp.error?.message ?: "failed", resp.error?.code ?: 10000)
-                  )
-                  .toGson()
+            ReactCallBack.failed(
+              ErrorInfo(resp.error?.message ?: "failed", resp.error?.code ?: 10000)
+            )
+              .toGson()
           )
         }
       } catch (e: Exception) {

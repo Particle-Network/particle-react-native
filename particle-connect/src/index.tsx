@@ -285,7 +285,7 @@ export async function signAndSendTransaction(
 /**
  * Batch send transactions, works with particle aa service
  * @param transactions Transactions that you want user to sign and send
- * @param feeMode Optional, default is auto
+ * @param feeMode Optional, default is native
  * @returns Result, signature or error
  */
 export async function batchSendTransactions(

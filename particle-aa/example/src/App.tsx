@@ -7,13 +7,14 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import AAAuthDemo from './AAAuthDemo';
 import AAConnectDemo from './AAConnectDemo';
-
+import AAAuthCoreDemo from './AAAuthCoreDemo';
 const logo = require('../images/ic_round.png');
 
 type StackParamList = {
   Home: undefined;
   AAAuthDemo: undefined;
   AAConnectDemo: undefined;
+  AAAuthCoreDemo: undefined;
 };
 
 type HomeScreenRouteProp = RouteProp<StackParamList, 'Home'>;
@@ -44,6 +45,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         onPress={() => navigation.push('AAConnectDemo')}
       >
         <Text style={styles.textStyle}>AAConnectDemo</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.buttonStyle}
+        onPress={() => navigation.push('AAAuthCoreDemo')}
+      >
+        <Text style={styles.textStyle}>AAAuthCoreDemo</Text>
       </TouchableOpacity>
     </View>
   );
@@ -92,6 +100,25 @@ const AAConnectScreen: React.FC<AAConnectScreenProps> = ({
   );
 };
 
+type AAAuthCoreScreenRouteProp = RouteProp<StackParamList, 'AAAuthCoreDemo'>;
+type AAAuthCoreScreenNavigationProp = NativeStackNavigationProp<
+  StackParamList,
+  'AAAuthCoreDemo'
+>;
+
+interface AAAuthCoreScreenProps {
+  route: AAAuthCoreScreenRouteProp;
+  navigation: AAAuthCoreScreenNavigationProp;
+}
+
+const AAAuthCoreScreen: React.FC<AAAuthCoreScreenProps> = ({ route, navigation }) => {
+  return (
+    <View style={styles.container}>
+      <AAAuthCoreDemo navigation={navigation} route={route} />
+    </View>
+  );
+};
+
 export default function App() {
   return (
     <>
@@ -100,6 +127,7 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="AAAuthDemo" component={AAAuthScreen} />
           <Stack.Screen name="AAConnectDemo" component={AAConnectScreen} />
+          <Stack.Screen name="AAAuthCoreDemo" component={AAAuthCoreScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       <Toast />

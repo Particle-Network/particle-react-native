@@ -43,6 +43,8 @@ RCT_EXTERN_METHOD(evmSignTypedDataUnique: (NSString* _Nonnull)json callback:(RCT
 
 RCT_EXTERN_METHOD(evmSendTransaction: (NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
+RCT_EXTERN_METHOD(evmBatchSendTransactions: (NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
+
 RCT_EXTERN_METHOD(openAccountAndSecurity: (RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(hasMasterPassword: (RCTResponseSenderBlock)callback)

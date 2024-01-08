@@ -23,19 +23,20 @@ import {
 import * as particleAA from '@particle-network/rn-aa';
 import { CommonError, WholeFeeQuote } from '@particle-network/rn-aa';
 import * as particleAuth from '@particle-network/rn-auth';
+import * as particleAuthCore from '@particle-network/rn-auth-core';
 import Toast from 'react-native-toast-message';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
-
+import { evm } from "@particle-network/rn-auth-core";
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import BigNumber from 'bignumber.js';
 
-interface AAAuthDemoProps {
+interface AAAuthCoreDemoProps {
   navigation: NavigationProp<any>;
   route: RouteProp<any, any>;
 }
 
-export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
+export default class AAAuthCoreDemo extends PureComponent<AAAuthCoreDemoProps> {
   state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
   accountName = AccountName.BICONOMY_V1();
 
@@ -55,6 +56,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
     const env = Env.Production;
 
     particleAuth.init(chainInfo, env);
+    particleAuthCore.init();
 
     // then init particle biconomy
     const biconomyApiKeys = {
@@ -65,7 +67,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
     };
 
     particleAA.init(this.accountName, biconomyApiKeys);
-
+   
     Toast.show({
       type: 'success',
       text1: 'Initialized successfully',
@@ -74,7 +76,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
 
   setChainInfo = async () => {
     const chainInfo = PolygonMumbai;
-    const result = await particleAuth.setChainInfo(chainInfo);
+    const result = await particleAuthCore.switchChain(chainInfo);
     Toast.show({
       type: result ? 'success' : 'error',
       text1: result
@@ -83,19 +85,9 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
     });
   };
 
-  login = async () => {
-    const type = LoginType.Phone;
-    const supportAuthType = [
-      SupportAuthType.Email,
-      SupportAuthType.Apple,
-      SupportAuthType.Google,
-      SupportAuthType.Discord,
-    ];
-    const result = await particleAuth.login(
-      type,
-      '',
-      supportAuthType,
-      undefined
+  connect = async () => {
+    const result = await particleAuthCore.connect(
+      LoginType.Google,
     );
     if (result.status) {
       const userInfo = result.data;
@@ -146,7 +138,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
   };
 
   rpcGetFeeQuotes = async () => {
-    const eoaAddress = await particleAuth.getAddress();
+    const eoaAddress = await evm.getAddress();
     const smartAccountAddress = await this.getSmartAccountAddress(eoaAddress);
     if (smartAccountAddress == undefined) {
       return;
@@ -171,7 +163,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
   };
 
   isDeploy = async () => {
-    const eoaAddress = await particleAuth.getAddress();
+    const eoaAddress = await evm.getAddress();
     const result = await particleAA.isDeploy(eoaAddress);
 
     if (result.status) {
@@ -211,7 +203,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
   };
 
   signAndSendTransactionWithNative = async () => {
-    const eoaAddress = await particleAuth.getAddress();
+    const eoaAddress = await evm.getAddress();
     const smartAccountAddress = await this.getSmartAccountAddress(eoaAddress);
     if (smartAccountAddress == undefined) {
       return;
@@ -240,7 +232,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
       return;
     }
 
-    const result = await particleAuth.signAndSendTransaction(
+    const result = await evm.sendTransaction(
       transaction,
       AAFeeMode.native(wholeFeeQuote)
     );
@@ -264,7 +256,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
   };
 
   signAndSendTransactionWithGasless = async () => {
-    const eoaAddress = await particleAuth.getAddress();
+    const eoaAddress = await evm.getAddress();
     const smartAccountAddress = await this.getSmartAccountAddress(eoaAddress);
     if (smartAccountAddress == undefined) {
       return;
@@ -288,7 +280,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
       return;
     }
 
-    const result = await particleAuth.signAndSendTransaction(
+    const result = await evm.sendTransaction(
       transaction,
       AAFeeMode.gasless(wholeFeeQuote)
     );
@@ -312,7 +304,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
   };
 
   signAndSendTransactionWithToken = async () => {
-    const eoaAddress = await particleAuth.getAddress();
+    const eoaAddress = await evm.getAddress();
     const smartAccountAddress = await this.getSmartAccountAddress(eoaAddress);
     if (smartAccountAddress == undefined) {
       return;
@@ -352,7 +344,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
     const tokenPaymasterAddress = wholeFeeQuote.tokenPaymaster
       .tokenPaymasterAddress as string;
 
-    const result = await particleAuth.signAndSendTransaction(
+    const result = await evm.sendTransaction(
       transaction,
       AAFeeMode.token(feeQuote, tokenPaymasterAddress)
     );
@@ -376,7 +368,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
   };
 
   batchSendTransactions = async () => {
-    const eoaAddress = await particleAuth.getAddress();
+    const eoaAddress = await evm.getAddress();
     const smartAccountAddress = await this.getSmartAccountAddress(eoaAddress);
     if (smartAccountAddress == undefined) {
       return;
@@ -407,7 +399,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
       return;
     }
 
-    const result = await particleAuth.batchSendTransactions(
+    const result = await evm.batchSendTransactions(
       transactions,
       AAFeeMode.native(wholeFeeQuote)
     );
@@ -433,7 +425,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
   data = [
     { key: 'Init', function: this.init },
     { key: 'SetChainInfo', function: this.setChainInfo },
-    { key: 'Login', function: this.login },
+    { key: 'Connect', function: this.connect },
     { key: 'Enable', function: this.enable },
     { key: 'Disable', function: this.disable },
     { key: 'IsEnable', function: this.isEnable },

@@ -289,7 +289,7 @@ export async function signAllTransactions(transactions: string[]): Promise<Commo
 /**
  * Sign and send transaction
  * @param transaction Transaction that you want user to sign and send
- * @param feeMode Optional, works with particle biconomy service
+ * @param feeMode Optional, works with particle aa service
  * @returns Result, signature or error
  */
 export async function signAndSendTransaction(transaction: string, feeMode?: AAFeeMode): Promise<CommonResp<string>> {
@@ -314,9 +314,9 @@ export async function signAndSendTransaction(transaction: string, feeMode?: AAFe
 }
 
 /**
- * Batch send transactions, works with particle biconomy service
+ * Batch send transactions, works with particle aa service
  * @param transactions Transactions that you want user to sign and send
- * @param feeMode Optional, default is auto
+ * @param feeMode Optional, default is native
  * @returns Result, signature or error
  */
 export async function batchSendTransactions(transactions: string[], feeMode?: AAFeeMode): Promise<CommonResp<string>> {

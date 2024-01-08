@@ -1,12 +1,12 @@
 import { Buffer } from 'buffer';
-import type { CommonResp, SignData } from './Models';
+import type { CommonResp } from './Models';
 import { ParticleAuthCorePlugin } from './index';
-
+import { AAFeeMode } from '@particle-network/rn-auth';
 export async function getAddress(): Promise<string> {
   return await ParticleAuthCorePlugin.evmGetAddress();
 }
 
-export function personalSign(message: string): Promise<CommonResp<SignData>> {
+export function personalSign(message: string): Promise<CommonResp<string>> {
   let serializedMessage: string;
 
   if (isHexString(message)) {
@@ -27,7 +27,7 @@ export function personalSign(message: string): Promise<CommonResp<SignData>> {
 
 export function personalSignUnique(
   message: string
-): Promise<CommonResp<SignData>> {
+): Promise<CommonResp<string>> {
   let serializedMessage: string;
 
   if (isHexString(message)) {
@@ -46,7 +46,7 @@ export function personalSignUnique(
   });
 }
 
-export function signTypedData(message: string): Promise<CommonResp<SignData>> {
+export function signTypedData(message: string): Promise<CommonResp<string>> {
   let serializedMessage: string;
 
   if (isHexString(message)) {
@@ -67,7 +67,7 @@ export function signTypedData(message: string): Promise<CommonResp<SignData>> {
 
 export function signTypedDataUnique(
   message: string
-): Promise<CommonResp<SignData>> {
+): Promise<CommonResp<string>> {
   let serializedMessage: string;
 
   if (isHexString(message)) {
@@ -86,13 +86,49 @@ export function signTypedDataUnique(
   });
 }
 
-export function sendTransaction(transaction: string): Promise<any> {
+export function sendTransaction(transaction: string, feeMode?: AAFeeMode): Promise<CommonResp<string>> {
+  const obj = {
+    transaction: transaction,
+    fee_mode: {
+      option: feeMode?.getOption(),
+      fee_quote: feeMode?.getFeeQuote(),
+      token_paymaster_address: feeMode?.getTokenPaymasterAddress(),
+      whole_fee_quote: feeMode?.getWholeFeeQuote(),
+    },
+  };
+  const json = JSON.stringify(obj);
   return new Promise((resolve) => {
-    ParticleAuthCorePlugin.evmSendTransaction(transaction, (result: string) => {
+    ParticleAuthCorePlugin.evmSendTransaction(json, (result: string) => {
       resolve(JSON.parse(result));
     });
   });
 }
+
+/**
+ * Batch send transactions, works with particle aa service
+ * @param transactions Transactions that you want user to sign and send
+ * @param feeMode Optional, default is native
+ * @returns Result, signature or error
+ */
+export async function batchSendTransactions(transactions: string[], feeMode?: AAFeeMode): Promise<CommonResp<string>> {
+  const obj = {
+    transactions: transactions,
+    fee_mode: {
+      option: feeMode?.getOption(),
+      fee_quote: feeMode?.getFeeQuote(),
+      token_paymaster_address: feeMode?.getTokenPaymasterAddress(),
+      whole_fee_quote: feeMode?.getWholeFeeQuote(),
+    },
+  };
+  const json = JSON.stringify(obj);
+
+  return new Promise((resolve) => {
+    ParticleAuthCorePlugin.evmBatchSendTransactions(json, (result: string) => {
+      resolve(JSON.parse(result));
+    });
+  });
+}
+
 
 function isHexString(str: string): boolean {
   const regex = /^0x[0-9a-fA-F]*$/;

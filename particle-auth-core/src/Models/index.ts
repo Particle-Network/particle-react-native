@@ -79,8 +79,3 @@ export interface UserInfo {
   signature?: string;
   message?: string;
 }
-
-export interface SignData {
-  redirect_type: string;
-  signature: string;
-}

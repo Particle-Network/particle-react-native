@@ -222,4 +222,5 @@ export async function getBlindEnable(): Promise<boolean> {
 
 
 export * from './Models';
+export { ParticleAuthCoreProvider } from './provider';
 export { evm, solana };

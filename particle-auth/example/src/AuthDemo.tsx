@@ -512,8 +512,8 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
         }
 
         console.log('init');
-        const chainInfo = PolygonMumbai;
-        const env = Env.Production;
+        const chainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
+        const env = Env.Dev;
         particleAuth.init(chainInfo, env);
         Toast.show({
             type: 'success',

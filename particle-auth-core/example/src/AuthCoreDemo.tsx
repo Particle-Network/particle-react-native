@@ -36,10 +36,386 @@ import Toast from 'react-native-toast-message';
 import type { AuthCoreScreenProps } from './App';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
+import { createWeb3 } from './web3Demo';
 
 export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
   state = { currentLoadingBtn: '', currentKey: '', currentOptions: [] };
   modalSelect: ModalSelector<any> | null = null;
+  web3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b');
+
+  web3_getAccounts = async () => {
+    try {
+      const accounts = await this.web3.eth.getAccounts();
+      console.log('web3.eth.getAccounts', accounts);
+      Toast.show({
+        type: 'success',
+        text1: 'accounts',
+        text2: accounts.join(','),
+      });
+    } catch (error) {
+      console.log('web3.eth.getAccounts', error);
+
+      Toast.show({
+        type: 'error',
+        text1: (error as Error).message,
+      });
+    }
+  };
+
+  web3_getBalance = async () => {
+    try {
+      const accounts = await this.web3.eth.getAccounts();
+      const account = accounts[0];
+      if (account) {
+        const balance = await this.web3.eth.getBalance(account);
+        console.log('web3.eth.getBalance', balance);
+        Toast.show({
+          type: 'success',
+          text1: 'balance',
+          text2: balance,
+        });
+      }
+    } catch (error) {
+      console.log('web3.eth.getBalance', error);
+      Toast.show({
+        type: 'error',
+        text1: (error as Error).message,
+      });
+    }
+  };
+
+  web3_getChainId = async () => {
+    try {
+      const chainId = await this.web3.eth.getChainId();
+      console.log('web3.eth.getChainId', chainId);
+      Toast.show({
+        type: 'success',
+        text1: 'chainId',
+        text2: String(chainId),
+      });
+    } catch (error) {
+      console.log('web3.eth.getChainId', error);
+      Toast.show({
+        type: 'error',
+        text1: (error as Error).message,
+      });
+    }
+  };
+
+  web3_personalSign = async () => {
+    try {
+      // for persion_sign
+      // don't use web3.eth.personal.sign
+      // @ts-ignore
+      const result = await this.web3.currentProvider!.request({
+        method: 'personal_sign',
+        params: ['hello world'],
+      });
+
+      console.log('web3.eth.personal.sign', result);
+      Toast.show({
+        type: 'success',
+        text1: 'web3_personalSign',
+        text2: result,
+      });
+    } catch (error) {
+      console.log('web3.eth.personal.sign', error);
+      Toast.show({
+        type: 'error',
+        text1: (error as Error).message,
+      });
+    }
+  };
+
+  web3_personalSign_unique = async () => {
+    try {
+      // for persion_sign
+      // don't use web3.eth.personal.sign
+      // @ts-ignore
+      const result = await this.web3.currentProvider!.request({
+        method: 'personal_sign_unique',
+        params: ['hello world'],
+      });
+
+      console.log('personal_sign_unique', result);
+      Toast.show({
+        type: 'success',
+        text1: 'personal unique sign',
+        text2: result,
+      });
+    } catch (error) {
+      console.log('personal_sign_unique', error);
+      Toast.show({
+        type: 'error',
+        text1: (error as Error).message,
+      });
+    }
+  };
+
+
+
+  web3_signTypedData_v4 = async () => {
+    try {
+      const accounts = await this.web3.eth.getAccounts();
+      const chainId = await this.web3.eth.getChainId();
+      // @ts-ignore
+      const result = await this.web3.currentProvider!.request({
+        method: 'eth_signTypedData_v4',
+        params: [
+          accounts[0],
+          {
+            types: {
+              OrderComponents: [
+                { name: 'offerer', type: 'address' },
+                { name: 'zone', type: 'address' },
+                { name: 'offer', type: 'OfferItem[]' },
+                { name: 'consideration', type: 'ConsiderationItem[]' },
+                { name: 'orderType', type: 'uint8' },
+                { name: 'startTime', type: 'uint256' },
+                { name: 'endTime', type: 'uint256' },
+                { name: 'zoneHash', type: 'bytes32' },
+                { name: 'salt', type: 'uint256' },
+                { name: 'conduitKey', type: 'bytes32' },
+                { name: 'counter', type: 'uint256' },
+              ],
+              OfferItem: [
+                { name: 'itemType', type: 'uint8' },
+                { name: 'token', type: 'address' },
+                { name: 'identifierOrCriteria', type: 'uint256' },
+                { name: 'startAmount', type: 'uint256' },
+                { name: 'endAmount', type: 'uint256' },
+              ],
+              ConsiderationItem: [
+                { name: 'itemType', type: 'uint8' },
+                { name: 'token', type: 'address' },
+                { name: 'identifierOrCriteria', type: 'uint256' },
+                { name: 'startAmount', type: 'uint256' },
+                { name: 'endAmount', type: 'uint256' },
+                { name: 'recipient', type: 'address' },
+              ],
+              EIP712Domain: [
+                { name: 'name', type: 'string' },
+                { name: 'version', type: 'string' },
+                { name: 'chainId', type: 'uint256' },
+                { name: 'verifyingContract', type: 'address' },
+              ],
+            },
+            domain: {
+              name: 'Seaport',
+              version: '1.1',
+              chainId: `${chainId}`,
+              verifyingContract: '0x00000000006c3852cbef3e08e8df289169ede581',
+            },
+            primaryType: 'OrderComponents',
+            message: {
+              offerer: '0x6fc702d32e6cb268f7dc68766e6b0fe94520499d',
+              zone: '0x0000000000000000000000000000000000000000',
+              offer: [
+                {
+                  itemType: '2',
+                  token: '0xd15b1210187f313ab692013a2544cb8b394e2291',
+                  identifierOrCriteria: '33',
+                  startAmount: '1',
+                  endAmount: '1',
+                },
+              ],
+              consideration: [
+                {
+                  itemType: '0',
+                  token: '0x0000000000000000000000000000000000000000',
+                  identifierOrCriteria: '0',
+                  startAmount: '9750000000000000',
+                  endAmount: '9750000000000000',
+                  recipient: '0x6fc702d32e6cb268f7dc68766e6b0fe94520499d',
+                },
+                {
+                  itemType: '0',
+                  token: '0x0000000000000000000000000000000000000000',
+                  identifierOrCriteria: '0',
+                  startAmount: '250000000000000',
+                  endAmount: '250000000000000',
+                  recipient: '0x66682e752d592cbb2f5a1b49dd1c700c9d6bfb32',
+                },
+              ],
+              orderType: '0',
+              startTime: '1669188008',
+              endTime: '115792089237316195423570985008687907853269984665640564039457584007913129639935',
+              zoneHash: '0x3000000000000000000000000000000000000000000000000000000000000000',
+              salt: '48774942683212973027050485287938321229825134327779899253702941089107382707469',
+              conduitKey: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              counter: '0',
+            },
+          },
+        ],
+      });
+      console.log('web3 eth_signTypedData_v4', result);
+      Toast.show({
+        type: 'success',
+        text1: 'web3_signTypedData_v4',
+        text2: result,
+      });
+    } catch (error) {
+      console.log('web3 eth_signTypedData_v4', error);
+      Toast.show({
+        type: 'error',
+        text1: (error as Error).message,
+      });
+    }
+  };
+
+  web3_signTypedData_v4_unique = async () => {
+    try {
+      const accounts = await this.web3.eth.getAccounts();
+      const chainId = await this.web3.eth.getChainId();
+      // @ts-ignore
+      const result = await this.web3.currentProvider.request({
+        method: 'eth_signTypedData_v4_unique',
+        params: [
+          accounts[0],
+          {
+            types: {
+              OrderComponents: [
+                { name: 'offerer', type: 'address' },
+                { name: 'zone', type: 'address' },
+                { name: 'offer', type: 'OfferItem[]' },
+                { name: 'consideration', type: 'ConsiderationItem[]' },
+                { name: 'orderType', type: 'uint8' },
+                { name: 'startTime', type: 'uint256' },
+                { name: 'endTime', type: 'uint256' },
+                { name: 'zoneHash', type: 'bytes32' },
+                { name: 'salt', type: 'uint256' },
+                { name: 'conduitKey', type: 'bytes32' },
+                { name: 'counter', type: 'uint256' },
+              ],
+              OfferItem: [
+                { name: 'itemType', type: 'uint8' },
+                { name: 'token', type: 'address' },
+                { name: 'identifierOrCriteria', type: 'uint256' },
+                { name: 'startAmount', type: 'uint256' },
+                { name: 'endAmount', type: 'uint256' },
+              ],
+              ConsiderationItem: [
+                { name: 'itemType', type: 'uint8' },
+                { name: 'token', type: 'address' },
+                { name: 'identifierOrCriteria', type: 'uint256' },
+                { name: 'startAmount', type: 'uint256' },
+                { name: 'endAmount', type: 'uint256' },
+                { name: 'recipient', type: 'address' },
+              ],
+              EIP712Domain: [
+                { name: 'name', type: 'string' },
+                { name: 'version', type: 'string' },
+                { name: 'chainId', type: 'uint256' },
+                { name: 'verifyingContract', type: 'address' },
+              ],
+            },
+            domain: {
+              name: 'Seaport',
+              version: '1.1',
+              chainId: `${chainId}`,
+              verifyingContract: '0x00000000006c3852cbef3e08e8df289169ede581',
+            },
+            primaryType: 'OrderComponents',
+            message: {
+              offerer: '0x6fc702d32e6cb268f7dc68766e6b0fe94520499d',
+              zone: '0x0000000000000000000000000000000000000000',
+              offer: [
+                {
+                  itemType: '2',
+                  token: '0xd15b1210187f313ab692013a2544cb8b394e2291',
+                  identifierOrCriteria: '33',
+                  startAmount: '1',
+                  endAmount: '1',
+                },
+              ],
+              consideration: [
+                {
+                  itemType: '0',
+                  token: '0x0000000000000000000000000000000000000000',
+                  identifierOrCriteria: '0',
+                  startAmount: '9750000000000000',
+                  endAmount: '9750000000000000',
+                  recipient: '0x6fc702d32e6cb268f7dc68766e6b0fe94520499d',
+                },
+                {
+                  itemType: '0',
+                  token: '0x0000000000000000000000000000000000000000',
+                  identifierOrCriteria: '0',
+                  startAmount: '250000000000000',
+                  endAmount: '250000000000000',
+                  recipient: '0x66682e752d592cbb2f5a1b49dd1c700c9d6bfb32',
+                },
+              ],
+              orderType: '0',
+              startTime: '1669188008',
+              endTime: '115792089237316195423570985008687907853269984665640564039457584007913129639935',
+              zoneHash: '0x3000000000000000000000000000000000000000000000000000000000000000',
+              salt: '48774942683212973027050485287938321229825134327779899253702941089107382707469',
+              conduitKey: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              counter: '0',
+            },
+          },
+        ],
+      });
+      console.log('web3 eth_signTypedData_v4_unique', result);
+      Toast.show({
+        type: 'success',
+        text1: 'eth_signTypedData_v4_unique',
+        text2: result,
+      });
+    } catch (error) {
+      console.log('web3 eth_signTypedData_v4_unique', error);
+      Toast.show({
+        type: 'error',
+        text1: (error as Error).message,
+      });
+    }
+  };
+
+  web3_sendTransaction = async () => {
+    try {
+      const accounts = await this.web3.eth.getAccounts();
+      const result = await this.web3.eth.sendTransaction({
+        from: accounts[0],
+        to: TestAccountEVM.receiverAddress,
+        value: '1000000',
+        data: '0x',
+      });
+      console.log('web3.eth.sendTransaction', result);
+      Toast.show({
+        type: 'success',
+        text1: 'send transaction successfully',
+      });
+    } catch (error) {
+      console.log('web3.eth.sendTransaction', error);
+      Toast.show({
+        type: 'error',
+        text1: (error as Error).message,
+      });
+    }
+  };
+
+  web3_wallet_switchEthereumChain = async () => {
+    try {
+      const chainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
+      // @ts-ignore
+      const result = await this.web3.currentProvider!.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: '0x' + chainInfo.id.toString(16) }],
+      });
+      console.log('web3 wallet_switchEthereumChain', result);
+      Toast.show({
+        type: 'success',
+        text1: 'successfully switched',
+      });
+    } catch (error) {
+      console.log('web3 wallet_switchEthereumChain', error);
+      Toast.show({
+        type: 'error',
+        text1: (error as Error).message,
+      });
+    }
+  };
 
   init = () => {
     // Get your project id and client key from dashboard, https://dashboard.particle.network
@@ -53,7 +429,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     }
 
     console.log('init');
-    const chainInfo = PolygonMumbai;
+    const chainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
     const env = Env.Dev;
     particleAuth.init(chainInfo, env);
     particleAuthCore.init();
@@ -103,7 +479,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
       SupportAuthType.Linkedin,
       SupportAuthType.Twitter,
     ];
-    const result = await particleAuthCore.connect(LoginType.Email, null, supportAuthType, SocialLoginPrompt.SelectAccount, { projectName: "React Native Example", description: "Welcome to login", imagePath: "https://connect.particle.network/icons/512.png"});
+    const result = await particleAuthCore.connect(LoginType.Email, null, supportAuthType, SocialLoginPrompt.SelectAccount, { projectName: "React Native Example", description: "Welcome to login", imagePath: "https://connect.particle.network/icons/512.png" });
     if (result.status) {
       const userInfo = result.data as UserInfo;
       console.log('connect', userInfo);
@@ -469,6 +845,17 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
   data = [
     { key: 'Select Chain Page', function: null },
     { key: 'Init', function: this.init },
+
+    { key: 'web3_getAccounts', function: this.web3_getAccounts },
+    { key: 'web3_getBalance', function: this.web3_getBalance },
+    { key: 'web3_getChainId', function: this.web3_getChainId },
+    { key: 'web3_personalSign', function: this.web3_personalSign },
+    { key: 'web3_personalSign_unique', function: this.web3_personalSign_unique },
+    { key: 'web3_signTypedData_v4', function: this.web3_signTypedData_v4 },
+    { key: 'web3_signTypedData_v4_unique', function: this.web3_signTypedData_v4_unique },
+    { key: 'web3_sendTransaction', function: this.web3_sendTransaction },
+    { key: 'web3_wallet_switchEthereumChain', function: this.web3_wallet_switchEthereumChain },
+
     { key: 'Connect', function: this.connect },
     { key: 'ConnectJWT', function: this.connectJWT },
     { key: 'Email Login Page', function: null },

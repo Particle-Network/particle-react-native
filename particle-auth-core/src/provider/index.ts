@@ -2,16 +2,16 @@ import { chains } from '@particle-network/chains';
 import { EventEmitter } from 'events';
 import * as particleAuthCore from '../index';
 import * as particleAuth from '@particle-network/rn-auth';
-import { LoginType, SupportAuthType } from '@particle-network/rn-auth';
+import { SupportAuthType } from '@particle-network/rn-auth';
 import { sendEVMRpc } from './connection';
-import type { ParticleOptions, RequestArguments } from './types';
+import type { ParticleAuthCoreOptions, RequestArguments } from './types';
 import { notSupportMethods, signerMethods } from './types';
 import * as evm from '../evm';
 
 class ParticleAuthCoreProvider {
     private events = new EventEmitter();
 
-    constructor(private options: ParticleOptions) {
+    constructor(private options: ParticleAuthCoreOptions) {
         console.log(this.options, particleAuthCore);
         this.events.setMaxListeners(100);
     }
@@ -56,7 +56,8 @@ class ParticleAuthCoreProvider {
             } else if (payload.method === 'eth_accounts' || payload.method === 'eth_requestAccounts') {
                 const isLogin = await particleAuthCore.isConnected();
                 if (!isLogin) {
-                    await particleAuthCore.connect(LoginType.Email, undefined, [SupportAuthType.All]);
+                    const loginType = this.options.loginType;
+                    await particleAuthCore.connect(loginType, undefined, [SupportAuthType.All]);
                 }
                 const account = await evm.getAddress();
                 return [account];

@@ -1,3 +1,5 @@
+import { LoginType } from '@particle-network/rn-auth';
+
 export interface RequestArguments {
     method: string;
     params?: any;
@@ -34,11 +36,12 @@ export const signerMethods = [
     'wallet_switchEthereumChain', //EIP-3326
 ];
 
-export interface ParticleOptions {
+export interface ParticleAuthCoreOptions {
     projectId: string;
     clientKey: string;
+    loginType: LoginType;
 }
 
-export interface ConnectionOptions extends ParticleOptions {
+export interface ConnectionOptions extends ParticleAuthCoreOptions {
     chainId: number;
 }

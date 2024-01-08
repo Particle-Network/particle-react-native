@@ -1,4 +1,4 @@
-import { AccountName, VersionNumber } from '@particle-network/rn-auth';
+import { AccountName } from '@particle-network/rn-auth';
 import { NativeModules, Platform } from 'react-native';
 import type { CommonError, CommonResp, WholeFeeQuote } from './Models';
 

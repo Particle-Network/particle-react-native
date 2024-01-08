@@ -6,7 +6,7 @@ import {
   type ChainInfo,
 } from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
-import { Env, ParticleInfo } from '@particle-network/rn-auth';
+import {Env, ParticleInfo} from '@particle-network/rn-auth';
 import * as particleAuthCore from '@particle-network/rn-auth-core';
 import {
   LoginType,
@@ -21,7 +21,7 @@ import {
   type UserInfo,
 } from '@particle-network/rn-auth-core';
 import BigNumber from 'bignumber.js';
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -33,13 +33,13 @@ import {
 } from 'react-native';
 import ModalSelector from 'react-native-modal-selector';
 import Toast from 'react-native-toast-message';
-import type { AuthCoreScreenProps } from './App';
+import type {AuthCoreScreenProps} from './App';
 import * as Helper from './Helper';
-import { TestAccountEVM } from './TestAccount';
-import { createWeb3 } from './web3Demo';
+import {TestAccountEVM} from './TestAccount';
+import {createWeb3} from './web3Demo';
 
 export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
-  state = { currentLoadingBtn: '', currentKey: '', currentOptions: [] };
+  state = {currentLoadingBtn: '', currentKey: '', currentOptions: []};
   modalSelect: ModalSelector<any> | null = null;
   web3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', LoginType.Google);
 
@@ -153,7 +153,6 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
   };
 
 
-
   web3_signTypedData_v4 = async () => {
     try {
       const accounts = await this.web3.eth.getAccounts();
@@ -166,38 +165,38 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
           {
             types: {
               OrderComponents: [
-                { name: 'offerer', type: 'address' },
-                { name: 'zone', type: 'address' },
-                { name: 'offer', type: 'OfferItem[]' },
-                { name: 'consideration', type: 'ConsiderationItem[]' },
-                { name: 'orderType', type: 'uint8' },
-                { name: 'startTime', type: 'uint256' },
-                { name: 'endTime', type: 'uint256' },
-                { name: 'zoneHash', type: 'bytes32' },
-                { name: 'salt', type: 'uint256' },
-                { name: 'conduitKey', type: 'bytes32' },
-                { name: 'counter', type: 'uint256' },
+                {name: 'offerer', type: 'address'},
+                {name: 'zone', type: 'address'},
+                {name: 'offer', type: 'OfferItem[]'},
+                {name: 'consideration', type: 'ConsiderationItem[]'},
+                {name: 'orderType', type: 'uint8'},
+                {name: 'startTime', type: 'uint256'},
+                {name: 'endTime', type: 'uint256'},
+                {name: 'zoneHash', type: 'bytes32'},
+                {name: 'salt', type: 'uint256'},
+                {name: 'conduitKey', type: 'bytes32'},
+                {name: 'counter', type: 'uint256'},
               ],
               OfferItem: [
-                { name: 'itemType', type: 'uint8' },
-                { name: 'token', type: 'address' },
-                { name: 'identifierOrCriteria', type: 'uint256' },
-                { name: 'startAmount', type: 'uint256' },
-                { name: 'endAmount', type: 'uint256' },
+                {name: 'itemType', type: 'uint8'},
+                {name: 'token', type: 'address'},
+                {name: 'identifierOrCriteria', type: 'uint256'},
+                {name: 'startAmount', type: 'uint256'},
+                {name: 'endAmount', type: 'uint256'},
               ],
               ConsiderationItem: [
-                { name: 'itemType', type: 'uint8' },
-                { name: 'token', type: 'address' },
-                { name: 'identifierOrCriteria', type: 'uint256' },
-                { name: 'startAmount', type: 'uint256' },
-                { name: 'endAmount', type: 'uint256' },
-                { name: 'recipient', type: 'address' },
+                {name: 'itemType', type: 'uint8'},
+                {name: 'token', type: 'address'},
+                {name: 'identifierOrCriteria', type: 'uint256'},
+                {name: 'startAmount', type: 'uint256'},
+                {name: 'endAmount', type: 'uint256'},
+                {name: 'recipient', type: 'address'},
               ],
               EIP712Domain: [
-                { name: 'name', type: 'string' },
-                { name: 'version', type: 'string' },
-                { name: 'chainId', type: 'uint256' },
-                { name: 'verifyingContract', type: 'address' },
+                {name: 'name', type: 'string'},
+                {name: 'version', type: 'string'},
+                {name: 'chainId', type: 'uint256'},
+                {name: 'verifyingContract', type: 'address'},
               ],
             },
             domain: {
@@ -275,38 +274,38 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
           {
             types: {
               OrderComponents: [
-                { name: 'offerer', type: 'address' },
-                { name: 'zone', type: 'address' },
-                { name: 'offer', type: 'OfferItem[]' },
-                { name: 'consideration', type: 'ConsiderationItem[]' },
-                { name: 'orderType', type: 'uint8' },
-                { name: 'startTime', type: 'uint256' },
-                { name: 'endTime', type: 'uint256' },
-                { name: 'zoneHash', type: 'bytes32' },
-                { name: 'salt', type: 'uint256' },
-                { name: 'conduitKey', type: 'bytes32' },
-                { name: 'counter', type: 'uint256' },
+                {name: 'offerer', type: 'address'},
+                {name: 'zone', type: 'address'},
+                {name: 'offer', type: 'OfferItem[]'},
+                {name: 'consideration', type: 'ConsiderationItem[]'},
+                {name: 'orderType', type: 'uint8'},
+                {name: 'startTime', type: 'uint256'},
+                {name: 'endTime', type: 'uint256'},
+                {name: 'zoneHash', type: 'bytes32'},
+                {name: 'salt', type: 'uint256'},
+                {name: 'conduitKey', type: 'bytes32'},
+                {name: 'counter', type: 'uint256'},
               ],
               OfferItem: [
-                { name: 'itemType', type: 'uint8' },
-                { name: 'token', type: 'address' },
-                { name: 'identifierOrCriteria', type: 'uint256' },
-                { name: 'startAmount', type: 'uint256' },
-                { name: 'endAmount', type: 'uint256' },
+                {name: 'itemType', type: 'uint8'},
+                {name: 'token', type: 'address'},
+                {name: 'identifierOrCriteria', type: 'uint256'},
+                {name: 'startAmount', type: 'uint256'},
+                {name: 'endAmount', type: 'uint256'},
               ],
               ConsiderationItem: [
-                { name: 'itemType', type: 'uint8' },
-                { name: 'token', type: 'address' },
-                { name: 'identifierOrCriteria', type: 'uint256' },
-                { name: 'startAmount', type: 'uint256' },
-                { name: 'endAmount', type: 'uint256' },
-                { name: 'recipient', type: 'address' },
+                {name: 'itemType', type: 'uint8'},
+                {name: 'token', type: 'address'},
+                {name: 'identifierOrCriteria', type: 'uint256'},
+                {name: 'startAmount', type: 'uint256'},
+                {name: 'endAmount', type: 'uint256'},
+                {name: 'recipient', type: 'address'},
               ],
               EIP712Domain: [
-                { name: 'name', type: 'string' },
-                { name: 'version', type: 'string' },
-                { name: 'chainId', type: 'uint256' },
-                { name: 'verifyingContract', type: 'address' },
+                {name: 'name', type: 'string'},
+                {name: 'version', type: 'string'},
+                {name: 'chainId', type: 'uint256'},
+                {name: 'verifyingContract', type: 'address'},
               ],
             },
             domain: {
@@ -401,7 +400,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
       // @ts-ignore
       const result = await this.web3.currentProvider!.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: '0x' + chainInfo.id.toString(16) }],
+        params: [{chainId: '0x' + chainInfo.id.toString(16)}],
       });
       console.log('web3 wallet_switchEthereumChain', result);
       Toast.show({
@@ -447,7 +446,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
           key: 'Polygon Mumbai',
           value: PolygonMumbai,
         },
-        { label: 'Ethereum', key: 'Ethereum', value: Ethereum },
+        {label: 'Ethereum', key: 'Ethereum', value: Ethereum},
         {
           label: 'Ethereum Goerli',
           key: 'Ethereum Goerli',
@@ -479,7 +478,11 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
       SupportAuthType.Linkedin,
       SupportAuthType.Twitter,
     ];
-    const result = await particleAuthCore.connect(LoginType.Email, null, supportAuthType, SocialLoginPrompt.SelectAccount, { projectName: "React Native Example", description: "Welcome to login", imagePath: "https://connect.particle.network/icons/512.png" });
+    const result = await particleAuthCore.connect(LoginType.Email, null, supportAuthType, SocialLoginPrompt.SelectAccount, {
+      projectName: "React Native Example",
+      description: "Welcome to login",
+      imagePath: "https://connect.particle.network/icons/512.png"
+    });
     if (result.status) {
       const userInfo = result.data as UserInfo;
       console.log('connect', userInfo);
@@ -548,7 +551,8 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     }
   };
 
-  solana = async () => { };
+  solana = async () => {
+  };
 
   solanaGetAddress = async () => {
     const address = await solana.getAddress();
@@ -625,7 +629,8 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     }
   };
 
-  evm = async () => { };
+  evm = async () => {
+  };
 
   evmGetAddress = async () => {
     const address = await evm.getAddress();
@@ -813,7 +818,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     console.log('hasPaymentPassword', hasPaymentPassword);
   };
 
-  handleModelSelect = async ({ value }: { value: ChainInfo }) => {
+  handleModelSelect = async ({value}: { value: ChainInfo }) => {
     console.log(value);
     switch (this.state.currentKey) {
       case 'SwitchChain':
@@ -843,55 +848,55 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
   }
 
   data = [
-    { key: 'Select Chain Page', function: null },
-    { key: 'Init', function: this.init },
+    {key: 'Select Chain Page', function: null},
+    {key: 'Init', function: this.init},
 
-    { key: 'web3_getAccounts', function: this.web3_getAccounts },
-    { key: 'web3_getBalance', function: this.web3_getBalance },
-    { key: 'web3_getChainId', function: this.web3_getChainId },
-    { key: 'web3_personalSign', function: this.web3_personalSign },
-    { key: 'web3_personalSign_unique', function: this.web3_personalSign_unique },
-    { key: 'web3_signTypedData_v4', function: this.web3_signTypedData_v4 },
-    { key: 'web3_signTypedData_v4_unique', function: this.web3_signTypedData_v4_unique },
-    { key: 'web3_sendTransaction', function: this.web3_sendTransaction },
-    { key: 'web3_wallet_switchEthereumChain', function: this.web3_wallet_switchEthereumChain },
+    {key: 'web3_getAccounts', function: this.web3_getAccounts},
+    {key: 'web3_getBalance', function: this.web3_getBalance},
+    {key: 'web3_getChainId', function: this.web3_getChainId},
+    {key: 'web3_personalSign', function: this.web3_personalSign},
+    {key: 'web3_personalSign_unique', function: this.web3_personalSign_unique},
+    {key: 'web3_signTypedData_v4', function: this.web3_signTypedData_v4},
+    {key: 'web3_signTypedData_v4_unique', function: this.web3_signTypedData_v4_unique},
+    {key: 'web3_sendTransaction', function: this.web3_sendTransaction},
+    {key: 'web3_wallet_switchEthereumChain', function: this.web3_wallet_switchEthereumChain},
 
-    { key: 'Connect', function: this.connect },
-    { key: 'ConnectJWT', function: this.connectJWT },
-    { key: 'Email Login Page', function: null },
-    { key: 'Phone Login Page', function: null },
-    { key: 'Disconnect', function: this.disconnect },
-    { key: 'IsConnected', function: this.isConnected },
-    { key: 'ChangeMasterPassword', function: this.changeMasterPassword },
-    { key: 'GetUserInfo', function: this.getUserInfo },
-    { key: 'SwitchChain', function: this.switchChain },
+    {key: 'Connect', function: this.connect},
+    {key: 'ConnectJWT', function: this.connectJWT},
+    {key: 'Email Login Page', function: null},
+    {key: 'Phone Login Page', function: null},
+    {key: 'Disconnect', function: this.disconnect},
+    {key: 'IsConnected', function: this.isConnected},
+    {key: 'ChangeMasterPassword', function: this.changeMasterPassword},
+    {key: 'GetUserInfo', function: this.getUserInfo},
+    {key: 'SwitchChain', function: this.switchChain},
 
-    { key: 'OpenAccountAndSecurity', function: this.openAccountAndSecurity },
+    {key: 'OpenAccountAndSecurity', function: this.openAccountAndSecurity},
 
-    { key: 'HasMasterPassword', function: this.hasMasterPassword },
-    { key: 'HasPaymentPassword', function: this.hasPaymentPassword },
+    {key: 'HasMasterPassword', function: this.hasMasterPassword},
+    {key: 'HasPaymentPassword', function: this.hasPaymentPassword},
 
-    { key: 'EVM ↓', function: this.evm },
-    { key: 'EVM GetAddress', function: this.evmGetAddress },
-    { key: 'PersonalSign', function: this.evmPersonalSign },
-    { key: 'PersonalSignUnique', function: this.evmPersonalSignUnique },
-    { key: 'SignTypedData', function: this.evmSignTypedData },
-    { key: 'SignTypedDataUnique', function: this.evmSignTypedDataUnique },
-    { key: 'SendTransaction', function: this.evmSendTransaction },
+    {key: 'EVM ↓', function: this.evm},
+    {key: 'EVM GetAddress', function: this.evmGetAddress},
+    {key: 'PersonalSign', function: this.evmPersonalSign},
+    {key: 'PersonalSignUnique', function: this.evmPersonalSignUnique},
+    {key: 'SignTypedData', function: this.evmSignTypedData},
+    {key: 'SignTypedDataUnique', function: this.evmSignTypedDataUnique},
+    {key: 'SendTransaction', function: this.evmSendTransaction},
 
-    { key: 'Solana ↓', function: this.solana },
-    { key: 'Solana GetAddress', function: this.solanaGetAddress },
-    { key: 'SignMessage', function: this.solanaSignMessage },
-    { key: 'SignTransaction', function: this.solanaSignTransaction },
-    { key: 'SignAllTransactions', function: this.solanaSignAllTransactions },
+    {key: 'Solana ↓', function: this.solana},
+    {key: 'Solana GetAddress', function: this.solanaGetAddress},
+    {key: 'SignMessage', function: this.solanaSignMessage},
+    {key: 'SignTransaction', function: this.solanaSignTransaction},
+    {key: 'SignAllTransactions', function: this.solanaSignAllTransactions},
     {
       key: 'SignAndSendTransaction',
       function: this.solanaSignAndSendTransaction,
     },
 
-    { key: 'SetSecurityAccountConfig', function: this.setSecurityAccountConfig },
-    { key: 'SetBlindEnable', function: this.setBlindEnable },
-    { key: 'GetBlindEnable', function: this.getBlindEnable },
+    {key: 'SetSecurityAccountConfig', function: this.setSecurityAccountConfig},
+    {key: 'SetBlindEnable', function: this.setBlindEnable},
+    {key: 'GetBlindEnable', function: this.getBlindEnable},
   ];
 
   componentDidMount(): void {
@@ -899,7 +904,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
   }
 
   render = () => {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
 
     return (
       <SafeAreaView>
@@ -908,8 +913,8 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
             // @ts-ignore
             data={this.data}
             renderItem={({
-              item,
-            }: {
+                           item,
+                         }: {
               item: { key: string; function: () => void };
             }) => (
               <TouchableOpacity
@@ -931,12 +936,12 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
                     });
 
                     await item.function();
-                    this.setState({ currentLoadingBtn: '' });
+                    this.setState({currentLoadingBtn: ''});
                   }
                 }}
               >
                 {this.state.currentLoadingBtn === item.key ? (
-                  <ActivityIndicator color="white" />
+                  <ActivityIndicator color="white"/>
                 ) : (
                   <Text style={styles.textStyle}>{item.key}</Text>
                 )}
@@ -945,7 +950,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
           />
         </View>
         <ModalSelector
-          selectStyle={{ display: 'none' }}
+          selectStyle={{display: 'none'}}
           onChange={this.handleModelSelect}
           data={this.state.currentOptions}
           ref={(el) => {

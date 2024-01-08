@@ -83,21 +83,6 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     }
   };
 
-  loginParticleFromAuth = async () => {
-    const result = await particleAuth.login();
-    if (result.status) {
-      const userInfo = result.data as particleAuth.UserInfo;
-      console.log('userInfo', userInfo);
-
-    } else {
-      const error = result.data as CommonError;
-
-      Toast.show({
-        type: 'error',
-        text1: error.message,
-      });
-    }
-  }
 
   loginParticle = async () => {
     // const result = await particleAuth.login();
@@ -368,7 +353,6 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
   data = [
     { key: 'Init', function: this.init },
     { key: 'SetChainInfo', function: this.setChainInfo },
-    { key: ':LoginParticleFromAuth', function: this.loginParticleFromAuth },
     { key: 'LoginParticle', function: this.loginParticle },
     { key: 'ConnectMetamask', function: this.connectMetamask },
     { key: 'NavigatorWallet', function: this.navigatorWallet },

@@ -126,12 +126,12 @@ public class ParticleWalletPlugin: NSObject {
             
             if network == nil {
                 let chainInfo = ParticleNetwork.getChainInfo()
-                switch chainInfo.chain {
+                switch chainInfo {
                 case .solana:
                     network = OpenBuyNetwork.solana
                 case .ethereum:
                     network = OpenBuyNetwork.ethereum
-                case .bsc:
+                case .bnbChain:
                     network = OpenBuyNetwork.binanceSmartChain
                 case .optimism:
                     network = OpenBuyNetwork.optimism
@@ -139,17 +139,13 @@ public class ParticleWalletPlugin: NSObject {
                     network = OpenBuyNetwork.polygon
                 case .tron:
                     network = OpenBuyNetwork.tron
-                case .arbitrum:
-                    if chainInfo == .arbitrum(.one) {
-                        network = OpenBuyNetwork.arbitrumOne
-                    } else {
-                        network = nil
-                    }
+                case .arbitrumOne:
+                    network = OpenBuyNetwork.arbitrumOne
                 case .avalanche:
                     network = OpenBuyNetwork.avalanche
                 case .celo:
                     network = OpenBuyNetwork.celo
-                case .zkSync:
+                case .zkSyncEra:
                     network = OpenBuyNetwork.zkSync
                 default:
                     network = nil
@@ -219,7 +215,7 @@ public class ParticleWalletPlugin: NSObject {
             let chainId = $0["chain_id"].intValue
             let chainName = $0["chain_name"].stringValue.lowercased()
             let chainType: ChainType = chainName == "solana" ? .solana : .evm
-            return ParticleNetwork.searchChainInfo(by: chainId, chainType: chainType)?.chain
+            return ParticleNetwork.searchChainInfo(by: chainId, chainType: chainType)
         }
         ParticleWalletGUI.setSupportChain(chains)
     }

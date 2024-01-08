@@ -3,11 +3,13 @@ import type { RouteProp } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { type UIEventHandler } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import AuthCoreDemo from './AuthCoreDemo';
 import SelectChainPage from './SelectChainPage';
+import EmailLoginPage from './EmailLoginPage';
+import PhoneLoginPage from './PhoneLoginPage';
 
 const logo = require('../images/ic_round.png');
 
@@ -15,6 +17,8 @@ type StackParamList = {
   Home: undefined;
   AuthCoreDemo: { chainInfo: ChainInfo };
   SelectChainPage: undefined;
+  EmailLoginPage: undefined;
+  PhoneLoginPage: undefined;
 };
 
 type HomeScreenRouteProp = RouteProp<StackParamList, 'Home'>;
@@ -88,6 +92,50 @@ const SelectScreen: React.FC<SelectScreenProps> = ({ route, navigation }) => {
   );
 };
 
+
+type EmailLoginScreenRouteProp = RouteProp<StackParamList, 'EmailLoginPage'>;
+type EmailLoginScreenNavigationProp = NativeStackNavigationProp<
+  StackParamList,
+  'EmailLoginPage'
+>;
+
+
+interface EmailLoginScreenProps {
+  route: EmailLoginScreenRouteProp;
+  navigation: EmailLoginScreenNavigationProp;
+}
+
+
+const EmailLoginScreen: React.FC<EmailLoginScreenProps> = ({ route, navigation }) => {
+  return (
+    <View style={styles.container} >
+      <EmailLoginPage navigation={navigation} route={route} />
+    </View >
+  );
+}
+
+type PhoneLoginScreenRouteProp = RouteProp<StackParamList, 'PhoneLoginPage'>;
+type PhoneLoginScreenNavigationProp = NativeStackNavigationProp<
+  StackParamList,
+  'EmailLoginPage'
+>;
+
+
+interface PhoneLoginScreenProps {
+  route: PhoneLoginScreenRouteProp;
+  navigation: PhoneLoginScreenNavigationProp;
+}
+
+
+const PhoneLoginScreen: React.FC<PhoneLoginScreenProps> = ({ route, navigation }) => {
+  return (
+    <View style={styles.container} >
+      <PhoneLoginPage navigation={navigation} route={route} />
+    </View >
+  );
+}
+
+
 export default function App() {
   return (
     <>
@@ -96,6 +144,8 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="AuthCoreDemo" component={AuthCoreScreen} />
           <Stack.Screen name="SelectChainPage" component={SelectScreen} />
+          <Stack.Screen name="EmailLoginPage" component={EmailLoginScreen} />
+          <Stack.Screen name="PhoneLoginPage" component={PhoneLoginScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       <Toast />

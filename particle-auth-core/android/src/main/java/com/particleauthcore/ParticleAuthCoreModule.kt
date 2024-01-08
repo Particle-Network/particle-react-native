@@ -14,281 +14,368 @@ import com.particle.auth.AuthCore
 import com.particle.auth.data.AuthCoreServiceCallback
 import com.particle.auth.data.AuthCoreSignCallback
 import com.particle.auth.data.MasterPwdServiceCallback
+import com.particle.auth.data.req.LoginReq
 import com.particle.base.data.ErrorInfo
 import com.particle.base.data.SignAllOutput
 import com.particle.base.data.SignOutput
+import com.particle.base.model.CodeReq
+import com.particle.base.model.LoginType
+import com.particle.base.model.Result1Callback
 import com.particle.base.model.ResultCallback
+import com.particle.base.model.SupportLoginType
 import com.particle.base.model.UserInfo
 import com.particleauthcore.model.ChainData
+import com.particleauthcore.model.ConnectData
 import com.particleauthcore.model.ReactCallBack
 import com.particleauthcore.utils.ChainUtils
 import com.particleauthcore.utils.MessageProcess
 
 class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
-  ReactContextBaseJavaModule(reactContext) {
+    ReactContextBaseJavaModule(reactContext) {
 
 
-  override fun getName(): String {
-    return "ParticleAuthCorePlugin"
-  }
-
-  // Example method
-  // See https://reactnative.dev/docs/native-modules-android
-  @ReactMethod
-  fun multiply(a: Double, b: Double, promise: Promise) {
-    promise.resolve(a * b)
-  }
-
-  private val mainHandler = Handler(Looper.getMainLooper())
-
-  @ReactMethod
-  fun init() {
-    mainHandler.post {
-      AuthCore.isConnected()
+    override fun getName(): String {
+        return "ParticleAuthCorePlugin"
     }
-  }
 
-  @ReactMethod
-  fun connect(jwt: String, callback: Callback) {
-    AuthCore.connect(jwt, object : AuthCoreServiceCallback<UserInfo> {
-      override fun success(output: UserInfo) {
-        callback.invoke(ReactCallBack.success(output).toGson())
-      }
+    // Example method
+    // See https://reactnative.dev/docs/native-modules-android
+    @ReactMethod
+    fun multiply(a: Double, b: Double, promise: Promise) {
+        promise.resolve(a * b)
+    }
 
-      override fun failure(errMsg: ErrorInfo) {
-        callback.invoke(ReactCallBack.failed(errMsg).toGson())
-      }
-    })
-  }
+    private val mainHandler = Handler(Looper.getMainLooper())
 
-  @ReactMethod
-  fun disconnect(callback: Callback) {
-    AuthCore.disconnect(object : ResultCallback {
-      override fun failure() {
+    @ReactMethod
+    fun init() {
+        mainHandler.post {
+            AuthCore.isConnected()
+        }
+    }
+
+    @ReactMethod
+    fun connect(loginJson: String, callback: Callback) {
+        LogUtils.d("connect", loginJson)
+        val loginData = GsonUtils.fromJson(loginJson, ConnectData::class.java);
+        val loginType = LoginType.valueOf(loginData.loginType.uppercase())
+        val account = loginData.account ?: ""
+        val prompt = loginData.prompt
+        val loginPageConfig = loginData.loginPageConfig
+        val supportLoginTypes: List<SupportLoginType> = loginData.supportLoginTypes?.map {
+            SupportLoginType.valueOf(it.uppercase())
+        } ?: emptyList()
+        LogUtils.d("connect", loginType, account, supportLoginTypes, prompt, loginPageConfig)
+        try {
+            AuthCore.connect(
+                loginType,
+                account,
+                supportLoginTypes,
+                prompt,
+                loginPageConfig = loginPageConfig,
+                object : AuthCoreServiceCallback<UserInfo> {
+                    override fun success(output: UserInfo) {
+                        try {
+                            callback.invoke(ReactCallBack.success(output).toGson())
+                        } catch (_: Exception) {
+
+                        }
+                    }
+
+                    override fun failure(errMsg: ErrorInfo) {
+                        callback.invoke(ReactCallBack.failed(errMsg).toGson())
+                    }
+                })
+        } catch (e: Exception) {
+            callback.invoke(ReactCallBack.failed(ErrorInfo(e.message ?: "", 100000)).toGson())
+        }
+
+    }
+
+
+    @ReactMethod
+    fun sendEmailCode(email: String, callback: Callback) {
+        AuthCore.sendCode(CodeReq(email = email), object : Result1Callback {
+            override fun success() {
+                callback.invoke(ReactCallBack.success(true).toGson())
+            }
+
+            override fun failure(error: ErrorInfo) {
+                callback.invoke(ReactCallBack.failed(error).toGson())
+            }
+        })
+    }
+
+    @ReactMethod
+    fun sendPhoneCode(phone: String, callback: Callback) {
+        AuthCore.sendCode(CodeReq(phone = phone), object : Result1Callback {
+            override fun success() {
+                callback.invoke(ReactCallBack.success(true).toGson())
+            }
+
+            override fun failure(error: ErrorInfo) {
+                callback.invoke(ReactCallBack.failed(error).toGson())
+            }
+        })
+    }
+
+    @ReactMethod
+    fun connectWithCode(paramsJson: String, callback: Callback) {
+        val params = GsonUtils.fromJson(paramsJson, LoginReq::class.java)
+        AuthCore.connect(params, object : AuthCoreServiceCallback<UserInfo> {
+            override fun success(output: UserInfo) {
+                callback.invoke(ReactCallBack.success(output).toGson())
+            }
+
+            override fun failure(errMsg: ErrorInfo) {
+                callback.invoke(ReactCallBack.failed(errMsg).toGson())
+            }
+        })
+    }
+
+    @ReactMethod
+    fun setBlindEnable(enable: Boolean) {
+        LogUtils.d("setBlindEnable", enable)
+        AuthCore.setBlindEnable(enable)
+    }
+
+    @ReactMethod
+    fun getBlindEnable(promise: Promise) {
+        val isBlind = AuthCore.getBlindEnable()
+        LogUtils.d("getBlindEnable", isBlind)
+        promise.resolve(isBlind)
+    }
+
+    @ReactMethod
+    fun disconnect(callback: Callback) {
+        AuthCore.disconnect(object : ResultCallback {
+            override fun failure() {
+                callback.invoke(ReactCallBack.success("success").toGson())
+            }
+
+            override fun success() {
+                callback.invoke(ReactCallBack.failed("failed").toGson())
+            }
+        })
+    }
+
+    @ReactMethod
+    fun isConnected(callback: Callback) {
+        callback.invoke(AuthCore.isConnected())
+    }
+
+    @ReactMethod
+    fun getUserInfo(promise: Promise) {
+        val userInfo = AuthCore.getUserInfo()
+        promise.resolve(GsonUtils.toJson(userInfo))
+    }
+
+    @ReactMethod
+    fun switchChain(chainInfo: String, callback: Callback) {
+        val chainData: ChainData = GsonUtils.fromJson(
+            chainInfo, ChainData::class.java
+        )
+        val chainInfo = ChainUtils.getChainInfo(chainData.chainId)
+        AuthCore.switchChain(chainInfo, object : ResultCallback {
+            override fun failure() {
+                callback.invoke(false)
+            }
+
+            override fun success() {
+                callback.invoke(true)
+            }
+        })
+    }
+
+    @ReactMethod
+    fun changeMasterPassword(callback: Callback) {
+        AuthCore.changeMasterPassword(object : MasterPwdServiceCallback {
+            override fun failure(errMsg: ErrorInfo) {
+                callback.invoke(ReactCallBack.failed(errMsg).toGson())
+            }
+
+            override fun success() {
+                callback.invoke(ReactCallBack.success("success").toGson())
+            }
+        })
+    }
+
+    @ReactMethod
+    fun hasMasterPassword(callback: Callback) {
+        val hasMasterPassword = AuthCore.hasMasterPassword()
+        if (hasMasterPassword) {
+            callback.invoke(ReactCallBack.success(true).toGson())
+        } else {
+            callback.invoke(ReactCallBack.failed(false).toGson())
+        }
+    }
+
+    @ReactMethod
+    fun hasPaymentPassword(callback: Callback) {
+        val hasPaymentPassword = AuthCore.hasPaymentPassword()
+        if (hasPaymentPassword) {
+            callback.invoke(ReactCallBack.success(true).toGson())
+        } else {
+            callback.invoke(ReactCallBack.failed(false).toGson())
+        }
+    }
+
+    @ReactMethod
+    fun openAccountAndSecurity(callback: Callback) {
+        currentActivity?.apply {
+            runOnUiThread(Runnable {
+                AuthCore.openAccountAndSecurity(this)
+            })
+        }
         callback.invoke(ReactCallBack.success("success").toGson())
-      }
-
-      override fun success() {
-        callback.invoke(ReactCallBack.failed("failed").toGson())
-      }
-    })
-  }
-
-  @ReactMethod
-  fun isConnected(callback: Callback) {
-    callback.invoke(AuthCore.isConnected())
-  }
-
-  @ReactMethod
-  fun getUserInfo(promise: Promise) {
-    val userInfo = AuthCore.getUserInfo()
-    promise.resolve(GsonUtils.toJson(userInfo))
-  }
-
-  @ReactMethod
-  fun switchChain(chainInfo: String, callback: Callback) {
-    val chainData: ChainData = GsonUtils.fromJson(
-      chainInfo, ChainData::class.java
-    )
-    val chainInfo = ChainUtils.getChainInfo(chainData.chainId)
-    AuthCore.switchChain(chainInfo, object : ResultCallback {
-      override fun failure() {
-        callback.invoke(false)
-      }
-
-      override fun success() {
-        callback.invoke(true)
-      }
-    })
-  }
-
-  @ReactMethod
-  fun changeMasterPassword(callback: Callback) {
-    AuthCore.changeMasterPassword(object : MasterPwdServiceCallback {
-      override fun failure(errMsg: ErrorInfo) {
-        callback.invoke(ReactCallBack.failed(errMsg).toGson())
-      }
-
-      override fun success() {
-        callback.invoke(ReactCallBack.success("success").toGson())
-      }
-    })
-  }
-
-  @ReactMethod
-  fun hasMasterPassword(callback: Callback) {
-    val hasMasterPassword = AuthCore.hasMasterPassword()
-    if (hasMasterPassword) {
-      callback.invoke(ReactCallBack.success(true).toGson())
-    } else {
-      callback.invoke(ReactCallBack.failed(false).toGson())
     }
-  }
 
-  @ReactMethod
-  fun hasPaymentPassword(callback: Callback) {
-    val hasPaymentPassword = AuthCore.hasPaymentPassword()
-    if (hasPaymentPassword) {
-      callback.invoke(ReactCallBack.success(true).toGson())
-    } else {
-      callback.invoke(ReactCallBack.failed(false).toGson())
+    @ReactMethod
+    fun openAccountAndSecurity() {
+
     }
-  }
 
-  @ReactMethod
-  fun openAccountAndSecurity(callback: Callback) {
-    currentActivity?.apply {
-      runOnUiThread(Runnable {
-        AuthCore.openAccountAndSecurity(this)
-      })
+
+    //evm
+    @ReactMethod
+    fun evmGetAddress(promise: Promise) {
+        promise.resolve(AuthCore.evm.getAddress())
     }
-    callback.invoke(ReactCallBack.success("success").toGson())
-  }
 
-  @ReactMethod
-  fun openAccountAndSecurity() {
+    @ReactMethod
+    fun evmPersonalSign(serializedMessage: String, callback: Callback) {
+        AuthCore.evm.personalSign(serializedMessage, object : AuthCoreSignCallback<SignOutput> {
+            override fun failure(errMsg: ErrorInfo) {
+                callback.invoke(ReactCallBack.failed(errMsg).toGson())
+            }
 
-  }
+            override fun success(output: SignOutput) {
+                callback.invoke(ReactCallBack.success(output).toGson())
+            }
+        })
+    }
 
+    @ReactMethod
+    fun evmPersonalSignUnique(serializedMessage: String, callback: Callback) {
+        AuthCore.evm.personalSignUnique(
+            serializedMessage,
+            object : AuthCoreSignCallback<SignOutput> {
+                override fun failure(errMsg: ErrorInfo) {
+                    callback.invoke(ReactCallBack.failed(errMsg).toGson())
+                }
 
-  //evm
-  @ReactMethod
-  fun evmGetAddress(promise: Promise) {
-    promise.resolve(AuthCore.evm.getAddress())
-  }
+                override fun success(output: SignOutput) {
+                    callback.invoke(ReactCallBack.success(output).toGson())
+                }
+            })
+    }
 
-  @ReactMethod
-  fun evmPersonalSign(serializedMessage: String, callback: Callback) {
-    AuthCore.evm.personalSign(serializedMessage, object : AuthCoreSignCallback<SignOutput> {
-      override fun failure(errMsg: ErrorInfo) {
-        callback.invoke(ReactCallBack.failed(errMsg).toGson())
-      }
+    @ReactMethod
+    fun evmSignTypedData(message: String, callback: Callback) {
+        AuthCore.evm.signTypedData(message, object : AuthCoreSignCallback<SignOutput> {
+            override fun failure(errMsg: ErrorInfo) {
+                callback.invoke(ReactCallBack.failed(errMsg).toGson())
+            }
 
-      override fun success(output: SignOutput) {
-        callback.invoke(ReactCallBack.success(output).toGson())
-      }
-    })
-  }
+            override fun success(output: SignOutput) {
+                callback.invoke(ReactCallBack.success(output).toGson())
+            }
+        })
+    }
 
-  @ReactMethod
-  fun evmPersonalSignUnique(serializedMessage: String, callback: Callback) {
-    AuthCore.evm.personalSignUnique(serializedMessage, object : AuthCoreSignCallback<SignOutput> {
-      override fun failure(errMsg: ErrorInfo) {
-        callback.invoke(ReactCallBack.failed(errMsg).toGson())
-      }
+    @ReactMethod
+    fun evmSignTypedDataUnique(message: String, callback: Callback) {
+        AuthCore.evm.signTypedDataUnique(message, object : AuthCoreSignCallback<SignOutput> {
+            override fun failure(errMsg: ErrorInfo) {
+                callback.invoke(ReactCallBack.failed(errMsg).toGson())
+            }
 
-      override fun success(output: SignOutput) {
-        callback.invoke(ReactCallBack.success(output).toGson())
-      }
-    })
-  }
+            override fun success(output: SignOutput) {
+                callback.invoke(ReactCallBack.success(output).toGson())
+            }
+        })
+    }
 
-  @ReactMethod
-  fun evmSignTypedData(message: String, callback: Callback) {
-    AuthCore.evm.signTypedData(message, object : AuthCoreSignCallback<SignOutput> {
-      override fun failure(errMsg: ErrorInfo) {
-        callback.invoke(ReactCallBack.failed(errMsg).toGson())
-      }
+    @ReactMethod
+    fun sendTransaction(transaction: String, callback: Callback) {
+        AuthCore.evm.sendTransaction(transaction, object : AuthCoreSignCallback<SignOutput> {
+            override fun failure(errMsg: ErrorInfo) {
+                callback.invoke(ReactCallBack.failed(errMsg).toGson())
+            }
 
-      override fun success(output: SignOutput) {
-        callback.invoke(ReactCallBack.success(output).toGson())
-      }
-    })
-  }
+            override fun success(output: SignOutput) {
+                callback.invoke(ReactCallBack.success(output).toGson())
+            }
+        })
+    }
+    //solana
 
-  @ReactMethod
-  fun evmSignTypedDataUnique(message: String, callback: Callback) {
-    AuthCore.evm.signTypedDataUnique(message, object : AuthCoreSignCallback<SignOutput> {
-      override fun failure(errMsg: ErrorInfo) {
-        callback.invoke(ReactCallBack.failed(errMsg).toGson())
-      }
+    @ReactMethod
+    fun solanaGetAddress(promise: Promise) {
+        promise.resolve(AuthCore.solana.getAddress())
+    }
 
-      override fun success(output: SignOutput) {
-        callback.invoke(ReactCallBack.success(output).toGson())
-      }
-    })
-  }
+    @ReactMethod
+    fun solanaSignMessage(message: String, callback: Callback) {
+        AuthCore.solana.signMessage(
+            MessageProcess.start(message),
+            object : AuthCoreSignCallback<SignOutput> {
+                override fun failure(errMsg: ErrorInfo) {
+                    callback.invoke(ReactCallBack.failed(errMsg).toGson())
+                }
 
-  @ReactMethod
-  fun sendTransaction(transaction: String, callback: Callback) {
-    AuthCore.evm.sendTransaction(transaction, object : AuthCoreSignCallback<SignOutput> {
-      override fun failure(errMsg: ErrorInfo) {
-        callback.invoke(ReactCallBack.failed(errMsg).toGson())
-      }
+                override fun success(output: SignOutput) {
+                    callback.invoke(ReactCallBack.success(output).toGson())
+                }
+            })
+    }
 
-      override fun success(output: SignOutput) {
-        callback.invoke(ReactCallBack.success(output).toGson())
-      }
-    })
-  }
-  //solana
+    @ReactMethod
+    fun signTransaction(transaction: String, callback: Callback) {
+        AuthCore.solana.signTransaction(transaction, object : AuthCoreSignCallback<SignOutput> {
+            override fun failure(errMsg: ErrorInfo) {
+                callback.invoke(ReactCallBack.failed(errMsg).toGson())
+            }
 
-  @ReactMethod
-  fun solanaGetAddress(promise: Promise) {
-    promise.resolve(AuthCore.solana.getAddress())
-  }
+            override fun success(output: SignOutput) {
+                callback.invoke(ReactCallBack.success(output).toGson())
+            }
+        })
+    }
 
-  @ReactMethod
-  fun solanaSignMessage(message: String, callback: Callback) {
-    AuthCore.solana.signMessage(
-      MessageProcess.start(message),
-      object : AuthCoreSignCallback<SignOutput> {
-        override fun failure(errMsg: ErrorInfo) {
-          callback.invoke(ReactCallBack.failed(errMsg).toGson())
-        }
+    @ReactMethod
+    fun signAllTransaction(transactions: String, callback: Callback) {
+        LogUtils.d("signAllTransactions", transactions)
+        val trans = GsonUtils.fromJson<List<String>>(
+            transactions,
+            object : TypeToken<List<String>>() {}.type
+        )
+        AuthCore.solana.signAllTransactions(trans, object : AuthCoreSignCallback<SignAllOutput> {
+            override fun failure(errMsg: ErrorInfo) {
+                callback.invoke(ReactCallBack.failed(errMsg).toGson())
+            }
 
-        override fun success(output: SignOutput) {
-          callback.invoke(ReactCallBack.success(output).toGson())
-        }
-      })
-  }
+            override fun success(output: SignAllOutput) {
+                callback.invoke(ReactCallBack.success(output).toGson())
+            }
+        })
 
-  @ReactMethod
-  fun signTransaction(transaction: String, callback: Callback) {
-    AuthCore.solana.signTransaction(transaction, object : AuthCoreSignCallback<SignOutput> {
-      override fun failure(errMsg: ErrorInfo) {
-        callback.invoke(ReactCallBack.failed(errMsg).toGson())
-      }
+    }
 
-      override fun success(output: SignOutput) {
-        callback.invoke(ReactCallBack.success(output).toGson())
-      }
-    })
-  }
+    @ReactMethod
+    fun solanaSignAndSendTransaction(transaction: String, callback: Callback) {
+        AuthCore.solana.signAndSendTransaction(
+            transaction,
+            object : AuthCoreSignCallback<SignOutput> {
+                override fun failure(errMsg: ErrorInfo) {
+                    callback.invoke(ReactCallBack.failed(errMsg).toGson())
+                }
 
-  @ReactMethod
-  fun signAllTransaction(transactions: String, callback: Callback) {
-    LogUtils.d("signAllTransactions", transactions)
-    val trans = GsonUtils.fromJson<List<String>>(
-      transactions,
-      object : TypeToken<List<String>>() {}.type
-    )
-    AuthCore.solana.signAllTransactions(trans, object : AuthCoreSignCallback<SignAllOutput> {
-      override fun failure(errMsg: ErrorInfo) {
-        callback.invoke(ReactCallBack.failed(errMsg).toGson())
-      }
-
-      override fun success(output: SignAllOutput) {
-        callback.invoke(ReactCallBack.success(output).toGson())
-      }
-    })
-
-  }
-
-  @ReactMethod
-  fun solanaSignAndSendTransaction(transaction: String, callback: Callback) {
-    AuthCore.solana.signAndSendTransaction(
-      transaction,
-      object : AuthCoreSignCallback<SignOutput> {
-        override fun failure(errMsg: ErrorInfo) {
-          callback.invoke(ReactCallBack.failed(errMsg).toGson())
-        }
-
-        override fun success(output: SignOutput) {
-          callback.invoke(ReactCallBack.success(output).toGson())
-        }
-      })
-  }
+                override fun success(output: SignOutput) {
+                    callback.invoke(ReactCallBack.success(output).toGson())
+                }
+            })
+    }
 
 }
 

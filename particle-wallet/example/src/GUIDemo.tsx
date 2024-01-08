@@ -83,6 +83,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     }
   };
 
+
   loginParticle = async () => {
     // const result = await particleAuth.login();
     // console.log(result);

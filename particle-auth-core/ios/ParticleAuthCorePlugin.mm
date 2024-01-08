@@ -9,6 +9,18 @@ RCT_EXTERN_METHOD(switchChain: (NSString* _Nonnull)json callback:(RCTResponseSen
 
 RCT_EXTERN_METHOD(connect: (NSString* _Nonnull)json callback: (RCTResponseSenderBlock)callback)
 
+RCT_EXTERN_METHOD(connectWithCode: (NSString* _Nonnull)json callback: (RCTResponseSenderBlock)callback)
+
+
+RCT_EXTERN_METHOD(sendPhoneCode: (NSString* _Nonnull)json callback: (RCTResponseSenderBlock)callback)
+
+RCT_EXTERN_METHOD(sendEmailCode: (NSString* _Nonnull)json callback: (RCTResponseSenderBlock)callback)
+
+RCT_EXTERN_METHOD(setBlindEnable: (BOOL)enable)
+
+RCT_EXTERN_METHOD(getBlindEnable: (RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+
 RCT_EXTERN_METHOD(disconnect: (RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(isConnected: (RCTResponseSenderBlock)callback)

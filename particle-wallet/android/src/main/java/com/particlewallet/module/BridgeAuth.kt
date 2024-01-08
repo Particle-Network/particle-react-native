@@ -15,7 +15,6 @@ import com.particle.base.model.LoginType
 import com.particle.base.model.ResultCallback
 import com.particle.base.model.SupportAuthType
 import com.particle.base.model.UserInfo
-import com.particle.network.ParticleNetworkAuth
 import com.particle.network.ParticleNetworkAuth.getAddress
 import com.particle.network.ParticleNetworkAuth.getUserInfo
 import com.particle.network.ParticleNetworkAuth.isLogin
@@ -34,6 +33,7 @@ import com.particlewallet.model.ChainData
 import com.particlewallet.model.LoginData
 import com.particlewallet.model.ReactCallBack
 import com.particlewallet.model.SignTypedData
+import com.particlewallet.module.BridgeGUI
 import com.particlewallet.utils.ChainUtils
 import com.particlewallet.utils.EncodeUtils
 

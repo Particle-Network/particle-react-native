@@ -27,7 +27,6 @@ import com.solana.adapter.SolanaConnectAdapter
 import com.wallet.connect.adapter.*
 import kotlinx.coroutines.launch
 import network.particle.chains.ChainInfo
-import network.particle.flutter.bridge.module.BridgeGUI
 import org.json.JSONException
 import org.json.JSONObject
 import particle.auth.adapter.ParticleConnectAdapter

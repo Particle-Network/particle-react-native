@@ -7,7 +7,7 @@ import {
   LoginType,
   ParticleInfo,
   SupportAuthType,
-  VersionNumber,
+  SmartAccountInfo
 } from '@particle-network/rn-auth';
 import React, { PureComponent } from 'react';
 import {
@@ -37,6 +37,8 @@ interface BiconomyAuthDemoProps {
 
 export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProps> {
   state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
+  accountName = AccountName.BICONOMY_V1();
+
   init = () => {
     // Get your project id and client from dashboard, https://dashboard.particle.network
     ParticleInfo.projectId = '5479798b-26a9-4943-b848-649bb104fdc3'; // your project id
@@ -62,11 +64,7 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
       80001: 'hYZIwIsf2.e18c790b-cafb-4c4e-a438-0289fc25dba1',
     };
 
-    particleAA.init(
-      AccountName.BICONOMY,
-      VersionNumber.v1_0_0,
-      biconomyAppKeys
-    );
+    particleAA.init(this.accountName, biconomyAppKeys);
 
     Toast.show({
       type: 'success',
@@ -161,6 +159,10 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     console.log('transaction', transaction);
     const result = await particleAA.rpcGetFeeQuotes(eoaAddress, [transaction]);
 
+    Toast.show({
+      type: 'success',
+      text1: `${result}`,
+    });
     console.log('rpcGetFeeQuotes result', result);
   };
 
@@ -188,13 +190,18 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
   };
 
   getSmartAccountAddress = async (eoaAddress: string) => {
-    const config = {
-      name: AccountName.BICONOMY,
-      version: VersionNumber.v1_0_0,
+    const smartAccountParam = {
+      name: this.accountName.name,
+      version: this.accountName.version,
       ownerAddress: eoaAddress,
     };
-    const accountInfo = await EvmService.getSmartAccount([config]);
-    const smartAccountAddress = accountInfo[0]?.smartAccountAddress;
+    const result: SmartAccountInfo[] = await EvmService.getSmartAccount([smartAccountParam]);
+    const smartAccountAddress = result[0]?.smartAccountAddress;
+    Toast.show({
+      type: 'success',
+      text1: 'getSmartAccountAddress',
+      text2: `${smartAccountAddress}`,
+    });
     console.log('smartAccountAddress', smartAccountAddress);
     return smartAccountAddress;
   };
@@ -235,9 +242,19 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     );
     if (result.status) {
       const signature = result.data;
+      Toast.show({
+        type: 'success',
+        text1: 'signAndSendTransactionWithNative',
+        text2: `${signature}`,
+      });
       console.log('signAndSendTransactionWithNative result', signature);
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
+      Toast.show({
+        type: 'error',
+        text1: 'signAndSendTransactionWithNative',
+        text2: `${error}`,
+      });
       console.log('signAndSendTransactionWithNative result', error);
     }
   };
@@ -273,9 +290,19 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     );
     if (result.status) {
       const signature = result.data;
+      Toast.show({
+        type: 'success',
+        text1: 'signAndSendTransactionWithGasless',
+        text2: `${signature}`,
+      });
       console.log('signAndSendTransactionWithGasless result', signature);
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
+      Toast.show({
+        type: 'error',
+        text1: 'signAndSendTransactionWithGasless',
+        text2: `${error}`,
+      });
       console.log('signAndSendTransactionWithGasless result', error);
     }
   };
@@ -328,9 +355,19 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     );
     if (result.status) {
       const signature = result.data;
+      Toast.show({
+        type: 'success',
+        text1: 'signAndSendTransactionWithToken',
+        text2: `${signature}`,
+      });
       console.log('signAndSendTransactionWithToken result', signature);
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
+      Toast.show({
+        type: 'error',
+        text1: 'signAndSendTransactionWithGasless',
+        text2: `${error}`,
+      });
       console.log('signAndSendTransactionWithToken result', error);
     }
   };
@@ -373,9 +410,19 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     );
     if (result.status) {
       const signature = result.data;
+      Toast.show({
+        type: 'success',
+        text1: 'batchSendTransactions',
+        text2: `${signature}`,
+      });
       console.log('batchSendTransactions result', signature);
     } else {
-      const error = result.data;
+      const error = result.data as CommonError;
+      Toast.show({
+        type: 'error',
+        text1: 'batchSendTransactions',
+        text2: `${error}`,
+      });
       console.log('batchSendTransactions result', error);
     }
   };
@@ -391,15 +438,15 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     { key: 'isDeploy', function: this.isDeploy },
     { key: 'batchSendTransactions', function: this.batchSendTransactions },
     {
-      key: 'signAndSendTransactionWithNative',
+      key: 'signAndSendTransaction \nWithNative',
       function: this.signAndSendTransactionWithNative,
     },
     {
-      key: 'signAndSendTransactionWithGasless',
+      key: 'signAndSendTransaction \nWithGasless',
       function: this.signAndSendTransactionWithGasless,
     },
     {
-      key: 'signAndSendTransactionWithToken',
+      key: 'signAndSendTransaction \nWithToken',
       function: this.signAndSendTransactionWithToken,
     },
   ];
@@ -409,10 +456,11 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
       <SafeAreaView>
         <View>
           <FlatList
+            style={styles.flatListStyle}
             data={this.data}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <TouchableOpacity
-                style={styles.buttonStyle}
+                style={index >= this.data.length - 3 ? styles.biggerButtonStyle : styles.buttonStyle}
                 onPress={async () => {
                   this.setState({ currentLoadingBtn: item.key });
 
@@ -423,7 +471,7 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
                 {this.state.currentLoadingBtn === item.key ? (
                   <ActivityIndicator color="white" />
                 ) : (
-                  <Text style={styles.textStyle}>{item.key}</Text>
+                  <Text style={styles.textStyle} numberOfLines={2} >{item.key}</Text>
                 )}
               </TouchableOpacity>
             )}
@@ -435,11 +483,25 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
 }
 
 const styles = StyleSheet.create({
+  flatListStyle: {
+    width: 300,
+  },
+
   buttonStyle: {
     backgroundColor: 'rgba(78, 116, 289, 1)',
     borderRadius: 3,
     margin: 10,
     height: 30,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  biggerButtonStyle: {
+    backgroundColor: 'rgba(78, 116, 289, 1)',
+    borderRadius: 3,
+    margin: 10,
+    height: 50,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -452,5 +514,6 @@ const styles = StyleSheet.create({
   textStyle: {
     color: 'white',
     textAlign: 'center',
+    fontSize: 14,
   },
 });

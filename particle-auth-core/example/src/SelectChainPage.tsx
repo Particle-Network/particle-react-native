@@ -1,4 +1,4 @@
-import { ChainInfo, chains } from '@particle-network/chains';
+import { type ChainInfo, chains } from '@particle-network/chains';
 import React, { PureComponent } from 'react';
 import {
     FlatList,

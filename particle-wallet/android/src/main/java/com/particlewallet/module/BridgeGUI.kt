@@ -1,4 +1,4 @@
-package network.particle.flutter.bridge.module
+package com.particlewallet.module
 
 import android.content.Intent
 import android.util.Log
@@ -10,14 +10,10 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.google.gson.reflect.TypeToken
-import android.text.TextUtils
-import com.particle.api.infrastructure.db.table.WalletInfo
 import com.particle.api.service.DBService
 import com.particle.base.ParticleNetwork
 import com.particle.base.model.MobileWCWalletName
 import com.particle.gui.ParticleWallet
-import com.particle.gui.ParticleWallet.getEnablePay
-import com.particle.gui.ParticleWallet.getEnableSwap
 import com.particle.gui.ParticleWallet.navigatorBuy
 import com.particle.gui.ParticleWallet.setPayDisabled
 import com.particle.gui.ParticleWallet.setSwapDisabled
@@ -181,30 +177,30 @@ class BridgeGUI(reactContext: ReactApplicationContext) : ReactContextBaseJavaMod
 
   @ReactMethod
   fun getPayDisabled(callback: Callback) {
-    callback.invoke(!ParticleNetwork.getEnablePay())
+    callback.invoke(ParticleWallet.getPayDisabled())
   }
 
   @ReactMethod
   fun setPayDisabled(disable: Boolean) {
     LogUtils.d("setPayDisabled", disable.toString());
-    ParticleNetwork.setPayDisabled(disable)
+    ParticleWallet.setPayDisabled(disable)
   }
 
   @ReactMethod
   fun setSwapDisabled(disable: Boolean) {
     LogUtils.d("setSwapDisabled", disable.toString());
-    ParticleNetwork.setSwapDisabled(disable)
+    ParticleWallet.setSwapDisabled(disable)
   }
 
   @ReactMethod
   fun getSwapDisabled(callback: Callback) {
-    callback.invoke(!ParticleNetwork.getEnableSwap())
+    callback.invoke(ParticleWallet.getSwapDisabled())
   }
 
   @ReactMethod
   fun navigatorPay() {
     currentActivity?.let {
-      ParticleNetwork.navigatorBuy(it)
+      ParticleWallet.navigatorBuy(it)
     }
   }
 

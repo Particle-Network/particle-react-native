@@ -18,14 +18,15 @@ import {
   Env,
   ParticleInfo,
   AccountName,
-  VersionNumber,
   EvmService,
-  AAFeeMode
+  AAFeeMode,
+  SmartAccountInfo
 } from '@particle-network/rn-auth';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   SafeAreaView,
   StyleSheet,
@@ -43,10 +44,13 @@ interface AAConnectDemoProps {
 }
 
 export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
+  state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
   publicAddress = '0x498c9b8379E2e16953a7b1FF94ea11893d09A3Ed';
 
   walletType = WalletType.MetaMask;
 
+  accountName = AccountName.BICONOMY_V1();
+  
   init = () => {
     // Get your project id and client from dashboard, https://dashboard.particle.network
     ParticleInfo.projectId = '5479798b-26a9-4943-b848-649bb104fdc3'; // your project id
@@ -97,7 +101,7 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
       80001: 'hYZIwIsf2.e18c790b-cafb-4c4e-a438-0289fc25dba1',
     };
 
-    particleAA.init(AccountName.BICONOMY, VersionNumber.v1_0_0, biconomyAppKeys);
+    particleAA.init(this.accountName, biconomyAppKeys);
 
     Toast.show({
       type: 'success',
@@ -180,29 +184,21 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     console.log('transaction', transaction);
     const result = await particleAA.rpcGetFeeQuotes(eoaAddress, [transaction]);
 
+    Toast.show({
+      type: 'success',
+      text1: `${result}`,
+    });
     console.log('rpcGetFeeQuotes result', result);
-
-    if (result instanceof Array) {
-      Toast.show({
-        type: 'success',
-        text1: 'Successfully get fee quotes',
-      });
-    } else {
-      Toast.show({
-        type: 'error',
-        text1: (result as CommonError).message,
-      });
-    }
   };
 
   getSmartAccountAddress = async (eoaAddress: string) => {
-    const config = {
-      name: AccountName.BICONOMY,
-      version: VersionNumber.v1_0_0,
-      ownerAddress: eoaAddress
+    const smartAccountParam = {
+      name: this.accountName.name,
+      version: this.accountName.version,
+      ownerAddress: eoaAddress,
     };
-    const accountInfo = await EvmService.getSmartAccount([config]);
-    const smartAccountAddress = accountInfo[0]?.smartAccountAddress;
+    const result: SmartAccountInfo[] = await EvmService.getSmartAccount([smartAccountParam]);
+    const smartAccountAddress = result[0]?.smartAccountAddress;
     console.log('smartAccountAddress', smartAccountAddress);
     return smartAccountAddress;
   }
@@ -271,9 +267,19 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     );
     if (result.status) {
       const signature = result.data;
+      Toast.show({
+        type: 'success',
+        text1: 'signAndSendTransactionWithNative',
+        text2: `${signature}`,
+      });
       console.log('signAndSendTransactionWithNative result', signature);
     } else {
       const error = result.data as CommonError;
+      Toast.show({
+        type: 'error',
+        text1: 'signAndSendTransactionWithNative',
+        text2: `${error}`,
+      });
       console.log('signAndSendTransactionWithNative result', error);
       Toast.show({
         type: 'error',
@@ -313,9 +319,19 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     );
     if (result.status) {
       const signature = result.data;
+      Toast.show({
+        type: 'success',
+        text1: 'signAndSendTransactionWithGasless',
+        text2: `${signature}`,
+      });
       console.log('signAndSendTransactionWithGasless result', signature);
     } else {
       const error = result.data as CommonError;
+      Toast.show({
+        type: 'error',
+        text1: 'signAndSendTransactionWithGasless',
+        text2: `${error}`,
+      });
       console.log('signAndSendTransactionWithGasless result', error);
       Toast.show({
         type: 'error',
@@ -377,10 +393,20 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     );
     if (result.status) {
       const signature = result.data;
+      Toast.show({
+        type: 'success',
+        text1: 'signAndSendTransactionWithGasless',
+        text2: `${signature}`,
+      });
       console.log('signAndSendTransactionWithToken result', signature);
     } else {
       const error = result.data as CommonError;
-      console.log('signAndSendTransactionWithToken result', error);
+      Toast.show({
+        type: 'error',
+        text1: 'signAndSendTransactionWithToken',
+        text2: `${error}`,
+      });
+      console.log(' result', error);
       Toast.show({
         type: 'error',
         text1: error.message,
@@ -429,9 +455,19 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     );
     if (result.status) {
       const signature = result.data;
+      Toast.show({
+        type: 'success',
+        text1: 'batchSendTransactions',
+        text2: `${signature}`,
+      });
       console.log('batchSendTransactions result', signature);
     } else {
       const error = result.data as CommonError;
+      Toast.show({
+        type: 'error',
+        text1: 'batchSendTransactions',
+        text2: `${error}`,
+      });
       console.log('batchSendTransactions result', error);
       Toast.show({
         type: 'error',
@@ -451,15 +487,15 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     { key: 'isDeploy', function: this.isDeploy },
     { key: 'batchSendTransactions', function: this.batchSendTransactions },
     {
-      key: 'signAndSendTransactionWithNative',
+      key: 'signAndSendTransaction \nWithNative',
       function: this.signAndSendTransactionWithNative,
     },
     {
-      key: 'signAndSendTransactionWithGasless',
+      key: 'signAndSendTransaction \nWithGasless',
       function: this.signAndSendTransactionWithGasless,
     },
     {
-      key: 'signAndSendTransactionWithToken',
+      key: 'signAndSendTransaction \nWithToken',
       function: this.signAndSendTransactionWithToken,
     },
   ];
@@ -469,15 +505,22 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
       <SafeAreaView>
         <View>
           <FlatList
+            style={styles.flatListStyle}
             data={this.data}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <TouchableOpacity
-                style={styles.buttonStyle}
-                onPress={() => {
-                  item.function();
+                style={index >= this.data.length - 3 ? styles.biggerButtonStyle : styles.buttonStyle}
+                onPress={async () => {
+                  this.setState({ currentLoadingBtn: item.key });
+                  await item.function();
+                  this.setState({ currentLoadingBtn: '' });
                 }}
               >
-                <Text style={styles.textStyle}>{item.key}</Text>
+                {this.state.currentLoadingBtn === item.key ? (
+                  <ActivityIndicator color="white" />
+                ) : (
+                  <Text style={styles.textStyle} numberOfLines={2} >{item.key}</Text>
+                )}
               </TouchableOpacity>
             )}
           />
@@ -488,11 +531,25 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
 }
 
 const styles = StyleSheet.create({
+  flatListStyle: {
+    width: 300,
+  },
+
   buttonStyle: {
     backgroundColor: 'rgba(78, 116, 289, 1)',
     borderRadius: 3,
     margin: 10,
     height: 30,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  biggerButtonStyle: {
+    backgroundColor: 'rgba(78, 116, 289, 1)',
+    borderRadius: 3,
+    margin: 10,
+    height: 50,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -505,5 +562,6 @@ const styles = StyleSheet.create({
   textStyle: {
     color: 'white',
     textAlign: 'center',
+    fontSize: 14,
   },
 });

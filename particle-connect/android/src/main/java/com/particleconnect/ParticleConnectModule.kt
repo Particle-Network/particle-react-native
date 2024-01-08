@@ -29,7 +29,6 @@ import com.particle.connect.ParticleConnect
 import com.particle.connect.ParticleConnect.setChain
 import com.particle.connect.model.AdapterAccount
 import com.particle.network.ParticleNetworkAuth.switchChain
-import com.particle.network.service.LoginPrompt
 import com.particleconnect.model.*
 import com.particleconnect.utils.BridgeScope
 import com.particleconnect.utils.ChainUtils
@@ -37,6 +36,7 @@ import com.particleconnect.utils.EncodeUtils
 import com.particleconnect.utils.MessageProcess
 import com.phantom.adapter.PhantomConnectAdapter
 import com.facebook.react.modules.core.DeviceEventManagerModule
+import com.particle.base.model.LoginPrompt
 import com.solana.adapter.SolanaConnectAdapter
 import com.wallet.connect.adapter.*
 import kotlinx.coroutines.CoroutineScope

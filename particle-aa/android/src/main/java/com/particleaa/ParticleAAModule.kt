@@ -7,7 +7,6 @@ import com.particle.base.ParticleNetwork
 import com.particle.base.data.ErrorInfo
 import com.particle.base.isSupportedERC4337
 import com.particle.erc4337.ParticleNetworkAA.initAAMode
-import com.particle.erc4337.aa.BiconomyAAService
 import com.particleaa.model.BiconomyInitData
 import com.particleaa.model.ChainData
 import com.particleaa.model.FeeQuotesParams

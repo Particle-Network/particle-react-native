@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View, SafeAreaView, FlatList, TouchableOpacity, Text } from 'react-native';
 import { chains, ChainInfo } from '@particle-network/chains';
 import Toast from 'react-native-toast-message';
-import * as particleAuth from 'react-native-particle-auth';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
 interface SelectChainPageProps {
@@ -24,7 +23,7 @@ export default class SelectChainPage extends PureComponent<SelectChainPageProps>
                                 onPress={() => {
                                     this.selectedChain(item);
                                 }}>
-                                <Text style={styles.textStyle}>{item.name + " " + item.network + " " + item.id }</Text>
+                                <Text style={styles.textStyle}>{item.name + " " + item.network + " " + item.id}</Text>
                             </TouchableOpacity>
                         )}
                     />

@@ -3,14 +3,13 @@ import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import BigNumber from 'bignumber.js';
 import { PureComponent } from 'react';
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { WalletDisplay } from 'react-native-particle-auth';
-import * as particleAuthCore from 'react-native-particle-auth-core';
-import { evm, solana } from 'react-native-particle-auth-core';
-import * as particleConnect from 'react-native-particle-connect';
-import { DappMetaData } from 'react-native-particle-connect';
-import * as particleWallet from 'react-native-particle-wallet';
-
-import { Env, ParticleInfo } from 'react-native-particle-auth';
+import { WalletDisplay } from '@particle-network/rn-auth';
+import * as particleAuthCore from '@particle-network/rn-auth-core';
+import { evm, solana } from '@particle-network/rn-auth-core';
+import * as particleConnect from '@particle-network/rn-connect';
+import { DappMetaData } from '@particle-network/rn-connect';
+import * as particleWallet from '@particle-network/rn-wallet';
+import { Env, ParticleInfo, LoginType } from '@particle-network/rn-auth';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
 
@@ -62,8 +61,8 @@ export default class Demo extends PureComponent<DemoProps> {
         particleWallet.setShowTestNetwork(false);
         particleWallet.setShowManageWallet(false);
         particleWallet.setShowLanguageSetting(false);
-        particleWallet.setShowAppearanceSetting(false); 
-        
+        particleWallet.setShowAppearanceSetting(false);
+
     };
 
     switchChain = async () => {
@@ -73,8 +72,20 @@ export default class Demo extends PureComponent<DemoProps> {
     };
 
     connect = async () => {
-        const jwt = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IndVUE05RHNycml0Sy1jVHE2OWNKcCJ9.eyJlbWFpbCI6InBhbnRhb3ZheUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImlzcyI6Imh0dHBzOi8vZGV2LXFyNi01OWVlLnVzLmF1dGgwLmNvbS8iLCJhdWQiOiJFVmpLMVpaUFN0UWNkV3VoandQZGRBdGdSaXdwNTRWUSIsImlhdCI6MTY5MTM3NTk4NCwiZXhwIjoxNjkxNDExOTg0LCJzdWIiOiJhdXRoMHw2MzAzMjE0YjZmNjE1NjM2YWM5MTdmMWIiLCJzaWQiOiJnOVFOcENwWmR6NGxDcndTdzMySTNYVm0xWHcxRkNsbSJ9.Fsf0LRGzk2-GEEo6k7VL7Z-HGOgqknS3dYTCZx05ucTkhLz5_xDARBYLgQAkSOGGP-C3Y-W3NVznWmOFHJUjTep1yqj_s48PBF0tRkBf3mSpFHonKmYjjOVI8Z-erH1yW0x40m7bnlty_mp6ZnOW-1Q3kxMAextkvhqOmj_SZkydEoSfCI2DJ5xsiPTbUVoKGNvvDJr3zdMOLhKMa6lXlWPYk91LxuV7Fkb46GX230E2lFAkAN1VBSUg158yO92DdgOL1L5AyvRxVIHPG5cbQ65NL2iVusOPBCCbEBBqeg23nKMCulL9l6GR1OvqjkTSbT658fk7QKms_URR-RItPQ"; // your jwt
-        const result = await particleAuthCore.connect(jwt);
+        const result = await particleAuthCore.connect(LoginType.Google);
+        if (result.status) {
+            const userInfo = result.data;
+            console.log(userInfo);
+        } else {
+            const error = result.data;
+            console.log(error);
+        }
+    };
+
+
+    connectJWT = async () => {
+        const jwt = "your jwt"; // your jwt
+        const result = await particleAuthCore.connectJWT(jwt);
         if (result.status) {
             const userInfo = result.data;
             console.log(userInfo);
@@ -292,25 +303,6 @@ export default class Demo extends PureComponent<DemoProps> {
         console.log(userInfo);
     };
 
-    openWebWallet = async () => {
-        //https://docs.particle.network/developers/wallet-service/sdks/web
-        let webConfig = {
-            supportAddToken: false,
-            supportChains: [
-                {
-                    id: 1,
-                    name: 'Ethereum',
-                },
-                {
-                    id: 5,
-                    name: 'Ethereum',
-                },
-            ],
-        };
-        const webConfigJSON = JSON.stringify(webConfig);
-        particleAuthCore.openWebWallet(webConfigJSON);
-    };
-
 
     hasMasterPassword = async () => {
         const hasMasterPassword = await particleAuthCore.hasMasterPassword();
@@ -327,13 +319,14 @@ export default class Demo extends PureComponent<DemoProps> {
         { key: 'Init', function: this.init },
         { key: 'SwitchChain', function: this.switchChain },
         { key: 'Connect', function: this.connect },
+        { key: 'ConnectJWT', function: this.connectJWT },
         { key: 'Disconnect', function: this.disconnect },
         { key: 'IsConnected', function: this.isConnected },
         { key: 'GetUserInfo', function: this.getUserInfo },
-        
+
         { key: 'OpenWallet', function: this.openWallet },
 
-        { key: 'OpenWebWallet', function: this.openWebWallet },
+
         { key: 'OpenAccountAndSecurity', function: this.openAccountAndSecurity },
 
         { key: 'HasMasterPassword', function: this.hasMasterPassword },

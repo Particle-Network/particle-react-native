@@ -253,9 +253,7 @@ class ParticleConnectPlugin: NSObject {
         }
         
         var observable: Single<Account?>
-        if walletType == .walletConnect {
-            observable = (adapter as! WalletConnectAdapter).connectWithQrCode(from: vc)
-        } else if walletType == .particle {
+        if walletType == .particle {
             observable = adapter.connect(connectConfig)
         } else {
             observable = adapter.connect(ConnectConfig.none)
@@ -728,7 +726,7 @@ class ParticleConnectPlugin: NSObject {
         let message = data["message"].stringValue
         var signature = data["signature"].stringValue
         
-        if ConnectManager.getChainType() == .solana {
+        if ParticleNetwork.getChainInfo().chainType == .solana {
             signature = Base58.encode(Data(base64Encoded: signature)!)
         }
         
@@ -782,7 +780,6 @@ class ParticleConnectPlugin: NSObject {
             return
         }
         
-        (adapter as? WalletConnectAdapter)?.reconnectIfNeeded(publicAddress: publicAddress)
         let nullStr: String? = nil
         let statusModel = ReactStatusModel(status: true, data: nullStr)
         let nullData = try! JSONEncoder().encode(statusModel)
@@ -880,7 +877,6 @@ extension ParticleConnectPlugin: MessageSigner {
         return latestPublicAddress ?? ""
     }
 }
-
 
 @objc(ParticleConnectEvent)
 class ParticleConnectEvent: RCTEventEmitter {

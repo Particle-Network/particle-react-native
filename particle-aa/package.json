@@ -1,6 +1,6 @@
 {
   "name": "@particle-network/rn-aa",
-  "version": "1.3.4",
+  "version": "1.3.6",
   "description": "Particle Account Abstraction in React Native",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",

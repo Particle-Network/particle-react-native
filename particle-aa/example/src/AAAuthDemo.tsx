@@ -57,14 +57,14 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     particleAuth.init(chainInfo, env);
 
     // then init particle biconomy
-    const biconomyAppKeys = {
+    const biconomyApiKeys = {
       1: 'your ethereum mainnet key',
       5: 'your ethereum goerli key',
       137: 'your polygon mainnet key',
       80001: 'hYZIwIsf2.e18c790b-cafb-4c4e-a438-0289fc25dba1',
     };
 
-    particleAA.init(this.accountName, biconomyAppKeys);
+    particleAA.init(this.accountName, biconomyApiKeys);
 
     Toast.show({
       type: 'success',
@@ -328,7 +328,6 @@ export default class BiconomyAuthDemo extends PureComponent<BiconomyAuthDemoProp
     console.log('wholeFeeQuote', wholeFeeQuote);
 
     const feeQuotes = wholeFeeQuote.tokenPaymaster.feeQuotes as any[];
-
     const validFeeQuotes = feeQuotes.filter((item) => {
       const fee = BigNumber(item.fee);
       const balance = BigNumber(item.balance);

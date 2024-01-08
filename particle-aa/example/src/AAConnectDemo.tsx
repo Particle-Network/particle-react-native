@@ -94,14 +94,14 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     particleConnect.setWalletConnectV2SupportChainInfos(chainInfos);
 
     // then init particle AA
-    const biconomyAppKeys = {
+    const biconomyApiKeys = {
       1: 'your ethereum mainnet key',
       5: 'your ethereum goerli key',
       137: 'your polygon mainnet key',
       80001: 'hYZIwIsf2.e18c790b-cafb-4c4e-a438-0289fc25dba1',
     };
 
-    particleAA.init(this.accountName, biconomyAppKeys);
+    particleAA.init(this.accountName, biconomyApiKeys);
 
     Toast.show({
       type: 'success',

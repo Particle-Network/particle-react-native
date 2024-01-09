@@ -42,7 +42,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    func sendPhoneCode(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+    func sendPhoneCode(_ json: String, callback: @escaping ParticleCallback) {
         let phone = json
         let observable = Single<Bool>.fromAsync { [weak self] in
             guard let self = self else { throw ParticleNetwork.ResponseError(code: nil, message: "self is nil") }
@@ -52,7 +52,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    func sendEmailCode(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+    func sendEmailCode(_ json: String, callback: @escaping ParticleCallback) {
         let email = json
         let observable = Single<Bool>.fromAsync { [weak self] in
             guard let self = self else { throw ParticleNetwork.ResponseError(code: nil, message: "self is nil") }
@@ -62,7 +62,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func switchChain(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+    public func switchChain(_ json: String, callback: @escaping ParticleCallback) {
         let data = JSON(parseJSON: json)
 
         let chainId = data["chain_id"].intValue
@@ -85,7 +85,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    func connect(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+    func connect(_ json: String, callback: @escaping ParticleCallback) {
         let data = JSON(parseJSON: json)
 
         let type = data["login_type"].stringValue.lowercased()
@@ -160,7 +160,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    func connectWithCode(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+    func connectWithCode(_ json: String, callback: @escaping ParticleCallback) {
         let data = JSON(parseJSON: json)
         let email = data["email"].stringValue
         let phone = data["phone"].stringValue
@@ -191,7 +191,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func disconnect(_ callback: @escaping RCTResponseSenderBlock) {
+    public func disconnect(_ callback: @escaping ParticleCallback) {
         subscribeAndCallback(observable: Single<String>.fromAsync { [weak self] in
             guard let self = self else {
                 throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
@@ -201,7 +201,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func isConnected(_ callback: @escaping RCTResponseSenderBlock) {
+    public func isConnected(_ callback: @escaping ParticleCallback) {
         subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
             guard let self = self else {
                 throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
@@ -211,7 +211,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func solanaSignMessage(_ message: String, callback: @escaping RCTResponseSenderBlock) {
+    public func solanaSignMessage(_ message: String, callback: @escaping ParticleCallback) {
         let serializedMessage = Base58.encode(message.data(using: .utf8)!)
 
         let chainInfo = ParticleNetwork.getChainInfo()
@@ -224,7 +224,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func solanaSignTransaction(_ transaction: String, callback: @escaping RCTResponseSenderBlock) {
+    public func solanaSignTransaction(_ transaction: String, callback: @escaping ParticleCallback) {
         let chainInfo = ParticleNetwork.getChainInfo()
 
         subscribeAndCallback(observable: Single<String>.fromAsync { [weak self] in
@@ -236,7 +236,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func solanaSignAllTransactions(_ transactions: String, callback: @escaping RCTResponseSenderBlock) {
+    public func solanaSignAllTransactions(_ transactions: String, callback: @escaping ParticleCallback) {
         let transactions = JSON(parseJSON: transactions).arrayValue.map { $0.stringValue }
         let chainInfo = ParticleNetwork.getChainInfo()
         subscribeAndCallback(observable: Single<[String]>.fromAsync { [weak self] in
@@ -248,7 +248,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func solanaSignAndSendTransaction(_ transaction: String, callback: @escaping RCTResponseSenderBlock) {
+    public func solanaSignAndSendTransaction(_ transaction: String, callback: @escaping ParticleCallback) {
         let chainInfo = ParticleNetwork.getChainInfo()
         subscribeAndCallback(observable: Single<String>.fromAsync { [weak self] in
             guard let self = self else {
@@ -259,7 +259,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func evmPersonalSign(_ message: String, callback: @escaping RCTResponseSenderBlock) {
+    public func evmPersonalSign(_ message: String, callback: @escaping ParticleCallback) {
         let chainInfo = ParticleNetwork.getChainInfo()
         subscribeAndCallback(observable: Single<String>.fromAsync { [weak self] in
             guard let self = self else {
@@ -270,7 +270,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func evmPersonalSignUnique(_ message: String, callback: @escaping RCTResponseSenderBlock) {
+    public func evmPersonalSignUnique(_ message: String, callback: @escaping ParticleCallback) {
         let chainInfo = ParticleNetwork.getChainInfo()
         subscribeAndCallback(observable: Single<String>.fromAsync { [weak self] in
             guard let self = self else {
@@ -281,7 +281,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func evmSignTypedData(_ message: String, callback: @escaping RCTResponseSenderBlock) {
+    public func evmSignTypedData(_ message: String, callback: @escaping ParticleCallback) {
         let chainInfo = ParticleNetwork.getChainInfo()
         subscribeAndCallback(observable: Single<String>.fromAsync { [weak self] in
             guard let self = self else {
@@ -292,7 +292,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func evmSignTypedDataUnique(_ message: String, callback: @escaping RCTResponseSenderBlock) {
+    public func evmSignTypedDataUnique(_ message: String, callback: @escaping ParticleCallback) {
         let chainInfo = ParticleNetwork.getChainInfo()
         subscribeAndCallback(observable: Single<String>.fromAsync { [weak self] in
             guard let self = self else {
@@ -303,7 +303,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func evmSendTransaction(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+    public func evmSendTransaction(_ json: String, callback: @escaping ParticleCallback) {
         let data = JSON(parseJSON: json)
         let transaction = data["transaction"].stringValue
         let mode = data["fee_mode"]["option"].stringValue
@@ -342,7 +342,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    func evmBatchSendTransactions(_ json: String, callback: @escaping RCTResponseSenderBlock) {
+    func evmBatchSendTransactions(_ json: String, callback: @escaping ParticleCallback) {
         let data = JSON(parseJSON: json)
         let transactions = data["transactions"].arrayValue.map {
             $0.stringValue
@@ -408,7 +408,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func openAccountAndSecurity(_ callback: @escaping RCTResponseSenderBlock) {
+    public func openAccountAndSecurity(_ callback: @escaping ParticleCallback) {
         let observable = Single<Void>.fromAsync {
             [weak self] in
                 guard let self = self else {
@@ -423,7 +423,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func hasPaymentPassword(_ callback: @escaping RCTResponseSenderBlock) {
+    public func hasPaymentPassword(_ callback: @escaping ParticleCallback) {
         subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
             guard let self = self else {
                 throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
@@ -433,7 +433,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func hasMasterPassword(_ callback: @escaping RCTResponseSenderBlock) {
+    public func hasMasterPassword(_ callback: @escaping ParticleCallback) {
         subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
             guard let self = self else {
                 throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")
@@ -443,7 +443,7 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func changeMasterPassword(_ callback: @escaping RCTResponseSenderBlock) {
+    public func changeMasterPassword(_ callback: @escaping ParticleCallback) {
         subscribeAndCallback(observable: Single<Bool>.fromAsync { [weak self] in
             guard let self = self else {
                 throw ParticleNetwork.ResponseError(code: nil, message: "self is nil")

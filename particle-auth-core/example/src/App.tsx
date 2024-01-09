@@ -3,7 +3,7 @@ import type { RouteProp } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { type UIEventHandler } from 'react';
+import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import AuthCoreDemo from './AuthCoreDemo';

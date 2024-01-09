@@ -56,7 +56,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
 
     particleAuth.init(chainInfo, env);
 
-    // then init particle biconomy
+    // then init particle AA
     const biconomyApiKeys = {
       1: 'your ethereum mainnet key',
       5: 'your ethereum goerli key',

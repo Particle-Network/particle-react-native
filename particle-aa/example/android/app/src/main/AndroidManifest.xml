@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.particleauthexample">
+  package="com.particleauthexample"     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -7,8 +7,10 @@
       android:name=".MainApplication"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
+      android:fullBackupContent="@xml/pn_backup_rules"
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
+      tools:replace="android:fullBackupContent"
       android:theme="@style/AppTheme">
       <activity
         android:name=".MainActivity"

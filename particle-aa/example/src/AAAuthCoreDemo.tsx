@@ -7,7 +7,7 @@ import {
   LoginType,
   ParticleInfo,
   SupportAuthType,
-  SmartAccountInfo
+  SmartAccountInfo, SocialLoginPrompt
 } from '@particle-network/rn-auth';
 import React, { PureComponent } from 'react';
 import {
@@ -67,7 +67,7 @@ export default class AAAuthCoreDemo extends PureComponent<AAAuthCoreDemoProps> {
     };
 
     particleAA.init(this.accountName, biconomyApiKeys);
-   
+
     Toast.show({
       type: 'success',
       text1: 'Initialized successfully',
@@ -86,9 +86,23 @@ export default class AAAuthCoreDemo extends PureComponent<AAAuthCoreDemoProps> {
   };
 
   connect = async () => {
-    const result = await particleAuthCore.connect(
-      LoginType.Google,
-    );
+    const supportAuthType = [
+      SupportAuthType.Phone,
+      SupportAuthType.Google,
+      SupportAuthType.Facebook,
+      SupportAuthType.Apple,
+      SupportAuthType.Discord,
+      SupportAuthType.Github,
+      SupportAuthType.Twitch,
+      SupportAuthType.Microsoft,
+      SupportAuthType.Linkedin,
+      SupportAuthType.Twitter,
+    ];
+    const result = await particleAuthCore.connect(LoginType.Email, null, supportAuthType, SocialLoginPrompt.SelectAccount, {
+      projectName: "React Native Example",
+      description: "Welcome to login",
+      imagePath: "https://connect.particle.network/icons/512.png"
+    });
     if (result.status) {
       const userInfo = result.data;
       console.log(userInfo);

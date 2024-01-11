@@ -87,15 +87,22 @@ export function signTypedDataUnique(
 }
 
 export function sendTransaction(transaction: string, feeMode?: AAFeeMode): Promise<CommonResp<string>> {
-  const obj = {
-    transaction: transaction,
-    fee_mode: {
-      option: feeMode?.getOption(),
-      fee_quote: feeMode?.getFeeQuote(),
-      token_paymaster_address: feeMode?.getTokenPaymasterAddress(),
-      whole_fee_quote: feeMode?.getWholeFeeQuote(),
-    },
-  };
+  let obj;
+  if (feeMode) {
+    obj = {
+      transaction: transaction,
+      fee_mode: {
+        option: feeMode?.getOption(),
+        fee_quote: feeMode?.getFeeQuote(),
+        token_paymaster_address: feeMode?.getTokenPaymasterAddress(),
+        whole_fee_quote: feeMode?.getWholeFeeQuote(),
+      },
+    };
+  } else {
+    obj = {
+      transaction: transaction,
+    };
+  }
   const json = JSON.stringify(obj);
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.evmSendTransaction(json, (result: string) => {
@@ -121,7 +128,6 @@ export async function batchSendTransactions(transactions: string[], feeMode?: AA
     },
   };
   const json = JSON.stringify(obj);
-
   return new Promise((resolve) => {
     ParticleAuthCorePlugin.evmBatchSendTransactions(json, (result: string) => {
       resolve(JSON.parse(result));

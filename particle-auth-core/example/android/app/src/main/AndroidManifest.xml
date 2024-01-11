@@ -24,11 +24,11 @@
     </activity>
     <!-- Particle AuthCore Start -->
     <activity
-        android:name="com.particle.auth.controller.AuthCoreWebActivity"
-        android:configChanges="orientation|keyboardHidden|screenSize"
-        android:exported="true"
-        android:launchMode="singleTask"
-        android:theme="@style/ThemeAuthWeb">
+      android:name="com.particle.auth.controller.AuthCoreWebActivity"
+      android:configChanges="orientation|keyboardHidden|screenSize"
+      android:exported="true"
+      android:launchMode="singleTask"
+      android:theme="@style/ThemeAuthWeb">
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />
 

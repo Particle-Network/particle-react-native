@@ -15,9 +15,16 @@ import com.particle.auth.data.AuthCoreServiceCallback
 import com.particle.auth.data.AuthCoreSignCallback
 import com.particle.auth.data.MasterPwdServiceCallback
 import com.particle.auth.data.req.LoginReq
+import com.particle.base.ParticleNetwork
 import com.particle.base.data.ErrorInfo
 import com.particle.base.data.SignAllOutput
 import com.particle.base.data.SignOutput
+import com.particle.base.data.WebServiceCallback
+import com.particle.base.iaa.FeeMode
+import com.particle.base.iaa.FeeModeGasless
+import com.particle.base.iaa.FeeModeNative
+import com.particle.base.iaa.FeeModeToken
+import com.particle.base.iaa.MessageSigner
 import com.particle.base.model.CodeReq
 import com.particle.base.model.LoginType
 import com.particle.base.model.Result1Callback
@@ -29,6 +36,11 @@ import com.particleauthcore.model.ConnectData
 import com.particleauthcore.model.ReactCallBack
 import com.particleauthcore.utils.ChainUtils
 import com.particleauthcore.utils.MessageProcess
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import network.particle.auth_flutter.bridge.model.TransactionParams
+import network.particle.auth_flutter.bridge.model.TransactionsParams
 
 class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
@@ -67,8 +79,7 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
         } ?: emptyList()
         LogUtils.d("connect", loginType, account, supportLoginTypes, prompt, loginPageConfig)
         try {
-            AuthCore.connect(
-                loginType,
+            AuthCore.connect(loginType,
                 account,
                 supportLoginTypes,
                 prompt,
@@ -83,7 +94,11 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
                     }
 
                     override fun failure(errMsg: ErrorInfo) {
-                        callback.invoke(ReactCallBack.failed(errMsg).toGson())
+                        try {
+                            callback.invoke(ReactCallBack.failed(errMsg).toGson())
+                        } catch (_: Exception) {
+
+                        }
                     }
                 })
         } catch (e: Exception) {
@@ -257,8 +272,7 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun evmPersonalSignUnique(serializedMessage: String, callback: Callback) {
-        AuthCore.evm.personalSignUnique(
-            serializedMessage,
+        AuthCore.evm.personalSignUnique(serializedMessage,
             object : AuthCoreSignCallback<SignOutput> {
                 override fun failure(errMsg: ErrorInfo) {
                     callback.invoke(ReactCallBack.failed(errMsg).toGson())
@@ -296,18 +310,7 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
         })
     }
 
-    @ReactMethod
-    fun sendTransaction(transaction: String, callback: Callback) {
-        AuthCore.evm.sendTransaction(transaction, object : AuthCoreSignCallback<SignOutput> {
-            override fun failure(errMsg: ErrorInfo) {
-                callback.invoke(ReactCallBack.failed(errMsg).toGson())
-            }
 
-            override fun success(output: SignOutput) {
-                callback.invoke(ReactCallBack.success(output).toGson())
-            }
-        })
-    }
     //solana
 
     @ReactMethod
@@ -317,8 +320,7 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun solanaSignMessage(message: String, callback: Callback) {
-        AuthCore.solana.signMessage(
-            MessageProcess.start(message),
+        AuthCore.solana.signMessage(MessageProcess.start(message),
             object : AuthCoreSignCallback<SignOutput> {
                 override fun failure(errMsg: ErrorInfo) {
                     callback.invoke(ReactCallBack.failed(errMsg).toGson())
@@ -331,7 +333,21 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun signTransaction(transaction: String, callback: Callback) {
+    fun evmSolanaSignMessage(serializedMessage: String, callback: Callback) {
+        AuthCore.solana.signMessage(MessageProcess.start(serializedMessage),
+            object : AuthCoreSignCallback<SignOutput> {
+                override fun failure(errMsg: ErrorInfo) {
+                    callback.invoke(ReactCallBack.failed(errMsg).toGson())
+                }
+
+                override fun success(output: SignOutput) {
+                    callback.invoke(ReactCallBack.success(output).toGson())
+                }
+            })
+    }
+
+    @ReactMethod
+    fun solanaSignTransaction(transaction: String, callback: Callback) {
         AuthCore.solana.signTransaction(transaction, object : AuthCoreSignCallback<SignOutput> {
             override fun failure(errMsg: ErrorInfo) {
                 callback.invoke(ReactCallBack.failed(errMsg).toGson())
@@ -344,11 +360,10 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun signAllTransaction(transactions: String, callback: Callback) {
+    fun solanaSignAllTransactions(transactions: String, callback: Callback) {
         LogUtils.d("signAllTransactions", transactions)
         val trans = GsonUtils.fromJson<List<String>>(
-            transactions,
-            object : TypeToken<List<String>>() {}.type
+            transactions, object : TypeToken<List<String>>() {}.type
         )
         AuthCore.solana.signAllTransactions(trans, object : AuthCoreSignCallback<SignAllOutput> {
             override fun failure(errMsg: ErrorInfo) {
@@ -364,8 +379,7 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun solanaSignAndSendTransaction(transaction: String, callback: Callback) {
-        AuthCore.solana.signAndSendTransaction(
-            transaction,
+        AuthCore.solana.signAndSendTransaction(transaction,
             object : AuthCoreSignCallback<SignOutput> {
                 override fun failure(errMsg: ErrorInfo) {
                     callback.invoke(ReactCallBack.failed(errMsg).toGson())
@@ -376,6 +390,122 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
                 }
             })
     }
+
+    @ReactMethod
+    fun evmSendTransaction(transactionParams: String, callback: Callback) {
+        LogUtils.d("signAndSendTransaction", transactionParams)
+        val transParams =
+            GsonUtils.fromJson<TransactionParams>(transactionParams, TransactionParams::class.java)
+        var feeMode: FeeMode = FeeModeNative()
+        if (transParams.feeMode != null) {
+            val option = transParams!!.feeMode!!.option
+            if (option == "token") {
+                val tokenPaymasterAddress = transParams!!.feeMode!!.tokenPaymasterAddress
+                val feeQuote = transParams.feeMode!!.feeQuote!!
+                feeMode = FeeModeToken(feeQuote, tokenPaymasterAddress!!)
+            } else if (option == "gasless") {
+                val verifyingPaymasterGasless =
+                    transParams.feeMode!!.wholeFeeQuote.verifyingPaymasterGasless
+                feeMode = FeeModeGasless(verifyingPaymasterGasless)
+            } else if (option == "native") {
+                val verifyingPaymasterNative =
+                    transParams.feeMode!!.wholeFeeQuote.verifyingPaymasterNative
+                feeMode = FeeModeNative(verifyingPaymasterNative)
+            }
+        }
+        try {
+            AuthCore.evm.sendTransaction(
+                transParams.transaction, object : AuthCoreSignCallback<SignOutput> {
+
+                    override fun success(output: SignOutput) {
+                        callback.invoke(ReactCallBack.success(output.signature).toGson())
+                    }
+
+                    override fun failure(errMsg: ErrorInfo) {
+                        callback.invoke(ReactCallBack.failed(errMsg).toGson())
+                    }
+
+                }, feeMode
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+            callback.invoke(ReactCallBack.failed(ErrorInfo(e.message ?: "failed", 10000)).toGson())
+        }
+    }
+
+    @ReactMethod
+    fun evmBatchSendTransactions(transactions: String, callback: Callback) {
+        LogUtils.d("batchSendTransactions", transactions)
+        val transParams =
+            GsonUtils.fromJson<TransactionsParams>(transactions, TransactionsParams::class.java)
+        var feeMode: FeeMode = FeeModeNative()
+        if (transParams.feeMode != null && ParticleNetwork.isAAModeEnable()) {
+            when (transParams.feeMode!!.option) {
+                "token" -> {
+                    val tokenPaymasterAddress = transParams.feeMode!!.tokenPaymasterAddress
+                    val feeQuote = transParams.feeMode!!.feeQuote!!
+                    feeMode = FeeModeToken(feeQuote, tokenPaymasterAddress!!)
+                }
+
+                "gasless" -> {
+                    val verifyingPaymasterGasless =
+                        transParams.feeMode!!.wholeFeeQuote.verifyingPaymasterGasless
+                    feeMode = FeeModeGasless(verifyingPaymasterGasless)
+                }
+
+                "native" -> {
+                    val verifyingPaymasterNative =
+                        transParams.feeMode!!.wholeFeeQuote.verifyingPaymasterNative
+                    feeMode = FeeModeNative(verifyingPaymasterNative)
+                }
+            }
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                ParticleNetwork.getAAService().quickSendTransaction(transParams.transactions,
+                    feeMode,
+                    object : MessageSigner {
+                        override fun signMessage(
+                            message: String,
+                            callback: WebServiceCallback<SignOutput>,
+                            chainId: Long?
+                        ) {
+                            AuthCore.evm.personalSign(message,
+                                object : AuthCoreSignCallback<SignOutput> {
+                                    override fun success(output: SignOutput) {
+                                        callback.success(output)
+                                    }
+
+                                    override fun failure(errMsg: ErrorInfo) {
+                                        callback.failure(errMsg)
+                                    }
+                                })
+                        }
+
+                        override fun eoaAddress(): String {
+                            return AuthCore.evm.getAddress()!!
+                        }
+
+                    },
+                    object : WebServiceCallback<SignOutput> {
+                        override fun success(output: SignOutput) {
+                            callback.invoke(ReactCallBack.success(output.signature).toGson())
+                        }
+
+                        override fun failure(errMsg: ErrorInfo) {
+                            callback.invoke(ReactCallBack.failed(errMsg).toGson())
+                        }
+
+                    })
+            } catch (e: Exception) {
+                e.printStackTrace()
+                callback.invoke(
+                    ReactCallBack.failed(ErrorInfo(e.message ?: "failed", 10000)).toGson()
+                )
+            }
+        }
+    }
+
 
 }
 

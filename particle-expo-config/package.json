@@ -1,0 +1,18 @@
+{
+  "name": "@particle-network/particle-expo-config",
+  "version": "1.0.0",
+  "description": "@particle-network/particle-expo-config",
+  "main": "index.js",
+  "repository": "https://particle.network",
+  "keywords": [
+    "react-native",
+    "expo",
+    "ios",
+    "android"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@expo/config-plugins": "^7.8.4"
+  }
+}

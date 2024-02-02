@@ -228,16 +228,16 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
         try {
           LogUtils.d("onConnected", account.toString())
           callback.invoke(ReactCallBack.success(account).toGson())
-        }catch (_:Exception){
+        } catch (_: Exception) {
 
         }
       }
 
       override fun onError(connectError: ConnectError) {
         try {
-        LogUtils.d("onError", connectError.toString())
-        callback.invoke(ReactCallBack.failed(connectError.message).toGson())
-        }catch (_:Exception){
+          LogUtils.d("onError", connectError.toString())
+          callback.invoke(ReactCallBack.failed(connectError.message).toGson())
+        } catch (_: Exception) {
 
         }
       }

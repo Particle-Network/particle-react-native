@@ -1861,10 +1861,10 @@
   resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.3.3.tgz"
   integrity sha512-M/h5YwvtEJ4zk3ssF6fAUl0jRGFNhdN+K6YgxVbswJgFVD1pKNYMQgN+5hkV6YNUzuhqgTb0y9a4ol+tVZeVIQ==
 
-"@particle-network/rn-auth@^1.3.6":
-  version "1.3.6"
-  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.3.6.tgz"
-  integrity sha512-kCYeevguHS++PWduupICkAHD2GN/xpcfS5wVBjk2KjA36KS7KgWlLEAOJ4KrgiUz3p25zCfZZTPro2UnshFRNQ==
+"@particle-network/rn-auth@^1.3.10":
+  version "1.3.10"
+  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.3.10.tgz"
+  integrity sha512-cq9q8aCiRTXac2ZegxkhzMGSQuufFvXzj2qk8KCYMg6ptpq2AA+oQ/8dBUyC1g3bwod2rU+5AuC4Dn1zVFkk4A==
   dependencies:
     "@particle-network/chains" "^1.3.3"
     axios "^1.6.2"

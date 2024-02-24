@@ -3,7 +3,7 @@ import type { ConnectionOptions, RequestArguments } from './types';
 
 const instance = axios.create({
     baseURL: 'https://rpc.particle.network',
-    timeout: 30_000, // 30 secs
+    timeout: 30000, // 30 secs 
 });
 
 async function request(path: string, args: RequestArguments, config: ConnectionOptions) {

@@ -2,8 +2,8 @@
 
 ![](https://img.shields.io/npm/v/@particle-network/rn-auth?color=blue&style=round) 
 
-#### Note For iOS
-Please note that the SDK `@particle-network/rn-auth-core` only supports `ios-arm64` (iOS devices), does not support any simulator.
+### Note For iOS
+Please note that the SDK `particle_auth_core` only supports ios-arm64 (iOS devices), does not support simulators, to perform testing, you will require an actual iPhone device.
 
 
 ## Particle Auth Service

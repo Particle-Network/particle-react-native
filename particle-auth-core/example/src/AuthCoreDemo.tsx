@@ -41,7 +41,7 @@ import {createWeb3} from './web3Demo';
 export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
   state = {currentLoadingBtn: '', currentKey: '', currentOptions: []};
   modalSelect: ModalSelector<any> | null = null;
-  web3 = createWeb3('5479798b-26a9-4943-b848-649bb104fdc3', 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b', LoginType.Google);
+  web3 = createWeb3('f836e807-4594-46be-a36c-e479f03a5fe8', 'ce0lPTlERmAeGLU146VzknCWChz1DtcHFC396cAD', LoginType.Google);
 
   web3_getAccounts = async () => {
     try {

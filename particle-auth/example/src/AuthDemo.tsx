@@ -1,4 +1,4 @@
-import { ChainInfo, PolygonMumbai } from '@particle-network/chains';
+import { ChainInfo, PolygonMumbai} from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
 import {
     AccountName,
@@ -37,11 +37,12 @@ import type { AuthScreenProps } from './App';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
 import { createWeb3 } from './web3Demo';
+
 export default class AuthDemo extends PureComponent<AuthScreenProps> {
     private openAccountAndSecurityEvent: any;
     modalSelect: ModalSelector<any> | null = null;
     state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
-    web3 = createWeb3('fab00091-f966-437f-8ae9-12aa495f2828', 'cif8thrddJ9Iz46tecZ9UiEQmjxRaKy42AuutAZj');
+    web3 = createWeb3('f836e807-4594-46be-a36c-e479f03a5fe8', 'ce0lPTlERmAeGLU146VzknCWChz1DtcHFC396cAD');
 
     web3_getAccounts = async () => {
         try {
@@ -64,6 +65,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
 
     web3_getBalance = async () => {
         try {
+
             const accounts = await this.web3.eth.getAccounts();
             const account = accounts[0];
             if (account) {
@@ -548,6 +550,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
     };
 
     login = async () => {
+        
         const type = LoginType.Phone;
         const supportAuthType = [
             SupportAuthType.Email,

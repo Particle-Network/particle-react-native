@@ -470,10 +470,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = network.particle.auth;
+				PRODUCT_BUNDLE_IDENTIFIER = network.particle.wallet;
 				PRODUCT_NAME = ParticleAuthCoreExample;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development network.particle.auth";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development network.particle.wallet";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -502,10 +502,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = network.particle.auth;
+				PRODUCT_BUNDLE_IDENTIFIER = network.particle.wallet;
 				PRODUCT_NAME = ParticleAuthCoreExample;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development network.particle.auth";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development network.particle.wallet";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

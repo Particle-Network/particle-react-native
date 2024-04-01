@@ -30,6 +30,8 @@ import com.particle.base.LanguageEnum
 import com.particle.gui.ParticleWallet.displayNFTContractAddresses
 import com.particle.gui.ui.swap.SwapConfig
 import network.particle.chains.ChainInfo
+import android.os.Handler
+import android.os.Looper
 
 class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
@@ -56,10 +58,14 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
     }
   }
 
+  private val mainHandler = Handler(Looper.getMainLooper())
+
   @ReactMethod
   fun init() {
     isUIInit = try {
-      ParticleWallet.init(reactApplicationContext, null)
+      mainHandler.post {
+        ParticleWallet.init(reactApplicationContext, null)
+      }
       true
     } catch (e: Exception) {
       false

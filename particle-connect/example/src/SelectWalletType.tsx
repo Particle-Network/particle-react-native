@@ -21,6 +21,7 @@ export default class SelectWalletTypePage extends PureComponent<SelectWalletType
   render = () => {
     const data = [
       { key: 'Particle', value: WalletType.Particle },
+      { key: 'ParticleAuthCore', value: WalletType.AuthCore },
       { key: 'MetaMask', value: WalletType.MetaMask },
       { key: 'Trust', value: WalletType.Trust },
       { key: 'BitKeep', value: WalletType.BitKeep },

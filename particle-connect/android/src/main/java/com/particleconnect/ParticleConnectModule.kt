@@ -2,6 +2,8 @@ package com.particleconnect
 
 import android.app.Application
 import android.text.TextUtils
+import auth.core.adapter.AuthCoreAdapter
+import auth.core.adapter.ConnectConfigEmail
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.connect.common.*
@@ -50,6 +52,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import particle.auth.adapter.ParticleConnectAdapter
 import particle.auth.adapter.ParticleConnectConfig
+import java.lang.Exception
 
 class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
@@ -223,6 +226,14 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
     }
     var connectAdapter =
       ParticleConnect.getAdapters().first { it.name.equals(walletType, ignoreCase = true) }
+    try {
+      if(connectAdapter is AuthCoreAdapter){
+        config = ConnectConfigEmail()
+      }
+    }catch (_:Exception){
+
+    }
+
     connectAdapter!!.connect(config, object : ConnectCallback {
       override fun onConnected(account: Account) {
         try {
@@ -744,6 +755,11 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
       adapters.add(SolanaConnectAdapter(rpcUrl.solUrl))
     } else {
       adapters.add(SolanaConnectAdapter())
+    }
+    try {
+      adapters.add(AuthCoreAdapter())
+    }catch (_:Exception){
+
     }
     return adapters;
   }

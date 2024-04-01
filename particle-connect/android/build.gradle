@@ -139,7 +139,8 @@ dependencies {
     def sdkVersion = "1.4.9"
     implementation("network.particle:base-service:$sdkVersion")
     implementation("network.particle:auth-service:$sdkVersion")
-
+    implementation("network.particle:auth-core:$sdkVersion")
+    implementation("network.particle:connect-auth-core-adapter:${sdkVersion}")
     implementation("network.particle:connect-auth-adapter:${sdkVersion}")
     implementation("network.particle:connect-common:$sdkVersion")
     implementation("network.particle:connect:$sdkVersion")

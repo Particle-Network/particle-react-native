@@ -492,7 +492,7 @@ export function reconnectIfNeeded(
 }
 
 /**
- * Connect get a wallet connect qrcode uri, should use with NativeEventEmitter, event name 'qrCodeUri', 
+ * Connect get a wallet connect qrcode uri, should use with NativeEventEmitter, event name 'qrCodeUri',
  * you can explore example for more details.
  * @returns Account
  */

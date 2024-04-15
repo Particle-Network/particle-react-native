@@ -1,4 +1,4 @@
-import { ChainInfo, PolygonMumbai} from '@particle-network/chains';
+import { ChainInfo, ArbitrumSepolia} from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
 import {
     AccountName,
@@ -514,7 +514,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
         }
 
         console.log('init');
-        const chainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
+        const chainInfo = this.props.route.params?.chainInfo || ArbitrumSepolia;
         const env = Env.Dev;
         particleAuth.init(chainInfo, env);
         Toast.show({
@@ -524,7 +524,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
     };
 
     setChainInfo = async () => {
-        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
+        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || ArbitrumSepolia;
 
         const result = await particleAuth.setChainInfo(chainInfo);
         Toast.show({
@@ -539,7 +539,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
     };
 
     setChainInfoAsync = async () => {
-        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
+        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || ArbitrumSepolia;
 
         const resultAsync = await particleAuth.setChainInfoAsync(chainInfo);
         console.log(resultAsync);
@@ -718,7 +718,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
     };
 
     signTransaction = async () => {
-        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
+        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || ArbitrumSepolia;
 
         if (chainInfo.name.toLowerCase() != 'solana') {
             console.log('signTransaction only supports solana');
@@ -757,7 +757,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
     };
 
     signAllTransactions = async () => {
-        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
+        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || ArbitrumSepolia;
         if (chainInfo.name.toLowerCase() != 'solana') {
             console.log('signAllTransactions only supports solana');
             return;
@@ -795,7 +795,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
 
     signAndSendTransaction = async () => {
         const sender = await particleAuth.getAddress();
-        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
+        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || ArbitrumSepolia;
         let transaction = '';
         // There are four test cases
         // Before test, make sure your public address have some native token for fee.
@@ -866,7 +866,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
     };
 
     signTypedData = async () => {
-        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || PolygonMumbai;
+        const chainInfo: ChainInfo = this.props.route.params?.chainInfo || ArbitrumSepolia;
         if (chainInfo.name.toLowerCase() == 'solana') {
             console.log('signTypedData only supports evm');
             return;

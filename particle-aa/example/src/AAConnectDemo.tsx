@@ -1,9 +1,8 @@
 import {
   Ethereum,
-  EthereumGoerli,
   EthereumSepolia,
   Polygon,
-  PolygonMumbai,
+  ArbitrumSepolia,
 } from '@particle-network/chains';
 import * as particleAA from '@particle-network/rn-aa';
 import { CommonError, WholeFeeQuote } from '@particle-network/rn-aa';
@@ -63,7 +62,7 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     }
 
     // should init particle auth
-    const chainInfo = PolygonMumbai;
+    const chainInfo = ArbitrumSepolia;
     const env = Env.Production;
 
     particleAuth.init(chainInfo, env);
@@ -86,10 +85,10 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     particleConnect.init(chainInfo, env, metadata, rpcUrl);
 
     // then set wallet connect project id
-    let chainInfos = [Ethereum, Polygon, EthereumGoerli, EthereumSepolia];
+    let chainInfos = [Ethereum, Polygon, EthereumSepolia];
     // Note, metamask doesn't support more than one chain info when connect.
     // here we test with metamask, so we set only one chainInfo
-    chainInfos = [PolygonMumbai];
+    chainInfos = [EthereumSepolia];
     // set support wallet connect chain list
     particleConnect.setWalletConnectV2SupportChainInfos(chainInfos);
 
@@ -110,7 +109,7 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
   };
 
   setChainInfo = async () => {
-    const chainInfo = PolygonMumbai;
+    const chainInfo = ArbitrumSepolia;
     const result = await particleAuth.setChainInfo(chainInfo);
     console.log(result);
 

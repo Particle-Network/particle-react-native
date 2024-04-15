@@ -1,7 +1,6 @@
 import {
   Ethereum,
-  EthereumGoerli,
-  PolygonMumbai,
+  EthereumSepolia
 } from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
 import { Env, Language, WalletDisplay } from '@particle-network/rn-auth';
@@ -67,15 +66,10 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
       currentOptions: [
         { label: 'Ethereum', key: 'Ethereum', value: Ethereum },
         {
-          label: 'Ethereum Goerli',
-          key: 'Ethereum Goerli',
-          value: EthereumGoerli,
-        },
-        {
-          label: 'Polygon Mumbai',
-          key: 'Polygon Mumbai',
-          value: PolygonMumbai,
-        },
+          label: 'Ethereum Sepolia',
+          key: 'Ethereum Sepolia',
+          value: EthereumSepolia,
+        }
       ],
     });
     if (this.modalSelect) {
@@ -227,7 +221,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
   };
 
   setSupportChain = async () => {
-    const chainInfos = [Ethereum, EthereumGoerli, PolygonMumbai];
+    const chainInfos = [Ethereum, EthereumSepolia];
     particleWallet.setSupportChain(chainInfos);
     Toast.show({
       type: 'success',

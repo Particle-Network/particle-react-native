@@ -60,6 +60,9 @@ RCT_EXTERN_METHOD(setInterfaceStyle:(NSString* _Nonnull)json)
 
 RCT_EXTERN_METHOD(setLanguage:(NSString* _Nonnull)json)
 
+RCT_EXTERN_METHOD(getLanguage: (RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+
 RCT_EXTERN_METHOD(setAppearance:(NSString* _Nonnull)json)
 
 RCT_EXTERN_METHOD(setFiatCoin:(NSString* _Nonnull)json)

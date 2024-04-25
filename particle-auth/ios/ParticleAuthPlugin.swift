@@ -426,6 +426,28 @@ class ParticleAuthPlugin: NSObject {
     }
     
     @objc
+    public func getLanguage(_ resolve: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+        var language = ""
+        
+        switch ParticleNetwork.getLanguage() {
+        case .en:
+            language = "en"
+        case .zh_Hans:
+            language = "zh_hans"
+        case .zh_Hant:
+            language = "zh_hant"
+        case .ja:
+            language = "ja"
+        case .ko:
+            language = "ko"
+        default:
+            language = "en"
+        }
+        
+        resolve(language)
+    }
+    
+    @objc
     public func setWebAuthConfig(_ json: String) {
         let data = JSON(parseJSON: json)
         let isDisplayWallet = data["display_wallet"].boolValue

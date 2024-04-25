@@ -963,6 +963,15 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
         }
     };
 
+    getLanguage = async () => {
+        const currentLanguage = await particleAuth.getLanguage();
+        Toast.show({
+            type: 'success',
+            text1: `Language`,
+            text2: currentLanguage,
+        });
+    };
+
     setWebAuthConfig = async () => {
         const isDisplay = true;
         particleAuth.setWebAuthConfig(isDisplay, Appearance.Dark);
@@ -1264,6 +1273,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
         { key: 'SetModalPresentStyle', function: this.setModalPresentStyle },
         { key: 'SetMediumScreen', function: this.setMediumScreen },
         { key: 'SetLanguage', function: this.setLanguage },
+        { key: 'GetLanguage', function: this.getLanguage },
         { key: 'SetAppearance', function: this.setAppearance },
         { key: 'SetFiatCoin', function: this.setFiatCoin },
         { key: 'SetWebAuthConfig', function: this.setWebAuthConfig },

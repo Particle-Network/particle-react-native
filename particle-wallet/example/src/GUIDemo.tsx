@@ -1,7 +1,4 @@
-import {
-  Ethereum,
-  EthereumSepolia
-} from '@particle-network/chains';
+import { Ethereum, EthereumSepolia } from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
 import { Env, Language, WalletDisplay } from '@particle-network/rn-auth';
 import * as particleConnect from '@particle-network/rn-connect';
@@ -69,14 +66,13 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
           label: 'Ethereum Sepolia',
           key: 'Ethereum Sepolia',
           value: EthereumSepolia,
-        }
+        },
       ],
     });
     if (this.modalSelect) {
       this.modalSelect.open();
     }
   };
-
 
   loginParticle = async () => {
     // const result = await particleAuth.login();
@@ -325,6 +321,14 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     particleWallet.setSupportWalletConnect(false);
   };
 
+  setSupportDappBrowserTrue = async () => {
+    particleWallet.setSupportDappBrowser(true);
+  };
+
+  setSupportDappBrowserFalse = async () => {
+    particleWallet.setSupportDappBrowser(false);
+  };
+
   handleModelSelect = async ({ value }: any) => {
     switch (this.state.currentKey) {
       case 'SetChainInfo':
@@ -398,6 +402,14 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     },
     { key: 'SetSupportAddToken', function: this.setSupportAddToken },
     { key: 'SetSupportWalletConnect', function: this.setSupportWalletConnect },
+    {
+      key: 'setSupportDappBrowserTrue',
+      function: this.setSupportDappBrowserTrue,
+    },
+    {
+      key: 'setSupportDappBrowserFalse',
+      function: this.setSupportDappBrowserFalse,
+    },
   ];
 
   render = () => {

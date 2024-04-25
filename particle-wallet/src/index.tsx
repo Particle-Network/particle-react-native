@@ -383,9 +383,7 @@ export function setWalletConnectV2ProjectId(walletConnectV2ProjectId: string) {
  * @param isShow
  */
 export function setSupportDappBrowser(isShow: boolean) {
-  if (Platform.OS == 'ios') {
-    ParticleWalletPlugin.setSupportDappBrowser(isShow);
-  }
+  ParticleWalletPlugin.setSupportDappBrowser(isShow);
 }
 
 export * from './Models';

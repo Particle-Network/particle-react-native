@@ -380,6 +380,11 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
   fun setSupportAddToken(isShow: Boolean) {
     ParticleWallet.setSupportAddToken(isShow)
   }
+  
+  @ReactMethod
+  fun setSupportDappBrowser(isShow: Boolean) {
+    ParticleWallet.setSupportDappBrowser(isShow)
+  }
 
 
   override fun getName(): String {

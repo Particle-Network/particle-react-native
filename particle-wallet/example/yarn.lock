@@ -1117,39 +1117,39 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@particle-network/chains@^1.3.26":
-  version "1.3.29"
-  resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.3.29.tgz"
-  integrity sha512-JY2YCoPqg1TgxCeMUJY+mioWFHVSlZz8yHSQqZ0xRf4j7cxARucNXuG+sqwRgrALPNPkfTzWyWmbZ6npZ6iArw==
+"@particle-network/chains@^1.4.3":
+  version "1.4.3"
+  resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.4.3.tgz"
+  integrity sha512-jE7ga3WkjXBigB5Y5lf7UzRNffONFDf8HpkkyC9/37KQ8C0WnCs2prfYFpODtdscR8Zltxt3u6xmqKxHZoPwhw==
 
-"@particle-network/rn-auth-core@^1.3.15":
-  version "1.3.15"
-  resolved "https://registry.npmjs.org/@particle-network/rn-auth-core/-/rn-auth-core-1.3.15.tgz"
-  integrity sha512-+mXZ34Su5olqpFYLyAGihFznMbwexbbvJIlaJIsL9xyjE/erE9NY/z3SkprEsjgE8CP9V7BU07w7MQqgAmVZ0w==
+"@particle-network/rn-auth-core@1.3.18":
+  version "1.3.18"
+  resolved "https://registry.npmjs.org/@particle-network/rn-auth-core/-/rn-auth-core-1.3.18.tgz"
+  integrity sha512-JaVyaPHNwdtILNE8IzT8NisDK4AdnJ0nr87MjAuQMB15+GeDpQT2uWLVDP/fnLoZYwj7OKRTmbsJo7sOpjK/3Q==
   dependencies:
-    "@particle-network/rn-auth" "^1.3.15"
+    "@particle-network/rn-auth" "1.3.18"
 
-"@particle-network/rn-auth@^1.3.15":
-  version "1.3.15"
-  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.3.15.tgz"
-  integrity sha512-eU4M9gFLI/m5xn2EdZV8uREU5y+wKWlEPW7+xha/afB6fAgibR6cgIU7DgJotJ4Qu6lMK6CiMQTJtH7oabqAGA==
+"@particle-network/rn-auth@1.3.18":
+  version "1.3.18"
+  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.3.18.tgz"
+  integrity sha512-LeQ8FK8b8NnAylX3y3S8etbaOsil2dbfXIBXRM0jWvYv2GBLLC8QSM3xuRsPbODMhaorekLBbuMlu/8VKKTAPg==
   dependencies:
-    "@particle-network/chains" "^1.3.26"
+    "@particle-network/chains" "^1.4.3"
     axios "^1.6.2"
     bignumber.js "^9.1.0"
     events "^3.3.0"
 
-"@particle-network/rn-connect@^1.3.15":
-  version "1.3.15"
-  resolved "https://registry.npmjs.org/@particle-network/rn-connect/-/rn-connect-1.3.15.tgz"
-  integrity sha512-wzbuC3lIu7E6UZ52KoMrBjMW1Fs+i7RMEuzw5CT1Q8ihlfdlXN8cTR8fJL9e0D14LgnppiR9qALxrKf25BRTQQ==
+"@particle-network/rn-connect@1.3.18":
+  version "1.3.18"
+  resolved "https://registry.npmjs.org/@particle-network/rn-connect/-/rn-connect-1.3.18.tgz"
+  integrity sha512-5uFADsL4qSxXdkk2OrhuFdhQ65DwJdXPRyr/As4HlYzjQO7Slnpx5baqZ+/6YnRTj1Yk1RfeJ3Q1gJVOrPFVew==
   dependencies:
-    "@particle-network/rn-auth" "^1.3.15"
+    "@particle-network/rn-auth" "1.3.18"
     axios "^1.3.4"
     events "^3.3.0"
 
 "@particle-network/rn-wallet@file:..":
-  version "1.3.15"
+  version "1.3.18"
   resolved "file:.."
   dependencies:
     "@particle-network/rn-auth" "^1.3.15"

@@ -1,4 +1,4 @@
-import { ArbitrumSepolia } from '@particle-network/chains';
+import { EthereumSepolia } from '@particle-network/chains';
 import {
   AAFeeMode,
   AccountName,
@@ -51,7 +51,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
     }
 
     // should init particle auth
-    const chainInfo = ArbitrumSepolia;
+    const chainInfo = EthereumSepolia;
     const env = Env.Production;
 
     particleAuth.init(chainInfo, env);
@@ -73,7 +73,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
   };
 
   setChainInfo = async () => {
-    const chainInfo = ArbitrumSepolia;
+    const chainInfo = EthereumSepolia;
     const result = await particleAuth.setChainInfo(chainInfo);
     Toast.show({
       type: result ? 'success' : 'error',

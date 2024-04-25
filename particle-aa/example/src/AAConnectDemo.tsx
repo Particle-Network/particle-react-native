@@ -1,8 +1,7 @@
 import {
   Ethereum,
-  EthereumSepolia,
   Polygon,
-  ArbitrumSepolia,
+  EthereumSepolia,
 } from '@particle-network/chains';
 import * as particleAA from '@particle-network/rn-aa';
 import { CommonError, WholeFeeQuote } from '@particle-network/rn-aa';
@@ -49,7 +48,7 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
   walletType = WalletType.MetaMask;
 
   accountName = AccountName.BICONOMY_V1();
-  
+
   init = () => {
     // Get your project id and client from dashboard, https://dashboard.particle.network
     ParticleInfo.projectId = '5479798b-26a9-4943-b848-649bb104fdc3'; // your project id
@@ -62,7 +61,7 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
     }
 
     // should init particle auth
-    const chainInfo = ArbitrumSepolia;
+    const chainInfo = EthereumSepolia;
     const env = Env.Production;
 
     particleAuth.init(chainInfo, env);
@@ -109,7 +108,7 @@ export default class AAConnectDemo extends PureComponent<AAConnectDemoProps> {
   };
 
   setChainInfo = async () => {
-    const chainInfo = ArbitrumSepolia;
+    const chainInfo = EthereumSepolia;
     const result = await particleAuth.setChainInfo(chainInfo);
     console.log(result);
 

@@ -438,6 +438,22 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
       }
     }
   }
+  @ReactMethod
+  fun getLanguage(promise: Promise) {
+    val language = ParticleNetwork.getLanguage()
+    if(language == LanguageEnum.ZH_CN){
+      promise.resolve("zh_hans")
+    }else if(language == LanguageEnum.ZH_TW){
+      promise.resolve("zh_hant")
+    }else if(language == LanguageEnum.JA){
+      promise.resolve("ja")
+    }else if(language == LanguageEnum.KO){
+      promise.resolve("ko")
+    }else{
+      promise.resolve("en")
+    }
+    LogUtils.d("getLanguage", language)
+  }
 
   @ReactMethod
   fun batchSendTransactions(transactions: String, callback: Callback) {

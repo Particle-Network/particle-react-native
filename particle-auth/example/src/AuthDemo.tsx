@@ -1,4 +1,4 @@
-import { ChainInfo, ArbitrumSepolia} from '@particle-network/chains';
+import { ChainInfo, ArbitrumSepolia } from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
 import {
     AccountName,
@@ -550,7 +550,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
     };
 
     login = async () => {
-        
+
         const type = LoginType.Phone;
         const supportAuthType = [
             SupportAuthType.Email,

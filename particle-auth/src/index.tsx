@@ -1,7 +1,7 @@
 import type { ChainInfo } from '@particle-network/chains';
 import { chains } from '@particle-network/chains';
 import { NativeModules, Platform } from 'react-native';
-import type {
+import {
     AAFeeMode,
     Appearance,
     CommonResp,
@@ -421,6 +421,27 @@ export function setMediumScreen(isMediumScreen: boolean) {
  */
 export function setLanguage(language: Language) {
     ParticleAuthPlugin.setLanguage(language);
+}
+
+/**
+ * Get language
+ */
+export async function getLanguage(): Promise<Language> {
+    const languageString = await ParticleAuthPlugin.getLanguage();
+    switch (languageString) {
+        case 'en':
+            return Language.EN;
+        case 'zh_hans':
+            return Language.ZH_HANS;
+        case 'zh_hant':
+            return Language.ZH_HANT;
+        case 'ja':
+            return Language.JA;
+        case 'ko':
+            return Language.KO;
+        default:
+            return Language.EN;
+    }
 }
 
 /**

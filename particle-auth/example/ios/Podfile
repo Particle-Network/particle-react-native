@@ -28,8 +28,8 @@ target 'ParticleAuthExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'ParticleAuthService', '1.4.0'
-  pod 'ParticleNetworkBase', '1.4.0'
+  pod 'ParticleAuthService', '1.4.2'
+  pod 'ParticleNetworkBase', '1.4.2'
   
   pod 'SwiftyUserDefaults', :git => 'https://github.com/SunZhiC/SwiftyUserDefaults.git', :branch => 'master'
   

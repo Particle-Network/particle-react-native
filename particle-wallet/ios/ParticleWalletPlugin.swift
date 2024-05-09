@@ -5,6 +5,7 @@
 //  Created by link on 2022/9/28.
 //
 
+import ConnectCommon
 import Foundation
 import ParticleNetworkBase
 import ParticleWalletConnect
@@ -121,7 +122,7 @@ public class ParticleWalletPlugin: NSObject {
             buyConfig.fixFiatCoin = fixFiatCoin
             buyConfig.fixFiatAmt = fixFiatAmt
             buyConfig.theme = theme
-            buyConfig.language = language.webString
+            buyConfig.language = language?.webString  ?? Language.en.webString
 
             PNRouter.navigatorBuy(buyCryptoConfig: buyConfig)
         }
@@ -225,7 +226,7 @@ public class ParticleWalletPlugin: NSObject {
         }
     }
     
-    private func getLanguage(from json: String) -> Language {
+    private func getLanguage(from json: String) -> Language? {
         /*
          en,
          zh_hans,
@@ -233,7 +234,7 @@ public class ParticleWalletPlugin: NSObject {
          ja,
          ko
          */
-        var language: Language = .en
+        var language: Language?
         if json.lowercased() == "en" {
             language = .en
         } else if json.lowercased() == "zh_hans" {
@@ -325,7 +326,37 @@ public class ParticleWalletPlugin: NSObject {
         let walletUrl = URL(string: walletUrlString) != nil ? URL(string: walletUrlString)! : URL(string: "https://connect.particle.network")!
 
         ParticleWalletConnect.initialize(.init(name: walletName, icon: walletIconUrl, url: walletUrl, description: walletDescription, redirectUniversalLink: nil))
-        
         ParticleWalletConnect.setWalletConnectV2ProjectId(walletConnectV2ProjectId)
+    }
+
+    @objc
+    func setCustomWalletName(_ json: String) {
+        let data = JSON(parseJSON: json)
+
+        let name = data["name"].stringValue
+        let icon = data["icon"].stringValue
+
+        ConnectManager.setCustomWalletName(walletType: .particle, name: .init(name: name, icon: icon))
+        ConnectManager.setCustomWalletName(walletType: .authCore, name: .init(name: name, icon: icon))
+    }
+
+    @objc
+    func setCustomLocalizable(_ json: String) {
+        let data = JSON(parseJSON: json).dictionaryValue
+
+        var localizables: [Language: [String: String]] = [:]
+
+        for (key, value) in data {
+            let language = self.getLanguage(from: key.lowercased())
+            if language == nil {
+                continue
+            }
+            let itemLocalizables = value.dictionaryValue.mapValues { json in
+                json.stringValue
+            }
+            localizables[language!] = itemLocalizables
+        }
+
+        ParticleWalletGUI.setCustomLocalizable(localizables)
     }
 }

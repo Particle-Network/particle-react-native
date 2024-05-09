@@ -16,6 +16,7 @@ import {
 import React, { PureComponent } from 'react';
 import {
   FlatList,
+  Platform,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -329,6 +330,29 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     particleWallet.setSupportDappBrowser(false);
   };
 
+  setCustomWalletName = async () => {
+    particleWallet.setCustomWalletName('Playbux Wallet', "https://static.particle.network/wallet-icons/Rainbow.png")
+  }
+
+  setCustomLocalizable = async () => {
+    if (Platform.OS === 'ios') {
+      // use language code in type Language
+      const localizables: any = {
+        'en': {
+          "network fee": "Service Fee",
+          "particle auth wallet": "Playbux Wallet"
+        },
+      };
+
+      console.log()
+
+      particleWallet.setCustomLocalizable(localizables);
+    }
+
+  }
+
+
+
   handleModelSelect = async ({ value }: any) => {
     switch (this.state.currentKey) {
       case 'SetChainInfo':
@@ -409,6 +433,14 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     {
       key: 'setSupportDappBrowserFalse',
       function: this.setSupportDappBrowserFalse,
+    },
+    {
+      key: 'setCustomWalletName',
+      function: this.setCustomWalletName,
+    },
+    {
+      key: 'setCustomLocalizable',
+      function: this.setCustomLocalizable,
     },
   ];
 

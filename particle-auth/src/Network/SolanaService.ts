@@ -43,4 +43,12 @@ export class SolanaService {
             obj,
         ]);
     }
+
+    static async serializeUnwrapWSolTransction(address: string): Promise<any> {
+        const obj = { address: address };
+        return await this.rpc(SolanaReqBodyMethod.enhancedSerializeTransaction, [
+            SerializeTransactionParams.unwrapSol,
+            obj,
+        ]);
+    }
 }

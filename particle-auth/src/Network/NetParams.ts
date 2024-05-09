@@ -33,4 +33,5 @@ export const SolanaReqBodyMethod = {
 export const SerializeTransactionParams = {
     transferSol: 'transfer-sol',
     transferToken: 'transfer-token',
+    unwrapSol: 'unwrap-sol'
 };

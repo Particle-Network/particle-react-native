@@ -1533,44 +1533,44 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@particle-network/chains@^1.3.3":
-  version "1.3.3"
-  resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.3.3.tgz"
-  integrity sha512-M/h5YwvtEJ4zk3ssF6fAUl0jRGFNhdN+K6YgxVbswJgFVD1pKNYMQgN+5hkV6YNUzuhqgTb0y9a4ol+tVZeVIQ==
+"@particle-network/chains@^1.4.3":
+  version "1.4.8"
+  resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.4.8.tgz"
+  integrity sha512-0rv1oIyS+R4/O6MNkgFJgb4jmUyJVzO0Xdy48LJYN9AOFmZCewll/QHCg/oJFoI6uFMF90D5sOCFrJ0YIMyKeg==
 
-"@particle-network/rn-auth-core@^1.3.6":
-  version "1.3.6"
-  resolved "https://registry.npmjs.org/@particle-network/rn-auth-core/-/rn-auth-core-1.3.6.tgz"
-  integrity sha512-yiGj2sbXNGuw1PJEaF23GngKVXLzU3YQu82pGjWnfhKatWDSSC3Nd4Irg8jzs7f4Rwrzmvh53/OZsmoCQvoMmQ==
+"@particle-network/rn-auth-core@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/@particle-network/rn-auth-core/-/rn-auth-core-1.4.0.tgz"
+  integrity sha512-1N4HOdAtHvTUerO6XijdwJAaNxNT3u8ZwbpM2rYMULXsae915Z/XY72jvIBFjf7dTMmZr6K0uYD4eS1rk4lfjA==
   dependencies:
-    "@particle-network/rn-auth" "^1.3.6"
+    "@particle-network/rn-auth" "1.4.0"
 
-"@particle-network/rn-auth@^1.3.6":
-  version "1.3.6"
-  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.3.6.tgz"
-  integrity sha512-kCYeevguHS++PWduupICkAHD2GN/xpcfS5wVBjk2KjA36KS7KgWlLEAOJ4KrgiUz3p25zCfZZTPro2UnshFRNQ==
+"@particle-network/rn-auth@^1.4.0", "@particle-network/rn-auth@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.4.0.tgz"
+  integrity sha512-h7geJTuNAjC+S/SPDOyK+oLizMHMQ18j1n9ixRF0JJy8Xd4w0LulU8NhVGtbEUd1mm2qnrbXpYZAxmGzdZZ8rg==
   dependencies:
-    "@particle-network/chains" "^1.3.3"
+    "@particle-network/chains" "^1.4.3"
     axios "^1.6.2"
     bignumber.js "^9.1.0"
     events "^3.3.0"
 
-"@particle-network/rn-connect@^1.3.6":
-  version "1.3.6"
-  resolved "https://registry.npmjs.org/@particle-network/rn-connect/-/rn-connect-1.3.6.tgz"
-  integrity sha512-FJjJXXxSTdvOsv1mLls6YbTJIrUBBc98ltBpJpLHzNxLS4jcq80dIP2BUCFYp9a+6Pdbttrcbj+ba5K7rsAREQ==
+"@particle-network/rn-connect@^1.4.0", "@particle-network/rn-connect@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/@particle-network/rn-connect/-/rn-connect-1.4.0.tgz"
+  integrity sha512-8o7c33395cAlowY2dd2ayPf2cPP2+riNfn3vnJXCPa1ouhiZDlRXD8PqfQmTZzzU+Fjj2y9hizCRqli4w3TEPg==
   dependencies:
-    "@particle-network/rn-auth" "^1.3.6"
+    "@particle-network/rn-auth" "1.4.0"
     axios "^1.3.4"
     events "^3.3.0"
 
-"@particle-network/rn-wallet@^1.3.6":
-  version "1.3.6"
-  resolved "https://registry.npmjs.org/@particle-network/rn-wallet/-/rn-wallet-1.3.6.tgz"
-  integrity sha512-BM+jRpjRAjp33onkBuxFvnSWIbGDnhNlCJWUa+hrQuRmFvQFVxDIUWooCIKV5JFMG1GLDdeDJJsVp5eQ6Zd5Jw==
+"@particle-network/rn-wallet@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/@particle-network/rn-wallet/-/rn-wallet-1.4.0.tgz"
+  integrity sha512-IMCg/n9hM3pqK1wcRApzvcGVBfBy1ErIz1US129dvOD9q1Ju7mu8ZgcSWHaNAGOo6rKcmQlTC4AgMFeyaHdcCA==
   dependencies:
-    "@particle-network/rn-auth" "^1.3.6"
-    "@particle-network/rn-connect" "^1.3.6"
+    "@particle-network/rn-auth" "1.4.0"
+    "@particle-network/rn-connect" "1.4.0"
 
 "@react-native-community/cli-clean@11.3.5":
   version "11.3.5"
@@ -1795,12 +1795,7 @@
     metro-react-native-babel-transformer "0.76.7"
     metro-runtime "0.76.7"
 
-"@react-native/normalize-colors@*":
-  version "0.73.0"
-  resolved "https://registry.npmmirror.com/@react-native/normalize-colors/-/normalize-colors-0.73.0.tgz"
-  integrity sha512-EmSCmJ0djeMJadeFsms6Pl/R85i9xSJMc+tyJu/GEMkKXBVyYQyqanK4RHFU0v8MO90OWj+SiFXjCkKYiJ6mkg==
-
-"@react-native/normalize-colors@^0.72.0":
+"@react-native/normalize-colors@*", "@react-native/normalize-colors@^0.72.0":
   version "0.72.0"
   resolved "https://registry.npmmirror.com/@react-native/normalize-colors/-/normalize-colors-0.72.0.tgz"
   integrity sha512-285lfdqSXaqKuBbbtP9qL2tDrfxdOFtIMvkKadtleRQkdOxx+uzGvFr82KHmc/sSiMtfXGp7JnFYWVh4sFl7Yw==
@@ -2177,14 +2172,7 @@ ansi-regex@^5.0.0, ansi-regex@^5.0.1:
   resolved "https://registry.npmmirror.com/ansi-regex/-/ansi-regex-5.0.1.tgz"
   integrity sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==
 
-ansi-styles@^3.2.0:
-  version "3.2.1"
-  resolved "https://registry.npmmirror.com/ansi-styles/-/ansi-styles-3.2.1.tgz"
-  integrity sha512-VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA==
-  dependencies:
-    color-convert "^1.9.0"
-
-ansi-styles@^3.2.1:
+ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   version "3.2.1"
   resolved "https://registry.npmmirror.com/ansi-styles/-/ansi-styles-3.2.1.tgz"
   integrity sha512-VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA==
@@ -2605,7 +2593,23 @@ chalk@^2.0.0:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.2:
+chalk@^4.0.0:
+  version "4.1.2"
+  resolved "https://registry.npmmirror.com/chalk/-/chalk-4.1.2.tgz"
+  integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
+  dependencies:
+    ansi-styles "^4.1.0"
+    supports-color "^7.1.0"
+
+chalk@^4.1.0:
+  version "4.1.2"
+  resolved "https://registry.npmmirror.com/chalk/-/chalk-4.1.2.tgz"
+  integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
+  dependencies:
+    ansi-styles "^4.1.0"
+    supports-color "^7.1.0"
+
+chalk@^4.1.2:
   version "4.1.2"
   resolved "https://registry.npmmirror.com/chalk/-/chalk-4.1.2.tgz"
   integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
@@ -3197,7 +3201,17 @@ eslint-visitor-keys@^2.1.0:
   resolved "https://registry.npmmirror.com/eslint-visitor-keys/-/eslint-visitor-keys-2.1.0.tgz"
   integrity sha512-0rSmRBzXgDzIsD6mGdJgevzgezI534Cer5L/vyMX0kHzT/jiB43jRhd9YUlMGYLQy2zprNmoT8qasCGtY+QaKw==
 
-eslint-visitor-keys@^3.3.0, eslint-visitor-keys@^3.4.1, eslint-visitor-keys@^3.4.2:
+eslint-visitor-keys@^3.3.0:
+  version "3.4.2"
+  resolved "https://registry.npmmirror.com/eslint-visitor-keys/-/eslint-visitor-keys-3.4.2.tgz"
+  integrity sha512-8drBzUEyZ2llkpCA67iYrgEssKDUu68V8ChqqOfFupIaG/LCVPUT+CoGJpT77zJprs4T/W7p07LP7zAIMuweVw==
+
+eslint-visitor-keys@^3.4.1:
+  version "3.4.2"
+  resolved "https://registry.npmmirror.com/eslint-visitor-keys/-/eslint-visitor-keys-3.4.2.tgz"
+  integrity sha512-8drBzUEyZ2llkpCA67iYrgEssKDUu68V8ChqqOfFupIaG/LCVPUT+CoGJpT77zJprs4T/W7p07LP7zAIMuweVw==
+
+eslint-visitor-keys@^3.4.2:
   version "3.4.2"
   resolved "https://registry.npmmirror.com/eslint-visitor-keys/-/eslint-visitor-keys-3.4.2.tgz"
   integrity sha512-8drBzUEyZ2llkpCA67iYrgEssKDUu68V8ChqqOfFupIaG/LCVPUT+CoGJpT77zJprs4T/W7p07LP7zAIMuweVw==
@@ -3469,15 +3483,10 @@ flow-enums-runtime@^0.0.5:
   resolved "https://registry.npmmirror.com/flow-enums-runtime/-/flow-enums-runtime-0.0.5.tgz"
   integrity sha512-PSZF9ZuaZD03sT9YaIs0FrGJ7lSUw7rHZIex+73UYVXg46eL/wxN5PaVcPJFudE2cJu5f0fezitV5aBkLHPUOQ==
 
-flow-parser@^0.206.0:
+flow-parser@^0.206.0, flow-parser@0.*:
   version "0.206.0"
   resolved "https://registry.npmmirror.com/flow-parser/-/flow-parser-0.206.0.tgz"
   integrity sha512-HVzoK3r6Vsg+lKvlIZzaWNBVai+FXTX1wdYhz/wVlH13tb/gOdLXmlTqy6odmTBhT5UoWUbq0k8263Qhr9d88w==
-
-flow-parser@0.*:
-  version "0.213.1"
-  resolved "https://registry.npmmirror.com/flow-parser/-/flow-parser-0.213.1.tgz"
-  integrity sha512-l+vyZO6hrWG60DredryA8mq62fK9vxL6/RR13HA/aVLBNh9No/wEJsKI+CJqPRkF4CIRUfcJQBeaMXSKcncxUQ==
 
 follow-redirects@^1.15.4:
   version "1.15.4"
@@ -4666,7 +4675,15 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-make-dir@^2.0.0, make-dir@^2.1.0:
+make-dir@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.npmmirror.com/make-dir/-/make-dir-2.1.0.tgz"
+  integrity sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA==
+  dependencies:
+    pify "^4.0.1"
+    semver "^5.6.0"
+
+make-dir@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmmirror.com/make-dir/-/make-dir-2.1.0.tgz"
   integrity sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA==
@@ -5522,25 +5539,25 @@ react-freeze@^1.0.0:
   resolved "https://registry.npmjs.org/react-freeze/-/react-freeze-1.0.3.tgz"
   integrity sha512-ZnXwLQnGzrDpHBHiC56TXFXvmolPeMjTn1UOm610M4EXGzbEDR7oOIyS2ZiItgbs6eZc4oU/a0hpk8PrcKvv5g==
 
-"react-is@^16.12.0 || ^17.0.0 || ^18.0.0", react-is@^18.0.0, react-is@^18.2.0:
-  version "18.2.0"
-  resolved "https://registry.npmmirror.com/react-is/-/react-is-18.2.0.tgz"
-  integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
-
-react-is@^16.13.0:
+"react-is@^16.12.0 || ^17.0.0 || ^18.0.0", react-is@^16.13.0, react-is@^16.13.1:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
-  integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
-
-react-is@^16.13.1:
-  version "16.13.1"
-  resolved "https://registry.npmmirror.com/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
 react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.npmmirror.com/react-is/-/react-is-17.0.2.tgz"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
+
+react-is@^18.0.0:
+  version "18.2.0"
+  resolved "https://registry.npmmirror.com/react-is/-/react-is-18.2.0.tgz"
+  integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
+
+react-is@^18.2.0:
+  version "18.2.0"
+  resolved "https://registry.npmmirror.com/react-is/-/react-is-18.2.0.tgz"
+  integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
 react-native-safe-area-context@^4.7.1, "react-native-safe-area-context@>= 3.0.0":
   version "4.7.1"
@@ -5977,7 +5994,15 @@ slice-ansi@^2.0.0:
     astral-regex "^1.0.0"
     is-fullwidth-code-point "^2.0.0"
 
-source-map-support@^0.5.16, source-map-support@~0.5.20:
+source-map-support@^0.5.16:
+  version "0.5.21"
+  resolved "https://registry.npmmirror.com/source-map-support/-/source-map-support-0.5.21.tgz"
+  integrity sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==
+  dependencies:
+    buffer-from "^1.0.0"
+    source-map "^0.6.0"
+
+source-map-support@~0.5.20:
   version "0.5.21"
   resolved "https://registry.npmmirror.com/source-map-support/-/source-map-support-0.5.21.tgz"
   integrity sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==

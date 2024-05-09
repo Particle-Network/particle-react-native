@@ -1853,10 +1853,10 @@
   dependencies:
     "@octokit/openapi-types" "^18.0.0"
 
-"@particle-network/chains@^1.4.3":
-  version "1.4.3"
-  resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.4.3.tgz"
-  integrity sha512-jE7ga3WkjXBigB5Y5lf7UzRNffONFDf8HpkkyC9/37KQ8C0WnCs2prfYFpODtdscR8Zltxt3u6xmqKxHZoPwhw==
+"@particle-network/chains@^1.4.8":
+  version "1.4.8"
+  resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.4.8.tgz"
+  integrity sha512-0rv1oIyS+R4/O6MNkgFJgb4jmUyJVzO0Xdy48LJYN9AOFmZCewll/QHCg/oJFoI6uFMF90D5sOCFrJ0YIMyKeg==
 
 "@pnpm/config.env-replace@^1.1.0":
   version "1.1.0"

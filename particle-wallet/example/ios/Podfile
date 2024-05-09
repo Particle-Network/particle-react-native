@@ -11,20 +11,20 @@ target 'ParticleWalletExample' do
   # Flags change depending on the env values.
   flags = get_default_flags()
 
-    pod 'ParticleWalletGUI', '1.4.0'
-    pod 'ParticleWalletAPI', '1.4.0'
-    pod 'ParticleNetworkBase', '1.4.0'
-    pod 'ParticleAuthService', '1.4.0'
-    pod 'ParticleWalletConnect', '1.4.0'
-    pod 'ParticleAA', '1.4.0'
+    pod 'ParticleWalletGUI', '1.4.2'
+    pod 'ParticleWalletAPI', '1.4.2'
+    pod 'ParticleNetworkBase', '1.4.2'
+    pod 'ParticleAuthService', '1.4.2'
+    pod 'ParticleWalletConnect', '1.4.2'
+    pod 'ParticleAA', '1.4.2'
     
-    pod 'ParticleConnect', '0.2.19'
-    pod 'ConnectWalletConnectAdapter', '0.2.19'
-    pod 'ConnectEVMAdapter', '0.2.19'
-    pod 'ConnectSolanaAdapter', '0.2.19'
-    pod 'ConnectPhantomAdapter', '0.2.19'
-    pod 'ConnectCommon', '0.2.19'
-    pod 'ParticleAuthAdapter', '0.2.19'
+    pod 'ParticleConnect', '0.2.20'
+    pod 'ConnectWalletConnectAdapter', '0.2.20'
+    pod 'ConnectEVMAdapter', '0.2.20'
+    pod 'ConnectSolanaAdapter', '0.2.20'
+    pod 'ConnectPhantomAdapter', '0.2.20'
+    pod 'ConnectCommon', '0.2.20'
+    pod 'ParticleAuthAdapter', '0.2.20'
     
     pod 'SkeletonView', :git => 'https://github.com/SunZhiC/SkeletonView.git', :branch => 'main'
     pod 'SwiftyUserDefaults', :git => 'https://github.com/SunZhiC/SwiftyUserDefaults.git', :branch => 'master'

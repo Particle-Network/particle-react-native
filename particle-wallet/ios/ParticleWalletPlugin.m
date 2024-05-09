@@ -57,6 +57,10 @@ RCT_EXTERN_METHOD(setSupportAddToken:(BOOL _Nonnull)json)
 
 RCT_EXTERN_METHOD(setSupportDappBrowser:(BOOL _Nonnull)json)
 
+RCT_EXTERN_METHOD(setCustomWalletName:(NSString* _Nonnull)json)
+
+RCT_EXTERN_METHOD(setCustomLocalizable:(NSString* _Nonnull)json)
+
 RCT_EXTERN_METHOD(initializeWalletMetaData:(NSString* _Nonnull)json)
 
 - (dispatch_queue_t)methodQueue {

@@ -1,5 +1,5 @@
 import type { ChainInfo } from '@particle-network/chains';
-import type { WalletDisplay } from '@particle-network/rn-auth';
+import type { WalletDisplay, Language } from '@particle-network/rn-auth';
 import type { WalletType } from '@particle-network/rn-connect';
 import { NativeModules, Platform } from 'react-native';
 import type { BuyCryptoConfig, WalletMetaData } from './Models';
@@ -13,13 +13,13 @@ const LINKING_ERROR =
 const ParticleWalletPlugin = NativeModules.ParticleWalletPlugin
   ? NativeModules.ParticleWalletPlugin
   : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    {},
+    {
+      get() {
+        throw new Error(LINKING_ERROR);
+      },
+    }
+  );
 
 /**
  * Init Particle Wallet Service
@@ -281,16 +281,27 @@ export function getSwapDisabled(): Promise<any> {
  */
 export function switchWallet(
   walletType: string,
-  publicAddress: string
+  publicAddress: string,
+  pnWalletName?: string
 ): Promise<boolean> {
-  const obj = { wallet_type: walletType, public_address: publicAddress };
+
+  const obj = { wallet_type: walletType, public_address: publicAddress, wallet_name: pnWalletName };
   const json = JSON.stringify(obj);
 
-  return new Promise((resolve) => {
-    ParticleWalletPlugin.switchWallet(json, (result: string) => {
-      resolve(JSON.parse(result));
+  if (Platform.OS === 'ios') {
+    return new Promise((resolve) => {
+      ParticleWalletPlugin.switchWallet(json, (result: string) => {
+        resolve(JSON.parse(result));
+      });
     });
-  });
+  }
+  else {
+    return new Promise((resolve) => {
+      ParticleWalletPlugin.setWallet(json, (result: string) => {
+        resolve(JSON.parse(result));
+      });
+    });
+  }
 }
 
 /**
@@ -372,18 +383,36 @@ export function setSupportWalletConnect(isEnable: boolean) {
   ParticleWalletPlugin.setSupportWalletConnect(isEnable);
 }
 
-export function setWalletConnectV2ProjectId(walletConnectV2ProjectId: string) {
-  if (Platform.OS == 'ios') {
-    ParticleWalletPlugin.setWalletConnectV2ProjectId(walletConnectV2ProjectId);
-  }
-}
-
 /**
  * Set support dapp browser in wallet page, default value is true.
  * @param isShow
  */
 export function setSupportDappBrowser(isShow: boolean) {
   ParticleWalletPlugin.setSupportDappBrowser(isShow);
+}
+
+/**
+ * Set custom wallet name and icon, should call before login/connect, only support particle wallet.
+ * In Android, you need call switchWallet to set the wallet name
+ * @param name Wallet name
+ * @param icon Wallet icon, a uri such as https://example.com/1.png
+ */
+export function setCustomWalletName(name: string, icon: string) {
+  const obj = { name: name, icon: icon };
+  const json = JSON.stringify(obj);
+  ParticleWalletPlugin.setCustomWalletName(json);
+}
+
+/**
+ * Set custom localizable strings, should call before open any wallet page.
+ * Not support Android
+ * @param json Json string
+ */
+export function setCustomLocalizable(localizables: string) {
+  if (Platform.OS === 'ios') {
+    const json = JSON.stringify(localizables)
+    ParticleWalletPlugin.setCustomLocalizable(json);
+  }
 }
 
 export * from './Models';

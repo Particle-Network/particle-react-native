@@ -59,9 +59,7 @@ export default class AAAuthDemo extends PureComponent<AAAuthDemoProps> {
     // then init particle AA
     const biconomyApiKeys = {
       1: 'your ethereum mainnet key',
-      5: 'your ethereum goerli key',
       137: 'your polygon mainnet key',
-      80001: 'hYZIwIsf2.e18c790b-cafb-4c4e-a438-0289fc25dba1',
     };
 
     particleAA.init(this.accountName, biconomyApiKeys);

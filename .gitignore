@@ -67,6 +67,8 @@ lib/
 # Cocoapods
 #
 
+pub.py
+
 particle-auth/example/ios/Pods
 particle-connect/example/ios/Pods
 particle-wallet/example/ios/Pods

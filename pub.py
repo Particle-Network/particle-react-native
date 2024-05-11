@@ -25,7 +25,7 @@ class ParticleBase:
       if "@particle-network/rn-aa" in dependencies:
         if data['dependencies']['@particle-network/rn-aa'] != "file:..":
           data['dependencies']['@particle-network/rn-aa'] = self.version
-    
+    # 写回更新后的数据到文件
     with open(self.package_path, 'w') as file:
       json.dump(data, file, indent=2)
 
@@ -36,17 +36,17 @@ class ParticleBase:
   def replace_version(self):
     key = "version"
     value = self.version
-    
+    # 打开并读取JSON文件
     with open(self.package_path, 'r') as file:
       data = json.load(file)
 
-    
+    # 更新version字段
     if key in data:
       data[key] = value
     else:
       print(f"Key {key} not found in file {self.package_path}")
 
-    
+    # 写回更新后的数据到文件
     with open(self.package_path, 'w') as file:
       json.dump(data, file, indent=2)
 

@@ -78,5 +78,3 @@ particle-connect/example/ios/Podfile.lock
 particle-wallet/example/ios/Podfile.lock
 particle-biconomy/example/ios/Podfile.lock
 particle-auth-core/example/ios/Podfile.lock
-
-pub.py

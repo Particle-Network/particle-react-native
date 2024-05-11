@@ -1732,27 +1732,27 @@
   dependencies:
     "@octokit/openapi-types" "^18.0.0"
 
-"@particle-network/chains@^1.4.3":
+"@particle-network/chains@^1.4.8":
   version "1.4.8"
   resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.4.8.tgz"
   integrity sha512-0rv1oIyS+R4/O6MNkgFJgb4jmUyJVzO0Xdy48LJYN9AOFmZCewll/QHCg/oJFoI6uFMF90D5sOCFrJ0YIMyKeg==
 
-"@particle-network/rn-auth@1.4.0":
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.4.0.tgz"
-  integrity sha512-h7geJTuNAjC+S/SPDOyK+oLizMHMQ18j1n9ixRF0JJy8Xd4w0LulU8NhVGtbEUd1mm2qnrbXpYZAxmGzdZZ8rg==
+"@particle-network/rn-auth@1.4.1":
+  version "1.4.1"
+  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.4.1.tgz"
+  integrity sha512-cJcO6nRl0kJOnqbgOF9LN4VuceoASobSmCrq0c4b0heizow7NGJvsQoouB7wIzoY8PiyNoDDm3195CpOgNXEZA==
   dependencies:
-    "@particle-network/chains" "^1.4.3"
+    "@particle-network/chains" "^1.4.8"
     axios "^1.6.2"
     bignumber.js "^9.1.0"
     events "^3.3.0"
 
-"@particle-network/rn-connect@1.4.0":
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/@particle-network/rn-connect/-/rn-connect-1.4.0.tgz"
-  integrity sha512-8o7c33395cAlowY2dd2ayPf2cPP2+riNfn3vnJXCPa1ouhiZDlRXD8PqfQmTZzzU+Fjj2y9hizCRqli4w3TEPg==
+"@particle-network/rn-connect@1.4.1":
+  version "1.4.1"
+  resolved "https://registry.npmjs.org/@particle-network/rn-connect/-/rn-connect-1.4.1.tgz"
+  integrity sha512-uQWeZeoqSe0GDHUehPj0hfvHlSvI/ZoUhlFbW4F4QUFSNF3rHjxVzFF31UUd1p+PofLnXh6ETbde/J6POCNQ9Q==
   dependencies:
-    "@particle-network/rn-auth" "1.4.0"
+    "@particle-network/rn-auth" "1.4.1"
     axios "^1.3.4"
     events "^3.3.0"
 

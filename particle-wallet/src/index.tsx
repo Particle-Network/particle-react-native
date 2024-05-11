@@ -1,5 +1,5 @@
 import type { ChainInfo } from '@particle-network/chains';
-import type { WalletDisplay, Language } from '@particle-network/rn-auth';
+import type { WalletDisplay } from '@particle-network/rn-auth';
 import type { WalletType } from '@particle-network/rn-connect';
 import { NativeModules, Platform } from 'react-native';
 import type { BuyCryptoConfig, WalletMetaData } from './Models';

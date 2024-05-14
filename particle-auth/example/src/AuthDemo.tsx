@@ -660,10 +660,10 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
         const result = await particleAuth.isLoginAsync();
         if (result.status) {
             const userInfo = result.data;
-            console.log(userInfo);
+            console.log(JSON.stringify(userInfo));
             Toast.show({
                 type: 'success',
-                text1: `Is login async: ${userInfo}`,
+                text1: `Is login async: ${JSON.stringify(userInfo)}`,
             });
         } else {
             const error = result.data as CommonError;

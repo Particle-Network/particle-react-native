@@ -341,7 +341,7 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
         callback.invoke(ReactCallBack.failed("failed").toGson())
         return@launch
       }
-      callback.invoke(ReactCallBack.success(GsonUtils.toJson(userInfo)))
+      callback.invoke(ReactCallBack.success(userInfo).toGson())
     }
   }
 

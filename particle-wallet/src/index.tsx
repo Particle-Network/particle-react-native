@@ -45,10 +45,11 @@ export function navigatorWallet(display: WalletDisplay) {
 
 export function createSelectedWallet(
   publicAddress: string,
-  walletType: WalletType
+  walletType: WalletType,
+  walletName?: string
 ) {
   if (Platform.OS == 'android') {
-    ParticleWalletPlugin.createSelectedWallet(publicAddress, walletType);
+    ParticleWalletPlugin.createSelectedWallet(publicAddress, walletType,walletName);
   }
 }
 
@@ -335,6 +336,7 @@ export function setDisplayNFTContractAddresses(nftContractAddresses: string[]) {
  */
 export function setPriorityTokenAddresses(tokenAddresses: string[]) {
   const json = JSON.stringify(tokenAddresses);
+  console.log('setPriorityTokenAddresses', json);
   ParticleWalletPlugin.setPriorityTokenAddresses(json);
 }
 
@@ -395,13 +397,17 @@ export function setSupportDappBrowser(isShow: boolean) {
 /**
  * Set custom wallet name and icon, should call before login/connect, only support particle wallet.
  * In Android, you need call switchWallet to set the wallet name
- * @param name Wallet name, for Android, you need call switch wallet to customize the wallet name
+ * @param name Wallet name, for Android, you need call createSelectedWallet to customize the wallet name after particle wallet connected
  * @param icon Wallet icon, a uri such as https://example.com/1.png
  */
 export function setCustomWalletName(name: string, icon: string) {
-  const obj = { name: name, icon: icon };
-  const json = JSON.stringify(obj);
-  ParticleWalletPlugin.setCustomWalletName(json);
+  if (Platform.OS === 'ios') {
+    const obj = {name: name, icon: icon};
+    const json = JSON.stringify(obj);
+    ParticleWalletPlugin.setCustomWalletName(json);
+  } else {
+    ParticleWalletPlugin.setCustomWalletIcon(icon);
+  }
 }
 
 /**
@@ -411,7 +417,7 @@ export function setCustomWalletName(name: string, icon: string) {
  */
 export function setCustomLocalizable(localizables: string) {
   if (Platform.OS === 'ios') {
-    const json = JSON.stringify(localizables)
+    const json = JSON.stringify(localizables);
     ParticleWalletPlugin.setCustomLocalizable(json);
   }
 }

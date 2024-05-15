@@ -32,6 +32,14 @@ import com.particle.gui.ui.swap.SwapConfig
 import network.particle.chains.ChainInfo
 import android.os.Handler
 import android.os.Looper
+import android.text.TextUtils
+import com.particle.api.infrastructure.db.table.WalletInfo
+import com.particle.base.model.MobileWCWalletName
+import com.particle.connect.ParticleConnect
+import com.particle.gui.ParticleWallet.priorityNFTContractAddresses
+import com.particle.gui.ParticleWallet.priorityTokenAddresses
+import com.particle.network.ParticleNetworkAuth.getAddress
+import particle.auth.adapter.ParticleConnectAdapter
 
 class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
@@ -52,9 +60,25 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun createSelectedWallet(publicAddress: String, walletType: String) {
-    BridgeScope.launch {
-      ParticleWallet.setWallet(publicAddress, walletType)
+  fun createSelectedWallet(publicAddress: String, walletType: String, walletName: String?) {
+    val adapter = ParticleConnect.getAdapters().first { it.name.equals(walletType, true) }
+    if (!TextUtils.isEmpty(walletName) && adapter is ParticleConnectAdapter) {
+      BridgeScope.launch {
+        val wallet = WalletInfo.createWallet(
+          ParticleNetwork.getAddress(),
+          ParticleNetwork.chainInfo.name,
+          ParticleNetwork.chainInfo.id,
+          1,
+          walletName!!,
+          MobileWCWalletName.Particle.name
+        )
+        ParticleWallet.setWallet(wallet)
+      }
+    } else {
+      BridgeScope.launch {
+        val wallet = WalletUtils.createSelectedWallet(publicAddress, adapter)
+        WalletUtils.setWalletChain(wallet)
+      }
     }
   }
 
@@ -357,12 +381,16 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun setPriorityTokenAddresses(addresses: String) {
-    // todo
+    ParticleNetwork.priorityTokenAddresses(GsonUtils.fromJson<List<String>>(
+      addresses, object : TypeToken<List<String>>() {}.type
+    ) as MutableList<String>)
   }
 
   @ReactMethod
   fun setPriorityNFTContractAddresses(addresses: String) {
-    // todo
+    ParticleNetwork.priorityNFTContractAddresses(GsonUtils.fromJson<List<String>>(
+      addresses, object : TypeToken<List<String>>() {}.type
+    ) as MutableList<String>)
   }
 
 
@@ -380,10 +408,14 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
   fun setSupportAddToken(isShow: Boolean) {
     ParticleWallet.setSupportAddToken(isShow)
   }
-  
+
   @ReactMethod
   fun setSupportDappBrowser(isShow: Boolean) {
     ParticleWallet.setSupportDappBrowser(isShow)
+  }
+  @ReactMethod
+  fun setCustomWalletIcon(icon: String) {
+    ParticleWallet.setWalletIcon(icon)
   }
 
 

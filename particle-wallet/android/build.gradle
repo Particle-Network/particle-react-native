@@ -5,6 +5,9 @@ buildscript {
   repositories {
     google()
     mavenCentral()
+    maven { setUrl("https://jitpack.io") }
+    maven { setUrl("https://s01.oss.sonatype.org/content/groups/staging/") }
+    maven { setUrl("https://s01.oss.sonatype.org/content/repositories/releases/") }
   }
 
   dependencies {
@@ -64,7 +67,9 @@ android {
 repositories {
   mavenCentral()
   google()
-
+  maven { setUrl("https://jitpack.io") }
+  maven { setUrl("https://s01.oss.sonatype.org/content/groups/staging/") }
+  maven { setUrl("https://s01.oss.sonatype.org/content/repositories/releases/") }
   def found = false
   def defaultDir = null
   def androidSourcesName = 'React Native sources'
@@ -139,7 +144,7 @@ dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 // From node_modules
 
-  def sdkVersion = "1.4.9"
+  def sdkVersion = "1.4.21"
   implementation("network.particle:base-service:$sdkVersion")
   implementation("network.particle:auth-service:$sdkVersion")
   implementation("network.particle:wallet-service:$sdkVersion"){

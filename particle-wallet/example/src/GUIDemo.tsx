@@ -1,4 +1,4 @@
-import { Ethereum, EthereumSepolia } from '@particle-network/chains';
+import {Ethereum, EthereumSepolia, PolygonAmoy} from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
 import { Env, Language, WalletDisplay } from '@particle-network/rn-auth';
 import * as particleConnect from '@particle-network/rn-connect';
@@ -32,7 +32,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
   modalSelect: ModalSelector<any> | null = null;
 
   init = async () => {
-    const chainInfo = Ethereum;
+    const chainInfo = PolygonAmoy;
     const env = Env.Dev;
     const walletMetaData = {
       walletConnectProjectId: '75ac08814504606fc06126541ace9df6',
@@ -51,9 +51,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
       ''
     );
     particleConnect.init(chainInfo, env, dappMetaData);
-    particleWallet.setwal
     particleWallet.initWallet(walletMetaData);
-
     Toast.show({
       type: 'success',
       text1: 'Initialized successfully',
@@ -68,6 +66,11 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
           label: 'Ethereum Sepolia',
           key: 'Ethereum Sepolia',
           value: EthereumSepolia,
+        },
+        {
+          label: 'Polygon Amy',
+          key: 'Polygon Amy',
+          value: PolygonAmoy,
         },
       ],
     });
@@ -86,7 +89,8 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
       console.log('accountInfo', accountInfo.publicAddress);
       particleWallet.createSelectedWallet(
         accountInfo.publicAddress,
-        WalletType.Particle
+        WalletType.Particle,
+        'Custom WalletName'
       );
 
       Toast.show({
@@ -135,7 +139,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
   };
 
   navigatorTokenTransactionRecords = async () => {
-    const tokenAddress = TestAccountSolana.tokenContractAddress;
+    const tokenAddress = '0x0Fd9e8d3aF1aaee056EB9e802c3A762a667b1904';
     particleWallet.navigatorTokenTransactionRecords(tokenAddress);
   };
 
@@ -219,7 +223,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
   };
 
   setSupportChain = async () => {
-    const chainInfos = [Ethereum, EthereumSepolia];
+    const chainInfos = [Ethereum, EthereumSepolia, PolygonAmoy];
     particleWallet.setSupportChain(chainInfos);
     Toast.show({
       type: 'success',
@@ -298,7 +302,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
   };
 
   setPriorityTokenAddresses = async () => {
-    const tokenAddresses = ['', ''];
+    const tokenAddresses = ['0x0Fd9e8d3aF1aaee056EB9e802c3A762a667b1904'];
     particleWallet.setPriorityTokenAddresses(tokenAddresses);
   };
 
@@ -357,10 +361,13 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
   handleModelSelect = async ({ value }: any) => {
     switch (this.state.currentKey) {
       case 'SetChainInfo':
-        particleAuth.setChainInfo(value);
+        console.log(value);
+        await particleAuth.setChainInfo(value);
+        const chainIfo = await particleAuth.getChainInfo();
+        console.log(chainIfo);
         Toast.show({
           type: 'success',
-          text1: 'Successfully set chain info',
+          text1: chainIfo.id + ' ' + chainIfo.name,
         });
         break;
       case 'SwitchWallet':

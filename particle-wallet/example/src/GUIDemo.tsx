@@ -51,6 +51,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
       ''
     );
     particleConnect.init(chainInfo, env, dappMetaData);
+    particleWallet.setwal
     particleWallet.initWallet(walletMetaData);
 
     Toast.show({

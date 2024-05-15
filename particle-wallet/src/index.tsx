@@ -277,6 +277,7 @@ export function getSwapDisabled(): Promise<any> {
  * Switch wallet, tell GUI which wallet show when open
  * @param walletType Wallet type
  * @param publicAddress Public address
+ * @param pnWalletName Works for Android, to customize the wallet name
  * @returns Result
  */
 export function switchWallet(
@@ -394,15 +395,13 @@ export function setSupportDappBrowser(isShow: boolean) {
 /**
  * Set custom wallet name and icon, should call before login/connect, only support particle wallet.
  * In Android, you need call switchWallet to set the wallet name
- * @param name Wallet name
+ * @param name Wallet name, for Android, you need call switch wallet to customize the wallet name
  * @param icon Wallet icon, a uri such as https://example.com/1.png
  */
 export function setCustomWalletName(name: string, icon: string) {
-  if (Platform.OS == 'ios') {
-    const obj = { name: name, icon: icon };
-    const json = JSON.stringify(obj);
-    ParticleWalletPlugin.setCustomWalletName(json);
-  }
+  const obj = { name: name, icon: icon };
+  const json = JSON.stringify(obj);
+  ParticleWalletPlugin.setCustomWalletName(json);
 }
 
 /**

@@ -398,9 +398,11 @@ export function setSupportDappBrowser(isShow: boolean) {
  * @param icon Wallet icon, a uri such as https://example.com/1.png
  */
 export function setCustomWalletName(name: string, icon: string) {
-  const obj = { name: name, icon: icon };
-  const json = JSON.stringify(obj);
-  ParticleWalletPlugin.setCustomWalletName(json);
+  if (Platform.OS == 'ios') {
+    const obj = { name: name, icon: icon };
+    const json = JSON.stringify(obj);
+    ParticleWalletPlugin.setCustomWalletName(json);
+  }
 }
 
 /**

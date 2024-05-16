@@ -1,4 +1,4 @@
-import {Ethereum, EthereumSepolia, PolygonAmoy} from '@particle-network/chains';
+import { Ethereum, EthereumSepolia, PolygonAmoy } from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
 import { Env, Language, WalletDisplay } from '@particle-network/rn-auth';
 import * as particleConnect from '@particle-network/rn-connect';
@@ -193,6 +193,10 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     particleWallet.navigatorSwap(fromTokenAddress, toTokenAddress, amount);
   };
 
+  navigatorDappBrowser = async () => {
+    particleWallet.navigatorDappBrowser("https://opensea.io");
+  }
+
   setShowTestNetwork = async () => {
     const isShow = false;
     particleWallet.setShowTestNetwork(isShow);
@@ -358,6 +362,8 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
 
 
 
+
+
   handleModelSelect = async ({ value }: any) => {
     switch (this.state.currentKey) {
       case 'SetChainInfo':
@@ -398,6 +404,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     { key: 'NavigatorLoginList', function: this.navigatorLoginList },
     { key: 'NavigatorWalletConnect', function: this.navigatorWalletConnect },
     { key: 'NavigatorSwap', function: this.navigatorSwap },
+    { key: 'NavigatorDappBrowser', function: this.navigatorDappBrowser },
     { key: 'SetShowTestNetwork', function: this.setShowTestNetwork },
     { key: 'SetShowManageWallet', function: this.setShowManageWallet },
     { key: 'SetSupportChain', function: this.setSupportChain },

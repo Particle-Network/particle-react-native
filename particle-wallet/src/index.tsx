@@ -422,4 +422,14 @@ export function setCustomLocalizable(localizables: string) {
   }
 }
 
+/**
+ * Navigator dapp browser page.
+ * @param url Dapp url, could pass empty string to show default browser page.
+ */
+export function navigatorDappBrowser(url: string) {
+  const obj = {url: url};
+  const json = JSON.stringify(obj);
+  ParticleWalletPlugin.navigatorDappBrowser(json);
+}
+
 export * from './Models';

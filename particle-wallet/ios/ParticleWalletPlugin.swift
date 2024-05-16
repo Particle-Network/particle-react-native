@@ -144,6 +144,21 @@ public class ParticleWalletPlugin: NSObject {
     }
     
     @objc
+    public func navigatorDappBrowser(_ json: String?) {
+        if let json = json {
+            let data = JSON(parseJSON: json)
+            let urlStr = data["url"].stringValue
+            if let url = URL(string: urlStr) {
+                PNRouter.navigatorDappBrowser(url: url)
+            } else {
+                PNRouter.navigatorDappBrowser(url: nil)
+            }
+        } else {
+            PNRouter.navigatorDappBrowser(url: nil)
+        }
+    }
+    
+    @objc
     public func setShowTestNetwork(_ show: Bool) {
         ParticleWalletGUI.setShowTestNetwork(show)
     }

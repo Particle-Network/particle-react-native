@@ -1,12 +1,12 @@
-import type { ChainInfo } from '@particle-network/chains';
-import type { WalletDisplay } from '@particle-network/rn-auth';
-import type { WalletType } from '@particle-network/rn-connect';
-import { NativeModules, Platform } from 'react-native';
-import type { BuyCryptoConfig, WalletMetaData } from './Models';
+import type {ChainInfo} from '@particle-network/chains';
+import type {WalletDisplay} from '@particle-network/rn-auth';
+import type {WalletType} from '@particle-network/rn-connect';
+import {NativeModules, Platform} from 'react-native';
+import type {BuyCryptoConfig, WalletMetaData} from './Models';
 
 const LINKING_ERROR =
   `The package '@particle-network/rn-wallet' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
+  Platform.select({ios: "- You have run 'pod install'\n", default: ''}) +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
 
@@ -49,7 +49,7 @@ export function createSelectedWallet(
   walletName?: string
 ) {
   if (Platform.OS == 'android') {
-    ParticleWalletPlugin.createSelectedWallet(publicAddress, walletType,walletName);
+    ParticleWalletPlugin.createSelectedWallet(publicAddress, walletType, walletName);
   }
 }
 
@@ -119,7 +119,7 @@ export function navigatorNFTSend(
  * @param tokenId NFT token id, for solana nft, pass ""
  */
 export function navigatorNFTDetails(mint: string, tokenId: string) {
-  const obj = { mint: mint, token_id: tokenId };
+  const obj = {mint: mint, token_id: tokenId};
   const json = JSON.stringify(obj);
   ParticleWalletPlugin.navigatorNFTDetails(json);
 }
@@ -160,6 +160,7 @@ export function navigatorLoginList(): Promise<any> {
     });
   });
 }
+
 export function navigatorWalletConnect(): Promise<any> {
   if (Platform.OS === 'android') {
     return new Promise((resolve) => {
@@ -287,7 +288,7 @@ export function switchWallet(
   pnWalletName?: string
 ): Promise<boolean> {
 
-  const obj = { wallet_type: walletType, public_address: publicAddress, wallet_name: pnWalletName };
+  const obj = {wallet_type: walletType, public_address: publicAddress, wallet_name: pnWalletName};
   const json = JSON.stringify(obj);
 
   if (Platform.OS === 'ios') {
@@ -296,8 +297,7 @@ export function switchWallet(
         resolve(JSON.parse(result));
       });
     });
-  }
-  else {
+  } else {
     return new Promise((resolve) => {
       ParticleWalletPlugin.setWallet(json, (result: string) => {
         resolve(JSON.parse(result));
@@ -427,9 +427,13 @@ export function setCustomLocalizable(localizables: string) {
  * @param url Dapp url, could pass empty string to show default browser page.
  */
 export function navigatorDappBrowser(url: string) {
-  const obj = {url: url};
+  const obj = { url: url };
   const json = JSON.stringify(obj);
-  ParticleWalletPlugin.navigatorDappBrowser(json);
+  if (Platform.OS === 'ios') {
+    ParticleWalletPlugin.navigatorDappBrowser(json);
+  } else {
+    ParticleWalletPlugin.navigatorDappBrowser(url);
+  }
 }
 
 export * from './Models';

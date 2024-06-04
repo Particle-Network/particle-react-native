@@ -111,6 +111,7 @@ target 'myapp' do
          target.name == 'SwiftyUserDefaults' or
          target.name == 'RxSwift' or
          target.name == 'RxCocoa' or
+	 target.name == 'RxRelay' or
          target.name == 'SwiftyJSON' or
          target.name == 'Base58.swift' or
          target.name == 'JXPagingView' or
@@ -122,6 +123,8 @@ target 'myapp' do
          target.name == 'SnapKit' or
          target.name == 'BigInt' or
          target.name == 'Alamofire' or
+	 target.name == 'RxAlamofire' or
+         target.name == 'Then' or
 
          target.name == 'Thresh' or
          target.name == 'ParticleMPCCore' or

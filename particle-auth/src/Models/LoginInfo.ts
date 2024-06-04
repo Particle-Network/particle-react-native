@@ -35,14 +35,9 @@ export enum SocialLoginPrompt {
     SelectAccount = 'select_account',
 }
 
-export class LoginAuthorization {
-    public message: string;
-    public uniq: boolean;
-
-    constructor(message: string, uniq: boolean = false) {
-        this.message = message;
-        this.uniq = uniq;
-    }
+export interface LoginAuthorization {
+    message: string;
+    uniq: boolean;
 }
 
 export enum iOSModalPresentStyle {
@@ -113,3 +108,10 @@ export interface UserInfo {
     security_account?: SecurityAccount;
     signature?: string;
 }
+
+export interface LoginPageConfig {
+    projectName: string;
+    description: string;
+    imagePath: string;
+}
+

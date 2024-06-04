@@ -77,7 +77,6 @@ class ParticleConnectPlugin: NSObject {
         let description = data["metadata"]["description"].stringValue
         let redirectUniversalLink = data["metadata"]["redirect"].string
         
-        
         let walletConnectProjectId = data["metadata"]["walletConnectProjectId"].stringValue
         
         let dAppIconUrl = URL(string: dAppIconString) != nil ? URL(string: dAppIconString)! : URL(string: "https://connect.particle.network/icons/512.png")!
@@ -118,25 +117,20 @@ class ParticleConnectPlugin: NSObject {
 #endif
         
 #if canImport(ConnectWalletConnectAdapter)
-        adapters.append(MetaMaskConnectAdapter())
-        adapters.append(RainbowConnectAdapter())
-        adapters.append(BitkeepConnectAdapter())
-        adapters.append(ImtokenConnectAdapter())
-        adapters.append(WalletConnectAdapter())
-        adapters.append(TrustConnectAdapter())
-        
-        let moreAdapterClasses: [WalletConnectAdapter.Type] =
-            [ZerionConnectAdapter.self,
-             MathConnectAdapter.self,
-             OmniConnectAdapter.self,
-             Inch1ConnectAdapter.self,
-             ZengoConnectAdapter.self,
-             AlphaConnectAdapter.self,
-             OKXConnectAdapter.self]
-
-        adapters.append(contentsOf: moreAdapterClasses.map {
-            $0.init()
-        })
+        adapters.append(contentsOf: [
+            MetaMaskConnectAdapter(),
+            RainbowConnectAdapter(),
+            BitkeepConnectAdapter(),
+            ImtokenConnectAdapter(),
+            TrustConnectAdapter(),
+            WalletConnectAdapter(),
+            ZerionConnectAdapter(),
+            MathConnectAdapter(),
+            Inch1ConnectAdapter(),
+            ZengoConnectAdapter(),
+            AlphaConnectAdapter(),
+            OKXConnectAdapter()
+        ])
 #endif
         
         ParticleConnect.initialize(env: devEnv, chainInfo: chainInfo, dAppData: dAppData) {
@@ -172,66 +166,6 @@ class ParticleConnectPlugin: NSObject {
     public func connect(_ json: String, configJson: String, callback: @escaping RCTResponseSenderBlock) {
         let walletTypeString = json
         
-        var connectConfig: ParticleAuthConfig?
-        if !configJson.isEmpty {
-            let data = JSON(parseJSON: configJson)
-            let loginType = LoginType(rawValue: data["login_type"].stringValue.lowercased()) ?? .email
-            var supportAuthTypeArray: [SupportAuthType] = []
-            
-            let array = data["support_auth_type_values"].arrayValue.map {
-                $0.stringValue.lowercased()
-            }
-            if array.contains("all") {
-                supportAuthTypeArray = [.all]
-            } else {
-                array.forEach {
-                    if $0 == "email" {
-                        supportAuthTypeArray.append(.email)
-                    } else if $0 == "phone" {
-                        supportAuthTypeArray.append(.phone)
-                    } else if $0 == "apple" {
-                        supportAuthTypeArray.append(.apple)
-                    } else if $0 == "google" {
-                        supportAuthTypeArray.append(.google)
-                    } else if $0 == "facebook" {
-                        supportAuthTypeArray.append(.facebook)
-                    } else if $0 == "github" {
-                        supportAuthTypeArray.append(.github)
-                    } else if $0 == "twitch" {
-                        supportAuthTypeArray.append(.twitch)
-                    } else if $0 == "microsoft" {
-                        supportAuthTypeArray.append(.microsoft)
-                    } else if $0 == "linkedin" {
-                        supportAuthTypeArray.append(.linkedin)
-                    } else if $0 == "discord" {
-                        supportAuthTypeArray.append(.discord)
-                    } else if $0 == "twitter" {
-                        supportAuthTypeArray.append(.twitter)
-                    }
-                }
-            }
-            
-            var account = data["account"].string
-            
-            if account != nil, account!.isEmpty {
-                account = nil
-            }
-            
-            let socialLoginPromptString = data["social_login_prompt"].stringValue.lowercased()
-            let socialLoginPrompt: SocialLoginPrompt? = SocialLoginPrompt(rawValue: socialLoginPromptString)
-            
-            let message: String? = data["authorization"]["message"].string
-            let isUnique: Bool = data["authorization"]["uniq"].bool ?? false
-
-            var loginAuthorization: LoginAuthorization?
-        
-            if message != nil {
-                loginAuthorization = .init(message: message!, isUnique: isUnique)
-            }
-
-            connectConfig = ParticleAuthConfig(loginType: loginType, supportAuthType: supportAuthTypeArray, account: account, socialLoginPrompt: socialLoginPrompt, authorization: loginAuthorization)
-        }
-        
         guard let walletType = map2WalletType(from: walletTypeString) else {
             print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
@@ -241,6 +175,7 @@ class ParticleConnectPlugin: NSObject {
             callback([json])
             return
         }
+        
         guard let adapter = map2ConnectAdapter(from: walletType) else {
             print("adapter for \(walletTypeString) is not init")
             let response = ReactResponseError(code: nil, message: "adapter for \(walletTypeString) is not init", data: nil)
@@ -255,9 +190,111 @@ class ParticleConnectPlugin: NSObject {
             return
         }
         
+        var particleAuthConfig: ParticleAuthConfig?
+        
+        var loginType: LoginType
+        var supportAuthTypeArray: [SupportAuthType] = []
+        var account: String?
+        var code: String?
+        var socialLoginPrompt: SocialLoginPrompt?
+        
+#if canImport(ParticleAuthCore)
+        var particleAuthCoreConfig: ParticleAuthCoreConfig?
+#endif
+        
+        if !configJson.isEmpty {
+            let data = JSON(parseJSON: configJson)
+            loginType = LoginType(rawValue: data["loginType"].stringValue.lowercased()) ?? .email
+                
+            let array = data["supportAuthTypeValues"].arrayValue.map {
+                $0.stringValue.lowercased()
+            }
+            if array.contains("all") {
+                supportAuthTypeArray = [.all]
+            } else {
+                array.forEach { if $0 == "email" {
+                    supportAuthTypeArray.append(.email)
+                } else if $0 == "phone" {
+                    supportAuthTypeArray.append(.phone)
+                } else if $0 == "apple" {
+                    supportAuthTypeArray.append(.apple)
+                } else if $0 == "google" {
+                    supportAuthTypeArray.append(.google)
+                } else if $0 == "facebook" {
+                    supportAuthTypeArray.append(.facebook)
+                } else if $0 == "github" {
+                    supportAuthTypeArray.append(.github)
+                } else if $0 == "twitch" {
+                    supportAuthTypeArray.append(.twitch)
+                } else if $0 == "microsoft" {
+                    supportAuthTypeArray.append(.microsoft)
+                } else if $0 == "linkedin" {
+                    supportAuthTypeArray.append(.linkedin)
+                } else if $0 == "discord" {
+                    supportAuthTypeArray.append(.discord)
+                } else if $0 == "twitter" {
+                    supportAuthTypeArray.append(.twitter)
+                }
+                }
+            }
+                
+            account = data["account"].string
+                
+            if account != nil, account!.isEmpty {
+                account = nil
+            }
+            
+            code = data["code"].string
+            if code != nil, code!.isEmpty {
+                code = nil
+            }
+                
+            let socialLoginPromptString = data["socialLoginPrompt"].stringValue.lowercased()
+            if socialLoginPromptString == "none" {
+                socialLoginPrompt = SocialLoginPrompt.none
+            } else if socialLoginPromptString == "consent" {
+                socialLoginPrompt = SocialLoginPrompt.consent
+            } else if socialLoginPromptString == "selectaccount" {
+                socialLoginPrompt = SocialLoginPrompt.selectAccount
+            }
+                
+            let authorizationJson = data["authorization"]
+            var loginAuthorization: LoginAuthorization?
+                
+            if authorizationJson == JSON.null {
+                loginAuthorization = nil
+            } else {
+                let message: String? = authorizationJson["message"].stringValue
+                let isUnique: Bool? = authorizationJson["uniq"].boolValue
+                    
+                loginAuthorization = .init(message: message, isUnique: isUnique)
+            }
+
+            particleAuthConfig = ParticleAuthConfig(loginType: loginType, supportAuthType: supportAuthTypeArray, account: account, socialLoginPrompt: socialLoginPrompt, authorization: loginAuthorization)
+            
+#if canImport(ParticleAuthCore)
+            let config = data["loginPageConfig"]
+            var loginPageConfig: LoginPageConfig?
+            if config != JSON.null {
+                let projectName = config["projectName"].stringValue
+                let description = config["description"].stringValue
+                let path = config["imagePath"].stringValue
+                let imagePath = ImagePath.url(path)
+                loginPageConfig = LoginPageConfig(imagePath: imagePath, projectName: projectName, description: description)
+            }
+            particleAuthCoreConfig = ParticleAuthCoreConfig(loginType: loginType, account: account, code: code, socialLoginPrompt: socialLoginPrompt, loginPageConfig: loginPageConfig)
+#endif
+        }
+        
         var observable: Single<Account?>
         if walletType == .particle {
-            observable = adapter.connect(connectConfig)
+            observable = adapter.connect(particleAuthConfig)
+        } else if walletType == .authCore {
+#if canImport(ParticleAuthCore)
+            observable = adapter.connect(particleAuthCoreConfig)
+#else
+            observable = adapter.connect(ConnectConfig.none)
+#endif
         } else {
             observable = adapter.connect(ConnectConfig.none)
         }

@@ -157,7 +157,7 @@
     "useTabs": false
   },
   "dependencies": {
-    "@particle-network/rn-auth": "1.4.4",
+    "@particle-network/rn-auth": "file:../particle-auth",
     "axios": "^1.3.4",
     "events": "^3.3.0"
   }

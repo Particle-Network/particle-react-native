@@ -12,7 +12,6 @@ export enum WalletType {
   Phantom = 'Phantom',
   Zerion = 'Zerion',
   Math = 'Math',
-  Omni = 'Omni',
   Zengo = 'Zengo',
   Alpha = 'Alpha',
   Inch1 = 'Inch1',

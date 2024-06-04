@@ -461,15 +461,61 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     }
   };
 
-  connectWithParticleConfig = async () => {
+  connectWithParticleAuth = async () => {
     const message = '0x' + Buffer.from('Hello Particle!').toString('hex');
     const authorization = new particleAuth.LoginAuthorization(message, false);
     const connectConfig = new ParticleConnectConfig(
-      LoginType.Phone,
+      LoginType.Email,
       '',
-      [SupportAuthType.Email, SupportAuthType.Google, SupportAuthType.Apple],
+      [SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
       SocialLoginPrompt.SelectAccount,
-      authorization
+      authorization,
+      undefined
+    );
+
+    const result = await particleConnect.connect(
+      WalletType.Particle,
+      connectConfig
+    );
+    if (result.status) {
+      console.log('connect success');
+      const account = result.data as AccountInfo;
+      this.pnaccount = new PNAccount(
+        account.icons,
+        account.name,
+        account.publicAddress,
+        account.url
+      );
+      console.log('pnaccount = ', this.pnaccount);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully connected',
+      });
+    } else {
+      const error = result.data as CommonError;
+      console.log(error);
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
+    }
+  };
+
+  connectWithParticleAuthCore = async () => {
+    const connectConfig = new ParticleConnectConfig(
+      LoginType.Email,
+      '',
+      [SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
+      SocialLoginPrompt.SelectAccount,
+      undefined,
+      {
+        projectName: "React Native Example",
+        description: "Welcome to login",
+        imagePath: "https://connect.particle.network/icons/512.png"
+      }
+
     );
 
     const result = await particleConnect.connect(
@@ -989,8 +1035,12 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     { key: 'GetAccounts', function: this.getAccounts },
     { key: 'Connect', function: this.connect },
     {
-      key: 'ConnectWithParticleConfig',
-      function: this.connectWithParticleConfig,
+      key: 'connectWithParticleAuthCore',
+      function: this.connectWithParticleAuthCore,
+    },
+    {
+      key: 'connectWithParticleAuth',
+      function: this.connectWithParticleAuth,
     },
     { key: 'Disconnect', function: this.disconnect },
     { key: 'IsConnected', function: this.isConnected },
@@ -1072,7 +1122,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
         {this.state.qrCodeUri !== '' && (
           <QRCode
             value={this.state.qrCodeUri}
-            // 其他 QRCode 组件的属性
+          // 其他 QRCode 组件的属性
           />
         )}
       </SafeAreaView>

@@ -104,11 +104,13 @@ export async function connect(
   let configJson = '';
   if (config) {
     const obj = {
-      login_type: config.loginType,
+      loginType: config.loginType,
       account: config.account,
-      support_auth_type_values: config.supportAuthType,
-      social_login_prompt: config.socialLoginPrompt,
+      code: config.code,
+      supportAuthTypeValues: config.supportAuthType,
+      socialLoginPrompt: config.socialLoginPrompt,
       authorization: config.authorization,
+      loginPageConfig: config.loginPageConifg
     };
     configJson = JSON.stringify(obj);
   }

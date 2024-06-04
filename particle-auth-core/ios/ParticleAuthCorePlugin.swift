@@ -142,8 +142,14 @@ class ParticleAuthCorePlugin: NSObject {
         if config != JSON.null {
             let projectName = config["projectName"].stringValue
             let description = config["description"].stringValue
-            let path = config["imagePath"].stringValue.lowercased()
-            let imagePath = ImagePath.url(path)
+            let path = config["imagePath"].stringValue
+            var imagePath: ImagePath
+
+            if let data = Data(base64Encoded: path), let image = UIImage(data: data) {
+                imagePath = ImagePath.local(image)
+            } else {
+                imagePath = ImagePath.url(path)
+            }
 
             loginPageConfig = LoginPageConfig(imagePath: imagePath, projectName: projectName, description: description)
         }

@@ -39,7 +39,7 @@ export function init() {
  * @param account Optional, phone number, email or jwt, phone number request format E.164, such as '+11234567890' '+442012345678' '+8613611112222'
  * @param code Phone code or email code
  * @param socialLoginPrompt SocialLoginPrompt
- * @param loginPageConfig Login page config, imagePath support icon url and base64 string.
+ * @param loginPageConfig Login page config, imagePath support icon url, also base64 string is supported in iOS.
  */
 export async function connect(type: LoginType, account?: String | null, supportAuthType?: SupportAuthType[], socialLoginPrompt?: SocialLoginPrompt | null, loginPageConfig?: { projectName: string, description: string, imagePath: string } | null): Promise<CommonResp<UserInfo>> {
   const obj = {

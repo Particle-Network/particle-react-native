@@ -20,7 +20,6 @@ import {
   CommonError,
   DappMetaData,
   LoginResp,
-  ParticleConnectConfig,
   WalletType,
 } from '@particle-network/rn-connect';
 import BigNumber from 'bignumber.js';
@@ -77,16 +76,14 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
 
     const chainInfo: ChainInfo = Ethereum;
     const env = Env.Dev;
-    const metadata = new DappMetaData(
-      '75ac08814504606fc06126541ace9df6',
-      'Particle Connect',
-      'https://connect.particle.network/icons/512.png',
-      'https://connect.particle.network',
-      'Particle Wallet',
-      '',
-      ''
-    );
-
+    const metadata = {
+      walletConnectProjectId: '75ac08814504606fc06126541ace9df6',
+      url: 'https://connect.particle.network',
+      icon: 'https://connect.particle.network/icons/512.png',
+      name: 'Particle Connect',
+      description: 'Particle Wallet'
+    }
+    
     // the rpcUrl works for WalletType EvmPrivateKey and SolanaPrivakey
     // we have default rpc url in native SDK
     particleConnect.init(chainInfo, env, metadata);

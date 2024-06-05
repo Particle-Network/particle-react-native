@@ -14,11 +14,11 @@ export interface ParticleConnectConfig {
   /**
    * Email, phone number or JWT
    */
-  account: string;
+  account?: string;
   /**
    * Email or phone code, used with particle-auth-core
    */
-  code: string;
+  code?: string;
   /**
    * List of SupportAuthType 
    */

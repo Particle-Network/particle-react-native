@@ -1,6 +1,6 @@
 {
   "name": "@particle-network/rn-auth-core",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "@particle-network/rn-auth-core",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -146,9 +146,6 @@
     "trailingComma": "es5",
     "useTabs": false
   },
-  "dependencies": {
-    "@particle-network/rn-auth": "1.4.4"
-  },
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",
@@ -162,5 +159,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "@particle-network/rn-auth": "1.4.6"
   }
 }

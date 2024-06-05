@@ -1,4 +1,4 @@
-import { ChainInfo, PolygonMumbai } from '@particle-network/chains';
+import { ChainInfo, EthereumSepolia } from '@particle-network/chains';
 import type { RouteProp } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -38,7 +38,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       <TouchableOpacity
         style={styles.buttonStyle}
         onPress={() =>
-          navigation.push('ConnectDemo', { chainInfo: PolygonMumbai })
+          navigation.push('ConnectDemo', { chainInfo: EthereumSepolia })
         }
       >
         <Text style={styles.textStyle}>ConnectDemo</Text>

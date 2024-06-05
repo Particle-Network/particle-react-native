@@ -31,7 +31,7 @@ export enum SupportAuthType {
 
 export enum SocialLoginPrompt {
     None = 'none',
-    Consent = 'Sconsent',
+    Consent = 'consent',
     SelectAccount = 'select_account',
 }
 

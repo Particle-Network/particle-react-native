@@ -1,10 +1,12 @@
 import {
   ChainInfo,
   Ethereum,
-  PolygonMumbai,
+  Polygon,
   SolanaDevnet,
+  EthereumSepolia
 } from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
+import * as particleAuthCore from '@particle-network/rn-auth-core';
 import {
   Env,
   LoginType,
@@ -88,6 +90,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     // the rpcUrl works for WalletType EvmPrivateKey and SolanaPrivakey
     // we have default rpc url in native SDK
     particleConnect.init(chainInfo, env, metadata);
+    particleAuthCore.init();
 
     this.newWeb3 = createWeb3(
       '5479798b-26a9-4943-b848-649bb104fdc3',
@@ -96,7 +99,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     );
 
     Toast.show({ type: 'success', text1: 'Initialized successfully' });
-    // const chainInfos = [Ethereum, Polygon, EthereumGoerli, EthereumSepolia];
+    // const chainInfos = [Ethereum, Polygon];
     // particleConnect.setWalletConnectV2SupportChainInfos(chainInfos);
   };
 
@@ -343,7 +346,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   web3_wallet_switchEthereumChain = async () => {
     try {
       const chainInfo: ChainInfo =
-        this.props.route.params?.chainInfo || PolygonMumbai;
+        this.props.route.params?.chainInfo || EthereumSepolia;
       const chainId = '0x' + chainInfo.id.toString(16);
       // @ts-ignore
       const result = await this.web3!.currentProvider.request({
@@ -366,7 +369,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   web3_wallet_addEthereumChain = async () => {
     try {
       const chainInfo: ChainInfo =
-        this.props.route.params?.chainInfo || PolygonMumbai;
+        this.props.route.params?.chainInfo || EthereumSepolia;
       const chainId = '0x' + chainInfo.id.toString(16);
       // @ts-ignore
       const result = await this.web3!.currentProvider.request({
@@ -397,7 +400,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
 
   setChainInfo = async () => {
     const chainInfo: ChainInfo =
-      this.props.route.params?.chainInfo || PolygonMumbai;
+      this.props.route.params?.chainInfo || EthereumSepolia;
     const result = await particleAuth.setChainInfo(chainInfo);
     console.log(result);
     Toast.show({
@@ -417,7 +420,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
 
   setChainInfoAsync = async () => {
     const chainInfo: ChainInfo =
-      this.props.route.params?.chainInfo || PolygonMumbai;
+      this.props.route.params?.chainInfo || EthereumSepolia;
     const result = await particleAuth.setChainInfoAsync(chainInfo);
     console.log(result);
     Toast.show({
@@ -463,15 +466,13 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
 
   connectWithParticleAuth = async () => {
     const message = '0x' + Buffer.from('Hello Particle!').toString('hex');
-    const authorization = new particleAuth.LoginAuthorization(message, false);
-    const connectConfig = new ParticleConnectConfig(
-      LoginType.Email,
-      '',
-      [SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
-      SocialLoginPrompt.SelectAccount,
-      authorization,
-      undefined
-    );
+    const authorization = { message: message, uniq: false };
+    const connectConfig = {
+      loginType: LoginType.Email,
+      supportAuthType: [SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
+      socialLoginPrompt: SocialLoginPrompt.SelectAccount,
+      authorization: authorization
+    };
 
     const result = await particleConnect.connect(
       WalletType.Particle,
@@ -504,19 +505,17 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   };
 
   connectWithParticleAuthCore = async () => {
-    const connectConfig = new ParticleConnectConfig(
-      LoginType.Email,
-      '',
-      [SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
-      SocialLoginPrompt.SelectAccount,
-      undefined,
-      {
+    const connectConfig = {
+      loginType: LoginType.Email,
+      supportAuthType: [SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
+      socialLoginPrompt: SocialLoginPrompt.SelectAccount,
+      loginPageConifg: {
         projectName: "React Native Example",
         description: "Welcome to login",
         imagePath: "https://connect.particle.network/icons/512.png"
       }
 
-    );
+    };
 
     const result = await particleConnect.connect(
       WalletType.Particle,
@@ -729,7 +728,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   signAndSendTransaction = async () => {
     const sender = await particleAuth.getAddress();
     const chainInfo: ChainInfo =
-      this.props.route.params?.chainInfo || PolygonMumbai;
+      this.props.route.params?.chainInfo || EthereumSepolia;
 
     const publicAddress = this.pnaccount.publicAddress;
 
@@ -784,7 +783,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
 
   signTypedData = async () => {
     const chainInfo: ChainInfo =
-      this.props.route.params?.chainInfo || PolygonMumbai;
+      this.props.route.params?.chainInfo || EthereumSepolia;
     if (chainInfo.name.toLowerCase() == 'solana') {
       console.log('signTypedData only supports evm');
       return;

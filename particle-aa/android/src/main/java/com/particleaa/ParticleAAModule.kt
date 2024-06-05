@@ -23,7 +23,12 @@ class ParticleAuthPlugin(val reactContext: ReactApplicationContext) :
   fun init(initParams: String) {
     LogUtils.d("init", initParams)
     val initData = GsonUtils.fromJson(initParams, BiconomyInitData::class.java)
-    ParticleNetwork.initAAMode(initData.dAppKeys)
+    if(initData.dAppKeys==null) {
+      ParticleNetwork.initAAMode(mapOf())
+    }else{
+      ParticleNetwork.initAAMode(initData.dAppKeys)
+    }
+
     val providerName = initData.name
     val providerVersion = initData.version
     LogUtils.d("providerName", providerName)

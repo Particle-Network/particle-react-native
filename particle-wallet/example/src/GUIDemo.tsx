@@ -403,7 +403,6 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
 
       particleWallet.setCustomLocalizable(localizables);
     }
-
   }
 
   handleModelSelect = async ({ value }: any) => {

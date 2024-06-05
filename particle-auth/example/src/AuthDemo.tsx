@@ -8,7 +8,6 @@ import {
     EvmService,
     FiatCoin,
     Language,
-    LoginAuthorization,
     LoginType,
     ParticleInfo,
     SecurityAccount,
@@ -590,7 +589,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
         const messageHex = '0x' + Buffer.from(message).toString('hex');
 
         // authrization is optional, used to login and sign a message.
-        const authrization = new LoginAuthorization(messageHex, false);
+        const authrization = { message: messageHex, uniq: false };
 
         const result = await particleAuth.login(type, '', supportAuthType, undefined, authrization);
         if (result.status) {
@@ -1345,10 +1344,10 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
                 this.securityFailedCallBack
             );
         } else {
-            // this.openAccountAndSecurityEvent = DeviceEventEmitter.addListener(
-            //     'securityFailedCallBack',
-            //     this.openAccountAndSecurityEvent
-            // );
+            this.openAccountAndSecurityEvent = DeviceEventEmitter.addListener(
+                'securityFailedCallBack',
+                this.securityFailedCallBack
+            );
         }
 
         this.init();
@@ -1359,7 +1358,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
     }
 
     securityFailedCallBack = (result: any) => {
-        console.log(result);
+        console.log('securityFailedCallBack: ' + result);
     };
 }
 

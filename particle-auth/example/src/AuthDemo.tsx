@@ -1345,10 +1345,10 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
                 this.securityFailedCallBack
             );
         } else {
-            this.openAccountAndSecurityEvent = DeviceEventEmitter.addListener(
-                'securityFailedCallBack',
-                this.openAccountAndSecurityEvent
-            );
+            // this.openAccountAndSecurityEvent = DeviceEventEmitter.addListener(
+            //     'securityFailedCallBack',
+            //     this.openAccountAndSecurityEvent
+            // );
         }
 
         this.init();

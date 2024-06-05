@@ -50,16 +50,7 @@ def supportsNamespace() {
 }
 
 android {
-  if (supportsNamespace()) {
-    namespace "com.particleauthcore"
-
-    sourceSets {
-      main {
-        manifest.srcFile "src/main/AndroidManifestNew.xml"
-      }
-    }
-  }
-
+  namespace "com.particleauthcore"
   compileSdkVersion 33
 
   defaultConfig {

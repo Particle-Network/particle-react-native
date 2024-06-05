@@ -309,7 +309,7 @@ class ParticleConnectPlugin: NSObject {
         let publicAddress = data["public_address"].stringValue
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
+            print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
@@ -338,7 +338,7 @@ class ParticleConnectPlugin: NSObject {
         let publicAddress = data["public_address"].stringValue
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
+            print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
@@ -368,7 +368,7 @@ class ParticleConnectPlugin: NSObject {
         let transaction = data["transaction"].stringValue
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
+            print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
@@ -428,7 +428,7 @@ class ParticleConnectPlugin: NSObject {
         let publicAddress = data["public_address"].stringValue
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
+            print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
@@ -488,7 +488,7 @@ class ParticleConnectPlugin: NSObject {
         let transaction = data["transaction"].stringValue
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
+            print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
@@ -519,7 +519,7 @@ class ParticleConnectPlugin: NSObject {
         }
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
+            print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
@@ -549,7 +549,7 @@ class ParticleConnectPlugin: NSObject {
         let message = data["message"].stringValue
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
+            print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
@@ -579,7 +579,7 @@ class ParticleConnectPlugin: NSObject {
         let message = data["message"].stringValue
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
+            print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
@@ -608,7 +608,7 @@ class ParticleConnectPlugin: NSObject {
         let privateKey = data["private_key"].stringValue
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
+            print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
@@ -648,7 +648,7 @@ class ParticleConnectPlugin: NSObject {
         let mnemonic = data["mnemonic"].stringValue
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
+            print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
@@ -688,7 +688,7 @@ class ParticleConnectPlugin: NSObject {
         let publicAddress = data["public_address"].stringValue
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
+            print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
@@ -731,7 +731,7 @@ class ParticleConnectPlugin: NSObject {
         guard let uri = URL(string: data["uri"].stringValue) else { return }
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
+            print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
@@ -771,7 +771,7 @@ class ParticleConnectPlugin: NSObject {
         }
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
+            print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)
@@ -801,7 +801,7 @@ class ParticleConnectPlugin: NSObject {
         let publicAddress = data["public_address"].stringValue
         
         guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed ")
+            print("walletType \(walletTypeString) is not existed")
             let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
             let statusModel = ReactStatusModel(status: false, data: response)
             let data = try! JSONEncoder().encode(statusModel)

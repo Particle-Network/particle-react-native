@@ -49,8 +49,6 @@ extension NSObject {
             walletType = .zerion
         } else if str == "math" {
             walletType = .math
-        } else if str == "omni" {
-            walletType = .omni
         } else if str == "zengo" {
             walletType = .zengo
         } else if str == "alpha" {

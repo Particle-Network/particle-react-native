@@ -11,26 +11,6 @@ target 'ParticleWalletExample' do
   # Flags change depending on the env values.
   flags = get_default_flags()
 
-    pod 'ParticleWalletGUI', '1.4.2'
-    pod 'ParticleWalletAPI', '1.4.2'
-    pod 'ParticleNetworkBase', '1.4.2'
-    pod 'ParticleAuthService', '1.4.2'
-    pod 'ParticleWalletConnect', '1.4.2'
-    pod 'ParticleAA', '1.4.2'
-    
-    pod 'ParticleConnect', '0.2.20'
-    pod 'ConnectWalletConnectAdapter', '0.2.20'
-    pod 'ConnectEVMAdapter', '0.2.20'
-    pod 'ConnectSolanaAdapter', '0.2.20'
-    pod 'ConnectPhantomAdapter', '0.2.20'
-    pod 'ConnectCommon', '0.2.20'
-    pod 'ParticleAuthAdapter', '0.2.20'
-    
-    pod 'SkeletonView', :git => 'https://github.com/SunZhiC/SkeletonView.git', :branch => 'main'
-    pod 'SwiftyUserDefaults', :git => 'https://github.com/SunZhiC/SwiftyUserDefaults.git', :branch => 'master'
-    pod 'WalletConnectSwiftV2', :git => 'https://github.com/SunZhiC/WalletConnectSwiftV2.git', :branch => 'particle'
-  
-
   use_react_native!(
     :path => config[:reactNativePath],
     # Hermes is now enabled by default. Disable by setting this flag to false.
@@ -46,6 +26,29 @@ target 'ParticleWalletExample' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
+
+  pod 'ParticleWalletGUI', '1.4.6'
+  pod 'ParticleWalletAPI', '1.4.6'
+  pod 'ParticleNetworkBase', '1.4.6'
+  pod 'ParticleAuthService', '1.4.6'
+  pod 'ParticleWalletConnect', '1.4.6'
+  
+  pod 'ParticleConnect', '0.2.23'
+  pod 'ConnectWalletConnectAdapter', '0.2.23'
+  pod 'ConnectEVMAdapter', '0.2.23'
+  pod 'ConnectSolanaAdapter', '0.2.23'
+  pod 'ConnectPhantomAdapter', '0.2.23'
+  pod 'ConnectCommon', '0.2.23'
+  pod 'ParticleAuthAdapter', '0.2.23'
+
+  pod 'AuthCoreAdapter', '1.4.5'
+  pod 'ParticleAuthCore', '1.4.5'
+  pod 'ParticleMPCCore', '1.4.5'
+  pod 'Thresh', '1.4.5'
+  
+  pod 'SkeletonView', :git => 'https://github.com/SunZhiC/SkeletonView.git', :branch => 'main'
+  pod 'SwiftyUserDefaults', :git => 'https://github.com/SunZhiC/SwiftyUserDefaults.git', :branch => 'master'
+  pod 'WalletConnectSwiftV2', :git => 'https://github.com/SunZhiC/WalletConnectSwiftV2.git', :branch => 'particle'
 
   target 'ParticleWalletExampleTests' do
     inherit! :complete

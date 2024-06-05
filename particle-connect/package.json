@@ -1,6 +1,6 @@
 {
   "name": "@particle-network/rn-connect",
-  "version": "1.4.4",
+  "version": "1.4.8",
   "description": "Particle Connect in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

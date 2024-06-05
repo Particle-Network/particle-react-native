@@ -18,7 +18,6 @@ import * as particleConnect from '@particle-network/rn-connect';
 import {
   AccountInfo,
   CommonError,
-  DappMetaData,
   LoginResp,
   WalletType,
 } from '@particle-network/rn-connect';

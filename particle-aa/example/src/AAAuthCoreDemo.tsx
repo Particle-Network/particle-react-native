@@ -38,7 +38,7 @@ interface AAAuthCoreDemoProps {
 
 export default class AAAuthCoreDemo extends PureComponent<AAAuthCoreDemoProps> {
   state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
-  accountName = AccountName.BICONOMY_V1();
+  accountName = AccountName.BICONOMY_V2();
 
   init = () => {
     // Get your project id and client from dashboard, https://dashboard.particle.network
@@ -58,15 +58,9 @@ export default class AAAuthCoreDemo extends PureComponent<AAAuthCoreDemoProps> {
     particleAuth.init(chainInfo, env);
     particleAuthCore.init();
 
-    // then init particle AA
-    const biconomyApiKeys = {
-      1: 'your ethereum mainnet key',
-      5: 'your ethereum goerli key',
-      137: 'your polygon mainnet key',
-      80001: 'hYZIwIsf2.e18c790b-cafb-4c4e-a438-0289fc25dba1',
-    };
-
-    particleAA.init(this.accountName, biconomyApiKeys);
+    // Optional, if you prefer to use particle paymaster, you don't need to pass biconomyApiKeys.
+    // if you prefer to use biconomy paymaster, you should pass the right api keys.
+    particleAA.init(this.accountName, /** biconomyApiKeys */);
 
     Toast.show({
       type: 'success',

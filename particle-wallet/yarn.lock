@@ -1796,6 +1796,7 @@
   resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.4.13.tgz"
   integrity sha512-GMmmpDVpxbyI5n9tayt421eqn1aEZWaKKSmvJ6/fIhZpmYvcubmFLzHmygM1ef+uBxwbGSh888gnXSCjfn+OUg==
 
+<<<<<<< HEAD
 "@particle-network/rn-auth-core@1.4.8":
   version "1.4.8"
   resolved "https://registry.npmjs.org/@particle-network/rn-auth-core/-/rn-auth-core-1.4.8.tgz"
@@ -1808,6 +1809,13 @@
   resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.4.8.tgz"
   integrity sha512-hKQ/DK1cQ85iTuYj/g6up7qymPCtUT+xrThDR87iougWLht4et/7ud/6ahHMW5kWQXX6Ifaox3SEQD205sJ1lQ==
   dependencies:
+=======
+"@particle-network/rn-auth@1.4.8":
+  version "1.4.8"
+  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.4.8.tgz"
+  integrity sha512-hKQ/DK1cQ85iTuYj/g6up7qymPCtUT+xrThDR87iougWLht4et/7ud/6ahHMW5kWQXX6Ifaox3SEQD205sJ1lQ==
+  dependencies:
+>>>>>>> f7661168e93ecd630c0e0375ba5c12670b62be26
     "@particle-network/chains" "^1.4.13"
     axios "^1.6.2"
     bignumber.js "^9.1.0"

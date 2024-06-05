@@ -44,18 +44,31 @@ export function navigatorWallet(display: WalletDisplay) {
 }
 
 /**
- * Works for Android, after login before open wallet page.
+ * After login before open wallet page, call this method to confirm unique wallet.
  * @param publicAddress Public address
  * @param walletType WalletType
- * @param walletName Customize wallet name
+ * @param walletName Customize wallet name, works for Android. In iOS, you can call setCustomWalletName to customize wallet name and icon.
+ * @returns Result
  */
-export function createSelectedWallet(
+export async function createSelectedWallet(
   publicAddress: string,
   walletType: WalletType,
   walletName?: string
-) {
+): Promise<boolean> {
   if (Platform.OS == 'android') {
     ParticleWalletPlugin.createSelectedWallet(publicAddress, walletType, walletName);
+    return new Promise(() => {
+      return true;
+    });
+  } else {
+    const obj = { wallet_type: walletType, public_address: publicAddress, wallet_name: walletName };
+    const json = JSON.stringify(obj);
+
+    return new Promise((resolve) => {
+      ParticleWalletPlugin.switchWallet(json, (result: string) => {
+        resolve(JSON.parse(result));
+      });
+    });
   }
 }
 
@@ -279,36 +292,6 @@ export function getSwapDisabled(): Promise<any> {
       resolve(result);
     });
   });
-}
-
-/**
- * Switch wallet, tell GUI which wallet show when open
- * @param walletType Wallet type
- * @param publicAddress Public address
- * @param pnWalletName Works for Android, to customize the wallet name
- * @returns Result
- */
-export function switchWallet(
-  walletType: WalletType,
-  publicAddress: string,
-  pnWalletName?: string
-): Promise<boolean> {
-
-  const obj = { wallet_type: walletType, public_address: publicAddress, wallet_name: pnWalletName };
-  const json = JSON.stringify(obj);
-
-  if (Platform.OS === 'ios') {
-    return new Promise((resolve) => {
-      ParticleWalletPlugin.switchWallet(json, (result: string) => {
-        resolve(JSON.parse(result));
-      });
-    });
-  } else {
-    createSelectedWallet(publicAddress, walletType, pnWalletName)
-    return new Promise(() => {
-      return true;
-    });
-  }
 }
 
 /**

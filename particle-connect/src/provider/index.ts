@@ -1,3 +1,4 @@
+import { chains } from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
 import { EventEmitter } from 'events';
 import type { AccountInfo } from '../Models';
@@ -109,6 +110,22 @@ class ParticleConnectProvider {
           return result.data;
         } else {
           return Promise.reject(result.data);
+        }
+      } else if (payload.method === 'wallet_switchEthereumChain') {
+        const chainId = Number(payload.params[0].chainId);
+
+        const chainInfo = chains.getEVMChainInfoById(chainId);
+        if (!chainInfo) {
+          return Promise.reject({
+            code: 4201,
+            message: 'The Provider does not support the chain',
+          });
+        }
+        const result = await particleAuth.setChainInfo(chainInfo);
+        if (result) {
+          return Promise.resolve(null);
+        } else {
+          return Promise.reject({ message: 'switch chain failed' });
         }
       } else if (payload.method === 'eth_signTypedData_v4') {
         const typedData = JSON.stringify(payload.params[1]);

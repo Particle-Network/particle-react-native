@@ -20,7 +20,6 @@ import {
   CommonError,
   DappMetaData,
   LoginResp,
-  ParticleConnectConfig,
   WalletType,
 } from '@particle-network/rn-connect';
 import BigNumber from 'bignumber.js';
@@ -360,29 +359,6 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
       });
     } catch (error) {
       console.log('web3 wallet_switchEthereumChain', error);
-      if (error instanceof Error) {
-        Toast.show({ type: 'error', text1: error.message });
-      }
-    }
-  };
-
-  web3_wallet_addEthereumChain = async () => {
-    try {
-      const chainInfo: ChainInfo =
-        this.props.route.params?.chainInfo || EthereumSepolia;
-      const chainId = '0x' + chainInfo.id.toString(16);
-      // @ts-ignore
-      const result = await this.web3!.currentProvider.request({
-        method: 'wallet_addEthereumChain',
-        params: [{ chainId: chainId }],
-      });
-      console.log('web3 wallet_addEthereumChain', result);
-      Toast.show({
-        type: 'success',
-        text1: 'Successfully added',
-      });
-    } catch (error) {
-      console.log('web3 wallet_addEthereumChain', error);
       if (error instanceof Error) {
         Toast.show({ type: 'error', text1: error.message });
       }
@@ -1022,10 +998,6 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     {
       key: 'web3_wallet_switchEthereumChain',
       function: this.web3_wallet_switchEthereumChain,
-    },
-    {
-      key: 'web3_wallet_addEthereumChain',
-      function: this.web3_wallet_addEthereumChain,
     },
 
     { key: 'SetChainInfo', function: this.setChainInfo },

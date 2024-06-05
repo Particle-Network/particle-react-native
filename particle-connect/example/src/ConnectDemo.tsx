@@ -518,7 +518,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     };
 
     const result = await particleConnect.connect(
-      WalletType.Particle,
+      WalletType.AuthCore,
       connectConfig
     );
     if (result.status) {

@@ -4,7 +4,6 @@ import { Env, Language, WalletDisplay } from '@particle-network/rn-auth';
 import * as particleConnect from '@particle-network/rn-connect';
 import {
   AccountInfo,
-  DappMetaData,
   WalletType,
 } from '@particle-network/rn-connect';
 import * as particleWallet from '@particle-network/rn-wallet';
@@ -34,24 +33,15 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
   init = async () => {
     const chainInfo = PolygonAmoy;
     const env = Env.Dev;
-    const walletMetaData = {
+    const metaData = {
       walletConnectProjectId: '75ac08814504606fc06126541ace9df6',
       name: 'Particle Connect',
       icon: 'https://connect.particle.network/icons/512.png',
       url: 'https://connect.particle.network',
       description: 'Particle Wallet',
     };
-    const dappMetaData = new DappMetaData(
-      '75ac08814504606fc06126541ace9df6',
-      'Particle Connect',
-      'https://connect.particle.network/icons/512.png',
-      'https://connect.particle.network',
-      'Particle Wallet',
-      '',
-      ''
-    );
-    particleConnect.init(chainInfo, env, dappMetaData);
-    particleWallet.initWallet(walletMetaData);
+    particleConnect.init(chainInfo, env, metaData);
+    particleWallet.initWallet(metaData);
     Toast.show({
       type: 'success',
       text1: 'Initialized successfully',

@@ -1,7 +1,8 @@
 import { Ethereum, EthereumSepolia, PolygonAmoy } from '@particle-network/chains';
 import * as particleAuth from '@particle-network/rn-auth';
-import { Env, Language, WalletDisplay } from '@particle-network/rn-auth';
+import { Env, Language, WalletDisplay, LoginType, SupportAuthType, SocialLoginPrompt } from '@particle-network/rn-auth';
 import * as particleConnect from '@particle-network/rn-connect';
+import * as ParticleAuthCore from '@particle-network/rn-auth-core';
 import {
   AccountInfo,
   WalletType,
@@ -25,10 +26,12 @@ import ModalSelector from 'react-native-modal-selector';
 import Toast from 'react-native-toast-message';
 import { GUIScreenProps } from './App';
 import { TestAccountEVM, TestAccountSolana } from './TestAccount';
+import { PNAccount } from './Models/PNAccount';
 
 export default class GUIDemo extends PureComponent<GUIScreenProps> {
   state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
   modalSelect: ModalSelector<any> | null = null;
+  pnaccount = new PNAccount([], '', '', '');
 
   init = async () => {
     const chainInfo = PolygonAmoy;
@@ -41,6 +44,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
       description: 'Particle Wallet',
     };
     particleConnect.init(chainInfo, env, metaData);
+    ParticleAuthCore.init();
     particleWallet.initWallet(metaData);
     Toast.show({
       type: 'success',
@@ -69,26 +73,91 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     }
   };
 
-  loginParticle = async () => {
-    // const result = await particleAuth.login();
-    // console.log(result);
-    const result = await particleConnect.connect(WalletType.Particle);
+  connectWithParticleAuth = async () => {
+    const message = '0x' + Buffer.from('Hello Particle!').toString('hex');
+    const authorization = { message: message, uniq: false };
+    const connectConfig = {
+      loginType: LoginType.Email,
+      supportAuthType: [SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
+      socialLoginPrompt: SocialLoginPrompt.SelectAccount,
+      authorization: authorization
+    };
 
+    const result = await particleConnect.connect(
+      WalletType.Particle,
+      connectConfig
+    );
     if (result.status) {
-      const accountInfo = result.data as AccountInfo;
-      console.log('accountInfo', accountInfo.publicAddress);
+      console.log('connect success');
+      const account = result.data as AccountInfo;
+      this.pnaccount = new PNAccount(
+        account.icons,
+        account.name,
+        account.publicAddress,
+        account.url
+      );
+      console.log('pnaccount = ', this.pnaccount);
+
       particleWallet.createSelectedWallet(
-        accountInfo.publicAddress,
-        WalletType.Particle,
-        'Custom WalletName'
+        account.publicAddress,
+        WalletType.Particle
       );
 
       Toast.show({
         type: 'success',
-        text1: 'Login successfully',
+        text1: 'Successfully connected',
       });
     } else {
       const error = result.data as CommonError;
+      console.log(error);
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
+    }
+  };
+
+  connectWithParticleAuthCore = async () => {
+    const connectConfig = {
+      loginType: LoginType.Email,
+      supportAuthType: [SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
+      socialLoginPrompt: SocialLoginPrompt.SelectAccount,
+      loginPageConifg: {
+        projectName: "React Native Example",
+        description: "Welcome to login",
+        imagePath: "https://connect.particle.network/icons/512.png"
+      }
+
+    };
+
+    const result = await particleConnect.connect(
+      WalletType.AuthCore,
+      connectConfig
+    );
+    if (result.status) {
+      console.log('connect success');
+      const account = result.data as AccountInfo;
+      this.pnaccount = new PNAccount(
+        account.icons,
+        account.name,
+        account.publicAddress,
+        account.url
+      );
+      console.log('pnaccount = ', this.pnaccount);
+
+      particleWallet.createSelectedWallet(
+        account.publicAddress,
+        WalletType.AuthCore
+      );
+
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully connected',
+      });
+    } else {
+      const error = result.data as CommonError;
+      console.log(error);
 
       Toast.show({
         type: 'error',
@@ -103,10 +172,18 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
   connectMetamask = async () => {
     const result = await particleConnect.connect(WalletType.MetaMask);
 
-    const accountInfo = result.data as AccountInfo;
-    console.log('accountInfo', accountInfo.publicAddress);
+    const account = result.data as AccountInfo;
+    console.log('accountInfo', account.publicAddress);
+
+    this.pnaccount = new PNAccount(
+      account.icons,
+      account.name,
+      account.publicAddress,
+      account.url
+    );
+
     particleWallet.createSelectedWallet(
-      accountInfo.publicAddress,
+      account.publicAddress,
       WalletType.MetaMask
     );
   };
@@ -264,27 +341,6 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     });
   };
 
-  switchWallet = async () => {
-    const walletTypeOptions: {
-      label: string;
-      key: string;
-      value: string;
-    }[] = [];
-    for (var walletType in WalletType) {
-      walletTypeOptions.push({
-        label: walletType,
-        key: walletType,
-        value: walletType,
-      });
-    }
-    this.setState({
-      currentOptions: walletTypeOptions,
-    });
-    if (this.modalSelect) {
-      this.modalSelect.open();
-    }
-  };
-
   setDisplayTokenAddresses = async () => {
     const tokenAddresses = ['', ''];
     particleWallet.setDisplayTokenAddresses(tokenAddresses);
@@ -350,10 +406,6 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
 
   }
 
-
-
-
-
   handleModelSelect = async ({ value }: any) => {
     switch (this.state.currentKey) {
       case 'SetChainInfo':
@@ -366,20 +418,20 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
           text1: chainIfo.id + ' ' + chainIfo.name,
         });
         break;
-      case 'SwitchWallet':
-        const publicAddress = TestAccountEVM.publicAddress;
-        const result = await particleWallet.switchWallet(value, publicAddress);
-        Toast.show({
-          type: result ? 'success' : 'error',
-          text1: result ? 'Successfully switched' : 'Failed to switch',
-        });
     }
   };
 
   data = [
     { key: 'Init', function: this.init },
     { key: 'SetChainInfo', function: this.setChainInfo },
-    { key: 'LoginParticle', function: this.loginParticle },
+    {
+      key: 'connectWithParticleAuthCore',
+      function: this.connectWithParticleAuthCore,
+    },
+    {
+      key: 'connectWithParticleAuth',
+      function: this.connectWithParticleAuth,
+    },
     { key: 'ConnectMetamask', function: this.connectMetamask },
     { key: 'NavigatorWallet', function: this.navigatorWallet },
     { key: 'NavigatorTokenReceive', function: this.navigatorTokenReceive },
@@ -402,7 +454,6 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     { key: 'GetPayDisabled', function: this.getPayDisabled },
     { key: 'SetSwapDisabled', function: this.setSwapDisabled },
     { key: 'GetSwapDisabled', function: this.getSwapDisabled },
-    { key: 'SwitchWallet', function: this.switchWallet },
     {
       key: 'SetDisplayTokenAddresses',
       function: this.setDisplayTokenAddresses,

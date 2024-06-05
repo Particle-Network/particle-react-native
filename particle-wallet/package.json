@@ -155,11 +155,7 @@
   },
   "dependencies": {
     "@particle-network/rn-auth": "1.4.8",
-<<<<<<< HEAD
     "@particle-network/rn-connect": "1.4.8",
     "@particle-network/rn-auth-core": "1.4.8"
-=======
-    "@particle-network/rn-connect": "1.4.8"
->>>>>>> f7661168e93ecd630c0e0375ba5c12670b62be26
   }
 }

@@ -357,12 +357,8 @@ class ParticleAuthPlugin: NSObject {
             rejecter("", "user is not login", nil)
             return
         }
-        let userInfoJsonString = userInfo.jsonStringFullSnake()
-        let newUserInfo = JSON(parseJSON: userInfoJsonString)
-        
-        let data = try! JSONEncoder().encode(newUserInfo)
-        let json = String(data: data, encoding: .utf8)
-        resolve(json ?? "")
+        let json = userInfo.jsonStringFullSnake()
+        resolve(json)
     }
     
     @objc

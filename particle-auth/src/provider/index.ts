@@ -1,7 +1,7 @@
 import { chains } from '@particle-network/chains';
 import { EventEmitter } from 'events';
 import * as particleAuth from '../index';
-import { LoginType, SupportAuthType } from '../index';
+import { LoginType, SupportAuthType, SocialLoginPrompt } from '../index';
 import { sendEVMRpc } from './connection';
 import type { ParticleOptions, RequestArguments } from './types';
 import { notSupportMethods, signerMethods } from './types';
@@ -54,7 +54,7 @@ class ParticleProvider {
             } else if (payload.method === 'eth_accounts' || payload.method === 'eth_requestAccounts') {
                 const isLogin = await particleAuth.isLogin();
                 if (!isLogin) {
-                    await particleAuth.login(LoginType.Email, undefined, [SupportAuthType.All]);
+                    await particleAuth.login(LoginType.Email, undefined, [SupportAuthType.All], SocialLoginPrompt.SelectAccount);
                 }
                 const account = await particleAuth.getAddress();
                 return [account];

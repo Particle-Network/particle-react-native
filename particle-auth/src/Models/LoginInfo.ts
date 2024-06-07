@@ -106,6 +106,7 @@ export interface UserInfo {
     thirdparty_user_info?: ThirdpartyUserInfo;
     jwt_id?: string;
     security_account?: SecurityAccount;
+    message?: string
     signature?: string;
 }
 

@@ -906,8 +906,7 @@ export default class AuthDemo extends PureComponent<AuthScreenProps> {
     };
 
     getUserInfo = async () => {
-        const result = await particleAuth.getUserInfo();
-        const userInfo = JSON.parse(result);
+        const userInfo = await particleAuth.getUserInfo();
         console.log(userInfo);
 
         Toast.show({

@@ -144,8 +144,9 @@ export async function isConnected(): Promise<boolean> {
  * Get user info
  * @returns User info json string
  */
-export async function getUserInfo(): Promise<string> {
-  return await ParticleAuthCorePlugin.getUserInfo();
+export async function getUserInfo(): Promise<UserInfo> {
+  const json = await ParticleAuthCorePlugin.getUserInfo()
+  return JSON.parse(json)
 }
 
 /**

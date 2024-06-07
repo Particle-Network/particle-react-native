@@ -388,8 +388,9 @@ export async function getAddress(): Promise<string> {
  * Get user info
  * @returns User info json string
  */
-export async function getUserInfo(): Promise<string> {
-    return await ParticleAuthPlugin.getUserInfo();
+export async function getUserInfo(): Promise<UserInfo> {
+    const json = await ParticleAuthPlugin.getUserInfo()
+    return JSON.parse(json)
 }
 
 /**
@@ -504,10 +505,8 @@ export function setSecurityAccountConfig(config: SecurityAccountConfig) {
  * Has master password, get value from local user info.
  */
 export async function hasMasterPassword(): Promise<boolean> {
-    const result = await getUserInfo();
-
-    const userInfo = JSON.parse(result);
-    const hasMasterPassword = userInfo.security_account.has_set_master_password;
+    const userInfo = await getUserInfo();
+    const hasMasterPassword = userInfo?.security_account?.has_set_master_password ?? false;
     return hasMasterPassword;
 }
 
@@ -515,10 +514,8 @@ export async function hasMasterPassword(): Promise<boolean> {
  * Has payment password, get value from local user info.
  */
 export async function hasPaymentPassword(): Promise<boolean> {
-    const result = await getUserInfo();
-
-    const userInfo = JSON.parse(result);
-    const hasPaymentPassword = userInfo.security_account.has_set_payment_password;
+    const userInfo = await getUserInfo();
+    const hasPaymentPassword = userInfo?.security_account?.has_set_payment_password ?? false;
     return hasPaymentPassword;
 }
 
@@ -526,11 +523,9 @@ export async function hasPaymentPassword(): Promise<boolean> {
  * Has security account, get value from local user info.
  */
 export async function hasSecurityAccount(): Promise<boolean> {
-    const result = await getUserInfo();
-
-    const userInfo = JSON.parse(result);
-    const email = userInfo.security_account.email;
-    const phone = userInfo.security_account.phone;
+    const userInfo = await getUserInfo();
+    const email = userInfo?.security_account?.email ?? false;
+    const phone = userInfo?.security_account?.phone ?? false;
     return !email || !phone;
 }
 

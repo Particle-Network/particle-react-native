@@ -2,7 +2,7 @@ import { chains } from '@particle-network/chains';
 import { EventEmitter } from 'events';
 import * as particleAuthCore from '../index';
 import * as particleAuth from '@particle-network/rn-auth';
-import { SupportAuthType } from '@particle-network/rn-auth';
+import { SupportAuthType, SocialLoginPrompt } from '@particle-network/rn-auth';
 import { sendEVMRpc } from './connection';
 import type { ParticleAuthCoreOptions, RequestArguments } from './types';
 import { notSupportMethods, signerMethods } from './types';
@@ -57,7 +57,7 @@ class ParticleAuthCoreProvider {
                 const isLogin = await particleAuthCore.isConnected();
                 if (!isLogin) {
                     const loginType = this.options.loginType;
-                    await particleAuthCore.connect(loginType, undefined, [SupportAuthType.All]);
+                    await particleAuthCore.connect(loginType, undefined, [SupportAuthType.All], SocialLoginPrompt.SelectAccount);
                 }
                 const account = await evm.getAddress();
                 return [account];

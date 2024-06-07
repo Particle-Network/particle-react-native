@@ -40,7 +40,7 @@ import {createWeb3} from './web3Demo';
 export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
   state = {currentLoadingBtn: '', currentKey: '', currentOptions: []};
   modalSelect: ModalSelector<any> | null = null;
-  web3 = createWeb3('f836e807-4594-46be-a36c-e479f03a5fe8', 'ce0lPTlERmAeGLU146VzknCWChz1DtcHFC396cAD', LoginType.Google);
+  web3 = createWeb3('f836e807-4594-46be-a36c-e479f03a5fe8', 'ce0lPTlERmAeGLU146VzknCWChz1DtcHFC396cAD', LoginType.Email);
 
   web3_getAccounts = async () => {
     try {
@@ -801,8 +801,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
   };
 
   getUserInfo = async () => {
-    const result = await particleAuthCore.getUserInfo();
-    const userInfo = JSON.parse(result);
+    const userInfo = await particleAuthCore.getUserInfo();
     console.log(userInfo);
   };
 

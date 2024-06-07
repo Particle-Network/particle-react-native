@@ -4,6 +4,9 @@ import android.app.Application
 import android.text.TextUtils
 import auth.core.adapter.AuthCoreAdapter
 import auth.core.adapter.ConnectConfigEmail
+import auth.core.adapter.ConnectConfigJWT
+import auth.core.adapter.ConnectConfigPhone
+import auth.core.adapter.ConnectConfigSocialLogin
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.connect.common.*
@@ -39,6 +42,9 @@ import com.particleconnect.utils.MessageProcess
 import com.phantom.adapter.PhantomConnectAdapter
 import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.particle.base.model.LoginPrompt
+import com.particle.base.model.MobileWCWalletName
+import com.particle.base.model.SocialLoginType
+import com.particle.base.model.SupportLoginType
 import com.solana.adapter.SolanaConnectAdapter
 import com.wallet.connect.adapter.*
 import kotlinx.coroutines.CoroutineScope
@@ -53,6 +59,7 @@ import org.json.JSONObject
 import particle.auth.adapter.ParticleConnectAdapter
 import particle.auth.adapter.ParticleConnectConfig
 import java.lang.Exception
+import java.util.Locale
 
 class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
@@ -179,61 +186,62 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun connect(walletType: String, loginParams: String, callback: Callback) {
-    LogUtils.d("connect", walletType)
+    LogUtils.d("connect", walletType,loginParams)
     var config: ConnectConfig? = null
     try {
       if (!TextUtils.isEmpty(loginParams)) {
-        val loginData = GsonUtils.fromJson(
-          loginParams, LoginData::class.java
-        )
-        val account: String
-        account = if (TextUtils.isEmpty(loginData.account)) {
-          ""
-        } else {
-          loginData.account
-        }
-        var supportAuthType = SupportAuthType.NONE.value
-        for (i in 0 until loginData.supportAuthTypeValues.size) {
-          try {
-            val supportType = loginData.supportAuthTypeValues[i].uppercase()
-            val authType = SupportAuthType.valueOf(supportType)
-            supportAuthType = supportAuthType or authType.value
-          } catch (e: java.lang.Exception) {
-            e.printStackTrace()
+        val connectData = GsonUtils.fromJson(loginParams, ParticleConnectData::class.java)
+        val account: String = connectData.account ?: ""
+        if (walletType == MobileWCWalletName.Particle.name) {
+          var supportAuthType = SupportAuthType.NONE.value
+          for (i in connectData.supportAuthTypeValues.indices) {
+            try {
+              val supportType = connectData.supportAuthTypeValues[i].uppercase(Locale.getDefault())
+              val authType = SupportAuthType.valueOf(supportType)
+              supportAuthType = supportAuthType or authType.value
+            } catch (e: Exception) {
+              e.printStackTrace()
+            }
+          }
+          config =
+            ParticleConnectConfig(LoginType.valueOf(connectData.loginType.uppercase(Locale.getDefault())), supportAuthType, account, null)
+          val configJson = Gson().toJson(config)
+          LogUtils.d("Connect connect config", configJson)
+        } else if (walletType == MobileWCWalletName.AuthCore.name) {
+          val loginType = LoginType.valueOf(connectData.loginType.uppercase(Locale.ENGLISH))
+          if (loginType == LoginType.JWT) {
+            config = ConnectConfigJWT(account)
+          } else if (loginType == LoginType.PHONE) {
+            val supportLoginTypes: List<SupportLoginType> = connectData.supportAuthTypeValues.map {
+              SupportLoginType.valueOf(it.uppercase())
+            }
+            val prompt = LoginPrompt.parse(connectData.prompt)
+            config = ConnectConfigPhone(account, connectData.code ?: "", supportLoginTypes, prompt, connectData.loginPageConfig)
+          } else if (loginType == LoginType.EMAIL) {
+            val supportLoginTypes: List<SupportLoginType> = connectData.supportAuthTypeValues.map {
+              SupportLoginType.valueOf(it.uppercase())
+            }
+            val prompt = LoginPrompt.parse(connectData.prompt)
+            config = ConnectConfigEmail(account, connectData.code ?: "", supportLoginTypes, prompt, connectData.loginPageConfig)
+
+          } else {
+            val socialLoginType = SocialLoginType.valueOf(connectData.loginType.uppercase(Locale.ENGLISH))
+            val prompt = LoginPrompt.parse(connectData.prompt)
+            config = ConnectConfigSocialLogin(socialLoginType, prompt)
           }
         }
-        val prompt = if (loginData.prompt == null) {
-          null
-        } else {
-          try {
-            LoginPrompt.valueOf(loginData.prompt.uppercase())
-          } catch (e: Exception) {
-            e.printStackTrace()
-            null
-          }
-        }
-        config = ParticleConnectConfig(
-          LoginType.valueOf(loginData.loginType.uppercase()),
-          supportAuthType,
-          account,
-          prompt = prompt
-        )
-        val configJson = Gson().toJson(config)
-        LogUtils.d("Connect connect config", configJson)
       }
-    } catch (e: java.lang.Exception) {
+    } catch (e: Exception) {
       e.printStackTrace()
     }
-    var connectAdapter =
-      ParticleConnect.getAdapters().first { it.name.equals(walletType, ignoreCase = true) }
-    try {
-      if(connectAdapter is AuthCoreAdapter){
-        config = ConnectConfigEmail()
+    var connectAdapter: IConnectAdapter? = null
+    val adapters = ParticleConnect.getAdapters()
+    for (adapter in adapters) {
+      if (adapter.name.equals(walletType, ignoreCase = true)) {
+        connectAdapter = adapter
+        break
       }
-    }catch (_:Exception){
-
     }
-
     connectAdapter!!.connect(config, object : ConnectCallback {
       override fun onConnected(account: Account) {
         try {

@@ -3,7 +3,7 @@ import { NativeModules, Platform } from 'react-native';
 import type { CommonResp, UserInfo } from './Models';
 import * as evm from './evm';
 import * as solana from './solana';
-import { LoginType, SupportAuthType, type SocialLoginPrompt } from '@particle-network/rn-auth';
+import { LoginType, SupportAuthType, type LoginPageConfig, type SocialLoginPrompt } from '@particle-network/rn-auth';
 
 const LINKING_ERROR =
   `The package '@particle-network/rn-auth' doesn't seem to be linked. Make sure: \n\n` +
@@ -39,9 +39,9 @@ export function init() {
  * @param account Optional, phone number, email or jwt, phone number request format E.164, such as '+11234567890' '+442012345678' '+8613611112222'
  * @param code Phone code or email code
  * @param socialLoginPrompt SocialLoginPrompt
- * @param loginPageConfig Login page config, imagePath support icon url, also base64 string is supported in iOS.
+ * @param loginPageConfig Login page config, imagePath support both icon url and base64 string.
  */
-export async function connect(type: LoginType, account?: String | null, supportAuthType?: SupportAuthType[], socialLoginPrompt?: SocialLoginPrompt | null, loginPageConfig?: { projectName: string, description: string, imagePath: string } | null): Promise<CommonResp<UserInfo>> {
+export async function connect(type: LoginType, account?: String | null, supportAuthType?: SupportAuthType[], socialLoginPrompt?: SocialLoginPrompt | null, loginPageConfig?: LoginPageConfig | null): Promise<CommonResp<UserInfo>> {
   const obj = {
     login_type: type,
     account: account,

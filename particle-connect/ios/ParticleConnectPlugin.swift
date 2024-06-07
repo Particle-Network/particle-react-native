@@ -25,10 +25,6 @@ import ConnectPhantomAdapter
 import ConnectWalletConnectAdapter
 #endif
 
-#if canImport(AuthCoreAdapter)
-import AuthCoreAdapter
-#endif
-
 import ParticleAuthAdapter
 
 import ConnectCommon
@@ -191,16 +187,13 @@ class ParticleConnectPlugin: NSObject {
         }
         
         var particleAuthConfig: ParticleAuthConfig?
+        var particleAuthCoreConfig: ParticleAuthCoreConfig?
         
         var loginType: LoginType
         var supportAuthTypeArray: [SupportAuthType] = []
         var account: String?
         var code: String?
         var socialLoginPrompt: SocialLoginPrompt?
-        
-#if canImport(ParticleAuthCore)
-        var particleAuthCoreConfig: ParticleAuthCoreConfig?
-#endif
         
         if !configJson.isEmpty {
             let data = JSON(parseJSON: configJson)
@@ -272,7 +265,6 @@ class ParticleConnectPlugin: NSObject {
 
             particleAuthConfig = ParticleAuthConfig(loginType: loginType, supportAuthType: supportAuthTypeArray, account: account, socialLoginPrompt: socialLoginPrompt, authorization: loginAuthorization)
             
-#if canImport(ParticleAuthCore)
             let config = data["loginPageConfig"]
             var loginPageConfig: LoginPageConfig?
             if config != JSON.null {
@@ -282,19 +274,14 @@ class ParticleConnectPlugin: NSObject {
                 let imagePath = ImagePath.url(path)
                 loginPageConfig = LoginPageConfig(imagePath: imagePath, projectName: projectName, description: description)
             }
-            particleAuthCoreConfig = ParticleAuthCoreConfig(loginType: loginType, account: account, code: code, socialLoginPrompt: socialLoginPrompt, loginPageConfig: loginPageConfig)
-#endif
+            particleAuthCoreConfig = ParticleAuthCoreConfig(loginType: loginType, supportAuthType: supportAuthTypeArray, account: account, code: code, socialLoginPrompt: socialLoginPrompt, loginPageConfig: loginPageConfig)
         }
         
         var observable: Single<Account?>
         if walletType == .particle {
             observable = adapter.connect(particleAuthConfig)
         } else if walletType == .authCore {
-#if canImport(ParticleAuthCore)
             observable = adapter.connect(particleAuthCoreConfig)
-#else
-            observable = adapter.connect(ConnectConfig.none)
-#endif
         } else {
             observable = adapter.connect(ConnectConfig.none)
         }

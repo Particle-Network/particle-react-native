@@ -10,32 +10,26 @@ target 'ParticleConnectExample' do
   use_frameworks! :linkage => :static
   # Flags change depending on the env values.
   flags = get_default_flags()
-#  pod 'ConnectWalletConnectAdapter', '0.2.22'
-#  pod 'ConnectPhantomAdapter','0.2.22'
-#  pod 'ConnectEVMAdapter', '0.2.22'
-#  pod 'ConnectSolanaAdapter', '0.2.22'
-#  pod 'ParticleConnect', '0.2.22'
-#  pod 'ConnectCommon', '0.2.22'
-#  pod 'ParticleAuthAdapter', '0.2.22'
-  
-  pod 'ConnectWalletConnectAdapter', :path => "/Users/minijoy3/Documents/particle-connect-ios/"
-  pod 'ConnectPhantomAdapter', :path => "/Users/minijoy3/Documents/particle-connect-ios/"
-  pod 'ConnectEVMAdapter', :path => "/Users/minijoy3/Documents/particle-connect-ios/"
-  pod 'ConnectSolanaAdapter', :path => "/Users/minijoy3/Documents/particle-connect-ios/"
-  pod 'ParticleConnect', :path => "/Users/minijoy3/Documents/particle-connect-ios/"
-  pod 'ConnectCommon', :path => "/Users/minijoy3/Documents/particle-connect-ios/"
-  pod 'ParticleAuthAdapter', :path => "/Users/minijoy3/Documents/particle-connect-ios/"
-  
+  pod 'ConnectWalletConnectAdapter', '0.2.24'
+  pod 'ConnectPhantomAdapter','0.2.24'
+  pod 'ConnectEVMAdapter', '0.2.24'
+  pod 'ConnectSolanaAdapter', '0.2.24'
+  pod 'ParticleConnect', '0.2.24'
+  pod 'ConnectCommon', '0.2.24'
+  pod 'ParticleAuthAdapter', '0.2.24'
+
   pod 'ParticleNetworkBase', '1.4.6'
   pod 'ParticleAuthService', '1.4.6'
   
-  pod 'AuthCoreAdapter', '1.4.5'
-  pod 'ParticleAuthCore', '1.4.5'
-  pod 'ParticleMPCCore', '1.4.5'
-  pod 'Thresh', '1.4.5'
+  pod 'AuthCoreAdapter', '1.4.7'
+  pod 'ParticleAuthCore', '1.4.7'
+  pod 'ParticleMPCCore', '1.4.7'
+  pod 'Thresh', '1.4.7'
   
   pod 'SwiftyUserDefaults', :git => 'https://github.com/SunZhiC/SwiftyUserDefaults.git', :branch => 'master'
   pod 'WalletConnectSwiftV2', :git => 'https://github.com/SunZhiC/WalletConnectSwiftV2.git', :branch => 'particle'
+  pod 'SkeletonView', :git => 'https://github.com/SunZhiC/SkeletonView.git', :branch => 'main'
+  
 
   
   use_react_native!(

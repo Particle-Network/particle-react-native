@@ -384,7 +384,7 @@ export function setSupportDappBrowser(isShow: boolean) {
 
 /**
  * Set custom wallet name and icon, should call before login/connect, only support particle wallet.
- * In Android, you need call switchWallet to set the wallet name
+ * In Android, you need call createSelectedWallet to set the wallet name
  * @param name Wallet name, for Android, you need call createSelectedWallet to customize the wallet name after particle wallet connected
  * @param icon Wallet icon, a uri such as https://example.com/1.png
  */

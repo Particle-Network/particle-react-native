@@ -100,7 +100,8 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
 
       particleWallet.createSelectedWallet(
         account.publicAddress,
-        WalletType.Particle
+        WalletType.Particle,
+        "Custom Wallet"
       );
 
       Toast.show({
@@ -128,7 +129,6 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
         description: "Welcome to login",
         imagePath: "https://connect.particle.network/icons/512.png"
       }
-
     };
 
     const result = await particleConnect.connect(
@@ -148,7 +148,8 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
 
       particleWallet.createSelectedWallet(
         account.publicAddress,
-        WalletType.AuthCore
+        WalletType.AuthCore,
+      "Custom Wallet"
       );
 
       Toast.show({

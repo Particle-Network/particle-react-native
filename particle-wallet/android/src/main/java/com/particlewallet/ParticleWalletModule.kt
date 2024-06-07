@@ -33,6 +33,7 @@ import network.particle.chains.ChainInfo
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
+import com.connect.common.IParticleConnectAdapter
 import com.particle.api.infrastructure.db.table.WalletInfo
 import com.particle.base.model.MobileWCWalletName
 import com.particle.connect.ParticleConnect
@@ -62,7 +63,7 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun createSelectedWallet(publicAddress: String, walletType: String, walletName: String?) {
         val adapter = ParticleConnect.getAdapters().first { it.name.equals(walletType, true) }
-        if (!TextUtils.isEmpty(walletName) && adapter is ParticleConnectAdapter) {
+        if (!TextUtils.isEmpty(walletName) && adapter is IParticleConnectAdapter) {
             BridgeScope.launch {
                 val wallet = WalletInfo.createWallet(
                     ParticleNetwork.getAddress(),
@@ -70,7 +71,7 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
                     ParticleNetwork.chainInfo.id,
                     1,
                     walletName!!,
-                    MobileWCWalletName.Particle.name
+                    adapter.name
                 )
                 ParticleWallet.setWallet(wallet)
             }

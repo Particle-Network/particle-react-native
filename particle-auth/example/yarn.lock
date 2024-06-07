@@ -1616,7 +1616,7 @@
     fastq "^1.6.0"
 
 "@particle-network/rn-auth@file:..":
-  version "1.4.7"
+  version "1.4.12"
   resolved "file:.."
   dependencies:
     "@particle-network/chains" "^1.4.13"

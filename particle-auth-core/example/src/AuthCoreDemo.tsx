@@ -792,8 +792,8 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
   openAccountAndSecurity = async () => {
     const result = await particleAuthCore.openAccountAndSecurity();
     if (result.status) {
-      const signature = result.data;
-      console.log(signature);
+      const data = result.data;
+      console.log(data);
     } else {
       const error = result.data;
       console.log(error);

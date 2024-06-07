@@ -28,7 +28,7 @@ export class SolanaService {
         return await this.rpc(SolanaReqBodyMethod.enhancedGetTokenTransactionsByAddress, [obj]);
     }
 
-    static async serializeSolTransction(from: string, to: string, amount: string): Promise<any> {
+    static async serializeSolTransction(from: string, to: string, amount: number): Promise<any> {
         const obj = { sender: from, receiver: to, lamports: amount };
         return await this.rpc(SolanaReqBodyMethod.enhancedSerializeTransaction, [
             SerializeTransactionParams.transferSol,
@@ -36,7 +36,7 @@ export class SolanaService {
         ]);
     }
 
-    static async serializeSplTokenTransction(from: string, to: string, mint: string, amount: string): Promise<any> {
+    static async serializeSplTokenTransction(from: string, to: string, mint: string, amount: number): Promise<any> {
         const obj = { sender: from, receiver: to, mint: mint, amount: amount };
         return await this.rpc(SolanaReqBodyMethod.enhancedSerializeTransaction, [
             SerializeTransactionParams.transferToken,

@@ -48,19 +48,21 @@ export class EvmService {
     /**
      * Get tokens and nfts
      * @param address Public address
+     * @param tokenAddresses You can pass specified token addresses, can be empty array.
      * @returns Json string, contains native amount, tokens, nfts
      */
-    static async getTokensAndNFTs(address: string): Promise<any> {
-        return await this.rpc(EVMReqBodyMethod.particleGetTokensAndNFTs, [address]);
+    static async getTokensAndNFTs(address: string, tokenAddresses: string[]): Promise<any> {
+        return await this.rpc(EVMReqBodyMethod.particleGetTokensAndNFTs, [address, tokenAddresses]);
     }
 
     /**
      * Get tokens
      * @param address Public address
+     * @param tokenAddresses You can pass specified token addresses, can be empty array.
      * @returns Json string, contains native amount, tokens
      */
-    static async getTokens(address: string): Promise<any> {
-        return await this.rpc(EVMReqBodyMethod.particleGetTokens, [address]);
+    static async getTokens(address: string, tokenAddresses: string[]): Promise<any> {
+        return await this.rpc(EVMReqBodyMethod.particleGetTokens, [address, tokenAddresses]);
     }
 
     /**
@@ -277,7 +279,7 @@ export class EvmService {
      * @param from From address
      * @param data Contract transaction parameter, if you want to send native, pass 0x
      * @param value Native amount
-     * @param to If it is a contract transaction, to is contract address, if it is a native transaciton, to is receiver address.
+     * @param to If it is a contract transaction, to is the contract address, if it is a native transaction, to is the receiver address.
      * @param gasFeeLevel Gas fee level, default is high.
      * @returns
      */

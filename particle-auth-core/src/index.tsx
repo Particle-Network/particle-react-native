@@ -37,7 +37,7 @@ export function init() {
  * Connect 
  * @param type LoginType
  * @param account Optional, phone number, email or jwt, phone number request format E.164, such as '+11234567890' '+442012345678' '+8613611112222'
- * @param code Phone code or email code
+ * @param supportAuthType Optional, Support auth types
  * @param socialLoginPrompt SocialLoginPrompt
  * @param loginPageConfig Login page config, imagePath support both icon url and base64 string.
  */

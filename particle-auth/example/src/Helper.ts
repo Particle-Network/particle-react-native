@@ -1,27 +1,11 @@
-import { EvmService, JsonRpcRequest, SerializeTransactionParams, SolanaReqBodyMethod } from '@particle-network/rn-auth';
+import { EvmService, SolanaService } from '@particle-network/rn-auth';
 import BigNumber from 'bignumber.js';
 import { TestAccountSolana } from './TestAccount';
 
 export async function getSolanaTransaction(from: string) {
     // mock a solana native transaction
     // send some native on solana devnet
-
-    const sender = from;
-    const receiver = TestAccountSolana.receiverAddress;
-    const amount = 10000000;
-    const obj = { sender: sender, receiver: receiver, lamports: amount };
-    const rpcUrl = 'https://rpc.particle.network/';
-    const pathname = 'solana';
-    const chainId = 103;
-
-    const result = await JsonRpcRequest(
-        rpcUrl,
-        pathname,
-        SolanaReqBodyMethod.enhancedSerializeTransaction,
-        [SerializeTransactionParams.transferSol, obj],
-        chainId
-    );
-
+    const result = await SolanaService.serializeSolTransction(from, TestAccountSolana.receiverAddress, 1000000);
     console.log(result.transaction.serialized);
     return result.transaction.serialized;
 }
@@ -29,23 +13,7 @@ export async function getSolanaTransaction(from: string) {
 export async function getSplTokenTransaction(from: string) {
     // mock a solana spl token transaction
     // send some spl token on solana devnet
-
-    const sender = from;
-    const receiver = TestAccountSolana.receiverAddress;
-    const amount = parseInt(TestAccountSolana.amount);
-    const mint = TestAccountSolana.tokenContractAddress;
-    const obj = { sender: sender, receiver: receiver, amount: amount, mint: mint };
-    const rpcUrl = 'https://rpc.particle.network/';
-    const pathname = 'solana';
-    const chainId = 103;
-
-    const result = await JsonRpcRequest(
-        rpcUrl,
-        pathname,
-        SolanaReqBodyMethod.enhancedSerializeTransaction,
-        [SerializeTransactionParams.transferToken, obj],
-        chainId
-    );
+    const result = await SolanaService.serializeSplTokenTransction(from, TestAccountSolana.receiverAddress, TestAccountSolana.tokenContractAddress, parseInt(TestAccountSolana.amount));
 
     console.log(result.transaction.serialized);
     return result.transaction.serialized;

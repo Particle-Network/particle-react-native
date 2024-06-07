@@ -9,9 +9,8 @@ import {
 } from '@particle-network/rn-connect';
 import * as particleWallet from '@particle-network/rn-wallet';
 import {
-  BuyCryptoConfig,
   CommonError,
-  OpenBuyNetwork,
+  OpenBuyNetwork
 } from '@particle-network/rn-wallet';
 import React, { PureComponent } from 'react';
 import {
@@ -149,7 +148,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
       particleWallet.createSelectedWallet(
         account.publicAddress,
         WalletType.AuthCore,
-      "Custom Wallet"
+        "Custom Wallet"
       );
 
       Toast.show({
@@ -230,19 +229,20 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     // particleWallet.navigatorBuyCrypto();
 
     // also support pass public address, crypto symbol and so on.
-    const config = new BuyCryptoConfig(
-      '0xa0869E99886e1b6737A4364F2cf9Bb454FD637E4',
-      'BNB',
-      'USD',
-      1000,
-      OpenBuyNetwork.BinanceSmartChain
-    );
+    const config = {
+      walletAddres: '0xa0869E99886e1b6737A4364F2cf9Bb454FD637E4',
+      cryptoCoin: 'BNB',
+      fiatCoin: 'USD',
+      fiatAmt: 1000,
+      network: OpenBuyNetwork.BinanceSmartChain,
+      fixFiatCoin: true,
+      fixCryptoCoin: true,
+      fixFiatAmt: true,
+      theme: 'dark',
+      language: Language.JA
+    };
     // these are other parameters, they are optional.
-    config.fixFiatCoin = true;
-    config.fixCryptoCoin = true;
-    config.fixFiatAmt = true;
-    config.theme = 'dark';
-    config.language = Language.JA;
+
     particleWallet.navigatorBuyCrypto(config);
   };
 

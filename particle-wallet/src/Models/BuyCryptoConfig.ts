@@ -1,6 +1,6 @@
 import type { Language } from '@particle-network/rn-auth';
 
-export class BuyCryptoConfig {
+export interface BuyCryptoConfig {
   /**
    * Public address
    */
@@ -24,15 +24,15 @@ export class BuyCryptoConfig {
   /**
    * If fix fiat coin, default value is false
    */
-  fixFiatCoin: boolean = false;
+  fixFiatCoin: boolean;
   /**
    * If fix fiat amount, default value is false
    */
-  fixFiatAmt: boolean = false;
+  fixFiatAmt: boolean;
   /**
    * If fix crypto coin, default value is false
    */
-  fixCryptoCoin: boolean = false;
+  fixCryptoCoin: boolean;
   /**
    * Theme, light or dark
    */
@@ -41,28 +41,6 @@ export class BuyCryptoConfig {
    * Language
    */
   language?: Language;
-
-  /**
-   *
-   * @param walletAddres Your wallet address.
-   * @param cryptoCoin Crypto coin symbol, like "ETH", "USDT", "BNB".
-   * @param fiatCoin Fiat coin symbol, like "USD", "JPY", "HKD"
-   * @param fiatAmt Fiat coin amount, like 300, 1000.
-   * @param network Network
-   */
-  constructor(
-    walletAddres?: string,
-    cryptoCoin?: string,
-    fiatCoin?: string,
-    fiatAmt?: number,
-    network?: OpenBuyNetwork
-  ) {
-    this.walletAddres = walletAddres;
-    this.cryptoCoin = cryptoCoin;
-    this.fiatCoin = fiatCoin;
-    this.fiatAmt = fiatAmt;
-    this.network = network;
-  }
 }
 
 export enum OpenBuyNetwork {
@@ -76,4 +54,7 @@ export enum OpenBuyNetwork {
   Avalanche = 'Avalanche',
   Celo = 'Celo',
   ZkSync = 'ZkSync',
+  Base = 'Base',
+  Linea = 'Linea',
+  Mantle = 'Mantle',
 }

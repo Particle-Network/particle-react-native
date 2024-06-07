@@ -1,8 +1,8 @@
 import type { ChainInfo } from '@particle-network/chains';
 import type { WalletDisplay } from '@particle-network/rn-auth';
-import type { WalletType } from '@particle-network/rn-connect';
+import type { WalletType, DappMetaData } from '@particle-network/rn-connect';
 import { NativeModules, Platform } from 'react-native';
-import type { BuyCryptoConfig, WalletMetaData } from './Models';
+import { BuyCryptoConfig } from './Models/BuyCryptoConfig';
 
 const LINKING_ERROR =
   `The package '@particle-network/rn-wallet' doesn't seem to be linked. Make sure: \n\n` +
@@ -24,13 +24,13 @@ const ParticleWalletPlugin = NativeModules.ParticleWalletPlugin
 /**
  * Init Particle Wallet Service
  */
-export function initWallet(walletMetaData: WalletMetaData) {
+export function initWallet(metaData: DappMetaData) {
   if (Platform.OS === 'android') {
     ParticleWalletPlugin.init();
   }
 
   if (Platform.OS === 'ios') {
-    const json = JSON.stringify(walletMetaData);
+    const json = JSON.stringify(metaData);
     ParticleWalletPlugin.initializeWalletMetaData(json);
   }
 }

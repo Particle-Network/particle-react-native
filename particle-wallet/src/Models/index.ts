@@ -1,5 +1,4 @@
 export * from './BuyCryptoConfig';
-export * from './WalletMetaData';
 
 export interface CommonError {
   code: number;

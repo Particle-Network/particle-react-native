@@ -82,7 +82,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
       name: 'Particle Connect',
       description: 'Particle Wallet'
     }
-    
+
     // the rpcUrl works for WalletType EvmPrivateKey and SolanaPrivakey
     // we have default rpc url in native SDK
     particleConnect.init(chainInfo, env, metadata);
@@ -502,7 +502,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
 
   connectWithParticleAuthCore = async () => {
     const connectConfig = {
-      loginType: LoginType.Email,
+      loginType: LoginType.Google,
       supportAuthType: [SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
       socialLoginPrompt: SocialLoginPrompt.SelectAccount,
       loginPageConifg: {

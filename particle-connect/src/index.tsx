@@ -467,31 +467,6 @@ export function exportPrivateKey(
   });
 }
 
-/**
- * Only support iOS
- *
- * Reconnect wallet connect, works with walletconnect, not support wallet type Particle, EvmPrivateKey or SolanaPrivateKey
- * @param walletType Wallet type
- * @param publicAddress Public address
- * @returns Result
- */
-export function reconnectIfNeeded(
-  walletType: WalletType,
-  publicAddress: string
-): Promise<any> {
-  if (Platform.OS === 'ios') {
-    const obj = { wallet_type: walletType, public_address: publicAddress };
-    const json = JSON.stringify(obj);
-
-    return new Promise((resolve) => {
-      ParticleConnectPlugin.reconnectIfNeeded(json, (result: string) => {
-        resolve(JSON.parse(result));
-      });
-    });
-  } else {
-    return Promise.resolve();
-  }
-}
 
 /**
  * Connect get a wallet connect qrcode uri, should use with NativeEventEmitter, event name 'qrCodeUri',

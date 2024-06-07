@@ -83,8 +83,6 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
       description: 'Particle Wallet'
     }
 
-    // the rpcUrl works for WalletType EvmPrivateKey and SolanaPrivakey
-    // we have default rpc url in native SDK
     particleConnect.init(chainInfo, env, metadata);
     particleAuthCore.init();
 
@@ -339,52 +337,6 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     }
   };
 
-  web3_wallet_switchEthereumChain = async () => {
-    try {
-      const chainInfo: ChainInfo =
-        this.props.route.params?.chainInfo || EthereumSepolia;
-      const chainId = '0x' + chainInfo.id.toString(16);
-      // @ts-ignore
-      const result = await this.web3!.currentProvider.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: chainId }],
-      });
-      console.log('web3 wallet_switchEthereumChain', result);
-      Toast.show({
-        type: 'success',
-        text1: 'Successfully switched',
-      });
-    } catch (error) {
-      console.log('web3 wallet_switchEthereumChain', error);
-      if (error instanceof Error) {
-        Toast.show({ type: 'error', text1: error.message });
-      }
-    }
-  };
-
-  web3_wallet_addEthereumChain = async () => {
-    try {
-      const chainInfo: ChainInfo =
-        this.props.route.params?.chainInfo || EthereumSepolia;
-      const chainId = '0x' + chainInfo.id.toString(16);
-      // @ts-ignore
-      const result = await this.web3!.currentProvider.request({
-        method: 'wallet_addEthereumChain',
-        params: [{ chainId: chainId }],
-      });
-      console.log('web3 wallet_addEthereumChain', result);
-      Toast.show({
-        type: 'success',
-        text1: 'Successfully added',
-      });
-    } catch (error) {
-      console.log('web3 wallet_addEthereumChain', error);
-      if (error instanceof Error) {
-        Toast.show({ type: 'error', text1: error.message });
-      }
-    }
-  };
-
   getAccounts = async () => {
     const accounts = await particleConnect.getAccounts(PNAccount.walletType);
     Toast.show({
@@ -417,8 +369,14 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   setChainInfoAsync = async () => {
     const chainInfo: ChainInfo =
       this.props.route.params?.chainInfo || EthereumSepolia;
-    const result = await particleAuth.setChainInfoAsync(chainInfo);
-    console.log(result);
+    var result;
+    if (PNAccount.walletType == WalletType.AuthCore) {
+      result = await particleAuthCore.switchChain(chainInfo);
+    } else if (PNAccount.walletType == WalletType.Particle) {
+      result = await particleAuth.setChainInfoAsync(chainInfo);
+    } else {
+      result = await particleAuth.setChainInfo(chainInfo);
+    }
     Toast.show({
       type: result ? 'success' : 'error',
       text2: result ? 'Successfully set' : 'Setting failed',
@@ -969,28 +927,6 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     }
   };
 
-  reconnectIfNeeded = async () => {
-    const publicAddress = TestAccountEVM.publicAddress;
-
-    if (publicAddress == undefined) {
-      console.log('publicAddress is underfined, you need connect');
-      return;
-    }
-
-    const result = await particleConnect.reconnectIfNeeded(
-      PNAccount.walletType,
-      publicAddress
-    );
-
-    if (result.status) {
-      const data = result.data;
-      console.log(data);
-    } else {
-      const error = result.data;
-      console.log(error);
-    }
-  };
-
   connectWalletConnect = async () => {
     const result = await particleConnect.connectWalletConnect();
 
@@ -1049,7 +985,6 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     { key: 'ImportPrivateKey', function: this.importPrivateKey },
     { key: 'ImportMnemonic', function: this.importMnemonic },
     { key: 'ExportPrivateKey', function: this.exportPrivateKey },
-    { key: 'ReconnectIfNeeded', function: this.reconnectIfNeeded },
     { key: 'ConnectWalletConnect', function: this.connectWalletConnect },
   ];
 

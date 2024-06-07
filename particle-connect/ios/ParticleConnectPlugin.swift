@@ -782,38 +782,6 @@ class ParticleConnectPlugin: NSObject {
         subscribeAndCallback(observable: adapter.verify(message: siwe, against: signature), callback: callback)
     }
     
-    @objc public func reconnectIfNeeded(_ json: String, callback: @escaping RCTResponseSenderBlock) {
-        let data = JSON(parseJSON: json)
-        let walletTypeString = data["wallet_type"].stringValue
-        let publicAddress = data["public_address"].stringValue
-        
-        guard let walletType = map2WalletType(from: walletTypeString) else {
-            print("walletType \(walletTypeString) is not existed")
-            let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
-            let statusModel = ReactStatusModel(status: false, data: response)
-            let data = try! JSONEncoder().encode(statusModel)
-            guard let json = String(data: data, encoding: .utf8) else { return }
-            callback([json])
-            return
-        }
-        
-        guard let adapter = map2ConnectAdapter(from: walletType) else {
-            print("adapter for \(walletTypeString) is not init")
-            let response = ReactResponseError(code: nil, message: "adapter for \(walletTypeString) is not init", data: nil)
-            let statusModel = ReactStatusModel(status: false, data: response)
-            let data = try! JSONEncoder().encode(statusModel)
-            guard let json = String(data: data, encoding: .utf8) else { return }
-            callback([json])
-            return
-        }
-        
-        let nullStr: String? = nil
-        let statusModel = ReactStatusModel(status: true, data: nullStr)
-        let nullData = try! JSONEncoder().encode(statusModel)
-        guard let json = String(data: nullData, encoding: .utf8) else { return }
-        callback([json])
-    }
-    
     @objc
     func setWalletConnectV2SupportChainInfos(_ json: String) {
         let chainInfos = JSON(parseJSON: json).arrayValue.compactMap {

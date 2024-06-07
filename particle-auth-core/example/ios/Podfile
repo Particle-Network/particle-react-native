@@ -28,14 +28,14 @@ target 'ParticleAuthCoreExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-   pod "Thresh", '1.4.5'
-   pod "ParticleMPCCore", '1.4.5'
-   pod "ParticleAuthCore", '1.4.5'
-   pod "AuthCoreAdapter", '1.4.5'
+   pod "Thresh", '1.4.7'
+   pod "ParticleMPCCore", '1.4.7'
+   pod "ParticleAuthCore", '1.4.7'
+   pod "AuthCoreAdapter", '1.4.7'
   
    pod 'ParticleAuthService', '1.4.6'
    pod 'ParticleNetworkBase', '1.4.6'
-   pod 'ConnectCommon',  '0.2.22'
+   pod 'ConnectCommon',  '0.2.24'
 
    pod 'SwiftyUserDefaults', :git => 'https://github.com/SunZhiC/SwiftyUserDefaults.git', :branch => 'master'
    pod 'SkeletonView', :git => 'https://github.com/SunZhiC/SkeletonView.git', :branch => 'main'

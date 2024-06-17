@@ -1,0 +1,5199 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "TopLevel",
+    "printedName": "TopLevel",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ConnectPhantomAdapter",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "SwiftyUserDefaults",
+        "printedName": "SwiftyUserDefaults",
+        "declKind": "Import",
+        "moduleName": "ConnectPhantomAdapter"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "PhantomSession",
+        "printedName": "PhantomSession",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "PhantomSession",
+                "printedName": "ConnectPhantomAdapter.PhantomSession",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "PhantomSession",
+                "printedName": "ConnectPhantomAdapter.PhantomSession",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter0B7SessionV2eeoiySbAC_ACtFZ",
+            "mangledName": "$s21ConnectPhantomAdapter0B7SessionV2eeoiySbAC_ACtFZ",
+            "moduleName": "ConnectPhantomAdapter",
+            "static": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Var",
+            "name": "uuid",
+            "printedName": "uuid",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B7SessionV4uuidSSvp",
+            "mangledName": "$s21ConnectPhantomAdapter0B7SessionV4uuidSSvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 0,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV4uuidSSvg",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV4uuidSSvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV4uuidSSvs",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV4uuidSSvs",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV4uuidSSvM",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV4uuidSSvM",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "publicKey",
+            "printedName": "publicKey",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B7SessionV9publicKeySSvp",
+            "mangledName": "$s21ConnectPhantomAdapter0B7SessionV9publicKeySSvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 1,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV9publicKeySSvg",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV9publicKeySSvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV9publicKeySSvs",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV9publicKeySSvs",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV9publicKeySSvM",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV9publicKeySSvM",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "signature",
+            "printedName": "signature",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B7SessionV9signatureSSvp",
+            "mangledName": "$s21ConnectPhantomAdapter0B7SessionV9signatureSSvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 2,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV9signatureSSvg",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV9signatureSSvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV9signatureSSvs",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV9signatureSSvs",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV9signatureSSvM",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV9signatureSSvM",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "token",
+            "printedName": "token",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B7SessionV5tokenSSvp",
+            "mangledName": "$s21ConnectPhantomAdapter0B7SessionV5tokenSSvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 3,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV5tokenSSvg",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV5tokenSSvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV5tokenSSvs",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV5tokenSSvs",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV5tokenSSvM",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV5tokenSSvM",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "data",
+            "printedName": "data",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PhantomSessionData",
+                "printedName": "ConnectPhantomAdapter.PhantomSessionData",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B7SessionV4dataAA0bD4DataVvp",
+            "mangledName": "$s21ConnectPhantomAdapter0B7SessionV4dataAA0bD4DataVvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 4,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PhantomSessionData",
+                    "printedName": "ConnectPhantomAdapter.PhantomSessionData",
+                    "usr": "s:21ConnectPhantomAdapter0B11SessionDataV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV4dataAA0bD4DataVvg",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV4dataAA0bD4DataVvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PhantomSessionData",
+                    "printedName": "ConnectPhantomAdapter.PhantomSessionData",
+                    "usr": "s:21ConnectPhantomAdapter0B11SessionDataV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV4dataAA0bD4DataVvs",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV4dataAA0bD4DataVvs",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV4dataAA0bD4DataVvM",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV4dataAA0bD4DataVvM",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "keyPair",
+            "printedName": "keyPair",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "KeyPair",
+                "printedName": "ConnectPhantomAdapter.KeyPair",
+                "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B7SessionV7keyPairAA03KeyF0Vvp",
+            "mangledName": "$s21ConnectPhantomAdapter0B7SessionV7keyPairAA03KeyF0Vvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 5,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "KeyPair",
+                    "printedName": "ConnectPhantomAdapter.KeyPair",
+                    "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV7keyPairAA03KeyF0Vvg",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV7keyPairAA03KeyF0Vvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "KeyPair",
+                    "printedName": "ConnectPhantomAdapter.KeyPair",
+                    "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV7keyPairAA03KeyF0Vvs",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV7keyPairAA03KeyF0Vvs",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV7keyPairAA03KeyF0VvM",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV7keyPairAA03KeyF0VvM",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "sharedSecretKey",
+            "printedName": "sharedSecretKey",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B7SessionV15sharedSecretKeySSvp",
+            "mangledName": "$s21ConnectPhantomAdapter0B7SessionV15sharedSecretKeySSvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 6,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV15sharedSecretKeySSvg",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV15sharedSecretKeySSvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV15sharedSecretKeySSvs",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV15sharedSecretKeySSvs",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV15sharedSecretKeySSvM",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV15sharedSecretKeySSvM",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "_defaults",
+            "printedName": "_defaults",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DefaultsCodableBridge",
+                "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<ConnectPhantomAdapter.PhantomSession>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PhantomSession",
+                    "printedName": "ConnectPhantomAdapter.PhantomSession",
+                    "usr": "s:21ConnectPhantomAdapter0B7SessionV"
+                  }
+                ],
+                "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B7SessionV9_defaults18SwiftyUserDefaults0H13CodableBridgeVyACGvpZ",
+            "mangledName": "$s21ConnectPhantomAdapter0B7SessionV9_defaults18SwiftyUserDefaults0H13CodableBridgeVyACGvpZ",
+            "moduleName": "ConnectPhantomAdapter",
+            "static": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DefaultsCodableBridge",
+                    "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<ConnectPhantomAdapter.PhantomSession>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhantomSession",
+                        "printedName": "ConnectPhantomAdapter.PhantomSession",
+                        "usr": "s:21ConnectPhantomAdapter0B7SessionV"
+                      }
+                    ],
+                    "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV9_defaults18SwiftyUserDefaults0H13CodableBridgeVyACGvgZ",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV9_defaults18SwiftyUserDefaults0H13CodableBridgeVyACGvgZ",
+                "moduleName": "ConnectPhantomAdapter",
+                "static": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "_defaultsArray",
+            "printedName": "_defaultsArray",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DefaultsCodableBridge",
+                "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<[ConnectPhantomAdapter.PhantomSession]>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[ConnectPhantomAdapter.PhantomSession]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhantomSession",
+                        "printedName": "ConnectPhantomAdapter.PhantomSession",
+                        "usr": "s:21ConnectPhantomAdapter0B7SessionV"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B7SessionV14_defaultsArray18SwiftyUserDefaults0I13CodableBridgeVySayACGGvpZ",
+            "mangledName": "$s21ConnectPhantomAdapter0B7SessionV14_defaultsArray18SwiftyUserDefaults0I13CodableBridgeVySayACGGvpZ",
+            "moduleName": "ConnectPhantomAdapter",
+            "static": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DefaultsCodableBridge",
+                    "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<[ConnectPhantomAdapter.PhantomSession]>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Array",
+                        "printedName": "[ConnectPhantomAdapter.PhantomSession]",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "PhantomSession",
+                            "printedName": "ConnectPhantomAdapter.PhantomSession",
+                            "usr": "s:21ConnectPhantomAdapter0B7SessionV"
+                          }
+                        ],
+                        "usr": "s:Sa"
+                      }
+                    ],
+                    "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV14_defaultsArray18SwiftyUserDefaults0I13CodableBridgeVySayACGGvgZ",
+                "mangledName": "$s21ConnectPhantomAdapter0B7SessionV14_defaultsArray18SwiftyUserDefaults0I13CodableBridgeVySayACGGvgZ",
+                "moduleName": "ConnectPhantomAdapter",
+                "static": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(uuid:publicKey:signature:token:data:keyPair:sharedSecretKey:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PhantomSession",
+                "printedName": "ConnectPhantomAdapter.PhantomSession",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "PhantomSessionData",
+                "printedName": "ConnectPhantomAdapter.PhantomSessionData",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "KeyPair",
+                "printedName": "ConnectPhantomAdapter.KeyPair",
+                "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:21ConnectPhantomAdapter0B7SessionV4uuid9publicKey9signature5token4data7keyPair012sharedSecretG0ACSS_S3SAA0bD4DataVAA0gL0VSStcfc",
+            "mangledName": "$s21ConnectPhantomAdapter0B7SessionV4uuid9publicKey9signature5token4data7keyPair012sharedSecretG0ACSS_S3SAA0bD4DataVAA0gL0VSStcfc",
+            "moduleName": "ConnectPhantomAdapter",
+            "implicit": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PhantomSession",
+                "printedName": "ConnectPhantomAdapter.PhantomSession",
+                "usr": "s:21ConnectPhantomAdapter0B7SessionV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Decoder",
+                "printedName": "Swift.Decoder",
+                "usr": "s:s7DecoderP"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:21ConnectPhantomAdapter0B7SessionV4fromACs7Decoder_p_tKcfc",
+            "mangledName": "$s21ConnectPhantomAdapter0B7SessionV4fromACs7Decoder_p_tKcfc",
+            "moduleName": "ConnectPhantomAdapter",
+            "implicit": true,
+            "throwing": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "encode",
+            "printedName": "encode(to:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Encoder",
+                "printedName": "Swift.Encoder",
+                "usr": "s:s7EncoderP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter0B7SessionV6encode2toys7Encoder_p_tKF",
+            "mangledName": "$s21ConnectPhantomAdapter0B7SessionV6encode2toys7Encoder_p_tKF",
+            "moduleName": "ConnectPhantomAdapter",
+            "implicit": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:21ConnectPhantomAdapter0B7SessionV",
+        "mangledName": "$s21ConnectPhantomAdapter0B7SessionV",
+        "moduleName": "ConnectPhantomAdapter",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Decodable",
+            "printedName": "Decodable",
+            "usr": "s:Se",
+            "mangledName": "$sSe"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Encodable",
+            "printedName": "Encodable",
+            "usr": "s:SE",
+            "mangledName": "$sSE"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "DefaultsSerializable",
+            "printedName": "DefaultsSerializable",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "Bridge",
+                "printedName": "Bridge",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DefaultsCodableBridge",
+                    "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<ConnectPhantomAdapter.PhantomSession>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhantomSession",
+                        "printedName": "ConnectPhantomAdapter.PhantomSession",
+                        "usr": "s:21ConnectPhantomAdapter0B7SessionV"
+                      }
+                    ],
+                    "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+                  }
+                ]
+              },
+              {
+                "kind": "TypeWitness",
+                "name": "ArrayBridge",
+                "printedName": "ArrayBridge",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DefaultsCodableBridge",
+                    "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<[ConnectPhantomAdapter.PhantomSession]>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Array",
+                        "printedName": "[ConnectPhantomAdapter.PhantomSession]",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "PhantomSession",
+                            "printedName": "ConnectPhantomAdapter.PhantomSession",
+                            "usr": "s:21ConnectPhantomAdapter0B7SessionV"
+                          }
+                        ],
+                        "usr": "s:Sa"
+                      }
+                    ],
+                    "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+                  }
+                ]
+              }
+            ],
+            "usr": "s:18SwiftyUserDefaults0C12SerializableP",
+            "mangledName": "$s18SwiftyUserDefaults0C12SerializableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "PhantomSessionData",
+        "printedName": "PhantomSessionData",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "chain",
+            "printedName": "chain",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV5chainSSvp",
+            "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV5chainSSvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 0,
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV5chainSSvg",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV5chainSSvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "cluster",
+            "printedName": "cluster",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV7clusterSSvp",
+            "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV7clusterSSvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 1,
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV7clusterSSvg",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV7clusterSSvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "appUrl",
+            "printedName": "appUrl",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV6appUrlSSvp",
+            "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV6appUrlSSvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 2,
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV6appUrlSSvg",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV6appUrlSSvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "timestamp",
+            "printedName": "timestamp",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV9timestampSivp",
+            "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV9timestampSivp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 3,
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV9timestampSivg",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV9timestampSivg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "TypeDecl",
+            "name": "CodingKeys",
+            "printedName": "CodingKeys",
+            "children": [
+              {
+                "kind": "Var",
+                "name": "appUrl",
+                "printedName": "appUrl",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ConnectPhantomAdapter.PhantomSessionData.CodingKeys.Type) -> ConnectPhantomAdapter.PhantomSessionData.CodingKeys",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CodingKeys",
+                        "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys",
+                        "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "CodingKeys",
+                            "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys",
+                            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO6appUrlyA2EmF",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO6appUrlyA2EmF",
+                "moduleName": "ConnectPhantomAdapter",
+                "fixedbinaryorder": 0
+              },
+              {
+                "kind": "Var",
+                "name": "chain",
+                "printedName": "chain",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ConnectPhantomAdapter.PhantomSessionData.CodingKeys.Type) -> ConnectPhantomAdapter.PhantomSessionData.CodingKeys",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CodingKeys",
+                        "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys",
+                        "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "CodingKeys",
+                            "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys",
+                            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO5chainyA2EmF",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO5chainyA2EmF",
+                "moduleName": "ConnectPhantomAdapter",
+                "fixedbinaryorder": 1
+              },
+              {
+                "kind": "Var",
+                "name": "cluster",
+                "printedName": "cluster",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ConnectPhantomAdapter.PhantomSessionData.CodingKeys.Type) -> ConnectPhantomAdapter.PhantomSessionData.CodingKeys",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CodingKeys",
+                        "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys",
+                        "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "CodingKeys",
+                            "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys",
+                            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO7clusteryA2EmF",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO7clusteryA2EmF",
+                "moduleName": "ConnectPhantomAdapter",
+                "fixedbinaryorder": 2
+              },
+              {
+                "kind": "Var",
+                "name": "timestamp",
+                "printedName": "timestamp",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ConnectPhantomAdapter.PhantomSessionData.CodingKeys.Type) -> ConnectPhantomAdapter.PhantomSessionData.CodingKeys",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CodingKeys",
+                        "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys",
+                        "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "CodingKeys",
+                            "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys",
+                            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO9timestampyA2EmF",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO9timestampyA2EmF",
+                "moduleName": "ConnectPhantomAdapter",
+                "fixedbinaryorder": 3
+              },
+              {
+                "kind": "Constructor",
+                "name": "init",
+                "printedName": "init(rawValue:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CodingKeys",
+                        "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys",
+                        "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Constructor",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO8rawValueAESgSS_tcfc",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO8rawValueAESgSS_tcfc",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "init_kind": "Designated"
+              },
+              {
+                "kind": "Var",
+                "name": "rawValue",
+                "printedName": "rawValue",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO8rawValueSSvp",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO8rawValueSSvp",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO8rawValueSSvg",
+                    "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO8rawValueSSvg",
+                    "moduleName": "ConnectPhantomAdapter",
+                    "implicit": true,
+                    "accessorKind": "get"
+                  }
+                ]
+              },
+              {
+                "kind": "Var",
+                "name": "stringValue",
+                "printedName": "stringValue",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO11stringValueSSvp",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO11stringValueSSvp",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO11stringValueSSvg",
+                    "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO11stringValueSSvg",
+                    "moduleName": "ConnectPhantomAdapter",
+                    "implicit": true,
+                    "accessorKind": "get"
+                  }
+                ]
+              },
+              {
+                "kind": "Constructor",
+                "name": "init",
+                "printedName": "init(stringValue:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CodingKeys",
+                        "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys",
+                        "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Constructor",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO11stringValueAESgSS_tcfc",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO11stringValueAESgSS_tcfc",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "init_kind": "Designated"
+              },
+              {
+                "kind": "Var",
+                "name": "intValue",
+                "printedName": "intValue",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.Int?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Int",
+                        "printedName": "Swift.Int",
+                        "usr": "s:Si"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO8intValueSiSgvp",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO8intValueSiSgvp",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Optional",
+                        "printedName": "Swift.Int?",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Int",
+                            "printedName": "Swift.Int",
+                            "usr": "s:Si"
+                          }
+                        ],
+                        "usr": "s:Sq"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO8intValueSiSgvg",
+                    "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO8intValueSiSgvg",
+                    "moduleName": "ConnectPhantomAdapter",
+                    "implicit": true,
+                    "accessorKind": "get"
+                  }
+                ]
+              },
+              {
+                "kind": "Constructor",
+                "name": "init",
+                "printedName": "init(intValue:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CodingKeys",
+                        "printedName": "ConnectPhantomAdapter.PhantomSessionData.CodingKeys",
+                        "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Constructor",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO8intValueAESgSi_tcfc",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO8intValueAESgSi_tcfc",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "init_kind": "Designated"
+              }
+            ],
+            "declKind": "Enum",
+            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO",
+            "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV10CodingKeysO",
+            "moduleName": "ConnectPhantomAdapter",
+            "enumRawTypeName": "String",
+            "isEnumExhaustive": true,
+            "conformances": [
+              {
+                "kind": "Conformance",
+                "name": "Equatable",
+                "printedName": "Equatable",
+                "usr": "s:SQ",
+                "mangledName": "$sSQ"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Hashable",
+                "printedName": "Hashable",
+                "usr": "s:SH",
+                "mangledName": "$sSH"
+              },
+              {
+                "kind": "Conformance",
+                "name": "RawRepresentable",
+                "printedName": "RawRepresentable",
+                "children": [
+                  {
+                    "kind": "TypeWitness",
+                    "name": "RawValue",
+                    "printedName": "RawValue",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:SY",
+                "mangledName": "$sSY"
+              },
+              {
+                "kind": "Conformance",
+                "name": "CodingKey",
+                "printedName": "CodingKey",
+                "usr": "s:s9CodingKeyP",
+                "mangledName": "$ss9CodingKeyP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "CustomDebugStringConvertible",
+                "printedName": "CustomDebugStringConvertible",
+                "usr": "s:s28CustomDebugStringConvertibleP",
+                "mangledName": "$ss28CustomDebugStringConvertibleP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "CustomStringConvertible",
+                "printedName": "CustomStringConvertible",
+                "usr": "s:s23CustomStringConvertibleP",
+                "mangledName": "$ss23CustomStringConvertibleP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Sendable",
+                "printedName": "Sendable",
+                "usr": "s:s8SendableP",
+                "mangledName": "$ss8SendableP"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "_defaults",
+            "printedName": "_defaults",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DefaultsCodableBridge",
+                "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<ConnectPhantomAdapter.PhantomSessionData>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PhantomSessionData",
+                    "printedName": "ConnectPhantomAdapter.PhantomSessionData",
+                    "usr": "s:21ConnectPhantomAdapter0B11SessionDataV"
+                  }
+                ],
+                "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV9_defaults18SwiftyUserDefaults0I13CodableBridgeVyACGvpZ",
+            "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV9_defaults18SwiftyUserDefaults0I13CodableBridgeVyACGvpZ",
+            "moduleName": "ConnectPhantomAdapter",
+            "static": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DefaultsCodableBridge",
+                    "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<ConnectPhantomAdapter.PhantomSessionData>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhantomSessionData",
+                        "printedName": "ConnectPhantomAdapter.PhantomSessionData",
+                        "usr": "s:21ConnectPhantomAdapter0B11SessionDataV"
+                      }
+                    ],
+                    "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV9_defaults18SwiftyUserDefaults0I13CodableBridgeVyACGvgZ",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV9_defaults18SwiftyUserDefaults0I13CodableBridgeVyACGvgZ",
+                "moduleName": "ConnectPhantomAdapter",
+                "static": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "_defaultsArray",
+            "printedName": "_defaultsArray",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DefaultsCodableBridge",
+                "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<[ConnectPhantomAdapter.PhantomSessionData]>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[ConnectPhantomAdapter.PhantomSessionData]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhantomSessionData",
+                        "printedName": "ConnectPhantomAdapter.PhantomSessionData",
+                        "usr": "s:21ConnectPhantomAdapter0B11SessionDataV"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV14_defaultsArray18SwiftyUserDefaults0J13CodableBridgeVySayACGGvpZ",
+            "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV14_defaultsArray18SwiftyUserDefaults0J13CodableBridgeVySayACGGvpZ",
+            "moduleName": "ConnectPhantomAdapter",
+            "static": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DefaultsCodableBridge",
+                    "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<[ConnectPhantomAdapter.PhantomSessionData]>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Array",
+                        "printedName": "[ConnectPhantomAdapter.PhantomSessionData]",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "PhantomSessionData",
+                            "printedName": "ConnectPhantomAdapter.PhantomSessionData",
+                            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV"
+                          }
+                        ],
+                        "usr": "s:Sa"
+                      }
+                    ],
+                    "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV14_defaultsArray18SwiftyUserDefaults0J13CodableBridgeVySayACGGvgZ",
+                "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV14_defaultsArray18SwiftyUserDefaults0J13CodableBridgeVySayACGGvgZ",
+                "moduleName": "ConnectPhantomAdapter",
+                "static": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(chain:cluster:appUrl:timestamp:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PhantomSessionData",
+                "printedName": "ConnectPhantomAdapter.PhantomSessionData",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV5chain7cluster6appUrl9timestampACSS_S2SSitcfc",
+            "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV5chain7cluster6appUrl9timestampACSS_S2SSitcfc",
+            "moduleName": "ConnectPhantomAdapter",
+            "implicit": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PhantomSessionData",
+                "printedName": "ConnectPhantomAdapter.PhantomSessionData",
+                "usr": "s:21ConnectPhantomAdapter0B11SessionDataV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Decoder",
+                "printedName": "Swift.Decoder",
+                "usr": "s:s7DecoderP"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV4fromACs7Decoder_p_tKcfc",
+            "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV4fromACs7Decoder_p_tKcfc",
+            "moduleName": "ConnectPhantomAdapter",
+            "implicit": true,
+            "throwing": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "encode",
+            "printedName": "encode(to:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Encoder",
+                "printedName": "Swift.Encoder",
+                "usr": "s:s7EncoderP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV6encode2toys7Encoder_p_tKF",
+            "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV6encode2toys7Encoder_p_tKF",
+            "moduleName": "ConnectPhantomAdapter",
+            "implicit": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:21ConnectPhantomAdapter0B11SessionDataV",
+        "mangledName": "$s21ConnectPhantomAdapter0B11SessionDataV",
+        "moduleName": "ConnectPhantomAdapter",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Decodable",
+            "printedName": "Decodable",
+            "usr": "s:Se",
+            "mangledName": "$sSe"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Encodable",
+            "printedName": "Encodable",
+            "usr": "s:SE",
+            "mangledName": "$sSE"
+          },
+          {
+            "kind": "Conformance",
+            "name": "DefaultsSerializable",
+            "printedName": "DefaultsSerializable",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "Bridge",
+                "printedName": "Bridge",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DefaultsCodableBridge",
+                    "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<ConnectPhantomAdapter.PhantomSessionData>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhantomSessionData",
+                        "printedName": "ConnectPhantomAdapter.PhantomSessionData",
+                        "usr": "s:21ConnectPhantomAdapter0B11SessionDataV"
+                      }
+                    ],
+                    "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+                  }
+                ]
+              },
+              {
+                "kind": "TypeWitness",
+                "name": "ArrayBridge",
+                "printedName": "ArrayBridge",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DefaultsCodableBridge",
+                    "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<[ConnectPhantomAdapter.PhantomSessionData]>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Array",
+                        "printedName": "[ConnectPhantomAdapter.PhantomSessionData]",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "PhantomSessionData",
+                            "printedName": "ConnectPhantomAdapter.PhantomSessionData",
+                            "usr": "s:21ConnectPhantomAdapter0B11SessionDataV"
+                          }
+                        ],
+                        "usr": "s:Sa"
+                      }
+                    ],
+                    "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+                  }
+                ]
+              }
+            ],
+            "usr": "s:18SwiftyUserDefaults0C12SerializableP",
+            "mangledName": "$s18SwiftyUserDefaults0C12SerializableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "Payload",
+        "printedName": "Payload",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "session",
+            "printedName": "session",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter7PayloadV7sessionSSvp",
+            "mangledName": "$s21ConnectPhantomAdapter7PayloadV7sessionSSvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 0,
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7PayloadV7sessionSSvg",
+                "mangledName": "$s21ConnectPhantomAdapter7PayloadV7sessionSSvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "transaction",
+            "printedName": "transaction",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter7PayloadV11transactionSSSgvp",
+            "mangledName": "$s21ConnectPhantomAdapter7PayloadV11transactionSSSgvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 1,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7PayloadV11transactionSSSgvg",
+                "mangledName": "$s21ConnectPhantomAdapter7PayloadV11transactionSSSgvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7PayloadV11transactionSSSgvs",
+                "mangledName": "$s21ConnectPhantomAdapter7PayloadV11transactionSSSgvs",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7PayloadV11transactionSSSgvM",
+                "mangledName": "$s21ConnectPhantomAdapter7PayloadV11transactionSSSgvM",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "transactions",
+            "printedName": "transactions",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "[Swift.String]?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[Swift.String]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter7PayloadV12transactionsSaySSGSgvp",
+            "mangledName": "$s21ConnectPhantomAdapter7PayloadV12transactionsSaySSGSgvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 2,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "[Swift.String]?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Array",
+                        "printedName": "[Swift.String]",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          }
+                        ],
+                        "usr": "s:Sa"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7PayloadV12transactionsSaySSGSgvg",
+                "mangledName": "$s21ConnectPhantomAdapter7PayloadV12transactionsSaySSGSgvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "[Swift.String]?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Array",
+                        "printedName": "[Swift.String]",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          }
+                        ],
+                        "usr": "s:Sa"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7PayloadV12transactionsSaySSGSgvs",
+                "mangledName": "$s21ConnectPhantomAdapter7PayloadV12transactionsSaySSGSgvs",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7PayloadV12transactionsSaySSGSgvM",
+                "mangledName": "$s21ConnectPhantomAdapter7PayloadV12transactionsSaySSGSgvM",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "message",
+            "printedName": "message",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter7PayloadV7messageSSSgvp",
+            "mangledName": "$s21ConnectPhantomAdapter7PayloadV7messageSSSgvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 3,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7PayloadV7messageSSSgvg",
+                "mangledName": "$s21ConnectPhantomAdapter7PayloadV7messageSSSgvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7PayloadV7messageSSSgvs",
+                "mangledName": "$s21ConnectPhantomAdapter7PayloadV7messageSSSgvs",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7PayloadV7messageSSSgvM",
+                "mangledName": "$s21ConnectPhantomAdapter7PayloadV7messageSSSgvM",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "display",
+            "printedName": "display",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter7PayloadV7displaySSSgvp",
+            "mangledName": "$s21ConnectPhantomAdapter7PayloadV7displaySSSgvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 4,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7PayloadV7displaySSSgvg",
+                "mangledName": "$s21ConnectPhantomAdapter7PayloadV7displaySSSgvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7PayloadV7displaySSSgvs",
+                "mangledName": "$s21ConnectPhantomAdapter7PayloadV7displaySSSgvs",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7PayloadV7displaySSSgvM",
+                "mangledName": "$s21ConnectPhantomAdapter7PayloadV7displaySSSgvM",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(session:transaction:transactions:message:display:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Payload",
+                "printedName": "ConnectPhantomAdapter.Payload",
+                "usr": "s:21ConnectPhantomAdapter7PayloadV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "[Swift.String]?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[Swift.String]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:21ConnectPhantomAdapter7PayloadV7session11transaction12transactions7message7displayACSS_SSSgSaySSGSgA2Itcfc",
+            "mangledName": "$s21ConnectPhantomAdapter7PayloadV7session11transaction12transactions7message7displayACSS_SSSgSaySSGSgA2Itcfc",
+            "moduleName": "ConnectPhantomAdapter",
+            "implicit": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Payload",
+                "printedName": "ConnectPhantomAdapter.Payload",
+                "usr": "s:21ConnectPhantomAdapter7PayloadV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Decoder",
+                "printedName": "Swift.Decoder",
+                "usr": "s:s7DecoderP"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:21ConnectPhantomAdapter7PayloadV4fromACs7Decoder_p_tKcfc",
+            "mangledName": "$s21ConnectPhantomAdapter7PayloadV4fromACs7Decoder_p_tKcfc",
+            "moduleName": "ConnectPhantomAdapter",
+            "implicit": true,
+            "throwing": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "encode",
+            "printedName": "encode(to:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Encoder",
+                "printedName": "Swift.Encoder",
+                "usr": "s:s7EncoderP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter7PayloadV6encode2toys7Encoder_p_tKF",
+            "mangledName": "$s21ConnectPhantomAdapter7PayloadV6encode2toys7Encoder_p_tKF",
+            "moduleName": "ConnectPhantomAdapter",
+            "implicit": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:21ConnectPhantomAdapter7PayloadV",
+        "mangledName": "$s21ConnectPhantomAdapter7PayloadV",
+        "moduleName": "ConnectPhantomAdapter",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Decodable",
+            "printedName": "Decodable",
+            "usr": "s:Se",
+            "mangledName": "$sSe"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Encodable",
+            "printedName": "Encodable",
+            "usr": "s:SE",
+            "mangledName": "$sSE"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "KeyPair",
+        "printedName": "KeyPair",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "pubKey",
+            "printedName": "pubKey",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter7KeyPairV03pubD0SSvp",
+            "mangledName": "$s21ConnectPhantomAdapter7KeyPairV03pubD0SSvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 0,
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7KeyPairV03pubD0SSvg",
+                "mangledName": "$s21ConnectPhantomAdapter7KeyPairV03pubD0SSvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "privateKey",
+            "printedName": "privateKey",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter7KeyPairV07privateD0SSvp",
+            "mangledName": "$s21ConnectPhantomAdapter7KeyPairV07privateD0SSvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "fixedbinaryorder": 1,
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7KeyPairV07privateD0SSvg",
+                "mangledName": "$s21ConnectPhantomAdapter7KeyPairV07privateD0SSvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "_defaults",
+            "printedName": "_defaults",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DefaultsCodableBridge",
+                "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<ConnectPhantomAdapter.KeyPair>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "KeyPair",
+                    "printedName": "ConnectPhantomAdapter.KeyPair",
+                    "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+                  }
+                ],
+                "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter7KeyPairV9_defaults18SwiftyUserDefaults0I13CodableBridgeVyACGvpZ",
+            "mangledName": "$s21ConnectPhantomAdapter7KeyPairV9_defaults18SwiftyUserDefaults0I13CodableBridgeVyACGvpZ",
+            "moduleName": "ConnectPhantomAdapter",
+            "static": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DefaultsCodableBridge",
+                    "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<ConnectPhantomAdapter.KeyPair>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "KeyPair",
+                        "printedName": "ConnectPhantomAdapter.KeyPair",
+                        "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+                      }
+                    ],
+                    "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7KeyPairV9_defaults18SwiftyUserDefaults0I13CodableBridgeVyACGvgZ",
+                "mangledName": "$s21ConnectPhantomAdapter7KeyPairV9_defaults18SwiftyUserDefaults0I13CodableBridgeVyACGvgZ",
+                "moduleName": "ConnectPhantomAdapter",
+                "static": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "_defaultsArray",
+            "printedName": "_defaultsArray",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DefaultsCodableBridge",
+                "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<[ConnectPhantomAdapter.KeyPair]>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[ConnectPhantomAdapter.KeyPair]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "KeyPair",
+                        "printedName": "ConnectPhantomAdapter.KeyPair",
+                        "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter7KeyPairV14_defaultsArray18SwiftyUserDefaults0J13CodableBridgeVySayACGGvpZ",
+            "mangledName": "$s21ConnectPhantomAdapter7KeyPairV14_defaultsArray18SwiftyUserDefaults0J13CodableBridgeVySayACGGvpZ",
+            "moduleName": "ConnectPhantomAdapter",
+            "static": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DefaultsCodableBridge",
+                    "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<[ConnectPhantomAdapter.KeyPair]>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Array",
+                        "printedName": "[ConnectPhantomAdapter.KeyPair]",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "KeyPair",
+                            "printedName": "ConnectPhantomAdapter.KeyPair",
+                            "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+                          }
+                        ],
+                        "usr": "s:Sa"
+                      }
+                    ],
+                    "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter7KeyPairV14_defaultsArray18SwiftyUserDefaults0J13CodableBridgeVySayACGGvgZ",
+                "mangledName": "$s21ConnectPhantomAdapter7KeyPairV14_defaultsArray18SwiftyUserDefaults0J13CodableBridgeVySayACGGvgZ",
+                "moduleName": "ConnectPhantomAdapter",
+                "static": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(pubKey:privateKey:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "KeyPair",
+                "printedName": "ConnectPhantomAdapter.KeyPair",
+                "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:21ConnectPhantomAdapter7KeyPairV03pubD007privateD0ACSS_SStcfc",
+            "mangledName": "$s21ConnectPhantomAdapter7KeyPairV03pubD007privateD0ACSS_SStcfc",
+            "moduleName": "ConnectPhantomAdapter",
+            "implicit": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "KeyPair",
+                "printedName": "ConnectPhantomAdapter.KeyPair",
+                "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Decoder",
+                "printedName": "Swift.Decoder",
+                "usr": "s:s7DecoderP"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:21ConnectPhantomAdapter7KeyPairV4fromACs7Decoder_p_tKcfc",
+            "mangledName": "$s21ConnectPhantomAdapter7KeyPairV4fromACs7Decoder_p_tKcfc",
+            "moduleName": "ConnectPhantomAdapter",
+            "implicit": true,
+            "throwing": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "encode",
+            "printedName": "encode(to:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Encoder",
+                "printedName": "Swift.Encoder",
+                "usr": "s:s7EncoderP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter7KeyPairV6encode2toys7Encoder_p_tKF",
+            "mangledName": "$s21ConnectPhantomAdapter7KeyPairV6encode2toys7Encoder_p_tKF",
+            "moduleName": "ConnectPhantomAdapter",
+            "implicit": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:21ConnectPhantomAdapter7KeyPairV",
+        "mangledName": "$s21ConnectPhantomAdapter7KeyPairV",
+        "moduleName": "ConnectPhantomAdapter",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Decodable",
+            "printedName": "Decodable",
+            "usr": "s:Se",
+            "mangledName": "$sSe"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Encodable",
+            "printedName": "Encodable",
+            "usr": "s:SE",
+            "mangledName": "$sSE"
+          },
+          {
+            "kind": "Conformance",
+            "name": "DefaultsSerializable",
+            "printedName": "DefaultsSerializable",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "Bridge",
+                "printedName": "Bridge",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DefaultsCodableBridge",
+                    "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<ConnectPhantomAdapter.KeyPair>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "KeyPair",
+                        "printedName": "ConnectPhantomAdapter.KeyPair",
+                        "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+                      }
+                    ],
+                    "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+                  }
+                ]
+              },
+              {
+                "kind": "TypeWitness",
+                "name": "ArrayBridge",
+                "printedName": "ArrayBridge",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DefaultsCodableBridge",
+                    "printedName": "SwiftyUserDefaults.DefaultsCodableBridge<[ConnectPhantomAdapter.KeyPair]>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Array",
+                        "printedName": "[ConnectPhantomAdapter.KeyPair]",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "KeyPair",
+                            "printedName": "ConnectPhantomAdapter.KeyPair",
+                            "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+                          }
+                        ],
+                        "usr": "s:Sa"
+                      }
+                    ],
+                    "usr": "s:18SwiftyUserDefaults0C13CodableBridgeV"
+                  }
+                ]
+              }
+            ],
+            "usr": "s:18SwiftyUserDefaults0C12SerializableP",
+            "mangledName": "$s18SwiftyUserDefaults0C12SerializableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "ConnectCommon",
+        "printedName": "ConnectCommon",
+        "declKind": "Import",
+        "moduleName": "ConnectPhantomAdapter",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ConnectPhantomAdapter"
+      },
+      {
+        "kind": "Import",
+        "name": "TweetNacl",
+        "printedName": "TweetNacl",
+        "declKind": "Import",
+        "moduleName": "ConnectPhantomAdapter"
+      },
+      {
+        "kind": "Import",
+        "name": "ParticleNetworkBase",
+        "printedName": "ParticleNetworkBase",
+        "declKind": "Import",
+        "moduleName": "ConnectPhantomAdapter"
+      },
+      {
+        "kind": "Import",
+        "name": "Base58_swift",
+        "printedName": "Base58_swift",
+        "declKind": "Import",
+        "moduleName": "ConnectPhantomAdapter"
+      },
+      {
+        "kind": "Import",
+        "name": "Base58_swift",
+        "printedName": "Base58_swift",
+        "declKind": "Import",
+        "moduleName": "ConnectPhantomAdapter",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "ConnectCommon",
+        "printedName": "ConnectCommon",
+        "declKind": "Import",
+        "moduleName": "ConnectPhantomAdapter"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ConnectPhantomAdapter"
+      },
+      {
+        "kind": "Import",
+        "name": "ParticleNetworkBase",
+        "printedName": "ParticleNetworkBase",
+        "declKind": "Import",
+        "moduleName": "ConnectPhantomAdapter"
+      },
+      {
+        "kind": "Import",
+        "name": "RxSwift",
+        "printedName": "RxSwift",
+        "declKind": "Import",
+        "moduleName": "ConnectPhantomAdapter"
+      },
+      {
+        "kind": "Import",
+        "name": "SwiftyJSON",
+        "printedName": "SwiftyJSON",
+        "declKind": "Import",
+        "moduleName": "ConnectPhantomAdapter"
+      },
+      {
+        "kind": "Import",
+        "name": "SwiftyUserDefaults",
+        "printedName": "SwiftyUserDefaults",
+        "declKind": "Import",
+        "moduleName": "ConnectPhantomAdapter"
+      },
+      {
+        "kind": "Var",
+        "name": "Defaults",
+        "printedName": "Defaults",
+        "children": [
+          {
+            "kind": "TypeNominal",
+            "name": "DefaultsAdapter",
+            "printedName": "SwiftyUserDefaults.DefaultsAdapter<SwiftyUserDefaults.DefaultsKeys>",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DefaultsKeys",
+                "printedName": "SwiftyUserDefaults.DefaultsKeys",
+                "usr": "s:18SwiftyUserDefaults0C4KeysV"
+              }
+            ],
+            "usr": "s:18SwiftyUserDefaults0C7AdapterV"
+          }
+        ],
+        "declKind": "Var",
+        "usr": "s:21ConnectPhantomAdapter8Defaults010SwiftyUserD00dC0VyAC0D4KeysVGvp",
+        "mangledName": "$s21ConnectPhantomAdapter8Defaults010SwiftyUserD00dC0VyAC0D4KeysVGvp",
+        "moduleName": "ConnectPhantomAdapter",
+        "declAttributes": [
+          "HasInitialValue",
+          "HasStorage"
+        ],
+        "hasStorage": true
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "PhantomAction",
+        "printedName": "PhantomAction",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "connect",
+            "printedName": "connect",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ConnectPhantomAdapter.PhantomAction.Type) -> ConnectPhantomAdapter.PhantomAction",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PhantomAction",
+                    "printedName": "ConnectPhantomAdapter.PhantomAction",
+                    "usr": "s:21ConnectPhantomAdapter0B6ActionO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ConnectPhantomAdapter.PhantomAction.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhantomAction",
+                        "printedName": "ConnectPhantomAdapter.PhantomAction",
+                        "usr": "s:21ConnectPhantomAdapter0B6ActionO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:21ConnectPhantomAdapter0B6ActionO7connectyA2CmF",
+            "mangledName": "$s21ConnectPhantomAdapter0B6ActionO7connectyA2CmF",
+            "moduleName": "ConnectPhantomAdapter",
+            "fixedbinaryorder": 0
+          },
+          {
+            "kind": "Var",
+            "name": "disconnect",
+            "printedName": "disconnect",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ConnectPhantomAdapter.PhantomAction.Type) -> ConnectPhantomAdapter.PhantomAction",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PhantomAction",
+                    "printedName": "ConnectPhantomAdapter.PhantomAction",
+                    "usr": "s:21ConnectPhantomAdapter0B6ActionO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ConnectPhantomAdapter.PhantomAction.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhantomAction",
+                        "printedName": "ConnectPhantomAdapter.PhantomAction",
+                        "usr": "s:21ConnectPhantomAdapter0B6ActionO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:21ConnectPhantomAdapter0B6ActionO10disconnectyA2CmF",
+            "mangledName": "$s21ConnectPhantomAdapter0B6ActionO10disconnectyA2CmF",
+            "moduleName": "ConnectPhantomAdapter",
+            "fixedbinaryorder": 1
+          },
+          {
+            "kind": "Var",
+            "name": "signAndSendTransaction",
+            "printedName": "signAndSendTransaction",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ConnectPhantomAdapter.PhantomAction.Type) -> ConnectPhantomAdapter.PhantomAction",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PhantomAction",
+                    "printedName": "ConnectPhantomAdapter.PhantomAction",
+                    "usr": "s:21ConnectPhantomAdapter0B6ActionO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ConnectPhantomAdapter.PhantomAction.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhantomAction",
+                        "printedName": "ConnectPhantomAdapter.PhantomAction",
+                        "usr": "s:21ConnectPhantomAdapter0B6ActionO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:21ConnectPhantomAdapter0B6ActionO22signAndSendTransactionyA2CmF",
+            "mangledName": "$s21ConnectPhantomAdapter0B6ActionO22signAndSendTransactionyA2CmF",
+            "moduleName": "ConnectPhantomAdapter",
+            "fixedbinaryorder": 2
+          },
+          {
+            "kind": "Var",
+            "name": "signAllTransactions",
+            "printedName": "signAllTransactions",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ConnectPhantomAdapter.PhantomAction.Type) -> ConnectPhantomAdapter.PhantomAction",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PhantomAction",
+                    "printedName": "ConnectPhantomAdapter.PhantomAction",
+                    "usr": "s:21ConnectPhantomAdapter0B6ActionO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ConnectPhantomAdapter.PhantomAction.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhantomAction",
+                        "printedName": "ConnectPhantomAdapter.PhantomAction",
+                        "usr": "s:21ConnectPhantomAdapter0B6ActionO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:21ConnectPhantomAdapter0B6ActionO19signAllTransactionsyA2CmF",
+            "mangledName": "$s21ConnectPhantomAdapter0B6ActionO19signAllTransactionsyA2CmF",
+            "moduleName": "ConnectPhantomAdapter",
+            "fixedbinaryorder": 3
+          },
+          {
+            "kind": "Var",
+            "name": "signTransaction",
+            "printedName": "signTransaction",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ConnectPhantomAdapter.PhantomAction.Type) -> ConnectPhantomAdapter.PhantomAction",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PhantomAction",
+                    "printedName": "ConnectPhantomAdapter.PhantomAction",
+                    "usr": "s:21ConnectPhantomAdapter0B6ActionO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ConnectPhantomAdapter.PhantomAction.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhantomAction",
+                        "printedName": "ConnectPhantomAdapter.PhantomAction",
+                        "usr": "s:21ConnectPhantomAdapter0B6ActionO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:21ConnectPhantomAdapter0B6ActionO15signTransactionyA2CmF",
+            "mangledName": "$s21ConnectPhantomAdapter0B6ActionO15signTransactionyA2CmF",
+            "moduleName": "ConnectPhantomAdapter",
+            "fixedbinaryorder": 4
+          },
+          {
+            "kind": "Var",
+            "name": "signMessage",
+            "printedName": "signMessage",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ConnectPhantomAdapter.PhantomAction.Type) -> ConnectPhantomAdapter.PhantomAction",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PhantomAction",
+                    "printedName": "ConnectPhantomAdapter.PhantomAction",
+                    "usr": "s:21ConnectPhantomAdapter0B6ActionO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ConnectPhantomAdapter.PhantomAction.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhantomAction",
+                        "printedName": "ConnectPhantomAdapter.PhantomAction",
+                        "usr": "s:21ConnectPhantomAdapter0B6ActionO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:21ConnectPhantomAdapter0B6ActionO11signMessageyA2CmF",
+            "mangledName": "$s21ConnectPhantomAdapter0B6ActionO11signMessageyA2CmF",
+            "moduleName": "ConnectPhantomAdapter",
+            "fixedbinaryorder": 5
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(rawValue:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ConnectPhantomAdapter.PhantomAction?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PhantomAction",
+                    "printedName": "ConnectPhantomAdapter.PhantomAction",
+                    "usr": "s:21ConnectPhantomAdapter0B6ActionO"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:21ConnectPhantomAdapter0B6ActionO8rawValueACSgSS_tcfc",
+            "mangledName": "$s21ConnectPhantomAdapter0B6ActionO8rawValueACSgSS_tcfc",
+            "moduleName": "ConnectPhantomAdapter",
+            "implicit": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Var",
+            "name": "rawValue",
+            "printedName": "rawValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0B6ActionO8rawValueSSvp",
+            "mangledName": "$s21ConnectPhantomAdapter0B6ActionO8rawValueSSvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0B6ActionO8rawValueSSvg",
+                "mangledName": "$s21ConnectPhantomAdapter0B6ActionO8rawValueSSvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:21ConnectPhantomAdapter0B6ActionO",
+        "mangledName": "$s21ConnectPhantomAdapter0B6ActionO",
+        "moduleName": "ConnectPhantomAdapter",
+        "enumRawTypeName": "String",
+        "isEnumExhaustive": true,
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "RawRepresentable",
+            "printedName": "RawRepresentable",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "RawValue",
+                "printedName": "RawValue",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ]
+              }
+            ],
+            "usr": "s:SY",
+            "mangledName": "$sSY"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "PhantomConnectAdapter",
+        "printedName": "PhantomConnectAdapter",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PhantomConnectAdapter",
+                "printedName": "ConnectPhantomAdapter.PhantomConnectAdapter",
+                "usr": "s:21ConnectPhantomAdapter0baC0C"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:21ConnectPhantomAdapter0baC0CACycfc",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0CACycfc",
+            "moduleName": "ConnectPhantomAdapter",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Var",
+            "name": "walletType",
+            "printedName": "walletType",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "WalletType",
+                "printedName": "ConnectCommon.WalletType",
+                "usr": "s:13ConnectCommon10WalletTypeO"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0baC0C10walletType0A6Common06WalletE0Ovp",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C10walletType0A6Common06WalletE0Ovp",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "WalletType",
+                    "printedName": "ConnectCommon.WalletType",
+                    "usr": "s:13ConnectCommon10WalletTypeO"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0baC0C10walletType0A6Common06WalletE0Ovg",
+                "mangledName": "$s21ConnectPhantomAdapter0baC0C10walletType0A6Common06WalletE0Ovg",
+                "moduleName": "ConnectPhantomAdapter",
+                "isOpen": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "readyState",
+            "printedName": "readyState",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "WalletReadyState",
+                "printedName": "ConnectCommon.WalletReadyState",
+                "usr": "s:13ConnectCommon16WalletReadyStateO"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0baC0C10readyState0A6Common011WalletReadyE0Ovp",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C10readyState0A6Common011WalletReadyE0Ovp",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "WalletReadyState",
+                    "printedName": "ConnectCommon.WalletReadyState",
+                    "usr": "s:13ConnectCommon16WalletReadyStateO"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0baC0C10readyState0A6Common011WalletReadyE0Ovg",
+                "mangledName": "$s21ConnectPhantomAdapter0baC0C10readyState0A6Common011WalletReadyE0Ovg",
+                "moduleName": "ConnectPhantomAdapter",
+                "isOpen": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "getAccounts",
+            "printedName": "getAccounts()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[ConnectCommon.Account]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Account",
+                    "printedName": "ConnectCommon.Account",
+                    "usr": "s:13ConnectCommon7AccountV"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter0baC0C11getAccountsSay0A6Common7AccountVGyF",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C11getAccountsSay0A6Common7AccountVGyF",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Var",
+            "name": "supportChains",
+            "printedName": "supportChains",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[ParticleNetworkBase.ChainType]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainType",
+                    "printedName": "ParticleNetworkBase.ChainType",
+                    "usr": "c:@M@ParticleNetworkBase@E@ChainType"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0baC0C13supportChainsSay19ParticleNetworkBase9ChainTypeOGvp",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C13supportChainsSay19ParticleNetworkBase9ChainTypeOGvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[ParticleNetworkBase.ChainType]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ChainType",
+                        "printedName": "ParticleNetworkBase.ChainType",
+                        "usr": "c:@M@ParticleNetworkBase@E@ChainType"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0baC0C13supportChainsSay19ParticleNetworkBase9ChainTypeOGvg",
+                "mangledName": "$s21ConnectPhantomAdapter0baC0C13supportChainsSay19ParticleNetworkBase9ChainTypeOGvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "isOpen": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "redirectLink",
+            "printedName": "redirectLink",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0baC0C12redirectLinkSSvpZ",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C12redirectLinkSSvpZ",
+            "moduleName": "ConnectPhantomAdapter",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0baC0C12redirectLinkSSvgZ",
+                "mangledName": "$s21ConnectPhantomAdapter0baC0C12redirectLinkSSvgZ",
+                "moduleName": "ConnectPhantomAdapter",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent",
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "keyPair",
+            "printedName": "keyPair",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ConnectPhantomAdapter.KeyPair?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "KeyPair",
+                    "printedName": "ConnectPhantomAdapter.KeyPair",
+                    "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0baC0C7keyPairAA03KeyE0VSgvp",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C7keyPairAA03KeyE0VSgvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "ConnectPhantomAdapter.KeyPair?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "KeyPair",
+                        "printedName": "ConnectPhantomAdapter.KeyPair",
+                        "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0baC0C7keyPairAA03KeyE0VSgvg",
+                "mangledName": "$s21ConnectPhantomAdapter0baC0C7keyPairAA03KeyE0VSgvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "isOpen": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "ConnectPhantomAdapter.KeyPair?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "KeyPair",
+                        "printedName": "ConnectPhantomAdapter.KeyPair",
+                        "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0baC0C7keyPairAA03KeyE0VSgvs",
+                "mangledName": "$s21ConnectPhantomAdapter0baC0C7keyPairAA03KeyE0VSgvs",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "isOpen": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0baC0C7keyPairAA03KeyE0VSgvM",
+                "mangledName": "$s21ConnectPhantomAdapter0baC0C7keyPairAA03KeyE0VSgvM",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "isOpen": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "session",
+            "printedName": "session",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ConnectPhantomAdapter.PhantomSession?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PhantomSession",
+                    "printedName": "ConnectPhantomAdapter.PhantomSession",
+                    "usr": "s:21ConnectPhantomAdapter0B7SessionV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0baC0C7sessionAA0B7SessionVSgvp",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C7sessionAA0B7SessionVSgvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "ConnectPhantomAdapter.PhantomSession?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhantomSession",
+                        "printedName": "ConnectPhantomAdapter.PhantomSession",
+                        "usr": "s:21ConnectPhantomAdapter0B7SessionV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0baC0C7sessionAA0B7SessionVSgvg",
+                "mangledName": "$s21ConnectPhantomAdapter0baC0C7sessionAA0B7SessionVSgvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "isOpen": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "ConnectPhantomAdapter.PhantomSession?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhantomSession",
+                        "printedName": "ConnectPhantomAdapter.PhantomSession",
+                        "usr": "s:21ConnectPhantomAdapter0B7SessionV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0baC0C7sessionAA0B7SessionVSgvs",
+                "mangledName": "$s21ConnectPhantomAdapter0baC0C7sessionAA0B7SessionVSgvs",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "isOpen": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0baC0C7sessionAA0B7SessionVSgvM",
+                "mangledName": "$s21ConnectPhantomAdapter0baC0C7sessionAA0B7SessionVSgvM",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "isOpen": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "sharedSecretKey",
+            "printedName": "sharedSecretKey",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0baC0C15sharedSecretKeySSSgvp",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C15sharedSecretKeySSSgvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0baC0C15sharedSecretKeySSSgvg",
+                "mangledName": "$s21ConnectPhantomAdapter0baC0C15sharedSecretKeySSSgvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "isOpen": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0baC0C15sharedSecretKeySSSgvs",
+                "mangledName": "$s21ConnectPhantomAdapter0baC0C15sharedSecretKeySSSgvs",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "isOpen": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0baC0C15sharedSecretKeySSSgvM",
+                "mangledName": "$s21ConnectPhantomAdapter0baC0C15sharedSecretKeySSSgvM",
+                "moduleName": "ConnectPhantomAdapter",
+                "implicit": true,
+                "isOpen": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "address",
+            "printedName": "address",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:21ConnectPhantomAdapter0baC0C7addressSSvp",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C7addressSSvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:21ConnectPhantomAdapter0baC0C7addressSSvg",
+                "mangledName": "$s21ConnectPhantomAdapter0baC0C7addressSSvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "isOpen": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "connect",
+            "printedName": "connect(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, ConnectCommon.Account?>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "ConnectCommon.Account?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Account",
+                        "printedName": "ConnectCommon.Account",
+                        "usr": "s:13ConnectCommon7AccountV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "τ_0_0?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GenericTypeParam",
+                    "printedName": "τ_0_0"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter0baC0C7connecty7RxSwift17PrimitiveSequenceVyAE11SingleTraitO0A6Common7AccountVSgGxSgAJ0A6ConfigCRbzlF",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C7connecty7RxSwift17PrimitiveSequenceVyAE11SingleTraitO0A6Common7AccountVSgGxSgAJ0A6ConfigCRbzlF",
+            "moduleName": "ConnectPhantomAdapter",
+            "genericSig": "<τ_0_0 where τ_0_0 : ConnectCommon.ConnectConfig>",
+            "sugared_genericSig": "<T where T : ConnectCommon.ConnectConfig>",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "isConnected",
+            "printedName": "isConnected(publicAddress:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter0baC0C11isConnected13publicAddressSbSS_tF",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C11isConnected13publicAddressSbSS_tF",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "disconnect",
+            "printedName": "disconnect(publicAddress:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, Swift.String>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter0baC0C10disconnect13publicAddress7RxSwift17PrimitiveSequenceVyAF11SingleTraitOSSGSS_tF",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C10disconnect13publicAddress7RxSwift17PrimitiveSequenceVyAF11SingleTraitOSSGSS_tF",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "signAndSendTransaction",
+            "printedName": "signAndSendTransaction(publicAddress:transaction:feeMode:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, Swift.String>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "FeeMode",
+                "printedName": "ParticleNetworkBase.AA.FeeMode",
+                "usr": "s:19ParticleNetworkBase2AAO7FeeModeO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter0baC0C22signAndSendTransaction13publicAddress11transaction7feeMode9chainInfo7RxSwift17PrimitiveSequenceVyAI11SingleTraitOSSGSS_SS19ParticleNetworkBase2AAO03FeeL0OAO0uV0C05ChainN0CSgtF",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C22signAndSendTransaction13publicAddress11transaction7feeMode9chainInfo7RxSwift17PrimitiveSequenceVyAI11SingleTraitOSSGSS_SS19ParticleNetworkBase2AAO03FeeL0OAO0uV0C05ChainN0CSgtF",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "signAllTransactions",
+            "printedName": "signAllTransactions(publicAddress:transactions:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, [Swift.String]>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[Swift.String]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.String]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sa"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter0baC0C19signAllTransactions13publicAddress12transactions9chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitOSaySSGGSS_AM19ParticleNetworkBase0rS0C05ChainK0CSgtF",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C19signAllTransactions13publicAddress12transactions9chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitOSaySSGGSS_AM19ParticleNetworkBase0rS0C05ChainK0CSgtF",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "signTransaction",
+            "printedName": "signTransaction(publicAddress:transaction:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, Swift.String>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter0baC0C15signTransaction13publicAddress11transaction9chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitOSSGSS_SS19ParticleNetworkBase0qR0C05ChainJ0CSgtF",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C15signTransaction13publicAddress11transaction9chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitOSSGSS_SS19ParticleNetworkBase0qR0C05ChainJ0CSgtF",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "signMessage",
+            "printedName": "signMessage(publicAddress:message:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, Swift.String>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter0baC0C11signMessage13publicAddress7message9chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitOSSGSS_SS19ParticleNetworkBase0qR0C05ChainJ0CSgtF",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C11signMessage13publicAddress7message9chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitOSSGSS_SS19ParticleNetworkBase0qR0C05ChainJ0CSgtF",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "signTypedData",
+            "printedName": "signTypedData(publicAddress:data:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, Swift.String>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter0baC0C13signTypedData13publicAddress4data9chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitOSSGSS_SS19ParticleNetworkBase0rS0C05ChainK0CSgtF",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C13signTypedData13publicAddress4data9chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitOSSGSS_SS19ParticleNetworkBase0rS0C05ChainK0CSgtF",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "request",
+            "printedName": "request(publicAddress:method:parameters:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, SwiftyJSON.JSON?>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "SwiftyJSON.JSON?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "JSON",
+                        "printedName": "SwiftyJSON.JSON",
+                        "usr": "s:10SwiftyJSON0B0V"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.Encodable]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Encodable",
+                    "printedName": "Swift.Encodable",
+                    "usr": "s:SE"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter0baC0C7request13publicAddress6method10parameters7RxSwift17PrimitiveSequenceVyAH11SingleTraitO10SwiftyJSON0P0VSgGSS_SSSaySE_pGtF",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C7request13publicAddress6method10parameters7RxSwift17PrimitiveSequenceVyAH11SingleTraitO10SwiftyJSON0P0VSgGSS_SSSaySE_pGtF",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "handleUrl",
+            "printedName": "handleUrl(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "URL",
+                "printedName": "Foundation.URL",
+                "usr": "s:10Foundation3URLV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:21ConnectPhantomAdapter0baC0C9handleUrlySb10Foundation3URLVF",
+            "mangledName": "$s21ConnectPhantomAdapter0baC0C9handleUrlySb10Foundation3URLVF",
+            "moduleName": "ConnectPhantomAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:21ConnectPhantomAdapter0baC0C",
+        "mangledName": "$s21ConnectPhantomAdapter0baC0C",
+        "moduleName": "ConnectPhantomAdapter",
+        "isOpen": true,
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "ConnectAdapter",
+            "printedName": "ConnectAdapter",
+            "usr": "s:13ConnectCommon0A7AdapterP",
+            "mangledName": "$s13ConnectCommon0A7AdapterP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "Crypto",
+        "printedName": "Crypto",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "x25519key",
+            "printedName": "x25519key()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "KeyPair",
+                "printedName": "ConnectPhantomAdapter.KeyPair",
+                "usr": "s:21ConnectPhantomAdapter7KeyPairV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ConnectCommon6CryptoV0A14PhantomAdapterE9x25519keyAD7KeyPairVyKFZ",
+            "mangledName": "$s13ConnectCommon6CryptoV0A14PhantomAdapterE9x25519keyAD7KeyPairVyKFZ",
+            "moduleName": "ConnectPhantomAdapter",
+            "static": true,
+            "declAttributes": [
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "x25519Decrypt",
+            "printedName": "x25519Decrypt(source:privateKey:nonce:theirPublicKey:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Data",
+                "printedName": "Foundation.Data",
+                "usr": "s:10Foundation4DataV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ConnectCommon6CryptoV0A14PhantomAdapterE13x25519Decrypt6source10privateKey5nonce011theirPublicJ010Foundation4DataVSS_S3StKFZ",
+            "mangledName": "$s13ConnectCommon6CryptoV0A14PhantomAdapterE13x25519Decrypt6source10privateKey5nonce011theirPublicJ010Foundation4DataVSS_S3StKFZ",
+            "moduleName": "ConnectPhantomAdapter",
+            "static": true,
+            "declAttributes": [
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "x25519Encrypt",
+            "printedName": "x25519Encrypt(message:nonce:sharedSecret:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Data",
+                "printedName": "Foundation.Data",
+                "usr": "s:10Foundation4DataV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ConnectCommon6CryptoV0A14PhantomAdapterE13x25519Encrypt7message5nonce12sharedSecret10Foundation4DataVSS_S2StKFZ",
+            "mangledName": "$s13ConnectCommon6CryptoV0A14PhantomAdapterE13x25519Encrypt7message5nonce12sharedSecret10Foundation4DataVSS_S2StKFZ",
+            "moduleName": "ConnectPhantomAdapter",
+            "static": true,
+            "declAttributes": [
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "x25519Decrypt",
+            "printedName": "x25519Decrypt(message:nonce:sharedSecret:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Data",
+                "printedName": "Foundation.Data",
+                "usr": "s:10Foundation4DataV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ConnectCommon6CryptoV0A14PhantomAdapterE13x25519Decrypt7message5nonce12sharedSecret10Foundation4DataVSS_S2StKFZ",
+            "mangledName": "$s13ConnectCommon6CryptoV0A14PhantomAdapterE13x25519Decrypt7message5nonce12sharedSecret10Foundation4DataVSS_S2StKFZ",
+            "moduleName": "ConnectPhantomAdapter",
+            "static": true,
+            "declAttributes": [
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "createNonce",
+            "printedName": "createNonce()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ConnectCommon6CryptoV0A14PhantomAdapterE11createNonceSSyKFZ",
+            "mangledName": "$s13ConnectCommon6CryptoV0A14PhantomAdapterE11createNonceSSyKFZ",
+            "moduleName": "ConnectPhantomAdapter",
+            "static": true,
+            "declAttributes": [
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "sharedSecretDapp",
+            "printedName": "sharedSecretDapp(theirPublicKey:privateKey:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13ConnectCommon6CryptoV0A14PhantomAdapterE16sharedSecretDapp14theirPublicKey07privateK0S2S_SStKFZ",
+            "mangledName": "$s13ConnectCommon6CryptoV0A14PhantomAdapterE16sharedSecretDapp14theirPublicKey07privateK0S2S_SStKFZ",
+            "moduleName": "ConnectPhantomAdapter",
+            "static": true,
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:13ConnectCommon6CryptoV",
+        "mangledName": "$s13ConnectCommon6CryptoV",
+        "moduleName": "ConnectCommon",
+        "isExternal": true
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "DefaultsKeys",
+        "printedName": "DefaultsKeys",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "phantomSession",
+            "printedName": "phantomSession",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DefaultsKey",
+                "printedName": "SwiftyUserDefaults.DefaultsKey<[ConnectPhantomAdapter.PhantomSession]>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[ConnectPhantomAdapter.PhantomSession]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhantomSession",
+                        "printedName": "ConnectPhantomAdapter.PhantomSession",
+                        "usr": "s:21ConnectPhantomAdapter0B7SessionV"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "usr": "s:18SwiftyUserDefaults0C3KeyV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:18SwiftyUserDefaults0C4KeysV21ConnectPhantomAdapterE14phantomSessionAA0C3KeyVySayAD0fI0VGGvp",
+            "mangledName": "$s18SwiftyUserDefaults0C4KeysV21ConnectPhantomAdapterE14phantomSessionAA0C3KeyVySayAD0fI0VGGvp",
+            "moduleName": "ConnectPhantomAdapter",
+            "isFromExtension": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DefaultsKey",
+                    "printedName": "SwiftyUserDefaults.DefaultsKey<[ConnectPhantomAdapter.PhantomSession]>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Array",
+                        "printedName": "[ConnectPhantomAdapter.PhantomSession]",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "PhantomSession",
+                            "printedName": "ConnectPhantomAdapter.PhantomSession",
+                            "usr": "s:21ConnectPhantomAdapter0B7SessionV"
+                          }
+                        ],
+                        "usr": "s:Sa"
+                      }
+                    ],
+                    "usr": "s:18SwiftyUserDefaults0C3KeyV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:18SwiftyUserDefaults0C4KeysV21ConnectPhantomAdapterE14phantomSessionAA0C3KeyVySayAD0fI0VGGvg",
+                "mangledName": "$s18SwiftyUserDefaults0C4KeysV21ConnectPhantomAdapterE14phantomSessionAA0C3KeyVySayAD0fI0VGGvg",
+                "moduleName": "ConnectPhantomAdapter",
+                "isFromExtension": true,
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:18SwiftyUserDefaults0C4KeysV",
+        "mangledName": "$s18SwiftyUserDefaults0C4KeysV",
+        "moduleName": "SwiftyUserDefaults",
+        "isExternal": true,
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "DefaultsKeyStore",
+            "printedName": "DefaultsKeyStore",
+            "usr": "s:18SwiftyUserDefaults0C8KeyStoreP",
+            "mangledName": "$s18SwiftyUserDefaults0C8KeyStoreP"
+          }
+        ]
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/Users\/minijoy3\/Documents\/particle-connect-ios\/ParticleConnect\/ConnectPhantomAdapter\/Sources\/Model\/Phantom+Model.swift",
+      "kind": "StringLiteral",
+      "offset": 1060,
+      "length": 9,
+      "value": "\"app_url\""
+    },
+    {
+      "filePath": "\/Users\/minijoy3\/Documents\/particle-connect-ios\/ParticleConnect\/ConnectPhantomAdapter\/Sources\/Model\/Phantom+Model.swift",
+      "kind": "StringLiteral",
+      "offset": 1060,
+      "length": 9,
+      "value": "\"app_url\""
+    },
+    {
+      "filePath": "\/Users\/minijoy3\/Documents\/particle-connect-ios\/ParticleConnect\/ConnectPhantomAdapter\/Sources\/PhantomConnectAdapter.swift",
+      "kind": "StringLiteral",
+      "offset": 360,
+      "length": 34,
+      "value": "\"connect.particle.phantom.adapter\""
+    },
+    {
+      "filePath": "\/Users\/minijoy3\/Documents\/particle-connect-ios\/ParticleConnect\/ConnectPhantomAdapter\/Sources\/PhantomConnectAdapter.swift",
+      "kind": "StringLiteral",
+      "offset": 2142,
+      "length": 34,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/minijoy3\/Documents\/particle-connect-ios\/ParticleConnect\/ConnectPhantomAdapter\/Sources\/PhantomConnectAdapter.swift",
+      "kind": "StringLiteral",
+      "offset": 2172,
+      "length": 1,
+      "value": "\":\/\/\""
+    }
+  ]
+}

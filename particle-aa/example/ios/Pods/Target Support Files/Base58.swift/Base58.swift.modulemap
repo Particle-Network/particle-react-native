@@ -1,0 +1,6 @@
+framework module Base58_swift {
+  umbrella header "Base58.swift-umbrella.h"
+
+  export *
+  module * { export * }
+}

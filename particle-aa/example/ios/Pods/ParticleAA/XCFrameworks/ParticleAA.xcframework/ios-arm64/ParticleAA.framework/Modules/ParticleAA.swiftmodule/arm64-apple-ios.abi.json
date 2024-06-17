@@ -1,0 +1,1601 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "TopLevel",
+    "printedName": "TopLevel",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Alamofire",
+        "printedName": "Alamofire",
+        "declKind": "Import",
+        "moduleName": "ParticleAA",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ParticleAA"
+      },
+      {
+        "kind": "Import",
+        "name": "ParticleNetworkBase",
+        "printedName": "ParticleNetworkBase",
+        "declKind": "Import",
+        "moduleName": "ParticleAA"
+      },
+      {
+        "kind": "Import",
+        "name": "RxAlamofire",
+        "printedName": "RxAlamofire",
+        "declKind": "Import",
+        "moduleName": "ParticleAA"
+      },
+      {
+        "kind": "Import",
+        "name": "RxSwift",
+        "printedName": "RxSwift",
+        "declKind": "Import",
+        "moduleName": "ParticleAA"
+      },
+      {
+        "kind": "Import",
+        "name": "SwiftyJSON",
+        "printedName": "SwiftyJSON",
+        "declKind": "Import",
+        "moduleName": "ParticleAA"
+      },
+      {
+        "kind": "Import",
+        "name": "SwiftyUserDefaults",
+        "printedName": "SwiftyUserDefaults",
+        "declKind": "Import",
+        "moduleName": "ParticleAA"
+      },
+      {
+        "kind": "Var",
+        "name": "Defaults",
+        "printedName": "Defaults",
+        "children": [
+          {
+            "kind": "TypeNominal",
+            "name": "DefaultsAdapter",
+            "printedName": "SwiftyUserDefaults.DefaultsAdapter<SwiftyUserDefaults.DefaultsKeys>",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DefaultsKeys",
+                "printedName": "SwiftyUserDefaults.DefaultsKeys",
+                "usr": "s:18SwiftyUserDefaults0C4KeysV"
+              }
+            ],
+            "usr": "s:18SwiftyUserDefaults0C7AdapterV"
+          }
+        ],
+        "declKind": "Var",
+        "usr": "s:10ParticleAA8Defaults010SwiftyUserC00C7AdapterVyAC0C4KeysVGvp",
+        "mangledName": "$s10ParticleAA8Defaults010SwiftyUserC00C7AdapterVyAC0C4KeysVGvp",
+        "moduleName": "ParticleAA",
+        "declAttributes": [
+          "HasInitialValue",
+          "HasStorage"
+        ],
+        "hasStorage": true
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "AAService",
+        "printedName": "AAService",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "biconomyApiKeys",
+            "printedName": "biconomyApiKeys",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Dictionary",
+                "printedName": "[Swift.Int : Swift.String]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:SD"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:10ParticleAA9AAServiceC15biconomyApiKeysSDySiSSGvpZ",
+            "mangledName": "$s10ParticleAA9AAServiceC15biconomyApiKeysSDySiSSGvpZ",
+            "moduleName": "ParticleAA",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Dictionary",
+                    "printedName": "[Swift.Int : Swift.String]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Int",
+                        "printedName": "Swift.Int",
+                        "usr": "s:Si"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:SD"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10ParticleAA9AAServiceC15biconomyApiKeysSDySiSSGvgZ",
+                "mangledName": "$s10ParticleAA9AAServiceC15biconomyApiKeysSDySiSSGvgZ",
+                "moduleName": "ParticleAA",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent",
+                  "Final"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Dictionary",
+                    "printedName": "[Swift.Int : Swift.String]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Int",
+                        "printedName": "Swift.Int",
+                        "usr": "s:Si"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:SD"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10ParticleAA9AAServiceC15biconomyApiKeysSDySiSSGvsZ",
+                "mangledName": "$s10ParticleAA9AAServiceC15biconomyApiKeysSDySiSSGvsZ",
+                "moduleName": "ParticleAA",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent",
+                  "Final"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10ParticleAA9AAServiceC15biconomyApiKeysSDySiSSGvMZ",
+                "mangledName": "$s10ParticleAA9AAServiceC15biconomyApiKeysSDySiSSGvMZ",
+                "moduleName": "ParticleAA",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent",
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "notSupportError",
+            "printedName": "notSupportError",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "ResponseError",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ResponseError",
+                "usr": "s:19ParticleNetworkBase0aB0C13ResponseErrorV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:10ParticleAA9AAServiceC15notSupportError0A11NetworkBase0aG0C08ResponseF0VvpZ",
+            "mangledName": "$s10ParticleAA9AAServiceC15notSupportError0A11NetworkBase0aG0C08ResponseF0VvpZ",
+            "moduleName": "ParticleAA",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ResponseError",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ResponseError",
+                    "usr": "s:19ParticleNetworkBase0aB0C13ResponseErrorV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10ParticleAA9AAServiceC15notSupportError0A11NetworkBase0aG0C08ResponseF0VvgZ",
+                "mangledName": "$s10ParticleAA9AAServiceC15notSupportError0A11NetworkBase0aG0C08ResponseF0VvgZ",
+                "moduleName": "ParticleAA",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent",
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "undefinedDappApiKeyError",
+            "printedName": "undefinedDappApiKeyError",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "ResponseError",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ResponseError",
+                "usr": "s:19ParticleNetworkBase0aB0C13ResponseErrorV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:10ParticleAA9AAServiceC24undefinedDappApiKeyError0A11NetworkBase0aI0C08ResponseH0VvpZ",
+            "mangledName": "$s10ParticleAA9AAServiceC24undefinedDappApiKeyError0A11NetworkBase0aI0C08ResponseH0VvpZ",
+            "moduleName": "ParticleAA",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ResponseError",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ResponseError",
+                    "usr": "s:19ParticleNetworkBase0aB0C13ResponseErrorV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10ParticleAA9AAServiceC24undefinedDappApiKeyError0A11NetworkBase0aI0C08ResponseH0VvgZ",
+                "mangledName": "$s10ParticleAA9AAServiceC24undefinedDappApiKeyError0A11NetworkBase0aI0C08ResponseH0VvgZ",
+                "moduleName": "ParticleAA",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Transparent",
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "bag",
+            "printedName": "bag",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DisposeBag",
+                "printedName": "RxSwift.DisposeBag",
+                "usr": "s:7RxSwift10DisposeBagC"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:10ParticleAA9AAServiceC3bag7RxSwift10DisposeBagCvp",
+            "mangledName": "$s10ParticleAA9AAServiceC3bag7RxSwift10DisposeBagCvp",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DisposeBag",
+                    "printedName": "RxSwift.DisposeBag",
+                    "usr": "s:7RxSwift10DisposeBagC"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10ParticleAA9AAServiceC3bag7RxSwift10DisposeBagCvg",
+                "mangledName": "$s10ParticleAA9AAServiceC3bag7RxSwift10DisposeBagCvg",
+                "moduleName": "ParticleAA",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "initialize",
+            "printedName": "initialize(name:biconomyApiKeys:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.AA.AccountName?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "AccountName",
+                    "printedName": "ParticleNetworkBase.AA.AccountName",
+                    "usr": "s:19ParticleNetworkBase2AAO11AccountNameV"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Dictionary",
+                "printedName": "[Swift.Int : Swift.String]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:SD"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC10initialize4name15biconomyApiKeysy0A11NetworkBase0B0O11AccountNameVSg_SDySiSSGtFZ",
+            "mangledName": "$s10ParticleAA9AAServiceC10initialize4name15biconomyApiKeysy0A11NetworkBase0B0O11AccountNameVSg_SDySiSSGtFZ",
+            "moduleName": "ParticleAA",
+            "static": true,
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "AAService",
+                "printedName": "ParticleAA.AAService",
+                "usr": "s:10ParticleAA9AAServiceC"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:10ParticleAA9AAServiceCACycfc",
+            "mangledName": "$s10ParticleAA9AAServiceCACycfc",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "getSupportChainInfos",
+            "printedName": "getSupportChainInfos()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[ParticleNetworkBase.ParticleNetwork.ChainInfo]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC20getSupportChainInfosSay0A11NetworkBase0aH0C0F4InfoCGyF",
+            "mangledName": "$s10ParticleAA9AAServiceC20getSupportChainInfosSay0A11NetworkBase0aH0C0F4InfoCGyF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "isSupportChainInfo",
+            "printedName": "isSupportChainInfo(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ChainInfo",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC18isSupportChainInfoySb0A11NetworkBase0aH0C0fG0CF",
+            "mangledName": "$s10ParticleAA9AAServiceC18isSupportChainInfoySb0A11NetworkBase0aH0C0fG0CF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "rpcGetSmartAccount",
+            "printedName": "rpcGetSmartAccount(eoaAddresses:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, [ParticleNetworkBase.AA.SmartAccountInfo]>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[ParticleNetworkBase.AA.SmartAccountInfo]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SmartAccountInfo",
+                        "printedName": "ParticleNetworkBase.AA.SmartAccountInfo",
+                        "usr": "s:19ParticleNetworkBase2AAO16SmartAccountInfoV"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.String]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sa"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC18rpcGetSmartAccount12eoaAddresses9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitOSay0A11NetworkBase0B0O0fgK0VGGSaySSG_AL0aR0C05ChainK0CSgtF",
+            "mangledName": "$s10ParticleAA9AAServiceC18rpcGetSmartAccount12eoaAddresses9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitOSay0A11NetworkBase0B0O0fgK0VGGSaySSG_AL0aR0C05ChainK0CSgtF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "rpcGetFeeQuotes",
+            "printedName": "rpcGetFeeQuotes(eoaAddress:transactions:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, ParticleNetworkBase.AA.WholeFeeQuote>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "WholeFeeQuote",
+                    "printedName": "ParticleNetworkBase.AA.WholeFeeQuote",
+                    "usr": "s:19ParticleNetworkBase2AAO13WholeFeeQuoteV"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.String]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sa"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC15rpcGetFeeQuotes10eoaAddress12transactions9chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitO0A11NetworkBase0B0O05WholeF5QuoteVGSS_SaySSGAM0aS0C05ChainL0CSgtF",
+            "mangledName": "$s10ParticleAA9AAServiceC15rpcGetFeeQuotes10eoaAddress12transactions9chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitO0A11NetworkBase0B0O05WholeF5QuoteVGSS_SaySSGAM0aS0C05ChainL0CSgtF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "rpcCreateUserOp",
+            "printedName": "rpcCreateUserOp(eoaAddress:transactions:feeQuote:tokenPaymasterAddress:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, ParticleNetworkBase.AA.UserOp>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UserOp",
+                    "printedName": "ParticleNetworkBase.AA.UserOp",
+                    "usr": "s:19ParticleNetworkBase2AAO6UserOpV"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.String]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sa"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "FeeQuote",
+                "printedName": "ParticleNetworkBase.AA.FeeQuote",
+                "usr": "s:19ParticleNetworkBase2AAO8FeeQuoteV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC15rpcCreateUserOp10eoaAddress12transactions8feeQuote014tokenPaymasterI09chainInfo7RxSwift17PrimitiveSequenceVyAJ11SingleTraitO0A11NetworkBase0B0O0fG0VGSS_SaySSGAQ03FeeL0VSSAO0aW0C05ChainP0CSgtF",
+            "mangledName": "$s10ParticleAA9AAServiceC15rpcCreateUserOp10eoaAddress12transactions8feeQuote014tokenPaymasterI09chainInfo7RxSwift17PrimitiveSequenceVyAJ11SingleTraitO0A11NetworkBase0B0O0fG0VGSS_SaySSGAQ03FeeL0VSSAO0aW0C05ChainP0CSgtF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "rpcSendUserOp",
+            "printedName": "rpcSendUserOp(eoaAddress:userOp:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, Swift.String>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "JSON",
+                "printedName": "SwiftyJSON.JSON",
+                "usr": "s:10SwiftyJSON0B0V"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC13rpcSendUserOp10eoaAddress04userG09chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitOSSGSS_10SwiftyJSON0T0V0A11NetworkBase0aU0C05ChainL0CSgtF",
+            "mangledName": "$s10ParticleAA9AAServiceC13rpcSendUserOp10eoaAddress04userG09chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitOSSGSS_10SwiftyJSON0T0V0A11NetworkBase0aU0C05ChainL0CSgtF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "isDeploy",
+            "printedName": "isDeploy(eoaAddress:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, Swift.Bool>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC8isDeploy10eoaAddress9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitOSbGSS_0A11NetworkBase0aP0C05ChainI0CSgtF",
+            "mangledName": "$s10ParticleAA9AAServiceC8isDeploy10eoaAddress9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitOSbGSS_0A11NetworkBase0aP0C05ChainI0CSgtF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "deployWalletContract",
+            "printedName": "deployWalletContract(messageSigner:feeMode:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, Swift.String>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "MessageSigner",
+                "printedName": "ParticleNetworkBase.MessageSigner",
+                "usr": "s:19ParticleNetworkBase13MessageSignerP"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "FeeMode",
+                "printedName": "ParticleNetworkBase.AA.FeeMode",
+                "usr": "s:19ParticleNetworkBase2AAO7FeeModeO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC20deployWalletContract13messageSigner7feeMode9chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitOSSG0A11NetworkBase07MessageH0_p_AN0B0O03FeeJ0OAN0aS0C05ChainL0CSgtF",
+            "mangledName": "$s10ParticleAA9AAServiceC20deployWalletContract13messageSigner7feeMode9chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitOSSG0A11NetworkBase07MessageH0_p_AN0B0O03FeeJ0OAN0aS0C05ChainL0CSgtF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "isAAModeEnable",
+            "printedName": "isAAModeEnable()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC14isAAModeEnableSbyF",
+            "mangledName": "$s10ParticleAA9AAServiceC14isAAModeEnableSbyF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "enableAAMode",
+            "printedName": "enableAAMode()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC12enableAAModeyyF",
+            "mangledName": "$s10ParticleAA9AAServiceC12enableAAModeyyF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "disableAAMode",
+            "printedName": "disableAAMode()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC13disableAAModeyyF",
+            "mangledName": "$s10ParticleAA9AAServiceC13disableAAModeyyF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getSmartAccounts",
+            "printedName": "getSmartAccounts(by:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, [ParticleNetworkBase.AA.SmartAccountInfo]>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[ParticleNetworkBase.AA.SmartAccountInfo]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SmartAccountInfo",
+                        "printedName": "ParticleNetworkBase.AA.SmartAccountInfo",
+                        "usr": "s:19ParticleNetworkBase2AAO16SmartAccountInfoV"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.String]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sa"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC16getSmartAccounts2by9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitOSay0A11NetworkBase0B0O0e7AccountI0VGGSaySSG_AL0aP0C05ChainI0CSgtF",
+            "mangledName": "$s10ParticleAA9AAServiceC16getSmartAccounts2by9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitOSay0A11NetworkBase0B0O0e7AccountI0VGGSaySSG_AL0aP0C05ChainI0CSgtF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getSmartAccount",
+            "printedName": "getSmartAccount(by:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, ParticleNetworkBase.AA.SmartAccountInfo>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SmartAccountInfo",
+                    "printedName": "ParticleNetworkBase.AA.SmartAccountInfo",
+                    "usr": "s:19ParticleNetworkBase2AAO16SmartAccountInfoV"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC15getSmartAccount2by9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitO0A11NetworkBase0B0O0efI0VGSS_AL0aP0C05ChainI0CSgtF",
+            "mangledName": "$s10ParticleAA9AAServiceC15getSmartAccount2by9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitO0A11NetworkBase0B0O0efI0VGSS_AL0aP0C05ChainI0CSgtF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getAllSmartAccount",
+            "printedName": "getAllSmartAccount()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[ParticleNetworkBase.AA.SmartAccountInfo]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SmartAccountInfo",
+                    "printedName": "ParticleNetworkBase.AA.SmartAccountInfo",
+                    "usr": "s:19ParticleNetworkBase2AAO16SmartAccountInfoV"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC18getAllSmartAccountSay0A11NetworkBase0B0O0fG4InfoVGyF",
+            "mangledName": "$s10ParticleAA9AAServiceC18getAllSmartAccountSay0A11NetworkBase0B0O0fG4InfoVGyF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "saveSmartAccounts",
+            "printedName": "saveSmartAccounts(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[ParticleNetworkBase.AA.SmartAccountInfo]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SmartAccountInfo",
+                    "printedName": "ParticleNetworkBase.AA.SmartAccountInfo",
+                    "usr": "s:19ParticleNetworkBase2AAO16SmartAccountInfoV"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC17saveSmartAccountsyySay0A11NetworkBase0B0O0E11AccountInfoVGF",
+            "mangledName": "$s10ParticleAA9AAServiceC17saveSmartAccountsyySay0A11NetworkBase0B0O0E11AccountInfoVGF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "request",
+            "printedName": "request(method:bcMethod:parameters:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, ParticleNetworkBase.Response<τ_0_0>>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Response",
+                    "printedName": "ParticleNetworkBase.Response<τ_0_0>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "GenericTypeParam",
+                        "printedName": "τ_0_0"
+                      }
+                    ],
+                    "usr": "s:19ParticleNetworkBase8ResponseV"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "HTTPMethod",
+                "printedName": "Alamofire.HTTPMethod",
+                "hasDefaultArg": true,
+                "usr": "s:9Alamofire10HTTPMethodV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "hasDefaultArg": true,
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.Encodable?]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.Encodable?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Encodable",
+                        "printedName": "Swift.Encodable",
+                        "usr": "s:SE"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sa"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC7request6method8bcMethod10parameters9chainInfo7RxSwift17PrimitiveSequenceVyAI11SingleTraitO0A11NetworkBase8ResponseVyxGG9Alamofire10HTTPMethodV_SSSaySE_pSgGAN0aQ0C05ChainJ0CSgtSeRzlF",
+            "mangledName": "$s10ParticleAA9AAServiceC7request6method8bcMethod10parameters9chainInfo7RxSwift17PrimitiveSequenceVyAI11SingleTraitO0A11NetworkBase8ResponseVyxGG9Alamofire10HTTPMethodV_SSSaySE_pSgGAN0aQ0C05ChainJ0CSgtSeRzlF",
+            "moduleName": "ParticleAA",
+            "genericSig": "<τ_0_0 where τ_0_0 : Swift.Decodable>",
+            "sugared_genericSig": "<T where T : Swift.Decodable>",
+            "declAttributes": [
+              "Final"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "quickSendTransactions",
+            "printedName": "quickSendTransactions(_:feeMode:messageSigner:wholeFeeQuote:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, Swift.String>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.String]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sa"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "FeeMode",
+                "printedName": "ParticleNetworkBase.AA.FeeMode",
+                "usr": "s:19ParticleNetworkBase2AAO7FeeModeO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "MessageSigner",
+                "printedName": "ParticleNetworkBase.MessageSigner",
+                "usr": "s:19ParticleNetworkBase13MessageSignerP"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.AA.WholeFeeQuote?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "WholeFeeQuote",
+                    "printedName": "ParticleNetworkBase.AA.WholeFeeQuote",
+                    "usr": "s:19ParticleNetworkBase2AAO13WholeFeeQuoteV"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10ParticleAA9AAServiceC21quickSendTransactions_7feeMode13messageSigner13wholeFeeQuote9chainInfo7RxSwift17PrimitiveSequenceVyAI11SingleTraitOSSGSaySSG_0A11NetworkBase0B0O0lH0OAP07MessageJ0_pAR05WholelM0VSgAP0aV0C05ChainO0CSgtF",
+            "mangledName": "$s10ParticleAA9AAServiceC21quickSendTransactions_7feeMode13messageSigner13wholeFeeQuote9chainInfo7RxSwift17PrimitiveSequenceVyAI11SingleTraitOSSGSaySSG_0A11NetworkBase0B0O0lH0OAP07MessageJ0_pAR05WholelM0VSgAP0aV0C05ChainO0CSgtF",
+            "moduleName": "ParticleAA",
+            "declAttributes": [
+              "Final"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:10ParticleAA9AAServiceC",
+        "mangledName": "$s10ParticleAA9AAServiceC",
+        "moduleName": "ParticleAA",
+        "declAttributes": [
+          "Final",
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "AAServiceProtocol",
+            "printedName": "AAServiceProtocol",
+            "usr": "s:19ParticleNetworkBase17AAServiceProtocolP",
+            "mangledName": "$s19ParticleNetworkBase17AAServiceProtocolP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "DefaultsKeys",
+        "printedName": "DefaultsKeys",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "isBiconomyModeEnable",
+            "printedName": "isBiconomyModeEnable",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DefaultsKey",
+                "printedName": "SwiftyUserDefaults.DefaultsKey<Swift.Bool>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "usr": "s:18SwiftyUserDefaults0C3KeyV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:18SwiftyUserDefaults0C4KeysV10ParticleAAE20isBiconomyModeEnableAA0C3KeyVySbGvp",
+            "mangledName": "$s18SwiftyUserDefaults0C4KeysV10ParticleAAE20isBiconomyModeEnableAA0C3KeyVySbGvp",
+            "moduleName": "ParticleAA",
+            "isFromExtension": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DefaultsKey",
+                    "printedName": "SwiftyUserDefaults.DefaultsKey<Swift.Bool>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Bool",
+                        "printedName": "Swift.Bool",
+                        "usr": "s:Sb"
+                      }
+                    ],
+                    "usr": "s:18SwiftyUserDefaults0C3KeyV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:18SwiftyUserDefaults0C4KeysV10ParticleAAE20isBiconomyModeEnableAA0C3KeyVySbGvg",
+                "mangledName": "$s18SwiftyUserDefaults0C4KeysV10ParticleAAE20isBiconomyModeEnableAA0C3KeyVySbGvg",
+                "moduleName": "ParticleAA",
+                "isFromExtension": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "smartAccountContainer",
+            "printedName": "smartAccountContainer",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DefaultsKey",
+                "printedName": "SwiftyUserDefaults.DefaultsKey<[ParticleNetworkBase.AA.SmartAccountInfo]>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[ParticleNetworkBase.AA.SmartAccountInfo]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SmartAccountInfo",
+                        "printedName": "ParticleNetworkBase.AA.SmartAccountInfo",
+                        "usr": "s:19ParticleNetworkBase2AAO16SmartAccountInfoV"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "usr": "s:18SwiftyUserDefaults0C3KeyV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:18SwiftyUserDefaults0C4KeysV10ParticleAAE21smartAccountContainerAA0C3KeyVySay0E11NetworkBase0F0O05SmartH4InfoVGGvp",
+            "mangledName": "$s18SwiftyUserDefaults0C4KeysV10ParticleAAE21smartAccountContainerAA0C3KeyVySay0E11NetworkBase0F0O05SmartH4InfoVGGvp",
+            "moduleName": "ParticleAA",
+            "isFromExtension": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DefaultsKey",
+                    "printedName": "SwiftyUserDefaults.DefaultsKey<[ParticleNetworkBase.AA.SmartAccountInfo]>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Array",
+                        "printedName": "[ParticleNetworkBase.AA.SmartAccountInfo]",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "SmartAccountInfo",
+                            "printedName": "ParticleNetworkBase.AA.SmartAccountInfo",
+                            "usr": "s:19ParticleNetworkBase2AAO16SmartAccountInfoV"
+                          }
+                        ],
+                        "usr": "s:Sa"
+                      }
+                    ],
+                    "usr": "s:18SwiftyUserDefaults0C3KeyV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:18SwiftyUserDefaults0C4KeysV10ParticleAAE21smartAccountContainerAA0C3KeyVySay0E11NetworkBase0F0O05SmartH4InfoVGGvg",
+                "mangledName": "$s18SwiftyUserDefaults0C4KeysV10ParticleAAE21smartAccountContainerAA0C3KeyVySay0E11NetworkBase0F0O05SmartH4InfoVGGvg",
+                "moduleName": "ParticleAA",
+                "isFromExtension": true,
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:18SwiftyUserDefaults0C4KeysV",
+        "mangledName": "$s18SwiftyUserDefaults0C4KeysV",
+        "moduleName": "SwiftyUserDefaults",
+        "isExternal": true,
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "DefaultsKeyStore",
+            "printedName": "DefaultsKeyStore",
+            "usr": "s:18SwiftyUserDefaults0C8KeyStoreP",
+            "mangledName": "$s18SwiftyUserDefaults0C8KeyStoreP"
+          }
+        ]
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/Users\/link2\/Documents\/particle-ios-gitlab\/ParticleNetwork\/Example\/ParticleAA\/Sources\/AAService.swift",
+      "kind": "StringLiteral",
+      "offset": 353,
+      "length": 27,
+      "value": "\"network.particle.biconomy\""
+    },
+    {
+      "filePath": "\/Users\/link2\/Documents\/particle-ios-gitlab\/ParticleNetwork\/Example\/ParticleAA\/Sources\/AAService.swift",
+      "kind": "Dictionary",
+      "offset": 732,
+      "length": 3,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/link2\/Documents\/particle-ios-gitlab\/ParticleNetwork\/Example\/ParticleAA\/Sources\/AAService.swift",
+      "kind": "StringLiteral",
+      "offset": 826,
+      "length": 35,
+      "value": "\"AA service not support this chain\""
+    },
+    {
+      "filePath": "\/Users\/link2\/Documents\/particle-ios-gitlab\/ParticleNetwork\/Example\/ParticleAA\/Sources\/AAService.swift",
+      "kind": "StringLiteral",
+      "offset": 962,
+      "length": 23,
+      "value": "\"no dapp api key found\""
+    },
+    {
+      "filePath": "\/Users\/link2\/Documents\/particle-ios-gitlab\/ParticleNetwork\/Example\/ParticleAA\/Sources\/AAService.swift",
+      "kind": "Dictionary",
+      "offset": 1603,
+      "length": 3,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/link2\/Documents\/particle-ios-gitlab\/ParticleNetwork\/Example\/ParticleAA\/Sources\/AAService.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2592,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/link2\/Documents\/particle-ios-gitlab\/ParticleNetwork\/Example\/ParticleAA\/Sources\/AAService.swift",
+      "kind": "StringLiteral",
+      "offset": 3166,
+      "length": 29,
+      "value": "\"particle_aa_getSmartAccount\""
+    },
+    {
+      "filePath": "\/Users\/link2\/Documents\/particle-ios-gitlab\/ParticleNetwork\/Example\/ParticleAA\/Sources\/AAService.swift",
+      "kind": "Array",
+      "offset": 13038,
+      "length": 2,
+      "value": "[]"
+    }
+  ]
+}

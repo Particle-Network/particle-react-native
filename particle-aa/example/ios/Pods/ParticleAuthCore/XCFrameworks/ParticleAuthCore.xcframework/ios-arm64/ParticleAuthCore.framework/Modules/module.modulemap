@@ -1,0 +1,11 @@
+framework module ParticleAuthCore {
+  umbrella header "ParticleAuthCore.h"
+  export *
+
+  module * { export * }
+}
+
+module ParticleAuthCore.Swift {
+  header "ParticleAuthCore-Swift.h"
+  requires objc
+}

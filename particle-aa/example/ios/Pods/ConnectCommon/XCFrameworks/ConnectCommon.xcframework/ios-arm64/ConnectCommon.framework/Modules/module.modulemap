@@ -1,0 +1,4 @@
+framework module ConnectCommon {
+  header "ConnectCommon-Swift.h"
+  requires objc
+}

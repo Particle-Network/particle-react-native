@@ -1,0 +1,6 @@
+framework module react_native_particle_auth_core {
+  umbrella header "react-native-particle-auth-core-umbrella.h"
+
+  export *
+  module * { export * }
+}

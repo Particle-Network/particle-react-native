@@ -1,0 +1,11 @@
+framework module AuthCoreAdapter {
+  umbrella header "AuthCoreAdapter.h"
+  export *
+
+  module * { export * }
+}
+
+module AuthCoreAdapter.Swift {
+  header "AuthCoreAdapter-Swift.h"
+  requires objc
+}

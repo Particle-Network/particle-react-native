@@ -1,0 +1,6 @@
+framework module Pods_ParticleAAExample_ParticleAAExampleTests {
+  umbrella header "Pods-ParticleAAExample-ParticleAAExampleTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

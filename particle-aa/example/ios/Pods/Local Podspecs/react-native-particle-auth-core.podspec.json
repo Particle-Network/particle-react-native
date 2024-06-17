@@ -1,0 +1,33 @@
+{
+  "name": "react-native-particle-auth-core",
+  "version": "1.4.8",
+  "summary": "@particle-network/rn-auth-core",
+  "homepage": "https://particle.network#readme",
+  "license": "MIT",
+  "authors": "Particle <xuxihong@minijoy.work> (https://particle.network)",
+  "platforms": {
+    "ios": "14.0"
+  },
+  "source": {
+    "git": "https://github.com/Particle-Network/particle-react-native.git",
+    "tag": "1.4.8"
+  },
+  "source_files": "ios/**/*.{h,m,mm,swift}",
+  "dependencies": {
+    "React-Core": [
+
+    ],
+    "Thresh": [
+
+    ],
+    "ParticleMPCCore": [
+
+    ],
+    "ParticleAuthCore": [
+
+    ],
+    "AuthCoreAdapter": [
+
+    ]
+  }
+}

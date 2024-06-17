@@ -1,0 +1,11 @@
+framework module ParticleAA {
+  umbrella header "ParticleAA.h"
+  export *
+
+  module * { export * }
+}
+
+module ParticleAA.Swift {
+  header "ParticleAA-Swift.h"
+  requires objc
+}

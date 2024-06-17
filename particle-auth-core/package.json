@@ -161,6 +161,6 @@
     ]
   },
   "dependencies": {
-    "@particle-network/rn-auth": "1.4.12"
+    "@particle-network/rn-base": "git+https://github.com/Particle-Network/particle-react-native.git#branch-1.5.0:path/to/your-package"
   }
 }

@@ -1,0 +1,1573 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)
+// swift-module-flags: -target arm64-apple-ios14.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name ParticleNetworkBase
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import Base58_swift
+import CryptoSwift
+import Foundation
+import RxSwift
+import SafariServices
+import Swift
+import SwiftyJSON
+import SwiftyUserDefaults
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@objc public enum SocialLoginPrompt : Swift.Int, Swift.RawRepresentable {
+  case null
+  case none
+  case consent
+  case selectAccount
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public protocol AAServiceProtocol {
+  func rpcGetSmartAccount(eoaAddresses: [Swift.String], chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<[ParticleNetworkBase.AA.SmartAccountInfo]>
+  func rpcGetFeeQuotes(eoaAddress: Swift.String, transactions: [Swift.String], chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<ParticleNetworkBase.AA.WholeFeeQuote>
+  func rpcCreateUserOp(eoaAddress: Swift.String, transactions: [Swift.String], feeQuote: ParticleNetworkBase.AA.FeeQuote, tokenPaymasterAddress: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<ParticleNetworkBase.AA.UserOp>
+  func rpcSendUserOp(eoaAddress: Swift.String, userOp: SwiftyJSON.JSON, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  func isDeploy(eoaAddress: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.Bool>
+  func deployWalletContract(messageSigner: any ParticleNetworkBase.MessageSigner, feeMode: ParticleNetworkBase.AA.FeeMode, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  func isAAModeEnable() -> Swift.Bool
+  func enableAAMode()
+  func disableAAMode()
+  func getSmartAccount(by eosAddress: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<ParticleNetworkBase.AA.SmartAccountInfo>
+  func getSmartAccounts(by publicAddresses: [Swift.String], chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<[ParticleNetworkBase.AA.SmartAccountInfo]>
+  func quickSendTransactions(_ transactions: [Swift.String], feeMode: ParticleNetworkBase.AA.FeeMode, messageSigner: any ParticleNetworkBase.MessageSigner, wholeFeeQuote: ParticleNetworkBase.AA.WholeFeeQuote?, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  func isSupportChainInfo(_ chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo) -> Swift.Bool
+  func getSupportChainInfos() -> [ParticleNetworkBase.ParticleNetwork.ChainInfo]
+}
+public protocol MessageSigner {
+  func signMessage(_ message: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  func getEoaAddress() -> Swift.String
+}
+extension ParticleNetworkBase.ParticleNetwork {
+  public struct ResponseError : Swift.Codable, Swift.Equatable, Swift.Error, Swift.CustomStringConvertible {
+    public let code: Swift.Int?
+    public let message: Swift.String?
+    public var data: Swift.String?
+    public init(code: Swift.Int?, message: Swift.String?, data: Swift.String? = nil)
+    public enum CodingKeys : Swift.String, Swift.CodingKey {
+      case code, message, data
+      public init?(rawValue: Swift.String)
+      public init?(stringValue: Swift.String)
+      public init?(intValue: Swift.Int)
+      public typealias RawValue = Swift.String
+      public var intValue: Swift.Int? {
+        get
+      }
+      public var rawValue: Swift.String {
+        get
+      }
+      public var stringValue: Swift.String {
+        get
+      }
+    }
+    public init(from decoder: any Swift.Decoder) throws
+    public var description: Swift.String {
+      get
+    }
+    public var localizedDescription: Swift.String {
+      get
+    }
+    public static let requestRejected: ParticleNetworkBase.ParticleNetwork.ResponseError
+    public static let userCancel: ParticleNetworkBase.ParticleNetwork.ResponseError
+    public static let userNotLogin: ParticleNetworkBase.ParticleNetwork.ResponseError
+    public static let invalidRequest: ParticleNetworkBase.ParticleNetwork.ResponseError
+    public static let nullResult: ParticleNetworkBase.ParticleNetwork.ResponseError
+    public static func == (a: ParticleNetworkBase.ParticleNetwork.ResponseError, b: ParticleNetworkBase.ParticleNetwork.ResponseError) -> Swift.Bool
+    public func encode(to encoder: any Swift.Encoder) throws
+  }
+}
+public typealias Limbs = [Swift.UInt64]
+public typealias Limb = Swift.UInt64
+public typealias Digits = [Swift.UInt64]
+public typealias Digit = Swift.UInt64
+public typealias Bytes = [Swift.UInt8]
+public typealias Byte = Swift.UInt8
+precedencegroup ExponentiationPrecedence {
+  associativity: left
+  higherThan: MultiplicationPrecedence
+  lowerThan: BitwiseShiftPrecedence
+}
+infix operator ** : ExponentiationPrecedence
+public struct BInt : Swift.SignedNumeric, Swift.BinaryInteger, Swift.ExpressibleByFloatLiteral, Swift.Codable {
+  public typealias Magnitude = ParticleNetworkBase.BInt
+  public var magnitude: ParticleNetworkBase.BInt {
+    get
+  }
+  public typealias Words = [Swift.UInt]
+  public var words: ParticleNetworkBase.BInt.Words {
+    get
+  }
+  public var size: Swift.Int {
+    get
+  }
+  public var sizeDescription: Swift.String {
+    get
+  }
+  public static var stringPrefixes: [Swift.Int : Swift.String]
+  public init(_ z: Swift.Int)
+  public init(_ n: Swift.UInt)
+  public init?(_ number: Swift.String, radix: Swift.Int = 10)
+  public init(floatLiteral value: Swift.Double)
+  public init(integerLiteral value: Swift.Int)
+  public init?<T>(exactly source: T) where T : Swift.BinaryInteger
+  public init<T>(_ source: T) where T : Swift.BinaryFloatingPoint
+  public init<T>(_ source: T) where T : Swift.BinaryInteger
+  public init<T>(clamping source: T) where T : Swift.BinaryInteger
+  public init?<T>(exactly source: T) where T : Swift.BinaryFloatingPoint
+  public init<T>(truncatingIfNeeded source: T) where T : Swift.BinaryInteger
+  public init(bytes: ParticleNetworkBase.Bytes)
+  public var description: Swift.String {
+    get
+  }
+  public func asString(radix: Swift.Int) -> Swift.String
+  public func asInt() -> Swift.Int?
+  public var rawValue: (sign: Swift.Bool, limbs: [Swift.UInt64]) {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public static var isSigned: Swift.Bool {
+    get
+  }
+  public var bitWidth: Swift.Int {
+    get
+  }
+  public func signum() -> ParticleNetworkBase.BInt
+  public var trailingZeroBitCount: Swift.Int {
+    get
+  }
+  public func getBytes() -> ParticleNetworkBase.Bytes
+  public static func << <T>(lhs: ParticleNetworkBase.BInt, rhs: T) -> ParticleNetworkBase.BInt where T : Swift.BinaryInteger
+  public static func <<= <T>(lhs: inout ParticleNetworkBase.BInt, rhs: T) where T : Swift.BinaryInteger
+  public static func >> <T>(lhs: ParticleNetworkBase.BInt, rhs: T) -> ParticleNetworkBase.BInt where T : Swift.BinaryInteger
+  public static func >>= <T>(lhs: inout ParticleNetworkBase.BInt, rhs: T) where T : Swift.BinaryInteger
+  public static func & (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BInt
+  public static func &= (lhs: inout ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt)
+  public static func | (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BInt
+  public static func |= (lhs: inout ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt)
+  public static func ^ (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BInt
+  public static func ^= (lhs: inout ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt)
+  prefix public static func ~ (x: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BInt
+  prefix public static func + (x: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BInt
+  public static func += (lhs: inout ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt)
+  public static func + (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BInt
+  public static func + (lhs: Swift.Int, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BInt
+  public static func + (lhs: ParticleNetworkBase.BInt, rhs: Swift.Int) -> ParticleNetworkBase.BInt
+  public static func += (lhs: inout Swift.Int, rhs: ParticleNetworkBase.BInt)
+  public static func += (lhs: inout ParticleNetworkBase.BInt, rhs: Swift.Int)
+  public mutating func negate()
+  prefix public static func - (n: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BInt
+  public static func - (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BInt
+  public static func - (lhs: Swift.Int, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BInt
+  public static func - (lhs: ParticleNetworkBase.BInt, rhs: Swift.Int) -> ParticleNetworkBase.BInt
+  public static func -= (lhs: inout ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt)
+  public static func -= (lhs: inout Swift.Int, rhs: ParticleNetworkBase.BInt)
+  public static func -= (lhs: inout ParticleNetworkBase.BInt, rhs: Swift.Int)
+  public static func * (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BInt
+  public static func * (lhs: Swift.Int, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BInt
+  public static func * (lhs: ParticleNetworkBase.BInt, rhs: Swift.Int) -> ParticleNetworkBase.BInt
+  public static func *= (lhs: inout ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt)
+  public static func *= (lhs: inout Swift.Int, rhs: ParticleNetworkBase.BInt)
+  public static func *= (lhs: inout ParticleNetworkBase.BInt, rhs: Swift.Int)
+  public static func ** (lhs: ParticleNetworkBase.BInt, rhs: Swift.Int) -> ParticleNetworkBase.BInt
+  public static func ** (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BInt
+  public func factorial() -> ParticleNetworkBase.BInt
+  public func quotientAndRemainder(dividingBy rhs: ParticleNetworkBase.BInt) -> (quotient: ParticleNetworkBase.BInt, remainder: ParticleNetworkBase.BInt)
+  public static func / (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BInt
+  public static func /= (lhs: inout ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt)
+  public static func % (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BInt
+  public static func %= (lhs: inout ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt)
+  public static func == (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt) -> Swift.Bool
+  public static func < (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt) -> Swift.Bool
+  public static func > (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt) -> Swift.Bool
+  public static func <= (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt) -> Swift.Bool
+  public static func >= (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BInt) -> Swift.Bool
+  public typealias FloatLiteralType = Swift.Double
+  public typealias IntegerLiteralType = Swift.Int
+  public typealias Stride = Swift.Int
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct BDouble : Swift.ExpressibleByIntegerLiteral, Swift.ExpressibleByFloatLiteral, Swift.CustomStringConvertible, Swift.SignedNumeric, Swift.Comparable, Swift.Hashable, Swift.Codable {
+  public var sign: Swift.Bool {
+    get
+  }
+  public var numerator: ParticleNetworkBase.Limbs {
+    get
+  }
+  public var denominator: ParticleNetworkBase.Limbs {
+    get
+  }
+  public typealias Magnitude = Swift.Double
+  public var magnitude: Swift.Double
+  public init?<T>(exactly source: T) where T : Swift.BinaryInteger
+  public init(_ src: ParticleNetworkBase.BInt)
+  public init(sign: Swift.Bool, numerator: ParticleNetworkBase.Limbs, denominator: ParticleNetworkBase.Limbs)
+  public init(_ numerator: ParticleNetworkBase.BInt, over denominator: ParticleNetworkBase.BInt)
+  public init(_ numerator: Swift.Int, over denominator: Swift.Int)
+  public init?(_ numerator: Swift.String, over denominator: Swift.String)
+  public init?(_ nStr: Swift.String)
+  public init?(_ nStr: Swift.String, radix: Swift.Int)
+  public init(_ z: Swift.Int)
+  public init(_ d: Swift.Double)
+  public init(integerLiteral value: Swift.Int)
+  public init(floatLiteral value: Swift.Double)
+  public var description: Swift.String {
+    get
+  }
+  public var fractionDescription: Swift.String {
+    get
+  }
+  public static var precision: Swift.Int {
+    get
+    set
+  }
+  public var precision: Swift.Int {
+    get
+    set
+  }
+  public var decimalDescription: Swift.String {
+    get
+  }
+  public func decimalExpansion(precisionAfterDecimalPoint precision: Swift.Int, rounded: Swift.Bool = true) -> Swift.String
+  public func hash(into hasher: inout Swift.Hasher)
+  public var size: Swift.Int {
+    get
+  }
+  public var sizeDescription: Swift.String {
+    get
+  }
+  public func rawData() -> (sign: Swift.Bool, numerator: [Swift.UInt64], denominator: [Swift.UInt64])
+  public func isPositive() -> Swift.Bool
+  public func isNegative() -> Swift.Bool
+  public func isZero() -> Swift.Bool
+  public mutating func minimize()
+  public func rounded() -> ParticleNetworkBase.BInt
+  public func nthroot(_ root: Swift.Int) -> ParticleNetworkBase.BDouble
+  public func squareRoot() -> ParticleNetworkBase.BDouble
+  public static func + (lhs: ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+  public static func + (lhs: ParticleNetworkBase.BDouble, rhs: Swift.Double) -> ParticleNetworkBase.BDouble
+  public static func + (lhs: Swift.Double, rhs: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+  public static func + (lhs: ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BDouble
+  public static func + (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+  public static func += (lhs: inout ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BDouble)
+  public static func += (lhs: inout ParticleNetworkBase.BDouble, rhs: Swift.Double)
+  public mutating func negate()
+  prefix public static func - (n: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+  public static func - (lhs: ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+  public static func - (lhs: ParticleNetworkBase.BDouble, rhs: Swift.Double) -> ParticleNetworkBase.BDouble
+  public static func - (lhs: Swift.Double, rhs: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+  public static func - (lhs: ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BDouble
+  public static func -= (lhs: inout ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BDouble)
+  public static func -= (lhs: inout ParticleNetworkBase.BDouble, rhs: Swift.Double)
+  public static func * (lhs: ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+  public static func * (lhs: ParticleNetworkBase.BDouble, rhs: Swift.Double) -> ParticleNetworkBase.BDouble
+  public static func * (lhs: Swift.Double, rhs: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+  public static func * (lhs: ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BDouble
+  public static func * (lhs: ParticleNetworkBase.BInt, rhs: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+  public static func *= (lhs: inout ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BDouble)
+  public static func *= (lhs: inout ParticleNetworkBase.BDouble, rhs: Swift.Double)
+  public static func ** (base: ParticleNetworkBase.BDouble, exponent: Swift.Int) -> ParticleNetworkBase.BDouble
+  public static func ** (base: ParticleNetworkBase.BDouble, exponent: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BDouble
+  public static func ** (base: ParticleNetworkBase.BDouble, exponent: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+  public static func / (lhs: ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+  public static func / (lhs: ParticleNetworkBase.BDouble, rhs: Swift.Double) -> ParticleNetworkBase.BDouble
+  public static func / (lhs: ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BDouble
+  public static func / (lhs: Swift.Double, rhs: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+  public static func % (lhs: ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+  public static func % (lhs: ParticleNetworkBase.BDouble, rhs: Swift.Double) -> ParticleNetworkBase.BDouble
+  public static func % (lhs: Swift.Double, rhs: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+  public static func nearlyEqual(_ lhs: ParticleNetworkBase.BDouble, _ rhs: ParticleNetworkBase.BDouble, epsilon: Swift.Double = 0.00001) -> Swift.Bool
+  public static func == (lhs: ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BDouble) -> Swift.Bool
+  public static func == (lhs: ParticleNetworkBase.BDouble, rhs: Swift.Double) -> Swift.Bool
+  public static func == (lhs: Swift.Double, rhs: ParticleNetworkBase.BDouble) -> Swift.Bool
+  public static func != (lhs: ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BDouble) -> Swift.Bool
+  public static func != (lhs: ParticleNetworkBase.BDouble, rhs: Swift.Double) -> Swift.Bool
+  public static func != (lhs: Swift.Double, rhs: ParticleNetworkBase.BDouble) -> Swift.Bool
+  public static func < (lhs: ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BDouble) -> Swift.Bool
+  public static func < (lhs: ParticleNetworkBase.BDouble, rhs: Swift.Double) -> Swift.Bool
+  public static func < (lhs: Swift.Double, rhs: ParticleNetworkBase.BDouble) -> Swift.Bool
+  public static func > (lhs: ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BDouble) -> Swift.Bool
+  public static func > (lhs: ParticleNetworkBase.BDouble, rhs: Swift.Double) -> Swift.Bool
+  public static func > (lhs: Swift.Double, rhs: ParticleNetworkBase.BDouble) -> Swift.Bool
+  public static func <= (lhs: ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BDouble) -> Swift.Bool
+  public static func <= (lhs: ParticleNetworkBase.BDouble, rhs: Swift.Double) -> Swift.Bool
+  public static func <= (lhs: Swift.Double, rhs: ParticleNetworkBase.BDouble) -> Swift.Bool
+  public static func >= (lhs: ParticleNetworkBase.BDouble, rhs: ParticleNetworkBase.BDouble) -> Swift.Bool
+  public static func >= (lhs: ParticleNetworkBase.BDouble, rhs: Swift.Double) -> Swift.Bool
+  public static func >= (lhs: Swift.Double, rhs: ParticleNetworkBase.BDouble) -> Swift.Bool
+  public typealias FloatLiteralType = Swift.Double
+  public typealias IntegerLiteralType = Swift.Int
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public func abs(_ x: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+public func floor(_ base: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BInt
+public func ceil(_ base: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BInt
+public func pow(_ base: ParticleNetworkBase.BDouble, _ exp: Swift.Int) -> ParticleNetworkBase.BDouble
+public func pow(_ base: ParticleNetworkBase.BDouble, _ exp: ParticleNetworkBase.BInt) -> ParticleNetworkBase.BDouble
+public func pow(_ base: ParticleNetworkBase.BDouble, _ exp: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+public func min(_ lhs: ParticleNetworkBase.BDouble, _ rhs: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+public func max(_ lhs: ParticleNetworkBase.BDouble, _ rhs: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+public func mod(_ lhs: ParticleNetworkBase.BDouble, _ rhs: ParticleNetworkBase.BDouble) -> ParticleNetworkBase.BDouble
+public protocol TxDataCodable : Swift.Decodable, Swift.Encodable {
+  func serialize() throws -> Swift.String
+  init?(_ hexString: Swift.String) throws
+}
+extension ParticleNetworkBase.TxDataCodable {
+  public func serialize() throws -> Swift.String
+  public init?(_ hexString: Swift.String) throws
+}
+@objc public enum Action : Swift.Int, Swift.RawRepresentable, Swift.Codable {
+  case normal
+  case speedup
+  case cancel
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc public enum GasLevel : Swift.Int, Swift.RawRepresentable, Swift.Codable {
+  case none = 0
+  case custom
+  case low
+  case medium
+  case high
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc final public class FeeMarketEIP1559TxData : ObjectiveC.NSObject, Swift.Codable, ParticleNetworkBase.TxDataCodable {
+  final public let maxPriorityFeePerGas: Swift.String
+  final public let maxFeePerGas: Swift.String
+  final public let nonce: Swift.String
+  final public let gasLimit: Swift.String
+  final public var gas: Swift.String?
+  final public let from: Swift.String
+  final public let to: Swift.String?
+  final public let value: Swift.String
+  final public let data: Swift.String
+  final public let chainId: Swift.String
+  final public let type: Swift.String
+  final public let v: Swift.String?
+  final public let r: Swift.String?
+  final public let s: Swift.String?
+  final public let action: Swift.String
+  final public let gasLevel: Swift.String?
+  @objc public init(maxPriorityFeePerGas: Swift.String, maxFeePerGas: Swift.String, nonce: Swift.String = "0x0", gasLimit: Swift.String, from: Swift.String, to: Swift.String?, value: Swift.String, data: Swift.String, chainId: Swift.String, v: Swift.String? = nil, r: Swift.String? = nil, s: Swift.String? = nil, action: ParticleNetworkBase.Action = Action.normal, gasLevel: ParticleNetworkBase.GasLevel = GasLevel.none)
+  @objc final public func serialize() throws -> Swift.String
+  @objc public init(_ hexString: Swift.String) throws
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+@objc final public class AccessListEIP2930TxData : ObjectiveC.NSObject, Swift.Codable, ParticleNetworkBase.TxDataCodable {
+  final public let gasPrice: Swift.String
+  final public let accessList: ParticleNetworkBase.AccessList?
+  final public let nonce: Swift.String
+  final public let gasLimit: Swift.String
+  final public var gas: Swift.String?
+  final public let from: Swift.String
+  final public let to: Swift.String?
+  final public let value: Swift.String
+  final public let data: Swift.String
+  final public let chainId: Swift.String
+  final public let type: Swift.String
+  final public let v: Swift.String?
+  final public let r: Swift.String?
+  final public let s: Swift.String?
+  final public let action: Swift.String
+  final public let gasLevel: Swift.String?
+  @objc public init(gasPrice: Swift.String, accessList: ParticleNetworkBase.AccessList?, nonce: Swift.String = "0x0", gasLimit: Swift.String, from: Swift.String, to: Swift.String?, value: Swift.String, data: Swift.String, chainId: Swift.String, v: Swift.String? = nil, r: Swift.String? = nil, s: Swift.String? = nil, action: ParticleNetworkBase.Action = .normal, gasLevel: ParticleNetworkBase.GasLevel = .none)
+  @objc final public func serialize() throws -> Swift.String
+  @objc public init(_ hexString: Swift.String) throws
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+@objc public class AccessList : ObjectiveC.NSObject, Swift.Codable {
+  @objc public init(address: Swift.String, storageKeys: [Swift.String])
+  @objc deinit
+  public func encode(to encoder: any Swift.Encoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
+}
+@objc final public class TxData : ObjectiveC.NSObject, Swift.Codable, ParticleNetworkBase.TxDataCodable {
+  final public let gasPrice: Swift.String
+  final public let nonce: Swift.String
+  final public let gasLimit: Swift.String
+  final public var gas: Swift.String?
+  final public let from: Swift.String
+  final public let to: Swift.String?
+  final public let value: Swift.String
+  final public let data: Swift.String
+  final public let chainId: Swift.String
+  final public let type: Swift.String
+  final public let v: Swift.String?
+  final public let r: Swift.String?
+  final public let s: Swift.String?
+  final public let action: Swift.String
+  final public let gasLevel: Swift.String?
+  @objc public init(gasPrice: Swift.String, nonce: Swift.String = "0x0", gasLimit: Swift.String, from: Swift.String, to: Swift.String?, value: Swift.String, data: Swift.String, chainId: Swift.String, v: Swift.String? = nil, r: Swift.String? = nil, s: Swift.String? = nil, action: ParticleNetworkBase.Action = .normal, gasLevel: ParticleNetworkBase.GasLevel = .none)
+  @objc final public func serialize() throws -> Swift.String
+  @objc public init(_ hexString: Swift.String) throws
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum Language : Swift.String {
+  case en
+  case zh_Hans
+  case zh_Hant
+  case ja
+  case ko
+  public var localString: Swift.String {
+    get
+  }
+  public var webString: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@frozen @objc public enum LoginType : Swift.Int, Swift.RawRepresentable {
+  case email
+  case phone
+  case google
+  case facebook
+  case apple
+  case twitter
+  case discord
+  case github
+  case twitch
+  case microsoft
+  case linkedin
+  case jwt
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public typealias Decimals = Swift.UInt8
+public struct Request : Swift.Encodable {
+  public init(method: Swift.String, params: [any Swift.Encodable], id: Swift.String = UUID().uuidString, jsonrpc: Swift.String = "2.0")
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct EncodableWrapper : Swift.Encodable {
+  public init(wrapped: any Swift.Encodable)
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct Response<T> : Swift.Decodable where T : Swift.Decodable {
+  public let chainId: Swift.Int?
+  public let jsonrpc: Swift.String
+  public let id: Swift.String?
+  public let result: T?
+  public var error: ParticleNetworkBase.ParticleNetwork.ResponseError?
+  public let method: Swift.String?
+  public enum CodingKeys : Swift.String, Swift.CodingKey {
+    case chainId, jsonrpc, id, result, error, method
+    public init?(rawValue: Swift.String)
+    public init?(stringValue: Swift.String)
+    public init?(intValue: Swift.Int)
+    public typealias RawValue = Swift.String
+    public var intValue: Swift.Int? {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+    public var stringValue: Swift.String {
+      get
+    }
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension ParticleNetworkBase.ParticleNetwork {
+  @_hasMissingDesignatedInitializers @objc(ChainInfo) public class ChainInfo : ObjectiveC.NSObject {
+    @objc final public let chainId: Swift.Int
+    @objc final public let name: Swift.String
+    @objc final public let chainType: ParticleNetworkBase.ChainType
+    @objc final public let chainIcon: Swift.String
+    @objc final public let nativeTokenIcon: Swift.String
+    @objc final public let uiName: Swift.String
+    @objc final public let network: Swift.String
+    @objc final public let nativeCurrency: ParticleNetworkBase.NativeCurrency
+    @objc final public let explorePath: Swift.String
+    @objc public static let ethereum: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let optimism: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let thunderCoreTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let cronos: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let bnbChain: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let oktcTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let oktc: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let confluxeSpaceTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let viction: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let victionTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let bnbChainTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let gnosis: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let solana: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let solanaTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let solanaDevnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let thunderCore: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let bobTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let heco: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let polygon: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let manta: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let xLayerTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let xLayer: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let opBNB: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let mapProtocolTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let bSquared: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let fantom: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let zkSyncEraSepolia: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let kcc: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let kccTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let zkSyncEra: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let cronosTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let pgn: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let modeTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let klaytnTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let confluxeSpace: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let metis: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let polygonzkEVM: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let coreTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let core: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let bSquaredTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let hybridTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let moonbeam: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let moonriver: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let moonbeamTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let bevmCanary: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let bevmCanaryTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let comboTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let kavaTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let kava: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let peaqKrest: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let polygonzkEVMCardona: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let ainnTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let satoshiVMTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let botanixTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let astarzkEVMMainet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let fantomTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let merlin: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let mantle: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let mantleSepoliaTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let opBNBTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let zetaChain: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let zetaChainTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let cyber: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let klaytn: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let base: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let combo: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let peaqAgungTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let gnosisTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let bevmTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let readONTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let immutablezkEVMTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let eosevmTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let ethereumHolesky: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let eosevm: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let mapProtocol: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let lumiBitTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let mode: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let arbitrumOne: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let arbitrumNova: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let celo: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let oasisEmeraldTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let oasisEmerald: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let zkFair: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let avalancheTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let avalanche: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let zkFairTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let celoTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let pgnSepolia: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let lineaSepolia: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let linea: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let bob: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let polygonAmoy: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let berachainArtio: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let blast: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let baseSepolia: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let tunaTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let xterioBNB: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let taiko: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let taikoKatla: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let taikoHekla: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let bitlayerTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let bitlayer: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let platON: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let arbitrumSepolia: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let scrollSepolia: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let scroll: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let merlinTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let zkLinkNova: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let xterioBNBTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let xterioETHTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let platONTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let xterioETH: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let mantaTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let astarzkEVMTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let zora: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let ethereumSepolia: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let optimismSepolia: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let ancient8Testnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let cyberTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let blastSepolia: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let tron: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let ancient8: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let aurora: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let auroraTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let skaleNebula: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let harmony: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let harmonyTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let tronShasta: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let tronNile: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc public static let gmNetworkTestnet: ParticleNetworkBase.ParticleNetwork.ChainInfo
+    @objc deinit
+  }
+}
+public struct SecurityAccountConfig : Swift.Encodable {
+  public var promptSettingWhenSign: Swift.Int
+  public var promptMasterPasswordSettingWhenLogin: Swift.Int
+  public init(promptSettingWhenSign: Swift.Int = 1, promptMasterPasswordSettingWhenLogin: Swift.Int = 0)
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+final public class User : Swift.Codable, Swift.Equatable, SwiftyUserDefaults.DefaultsSerializable {
+  final public let token: Swift.String
+  final public let uuid: Swift.String
+  final public let deviceId: Swift.String
+  final public let wallets: [ParticleNetworkBase.Wallet]
+  final public var securityAccount: ParticleNetworkBase.SecurityAccount?
+  final public var avatar: Swift.String?
+  final public var createdAt: Swift.String?
+  final public var updateAt: Swift.String?
+  final public var email: Swift.String?
+  final public var appleEmail: Swift.String?
+  final public var appleId: Swift.String?
+  final public var facebookEmail: Swift.String?
+  final public var facebookId: Swift.String?
+  final public var googleEmail: Swift.String?
+  final public var googleId: Swift.String?
+  final public var name: Swift.String?
+  final public var phone: Swift.String?
+  final public var twitterId: Swift.String?
+  final public var twitterEmail: Swift.String?
+  final public var discordId: Swift.String?
+  final public var discordEmail: Swift.String?
+  final public var githubId: Swift.String?
+  final public var githubEmail: Swift.String?
+  final public var twitchId: Swift.String?
+  final public var twitchEmail: Swift.String?
+  final public var microsoftId: Swift.String?
+  final public var microsoftEmail: Swift.String?
+  final public var linkedinId: Swift.String?
+  final public var linkedinEmail: Swift.String?
+  final public var thirdParty: ParticleNetworkBase.ThirdParty?
+  final public var signature: Swift.String?
+  final public var message: Swift.String?
+  final public var jwtId: Swift.String?
+  public init(from decoder: any Swift.Decoder) throws
+  public init(deviceId: Swift.String, token: Swift.String, uuid: Swift.String, wallets: [ParticleNetworkBase.Wallet])
+  public static func == (lhs: ParticleNetworkBase.User, rhs: ParticleNetworkBase.User) -> Swift.Bool
+  public struct UserSnakeCase : Swift.Codable {
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public typealias ArrayBridge = SwiftyUserDefaults.DefaultsCodableBridge<[ParticleNetworkBase.User]>
+  public typealias Bridge = SwiftyUserDefaults.DefaultsCodableBridge<ParticleNetworkBase.User>
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+final public class SecurityAccount : Swift.Codable, SwiftyUserDefaults.DefaultsSerializable {
+  final public var email: Swift.String?
+  final public var phone: Swift.String?
+  final public var hasSetPaymentPassword: Swift.Bool
+  final public var hasSetMasterPassword: Swift.Bool
+  public init(email: Swift.String?, phone: Swift.String?, hasSetPaymentPassword: Swift.Bool, hasSetMasterPassword: Swift.Bool)
+  public init(from decoder: any Swift.Decoder) throws
+  public typealias ArrayBridge = SwiftyUserDefaults.DefaultsCodableBridge<[ParticleNetworkBase.SecurityAccount]>
+  public typealias Bridge = SwiftyUserDefaults.DefaultsCodableBridge<ParticleNetworkBase.SecurityAccount>
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+final public class Wallet : Swift.Encodable, Swift.Decodable, Swift.Equatable, SwiftyUserDefaults.DefaultsSerializable {
+  final public let uuid: Swift.String
+  final public let chainName: Swift.String
+  final public let publicAddress: Swift.String
+  public static func == (lhs: ParticleNetworkBase.Wallet, rhs: ParticleNetworkBase.Wallet) -> Swift.Bool
+  public init(uuid: Swift.String, chainName: Swift.String, publicAddress: Swift.String)
+  public init(from decoder: any Swift.Decoder) throws
+  public typealias ArrayBridge = SwiftyUserDefaults.DefaultsCodableBridge<[ParticleNetworkBase.Wallet]>
+  public typealias Bridge = SwiftyUserDefaults.DefaultsCodableBridge<ParticleNetworkBase.Wallet>
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+final public class ThirdParty : Swift.Codable, SwiftyUserDefaults.DefaultsSerializable {
+  final public var provider: Swift.String?
+  final public var userInfo: ParticleNetworkBase.ThirdParty.UserInfo?
+  public class UserInfo : Swift.Codable, SwiftyUserDefaults.DefaultsSerializable {
+    public var id: Swift.String?
+    public var name: Swift.String?
+    public var email: Swift.String?
+    public var picture: Swift.String?
+    public init(id: Swift.String?, name: Swift.String?, email: Swift.String?, picture: Swift.String?)
+    required public init(from decoder: any Swift.Decoder) throws
+    public typealias ArrayBridge = SwiftyUserDefaults.DefaultsCodableBridge<[ParticleNetworkBase.ThirdParty.UserInfo]>
+    public typealias Bridge = SwiftyUserDefaults.DefaultsCodableBridge<ParticleNetworkBase.ThirdParty.UserInfo>
+    @objc deinit
+    public func encode(to encoder: any Swift.Encoder) throws
+  }
+  public init(provider: Swift.String?, userInfo: ParticleNetworkBase.ThirdParty.UserInfo?)
+  public init(from decoder: any Swift.Decoder) throws
+  public typealias ArrayBridge = SwiftyUserDefaults.DefaultsCodableBridge<[ParticleNetworkBase.ThirdParty]>
+  public typealias Bridge = SwiftyUserDefaults.DefaultsCodableBridge<ParticleNetworkBase.ThirdParty>
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+@objc public class UserInfo : ObjectiveC.NSObject, Swift.Codable {
+  @objc public var token: Swift.String
+  @objc final public let uuid: Swift.String
+  @objc final public let wallets: [ParticleNetworkBase.WalletInfo]
+  @objc public var securityAccount: ParticleNetworkBase.SecurityAccountInfo?
+  @objc final public let avatar: Swift.String?
+  @objc final public let createdAt: Swift.String?
+  @objc final public let updatedAt: Swift.String?
+  @objc final public let email: Swift.String?
+  @objc final public let appleEmail: Swift.String?
+  @objc final public let appleId: Swift.String?
+  @objc final public let facebookEmail: Swift.String?
+  @objc final public let facebookId: Swift.String?
+  @objc final public let googleEmail: Swift.String?
+  @objc final public let googleId: Swift.String?
+  @objc final public let name: Swift.String?
+  @objc final public let phone: Swift.String?
+  @objc public var twitterId: Swift.String?
+  @objc public var twitterEmail: Swift.String?
+  @objc final public let discordId: Swift.String?
+  @objc final public let discordEmail: Swift.String?
+  @objc final public let githubId: Swift.String?
+  @objc final public let githubEmail: Swift.String?
+  @objc final public let twitchId: Swift.String?
+  @objc final public let twitchEmail: Swift.String?
+  @objc final public let microsoftId: Swift.String?
+  @objc final public let microsoftEmail: Swift.String?
+  @objc final public let linkedinId: Swift.String?
+  @objc final public let linkedinEmail: Swift.String?
+  @objc public var thirdParty: ParticleNetworkBase.ThirdPartyWarpper?
+  @objc public var signature: Swift.String?
+  @objc public var message: Swift.String?
+  @objc public var jwtId: Swift.String?
+  public enum CodingKeys : Swift.String, Swift.CodingKey {
+    case uuid, phone, email, name, avatar, signature, message
+    case createdAt
+    case updatedAt
+    case facebookId
+    case facebookEmail
+    case googleId
+    case googleEmail
+    case appleId
+    case appleEmail
+    case twitterId
+    case twitterEmail
+    case discordId
+    case discordEmail
+    case githubId
+    case githubEmail
+    case twitchId
+    case twitchEmail
+    case microsoftId
+    case microsoftEmail
+    case linkedinId
+    case linkedinEmail
+    case thirdParty
+    case wallets
+    case token
+    case securityAccount
+    case jwtId
+    public init?(rawValue: Swift.String)
+    public init?(stringValue: Swift.String)
+    public init?(intValue: Swift.Int)
+    public typealias RawValue = Swift.String
+    public var intValue: Swift.Int? {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+    public var stringValue: Swift.String {
+      get
+    }
+  }
+  @objc public init(token: Swift.String, uuid: Swift.String, wallets: [ParticleNetworkBase.WalletInfo], securityAccount: ParticleNetworkBase.SecurityAccountInfo?, avatar: Swift.String?, createdAt: Swift.String?, updatedAt: Swift.String?, email: Swift.String?, appleEmail: Swift.String?, appleId: Swift.String?, facebookEmail: Swift.String?, facebookId: Swift.String?, googleEmail: Swift.String?, googleId: Swift.String?, name: Swift.String?, phone: Swift.String?, twitterId: Swift.String?, twitterEmail: Swift.String?, discordId: Swift.String?, discordEmail: Swift.String?, githubId: Swift.String?, githubEmail: Swift.String?, twitchId: Swift.String?, twitchEmail: Swift.String?, microsoftId: Swift.String?, microsoftEmail: Swift.String?, linkedinId: Swift.String?, linkedinEmail: Swift.String?, thirdParty: ParticleNetworkBase.ThirdPartyWarpper?, signature: Swift.String?, message: Swift.String?, jwtId: Swift.String?)
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  public func convertToSnakeCase() -> ParticleNetworkBase.User.UserSnakeCase
+  public func jsonStringFullSnake() -> Swift.String
+  public func jsonStringSnake() -> Swift.String?
+  @objc deinit
+  public func encode(to encoder: any Swift.Encoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
+}
+@objc public class SecurityAccountInfo : ObjectiveC.NSObject, Swift.Codable {
+  @objc public var email: Swift.String?
+  @objc public var phone: Swift.String?
+  @objc public var hasSetPaymentPassword: Swift.Bool
+  @objc public var hasSetMasterPassword: Swift.Bool
+  public enum CodingKeys : Swift.String, Swift.CodingKey {
+    case email, phone
+    case hasSetMasterPassword
+    case hasSetPaymentPassword
+    public init?(rawValue: Swift.String)
+    public init?(stringValue: Swift.String)
+    public init?(intValue: Swift.Int)
+    public typealias RawValue = Swift.String
+    public var intValue: Swift.Int? {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+    public var stringValue: Swift.String {
+      get
+    }
+  }
+  @objc public init(email: Swift.String?, phone: Swift.String?, hasSetPaymentPassword: Swift.Bool, hasSetMasterPassword: Swift.Bool)
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+  public func encode(to encoder: any Swift.Encoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
+}
+@objc public class WalletInfo : ObjectiveC.NSObject, Swift.Codable {
+  @objc final public let uuid: Swift.String
+  @objc final public let chainName: Swift.String
+  @objc final public let publicAddress: Swift.String
+  public enum CodingKeys : Swift.String, Swift.CodingKey {
+    case uuid
+    case chainName
+    case publicAddress
+    public init?(rawValue: Swift.String)
+    public init?(stringValue: Swift.String)
+    public init?(intValue: Swift.Int)
+    public typealias RawValue = Swift.String
+    public var intValue: Swift.Int? {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+    public var stringValue: Swift.String {
+      get
+    }
+  }
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc public init(uuid: Swift.String, chainName: Swift.String, publicAddress: Swift.String)
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+@objc public class ThirdPartyWarpper : ObjectiveC.NSObject, Swift.Codable {
+  @objc final public let provider: Swift.String?
+  @objc final public let userInfo: ParticleNetworkBase.ThirdPartyUserInfoWarpper?
+  public enum CodingKeys : Swift.String, Swift.CodingKey {
+    case provider
+    case userInfo
+    public init?(rawValue: Swift.String)
+    public init?(stringValue: Swift.String)
+    public init?(intValue: Swift.Int)
+    public typealias RawValue = Swift.String
+    public var intValue: Swift.Int? {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+    public var stringValue: Swift.String {
+      get
+    }
+  }
+  @objc public init(provider: Swift.String?, userInfo: ParticleNetworkBase.ThirdPartyUserInfoWarpper?)
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+  public func encode(to encoder: any Swift.Encoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
+}
+@objc public class ThirdPartyUserInfoWarpper : ObjectiveC.NSObject, Swift.Codable {
+  @objc final public let id: Swift.String?
+  @objc final public let name: Swift.String?
+  @objc final public let email: Swift.String?
+  @objc final public let picture: Swift.String?
+  @objc public init(id: Swift.String?, name: Swift.String?, email: Swift.String?, picture: Swift.String?)
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+  public func encode(to encoder: any Swift.Encoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
+}
+public enum ImagePath {
+  case url(Swift.String)
+  case local(UIKit.UIImage)
+  case data(Swift.String)
+}
+public struct LoginPageConfig {
+  public var imagePath: ParticleNetworkBase.ImagePath
+  public var projectName: Swift.String
+  public var description: Swift.String
+  public init(imagePath: ParticleNetworkBase.ImagePath, projectName: Swift.String, description: Swift.String)
+}
+extension UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) public var navigationBarHeight: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public class var topMost: UIKit.UIViewController? {
+    get
+  }
+}
+@objc public class LoginAuthorization : ObjectiveC.NSObject {
+  final public let message: Swift.String?
+  final public let isUnique: Swift.Bool?
+  public init(message: Swift.String?, isUnique: Swift.Bool?)
+  @objc deinit
+}
+public enum TronFormatAddress {
+  public static func toHex(_ base58String: Swift.String) -> Swift.String
+  public static func fromHex(_ hexString: Swift.String) -> Swift.String
+}
+@_inheritsConvenienceInitializers @objc public class ParticleNetwork : ObjectiveC.NSObject {
+  @objc public static let sdkVersion: Swift.String
+  public static var projectUuid: Swift.String {
+    get
+  }
+  public static var projectClientKey: Swift.String {
+    get
+  }
+  public static var projectAppUuid: Swift.String {
+    get
+  }
+  @objc public static func initialize(config: ParticleNetworkBase.ParticleNetworkConfiguration)
+  @objc public static func initializeWithOptions(_ options: ParticleNetworkBase.ParticleOptions, config: ParticleNetworkBase.ParticleNetworkConfiguration)
+  public static func setAAService(_ aaService: any ParticleNetworkBase.AAServiceProtocol)
+  public static func getAAService() -> (any ParticleNetworkBase.AAServiceProtocol)?
+  @objc public static func getChainInfo() -> ParticleNetworkBase.ParticleNetwork.ChainInfo
+  @objc public static func getDevEnv() -> ParticleNetworkBase.ParticleNetwork.DevEnvironment
+  @objc public static func setChainInfo(_ chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo)
+  public static func setAppearance(_ style: UIKit.UIUserInterfaceStyle)
+  public static func getAppearance() -> UIKit.UIUserInterfaceStyle
+  public static func setThemeColor(_ color: UIKit.UIColor)
+  public static func getThemeColor() -> UIKit.UIColor
+  public static func setLanguage(_ language: ParticleNetworkBase.Language)
+  public static func getLanguage() -> ParticleNetworkBase.Language
+  public static func setFiatCoin(_ fiatCoin: ParticleNetworkBase.FiatCoin)
+  public static func getFiatCoin() -> ParticleNetworkBase.FiatCoin?
+  public static func setSecurityAccountConfig(config: ParticleNetworkBase.SecurityAccountConfig)
+  public static func getSecurityAccountConfig() -> ParticleNetworkBase.SecurityAccountConfig
+  public static func setAAAccountName(_ accountName: ParticleNetworkBase.AA.AccountName)
+  public static func getAAAccountName() -> ParticleNetworkBase.AA.AccountName
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension ParticleNetworkBase.ParticleNetwork {
+  @available(*, deprecated, renamed: "setAppearance")
+  @objc public static func setInterfaceStyle(_ style: UIKit.UIUserInterfaceStyle)
+  @available(*, deprecated, renamed: "getAppearance")
+  @objc public static func getInterfaceStyle() -> UIKit.UIUserInterfaceStyle
+}
+@objc public class ParticleNetworkConfiguration : ObjectiveC.NSObject {
+  @objc public init(chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo, devEnv: ParticleNetworkBase.ParticleNetwork.DevEnvironment)
+  @objc deinit
+}
+extension ParticleNetworkBase.ParticleNetwork {
+  @objc public enum DevEnvironment : Swift.Int {
+    case debug
+    case staging
+    case production
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+}
+extension ParticleNetworkBase.ParticleNetwork {
+  public static func searchChainInfo(by chainId: Swift.Int, chainType: ParticleNetworkBase.ChainType) -> ParticleNetworkBase.ParticleNetwork.ChainInfo?
+}
+public enum Constant {
+  public enum Regex {
+    public static let base58PublicKey: Swift.String
+    public static let base58String: Swift.String
+    public static let evmAddress: Swift.String
+    public static let tronAddress: Swift.String
+    public static let hexString: Swift.String
+    public static let email: Swift.String
+    public static let phoneNumber: Swift.String
+  }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class Constants : ObjectiveC.NSObject {
+  @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class Regexs : ObjectiveC.NSObject {
+    @objc public class func base58PublicKey() -> Swift.String
+    @objc public class func base58String() -> Swift.String
+    @objc public class func evmAddress() -> Swift.String
+    @objc public class func hexString() -> Swift.String
+    @objc public class func email() -> Swift.String
+    @objc public class func phoneNumber() -> Swift.String
+    @objc deinit
+  }
+  @objc deinit
+}
+extension Foundation.TimeZone {
+  public func offsetFromGMT() -> Swift.String
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class ParticleOptions : ObjectiveC.NSObject {
+  public init(projectUuid: Swift.String, projectClientKey: Swift.String, projectAppUuid: Swift.String)
+  @objc deinit
+}
+extension Swift.String {
+  public func urlEncoded() -> Swift.String
+  public func urlDecoded() -> Swift.String
+}
+extension Swift.String {
+  public var isAlphanumeric: Swift.Bool {
+    get
+  }
+  public var isNumber: Swift.Bool {
+    get
+  }
+  public var isDoubleNumber: Swift.Bool {
+    get
+  }
+  public func isValidAddress() -> Swift.Bool
+  public func isValidMessage() -> Swift.Bool
+  public func isValidEmail() -> Swift.Bool
+  public func isValidPhoneNumber() -> Swift.Bool
+}
+extension Swift.String {
+  public func isValidSolanaAddress() -> Swift.Bool
+  public func isValidEVMAddress() -> Swift.Bool
+  public func isValidBase58String() -> Swift.Bool
+  public func isValidHexString() -> Swift.Bool
+  public func isValidTronAddress() -> Swift.Bool
+}
+extension Swift.Array where Element : Swift.Equatable {
+  public mutating func appendIfNotExist(_ el: Element?)
+  public mutating func appendOrReplace(_ el: Element?)
+  public mutating func replace(_ el: Element?)
+}
+extension Swift.Int {
+  public func toHexString() -> Swift.String
+  public func toDateString() -> Swift.String
+}
+extension Swift.String {
+  public func toBInt() -> ParticleNetworkBase.BInt
+  public func toChecksumAddress() -> Swift.String
+}
+extension ParticleNetworkBase.BInt {
+  public func convertToBalance(decimals: Swift.Int?) -> Swift.Double
+  public func convertToBalance(decimals: Swift.UInt8?) -> Swift.Double
+  public func convertToBalanceBDouble(decimals: Swift.UInt8?) -> ParticleNetworkBase.BDouble
+  public func toHexString() -> Swift.String
+  public func convertToScientific() -> Swift.String
+}
+extension ParticleNetworkBase.BDouble {
+  public func convertToScientific() -> Swift.String
+  public func convertToBalance(decimals: Swift.Int?) -> Swift.Double
+  public func convertToBalance(decimals: Swift.UInt8?) -> Swift.Double
+}
+@_hasMissingDesignatedInitializers @objc(NativeCurrency) public class NativeCurrency : ObjectiveC.NSObject {
+  @objc final public let name: Swift.String
+  @objc final public let symbol: Swift.String
+  @objc final public let decimals: Swift.Int
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc public class SupportAuthType : ObjectiveC.NSObject {
+  public var rawValue: Swift.String
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc public static var all: ParticleNetworkBase.SupportAuthType {
+    @objc get
+  }
+  @objc public static var google: ParticleNetworkBase.SupportAuthType {
+    @objc get
+  }
+  @objc public static var facebook: ParticleNetworkBase.SupportAuthType {
+    @objc get
+  }
+  @objc public static var apple: ParticleNetworkBase.SupportAuthType {
+    @objc get
+  }
+  @objc public static var twitter: ParticleNetworkBase.SupportAuthType {
+    @objc get
+  }
+  @objc public static var discord: ParticleNetworkBase.SupportAuthType {
+    @objc get
+  }
+  @objc public static var github: ParticleNetworkBase.SupportAuthType {
+    @objc get
+  }
+  @objc public static var twitch: ParticleNetworkBase.SupportAuthType {
+    @objc get
+  }
+  @objc public static var microsoft: ParticleNetworkBase.SupportAuthType {
+    @objc get
+  }
+  @objc public static var linkedin: ParticleNetworkBase.SupportAuthType {
+    @objc get
+  }
+  @objc public static var email: ParticleNetworkBase.SupportAuthType {
+    @objc get
+  }
+  @objc public static var phone: ParticleNetworkBase.SupportAuthType {
+    @objc get
+  }
+  @objc deinit
+}
+public enum LogEvent : Swift.String {
+  case error
+  case response
+  case authService
+  case walletService
+  case connectService
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers open class Logger {
+  public static var isEnableLogger: Swift.Bool
+  open class func log(message: Any, event: ParticleNetworkBase.LogEvent, tag: Swift.String, fileName: Swift.String = #file, line: Swift.Int = #line, column: Swift.Int = #column, funcName: Swift.String = #function, apiMethod: Swift.String? = nil)
+  public class func activeLog(data: Foundation.Data)
+  public class func recordLog(data: Foundation.Data)
+  public struct RecordObject : Swift.Encodable {
+    public init(recordType: ParticleNetworkBase.Logger.RecordType)
+    public enum CodingKeys : Swift.String, Swift.CodingKey {
+      case recordType
+      public init?(rawValue: Swift.String)
+      public init?(stringValue: Swift.String)
+      public init?(intValue: Swift.Int)
+      public typealias RawValue = Swift.String
+      public var intValue: Swift.Int? {
+        get
+      }
+      public var rawValue: Swift.String {
+        get
+      }
+      public var stringValue: Swift.String {
+        get
+      }
+    }
+    public func encode(to encoder: any Swift.Encoder) throws
+  }
+  public enum RecordType : Swift.String, Swift.Encodable {
+    case pageLoginButtonClick
+    case pageLoginSuccessBack
+    case pageSignSuccessBack
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public struct ActiveObject : Swift.Encodable {
+    public enum CodingKeys : Swift.String, Swift.CodingKey {
+      case loginType
+      case chainId
+      case identity
+      case walletAddress
+      case action
+      case userInfo
+      public init?(rawValue: Swift.String)
+      public init?(stringValue: Swift.String)
+      public init?(intValue: Swift.Int)
+      public typealias RawValue = Swift.String
+      public var intValue: Swift.Int? {
+        get
+      }
+      public var rawValue: Swift.String {
+        get
+      }
+      public var stringValue: Swift.String {
+        get
+      }
+    }
+    public init(activeLoginType: ParticleNetworkBase.Logger.ActiveLoginType, identity: Swift.String, walletAddress: Swift.String, activeActionType: ParticleNetworkBase.Logger.ActiveActionType, userInfo: Swift.String?)
+    public func encode(to encoder: any Swift.Encoder) throws
+  }
+  public enum ActiveActionType : Swift.String {
+    case login
+    case open
+    case openWallet
+    case sign
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum ActiveLoginType : Swift.String {
+    case particle
+    case private_key
+    case metamask
+    case rainbow
+    case trust
+    case imToken
+    case bitKeep
+    case phantom
+    case other
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  @objc deinit
+}
+extension ParticleNetworkBase.ParticleNetwork.ChainInfo {
+  @objc public static func getChainInfo(chainId: Swift.Int, chainName: Swift.String) -> ParticleNetworkBase.ParticleNetwork.ChainInfo?
+  @objc public static func getEvmChain(chainId: Swift.Int) -> ParticleNetworkBase.ParticleNetwork.ChainInfo?
+  @objc public static func getSolanaChain(chainId: Swift.Int) -> ParticleNetworkBase.ParticleNetwork.ChainInfo?
+  @objc public static func getAllChains(comparator: ((ParticleNetworkBase.ParticleNetwork.ChainInfo, ParticleNetworkBase.ParticleNetwork.ChainInfo) -> Swift.Bool)? = nil) -> [ParticleNetworkBase.ParticleNetwork.ChainInfo]
+  @objc public static let defaultComparator: (_ a: ParticleNetworkBase.ParticleNetwork.ChainInfo, _ b: ParticleNetworkBase.ParticleNetwork.ChainInfo) -> Swift.Bool
+  @objc public static var allNetworks: [ParticleNetworkBase.ParticleNetwork.ChainInfo] {
+    @objc get
+  }
+  @objc public static var bridgeableNetworks: [ParticleNetworkBase.ParticleNetwork.ChainInfo]
+  @objc public static var swapableNetworks: [ParticleNetworkBase.ParticleNetwork.ChainInfo]
+  @objc public static var fusionableNetworks: [ParticleNetworkBase.ParticleNetwork.ChainInfo]
+  @objc public static var didableNetworks: [ParticleNetworkBase.ParticleNetwork.ChainInfo]
+  public var isEvmChain: Swift.Bool {
+    get
+  }
+  public var isSolanaChain: Swift.Bool {
+    get
+  }
+  public var isMainnet: Swift.Bool {
+    get
+  }
+  public var isSupportEIP1559: Swift.Bool {
+    get
+  }
+  public var path: Swift.String {
+    get
+  }
+  @objc dynamic public func getParticleNode(projectId: Swift.String, projectClientKey: Swift.String) -> Swift.String
+  public var isSupportWalletConnect: Swift.Bool {
+    get
+  }
+  public var isSupportBridge: Swift.Bool {
+    get
+  }
+  public var isSupportSwap: Swift.Bool {
+    get
+  }
+  public var isSupportFusion: Swift.Bool {
+    get
+  }
+  public var isSupportDid: Swift.Bool {
+    get
+  }
+  public var isTron: Swift.Bool {
+    get
+  }
+  public var buyNetwork: Swift.String? {
+    get
+  }
+}
+@objc public enum ChainType : Swift.Int, Swift.RawRepresentable, Swift.Codable {
+  case solana
+  case evm
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct CustomUIConfig : Swift.Decodable {
+  public var light: ParticleNetworkBase.ModeConfig?
+  public var dark: ParticleNetworkBase.ModeConfig?
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension ParticleNetworkBase.CustomUIConfig {
+  public var primaryColor: UIKit.UIColor? {
+    get
+  }
+  public var accentColor: UIKit.UIColor? {
+    get
+  }
+  public var onPrimaryColor: UIKit.UIColor? {
+    get
+  }
+  public var primaryButtonTextColor: UIKit.UIColor? {
+    get
+  }
+  public var primaryButtonBackgroundColors: [UIKit.UIColor]? {
+    get
+  }
+  public var primaryIconButtonBackgroundColors: [UIKit.UIColor]? {
+    get
+  }
+  public var primaryIconButtonIconColor: UIKit.UIColor? {
+    get
+  }
+  public var cancelButtonBackgroundColor: UIKit.UIColor? {
+    get
+  }
+  public var toastColor: (UIKit.UIColor?, UIKit.UIColor?) {
+    get
+  }
+  public var maskColor: UIKit.UIColor? {
+    get
+  }
+}
+public struct ModeConfig : Swift.Decodable {
+  public var colorAccent: Swift.String?
+  public var colorPrimary: Swift.String?
+  public var colorOnPrimary: Swift.String?
+  public var primaryButtonBackgroundColors: [Swift.String]?
+  public var primaryButtonTextColor: Swift.String?
+  public var primaryIconButtonIconColor: Swift.String?
+  public var primaryIconButtonBackgroundColors: [Swift.String]?
+  public var cancelButtonBackgroundColor: Swift.String?
+  public var messageColor: [Swift.String]?
+  public var modalMaskBackgroundColor: Swift.String?
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum AA {
+  @frozen public struct AccountName : Swift.Equatable, Swift.Codable, Swift.Hashable, Swift.CaseIterable {
+    public static var allCases: [ParticleNetworkBase.AA.AccountName] {
+      get
+    }
+    public let version: Swift.String
+    public let name: Swift.String
+    public var walletName: Swift.String {
+      get
+    }
+    public init(version: Swift.String, name: Swift.String)
+    public static let biconomyV2: ParticleNetworkBase.AA.AccountName
+    public static let biconomyV1: ParticleNetworkBase.AA.AccountName
+    public static let simple: ParticleNetworkBase.AA.AccountName
+    public static let cyberConnect: ParticleNetworkBase.AA.AccountName
+    public static let light: ParticleNetworkBase.AA.AccountName
+    public static let xterio: ParticleNetworkBase.AA.AccountName
+    public var image: UIKit.UIImage {
+      get
+    }
+    public var isSupportBatchTx: Swift.Bool {
+      get
+    }
+    public var supportChainIds: Swift.Set<Swift.Int> {
+      get
+    }
+    public static func == (a: ParticleNetworkBase.AA.AccountName, b: ParticleNetworkBase.AA.AccountName) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public typealias AllCases = [ParticleNetworkBase.AA.AccountName]
+    public func encode(to encoder: any Swift.Encoder) throws
+    public var hashValue: Swift.Int {
+      get
+    }
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct AccountConfig : Swift.Codable {
+    public var name: Swift.String
+    public var version: Swift.String
+    public var biconomyApiKey: Swift.String?
+    public var ownerAddress: Swift.String
+    public init(name: Swift.String, version: Swift.String, ownerAddress: Swift.String, biconomyApiKey: Swift.String? = nil)
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  @frozen public enum FeeMode {
+    case native
+    case gasless
+    case token(ParticleNetworkBase.AA.FeeQuote)
+  }
+  public struct SmartAccountInfo : Swift.Codable, SwiftyUserDefaults.DefaultsSerializable, Swift.Equatable {
+    public var isDeployed: [Swift.Int : Swift.Bool]
+    public var eoaAddress: Swift.String
+    public var factoryAddress: Swift.String
+    public var entryPointAddress: Swift.String
+    public var smartAccountAddress: Swift.String
+    public var fallBackHandlerAddress: Swift.String?
+    public var implementationAddress: Swift.String?
+    public var owner: Swift.String
+    public var name: Swift.String
+    public var version: Swift.String
+    public var index: Swift.Int
+    public init(from decoder: any Swift.Decoder) throws
+    public init(isDeployed: [Swift.Int : Swift.Bool], eoaAddress: Swift.String, smartAccountAddress: Swift.String, index: Swift.Int, createdAt: Swift.String, updatedAt: Swift.String, entryPointAddress: Swift.String, factoryAddress: Swift.String, fallBackHandlerAddress: Swift.String, implementationAddress: Swift.String, owner: Swift.String, name: Swift.String, version: Swift.String)
+    public init(from json: SwiftyJSON.JSON)
+    public static func == (lhs: ParticleNetworkBase.AA.SmartAccountInfo, rhs: ParticleNetworkBase.AA.SmartAccountInfo) -> Swift.Bool
+    public mutating func merge(_ other: ParticleNetworkBase.AA.SmartAccountInfo)
+    public typealias ArrayBridge = SwiftyUserDefaults.DefaultsCodableBridge<[ParticleNetworkBase.AA.SmartAccountInfo]>
+    public typealias Bridge = SwiftyUserDefaults.DefaultsCodableBridge<ParticleNetworkBase.AA.SmartAccountInfo>
+    public func encode(to encoder: any Swift.Encoder) throws
+  }
+  public struct FeeQuote {
+    public struct TokenInfo {
+      public var chainId: Swift.Int
+      public var symbol: Swift.String
+      public var name: Swift.String
+      public var decimals: ParticleNetworkBase.Decimals
+      public var logoURI: Swift.String
+      public var address: Swift.String
+      public var isNative: Swift.Bool {
+        get
+      }
+    }
+    public var tokenInfo: ParticleNetworkBase.AA.FeeQuote.TokenInfo
+    public var premiumPercentage: Swift.Int
+    public var balance: ParticleNetworkBase.BInt
+    public var fee: ParticleNetworkBase.BInt
+    public var tokenPaymasterAddress: Swift.String?
+    public var jsonObject: [Swift.String : SwiftyJSON.JSON]
+    public init(json: SwiftyJSON.JSON, tokenPaymasterAddress: Swift.String?)
+    public var isEnoughForPay: Swift.Bool {
+      get
+    }
+  }
+  public struct UserOp : Swift.Codable {
+    public var userOp: SwiftyJSON.JSON
+    public var userOpHash: Swift.String
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct WholeFeeQuote : Swift.Codable {
+    public var gasless: ParticleNetworkBase.AA.VerifyingPaymasterGasless?
+    public var native: ParticleNetworkBase.AA.VerifyingPaymasterNative
+    public var token: ParticleNetworkBase.AA.TokenPaymaster?
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct VerifyingPaymasterGasless : Swift.Codable {
+    public var userOp: SwiftyJSON.JSON
+    public var userOpHash: Swift.String
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct VerifyingPaymasterNative : Swift.Codable {
+    public var userOp: SwiftyJSON.JSON
+    public var userOpHash: Swift.String
+    public var feeQuote: SwiftyJSON.JSON
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct TokenPaymaster : Swift.Codable {
+    public var tokenPaymasterAddress: Swift.String
+    public var feeQuotes: [SwiftyJSON.JSON]
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+}
+public enum FiatCoin : Swift.String {
+  case usd
+  case cny
+  case jpy
+  case hkd
+  case inr
+  case krw
+  public var symbol: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+extension ParticleNetworkBase.ParticleNetwork {
+  public static var authEndPoint: Swift.String {
+    get
+  }
+  public static var apiEndPoint: Swift.String {
+    get
+  }
+  public static var nodeEndPoint: Swift.String {
+    get
+  }
+  public static var webWalletEndPoint: Swift.String {
+    get
+  }
+  public static var authCoreEndPoint: Swift.String {
+    get
+  }
+}
+extension ParticleNetworkBase.SocialLoginPrompt : Swift.Equatable {}
+extension ParticleNetworkBase.SocialLoginPrompt : Swift.Hashable {}
+extension ParticleNetworkBase.ParticleNetwork.ResponseError.CodingKeys : Swift.Equatable {}
+extension ParticleNetworkBase.ParticleNetwork.ResponseError.CodingKeys : Swift.Hashable {}
+extension ParticleNetworkBase.ParticleNetwork.ResponseError.CodingKeys : Swift.RawRepresentable {}
+extension ParticleNetworkBase.Action : Swift.Equatable {}
+extension ParticleNetworkBase.Action : Swift.Hashable {}
+extension ParticleNetworkBase.GasLevel : Swift.Equatable {}
+extension ParticleNetworkBase.GasLevel : Swift.Hashable {}
+extension ParticleNetworkBase.Language : Swift.Equatable {}
+extension ParticleNetworkBase.Language : Swift.Hashable {}
+extension ParticleNetworkBase.Language : Swift.RawRepresentable {}
+extension ParticleNetworkBase.LoginType : Swift.Equatable {}
+extension ParticleNetworkBase.LoginType : Swift.Hashable {}
+extension ParticleNetworkBase.LoginType : Swift.Sendable {}
+extension ParticleNetworkBase.Response.CodingKeys : Swift.Equatable {}
+extension ParticleNetworkBase.Response.CodingKeys : Swift.Hashable {}
+extension ParticleNetworkBase.Response.CodingKeys : Swift.RawRepresentable {}
+extension ParticleNetworkBase.UserInfo.CodingKeys : Swift.Equatable {}
+extension ParticleNetworkBase.UserInfo.CodingKeys : Swift.Hashable {}
+extension ParticleNetworkBase.UserInfo.CodingKeys : Swift.RawRepresentable {}
+extension ParticleNetworkBase.SecurityAccountInfo.CodingKeys : Swift.Equatable {}
+extension ParticleNetworkBase.SecurityAccountInfo.CodingKeys : Swift.Hashable {}
+extension ParticleNetworkBase.SecurityAccountInfo.CodingKeys : Swift.RawRepresentable {}
+extension ParticleNetworkBase.WalletInfo.CodingKeys : Swift.Equatable {}
+extension ParticleNetworkBase.WalletInfo.CodingKeys : Swift.Hashable {}
+extension ParticleNetworkBase.WalletInfo.CodingKeys : Swift.RawRepresentable {}
+extension ParticleNetworkBase.ThirdPartyWarpper.CodingKeys : Swift.Equatable {}
+extension ParticleNetworkBase.ThirdPartyWarpper.CodingKeys : Swift.Hashable {}
+extension ParticleNetworkBase.ThirdPartyWarpper.CodingKeys : Swift.RawRepresentable {}
+extension ParticleNetworkBase.ParticleNetwork.DevEnvironment : Swift.Equatable {}
+extension ParticleNetworkBase.ParticleNetwork.DevEnvironment : Swift.Hashable {}
+extension ParticleNetworkBase.ParticleNetwork.DevEnvironment : Swift.RawRepresentable {}
+extension ParticleNetworkBase.LogEvent : Swift.Equatable {}
+extension ParticleNetworkBase.LogEvent : Swift.Hashable {}
+extension ParticleNetworkBase.LogEvent : Swift.RawRepresentable {}
+extension ParticleNetworkBase.Logger.RecordObject.CodingKeys : Swift.Equatable {}
+extension ParticleNetworkBase.Logger.RecordObject.CodingKeys : Swift.Hashable {}
+extension ParticleNetworkBase.Logger.RecordObject.CodingKeys : Swift.RawRepresentable {}
+extension ParticleNetworkBase.Logger.RecordType : Swift.Equatable {}
+extension ParticleNetworkBase.Logger.RecordType : Swift.Hashable {}
+extension ParticleNetworkBase.Logger.RecordType : Swift.RawRepresentable {}
+extension ParticleNetworkBase.Logger.ActiveObject.CodingKeys : Swift.Equatable {}
+extension ParticleNetworkBase.Logger.ActiveObject.CodingKeys : Swift.Hashable {}
+extension ParticleNetworkBase.Logger.ActiveObject.CodingKeys : Swift.RawRepresentable {}
+extension ParticleNetworkBase.Logger.ActiveActionType : Swift.Equatable {}
+extension ParticleNetworkBase.Logger.ActiveActionType : Swift.Hashable {}
+extension ParticleNetworkBase.Logger.ActiveActionType : Swift.RawRepresentable {}
+extension ParticleNetworkBase.Logger.ActiveLoginType : Swift.Equatable {}
+extension ParticleNetworkBase.Logger.ActiveLoginType : Swift.Hashable {}
+extension ParticleNetworkBase.Logger.ActiveLoginType : Swift.RawRepresentable {}
+extension ParticleNetworkBase.ChainType : Swift.Equatable {}
+extension ParticleNetworkBase.ChainType : Swift.Hashable {}
+extension ParticleNetworkBase.AA.AccountName : Swift.Sendable {}
+extension ParticleNetworkBase.FiatCoin : Swift.Equatable {}
+extension ParticleNetworkBase.FiatCoin : Swift.Hashable {}
+extension ParticleNetworkBase.FiatCoin : Swift.RawRepresentable {}

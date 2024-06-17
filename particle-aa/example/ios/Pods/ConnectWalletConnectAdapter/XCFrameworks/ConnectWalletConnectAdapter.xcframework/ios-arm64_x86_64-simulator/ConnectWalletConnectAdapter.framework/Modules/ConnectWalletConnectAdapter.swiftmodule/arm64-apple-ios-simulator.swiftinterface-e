@@ -1,0 +1,159 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)
+// swift-module-flags: -target arm64-apple-ios14.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name ConnectWalletConnectAdapter
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import CoreImage.CIFilterBuiltins
+import Combine
+import ConnectCommon
+import CoreImage
+import CryptoSwift
+import Foundation
+import ParticleNetworkBase
+import RxCocoa
+import RxSwift
+import SDWebImage
+import SDWebImageWebPCoder
+import SnapKit
+import Starscream
+import Swift
+import SwiftMessages
+import SwiftyJSON
+import SwiftyUserDefaults
+import UIKit
+import WalletConnectSwiftV2
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public struct EthereumTransaction : Swift.Codable {
+  public var from: Swift.String
+  public var to: Swift.String?
+  public var data: Swift.String
+  public var gas: Swift.String?
+  public var gasLimit: Swift.String?
+  public var gasPrice: Swift.String?
+  public var value: Swift.String?
+  public var nonce: Swift.String?
+  public var type: Swift.String?
+  public var accessList: [ConnectWalletConnectAdapter.EthereumTransaction.AccessListItem]?
+  public var chainId: Swift.String?
+  public var maxPriorityFeePerGas: Swift.String?
+  public var maxFeePerGas: Swift.String?
+  public struct AccessListItem : Swift.Codable {
+    public var address: Swift.String
+    public var storageKeys: [Swift.String]
+    public init(address: Swift.String, storageKeys: [Swift.String])
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public init(from: Swift.String, to: Swift.String?, data: Swift.String, gas: Swift.String?, gasLimit: Swift.String?, gasPrice: Swift.String?, value: Swift.String?, nonce: Swift.String?, type: Swift.String?, accessList: [ConnectWalletConnectAdapter.EthereumTransaction.AccessListItem]?, chainId: Swift.String?, maxPriorityFeePerGas: Swift.String?, maxFeePerGas: Swift.String?)
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+@_inheritsConvenienceInitializers public class ZerionConnectAdapter : ConnectWalletConnectAdapter.WalletConnectAdapter {
+  override public var walletType: ConnectCommon.WalletType {
+    get
+  }
+  required public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class MathConnectAdapter : ConnectWalletConnectAdapter.WalletConnectAdapter {
+  override public var walletType: ConnectCommon.WalletType {
+    get
+  }
+  required public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class Inch1ConnectAdapter : ConnectWalletConnectAdapter.WalletConnectAdapter {
+  override public var walletType: ConnectCommon.WalletType {
+    get
+  }
+  required public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class ZengoConnectAdapter : ConnectWalletConnectAdapter.WalletConnectAdapter {
+  override public var walletType: ConnectCommon.WalletType {
+    get
+  }
+  required public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class AlphaConnectAdapter : ConnectWalletConnectAdapter.WalletConnectAdapter {
+  override public var walletType: ConnectCommon.WalletType {
+    get
+  }
+  required public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class OKXConnectAdapter : ConnectWalletConnectAdapter.WalletConnectAdapter {
+  override public var walletType: ConnectCommon.WalletType {
+    get
+  }
+  required public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class BitkeepConnectAdapter : ConnectWalletConnectAdapter.WalletConnectAdapter {
+  override public var walletType: ConnectCommon.WalletType {
+    get
+  }
+  required public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class MetaMaskConnectAdapter : ConnectWalletConnectAdapter.WalletConnectAdapter {
+  override public var walletType: ConnectCommon.WalletType {
+    get
+  }
+  required public init()
+  @objc deinit
+}
+open class WalletConnectAdapter : ConnectCommon.ConnectAdapter {
+  open var walletType: ConnectCommon.WalletType {
+    get
+  }
+  required public init()
+  open var readyState: ConnectCommon.WalletReadyState {
+    get
+  }
+  public func getAccounts() -> [ConnectCommon.Account]
+  public func connect<T>(_ config: T? = nil) -> RxSwift.Single<ConnectCommon.Account?> where T : ConnectCommon.ConnectConfig
+  public func isConnected(publicAddress: Swift.String) -> Swift.Bool
+  public func disconnect(publicAddress: Swift.String) -> RxSwift.Single<Swift.String>
+  public func signAndSendTransaction(publicAddress: Swift.String, transaction: Swift.String, feeMode: ParticleNetworkBase.AA.FeeMode, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  public func signAllTransactions(publicAddress: Swift.String, transactions: [Swift.String], chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<[Swift.String]>
+  public func signTransaction(publicAddress: Swift.String, transaction: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  public func signMessage(publicAddress: Swift.String, message: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  public func handleUrl(_ url: Foundation.URL) -> Swift.Bool
+  public func signTypedData(publicAddress: Swift.String, data: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  #if compiler(>=5.3) && $AsyncAwait
+  public func getConnectionUrl() async throws -> (Swift.String, RxSwift.Single<ConnectCommon.Account?>)
+  #endif
+  public func request(publicAddress: Swift.String, method: Swift.String, parameters: [any Swift.Encodable]) -> RxSwift.Single<SwiftyJSON.JSON?>
+  public func extendConnection(publicAddress: Swift.String)
+  @objc deinit
+}
+extension ConnectWalletConnectAdapter.WalletConnectAdapter : ParticleNetworkBase.MessageSigner {
+  public func signMessage(_ message: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  public func getEoaAddress() -> Swift.String
+}
+@_inheritsConvenienceInitializers public class ImtokenConnectAdapter : ConnectWalletConnectAdapter.WalletConnectAdapter {
+  override public var walletType: ConnectCommon.WalletType {
+    get
+  }
+  required public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class TrustConnectAdapter : ConnectWalletConnectAdapter.WalletConnectAdapter {
+  override public var walletType: ConnectCommon.WalletType {
+    get
+  }
+  required public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class RainbowConnectAdapter : ConnectWalletConnectAdapter.WalletConnectAdapter {
+  override public var walletType: ConnectCommon.WalletType {
+    get
+  }
+  required public init()
+  @objc deinit
+}
+extension Starscream.WebSocket : WalletConnectSwiftV2.WebSocketConnecting {
+}

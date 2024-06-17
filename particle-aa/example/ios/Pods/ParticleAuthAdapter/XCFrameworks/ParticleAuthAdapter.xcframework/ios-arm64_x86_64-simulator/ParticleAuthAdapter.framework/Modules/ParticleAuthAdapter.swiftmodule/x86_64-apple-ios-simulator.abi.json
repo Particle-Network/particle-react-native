@@ -1,0 +1,936 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "TopLevel",
+    "printedName": "TopLevel",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "ConnectCommon",
+        "printedName": "ConnectCommon",
+        "declKind": "Import",
+        "moduleName": "ParticleAuthAdapter",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ParticleAuthAdapter"
+      },
+      {
+        "kind": "Import",
+        "name": "ParticleAuthService",
+        "printedName": "ParticleAuthService",
+        "declKind": "Import",
+        "moduleName": "ParticleAuthAdapter"
+      },
+      {
+        "kind": "Import",
+        "name": "ParticleNetworkBase",
+        "printedName": "ParticleNetworkBase",
+        "declKind": "Import",
+        "moduleName": "ParticleAuthAdapter"
+      },
+      {
+        "kind": "Import",
+        "name": "RxSwift",
+        "printedName": "RxSwift",
+        "declKind": "Import",
+        "moduleName": "ParticleAuthAdapter"
+      },
+      {
+        "kind": "Import",
+        "name": "SwiftyJSON",
+        "printedName": "SwiftyJSON",
+        "declKind": "Import",
+        "moduleName": "ParticleAuthAdapter"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "ParticleAuthAdapter",
+        "printedName": "ParticleAuthAdapter",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "ParticleAuthAdapter",
+                "printedName": "ParticleAuthAdapter.ParticleAuthAdapter",
+                "usr": "s:19ParticleAuthAdapterAAC"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:19ParticleAuthAdapterAACABycfc",
+            "mangledName": "$s19ParticleAuthAdapterAACABycfc",
+            "moduleName": "ParticleAuthAdapter",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Var",
+            "name": "walletType",
+            "printedName": "walletType",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "WalletType",
+                "printedName": "ConnectCommon.WalletType",
+                "usr": "s:13ConnectCommon10WalletTypeO"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:19ParticleAuthAdapterAAC10walletType13ConnectCommon06WalletE0Ovp",
+            "mangledName": "$s19ParticleAuthAdapterAAC10walletType13ConnectCommon06WalletE0Ovp",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "WalletType",
+                    "printedName": "ConnectCommon.WalletType",
+                    "usr": "s:13ConnectCommon10WalletTypeO"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:19ParticleAuthAdapterAAC10walletType13ConnectCommon06WalletE0Ovg",
+                "mangledName": "$s19ParticleAuthAdapterAAC10walletType13ConnectCommon06WalletE0Ovg",
+                "moduleName": "ParticleAuthAdapter",
+                "isOpen": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "readyState",
+            "printedName": "readyState",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "WalletReadyState",
+                "printedName": "ConnectCommon.WalletReadyState",
+                "usr": "s:13ConnectCommon16WalletReadyStateO"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:19ParticleAuthAdapterAAC10readyState13ConnectCommon011WalletReadyE0Ovp",
+            "mangledName": "$s19ParticleAuthAdapterAAC10readyState13ConnectCommon011WalletReadyE0Ovp",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "WalletReadyState",
+                    "printedName": "ConnectCommon.WalletReadyState",
+                    "usr": "s:13ConnectCommon16WalletReadyStateO"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:19ParticleAuthAdapterAAC10readyState13ConnectCommon011WalletReadyE0Ovg",
+                "mangledName": "$s19ParticleAuthAdapterAAC10readyState13ConnectCommon011WalletReadyE0Ovg",
+                "moduleName": "ParticleAuthAdapter",
+                "isOpen": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "connect",
+            "printedName": "connect(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, ConnectCommon.Account?>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "ConnectCommon.Account?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Account",
+                        "printedName": "ConnectCommon.Account",
+                        "usr": "s:13ConnectCommon7AccountV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "τ_0_0?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GenericTypeParam",
+                    "printedName": "τ_0_0"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19ParticleAuthAdapterAAC7connecty7RxSwift17PrimitiveSequenceVyAD11SingleTraitO13ConnectCommon7AccountVSgGxSgAI0K6ConfigCRbzlF",
+            "mangledName": "$s19ParticleAuthAdapterAAC7connecty7RxSwift17PrimitiveSequenceVyAD11SingleTraitO13ConnectCommon7AccountVSgGxSgAI0K6ConfigCRbzlF",
+            "moduleName": "ParticleAuthAdapter",
+            "genericSig": "<τ_0_0 where τ_0_0 : ConnectCommon.ConnectConfig>",
+            "sugared_genericSig": "<T where T : ConnectCommon.ConnectConfig>",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getAccounts",
+            "printedName": "getAccounts()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[ConnectCommon.Account]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Account",
+                    "printedName": "ConnectCommon.Account",
+                    "usr": "s:13ConnectCommon7AccountV"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19ParticleAuthAdapterAAC11getAccountsSay13ConnectCommon7AccountVGyF",
+            "mangledName": "$s19ParticleAuthAdapterAAC11getAccountsSay13ConnectCommon7AccountVGyF",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "isConnected",
+            "printedName": "isConnected(publicAddress:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19ParticleAuthAdapterAAC11isConnected13publicAddressSbSS_tF",
+            "mangledName": "$s19ParticleAuthAdapterAAC11isConnected13publicAddressSbSS_tF",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "disconnect",
+            "printedName": "disconnect(publicAddress:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, Swift.String>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19ParticleAuthAdapterAAC10disconnect13publicAddress7RxSwift17PrimitiveSequenceVyAE11SingleTraitOSSGSS_tF",
+            "mangledName": "$s19ParticleAuthAdapterAAC10disconnect13publicAddress7RxSwift17PrimitiveSequenceVyAE11SingleTraitOSSGSS_tF",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "signAndSendTransaction",
+            "printedName": "signAndSendTransaction(publicAddress:transaction:feeMode:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, Swift.String>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "FeeMode",
+                "printedName": "ParticleNetworkBase.AA.FeeMode",
+                "usr": "s:19ParticleNetworkBase2AAO7FeeModeO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19ParticleAuthAdapterAAC22signAndSendTransaction13publicAddress11transaction7feeMode9chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitOSSGSS_SS0A11NetworkBase2AAO03FeeL0OAN0aU0C05ChainN0CSgtF",
+            "mangledName": "$s19ParticleAuthAdapterAAC22signAndSendTransaction13publicAddress11transaction7feeMode9chainInfo7RxSwift17PrimitiveSequenceVyAH11SingleTraitOSSGSS_SS0A11NetworkBase2AAO03FeeL0OAN0aU0C05ChainN0CSgtF",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "signAllTransactions",
+            "printedName": "signAllTransactions(publicAddress:transactions:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, [Swift.String]>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[Swift.String]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.String]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sa"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19ParticleAuthAdapterAAC19signAllTransactions13publicAddress12transactions9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitOSaySSGGSS_AL0A11NetworkBase0aR0C05ChainK0CSgtF",
+            "mangledName": "$s19ParticleAuthAdapterAAC19signAllTransactions13publicAddress12transactions9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitOSaySSGGSS_AL0A11NetworkBase0aR0C05ChainK0CSgtF",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "signTransaction",
+            "printedName": "signTransaction(publicAddress:transaction:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, Swift.String>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19ParticleAuthAdapterAAC15signTransaction13publicAddress11transaction9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitOSSGSS_SS0A11NetworkBase0aQ0C05ChainJ0CSgtF",
+            "mangledName": "$s19ParticleAuthAdapterAAC15signTransaction13publicAddress11transaction9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitOSSGSS_SS0A11NetworkBase0aQ0C05ChainJ0CSgtF",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "signMessage",
+            "printedName": "signMessage(publicAddress:message:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, Swift.String>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19ParticleAuthAdapterAAC11signMessage13publicAddress7message9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitOSSGSS_SS0A11NetworkBase0aQ0C05ChainJ0CSgtF",
+            "mangledName": "$s19ParticleAuthAdapterAAC11signMessage13publicAddress7message9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitOSSGSS_SS0A11NetworkBase0aQ0C05ChainJ0CSgtF",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "signTypedData",
+            "printedName": "signTypedData(publicAddress:data:chainInfo:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, Swift.String>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ChainInfo",
+                    "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                    "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19ParticleAuthAdapterAAC13signTypedData13publicAddress4data9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitOSSGSS_SS0A11NetworkBase0aR0C05ChainK0CSgtF",
+            "mangledName": "$s19ParticleAuthAdapterAAC13signTypedData13publicAddress4data9chainInfo7RxSwift17PrimitiveSequenceVyAG11SingleTraitOSSGSS_SS0A11NetworkBase0aR0C05ChainK0CSgtF",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "handleUrl",
+            "printedName": "handleUrl(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "URL",
+                "printedName": "Foundation.URL",
+                "usr": "s:10Foundation3URLV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19ParticleAuthAdapterAAC9handleUrlySb10Foundation3URLVF",
+            "mangledName": "$s19ParticleAuthAdapterAAC9handleUrlySb10Foundation3URLVF",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "request",
+            "printedName": "request(publicAddress:method:parameters:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, SwiftyJSON.JSON?>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "SwiftyJSON.JSON?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "JSON",
+                        "printedName": "SwiftyJSON.JSON",
+                        "usr": "s:10SwiftyJSON0B0V"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.Encodable]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Encodable",
+                    "printedName": "Swift.Encodable",
+                    "usr": "s:SE"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19ParticleAuthAdapterAAC7request13publicAddress6method10parameters7RxSwift17PrimitiveSequenceVyAG11SingleTraitO10SwiftyJSON0P0VSgGSS_SSSaySE_pGtF",
+            "mangledName": "$s19ParticleAuthAdapterAAC7request13publicAddress6method10parameters7RxSwift17PrimitiveSequenceVyAG11SingleTraitO10SwiftyJSON0P0VSgGSS_SSSaySE_pGtF",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getUserInfo",
+            "printedName": "getUserInfo()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ParticleNetworkBase.UserInfo?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UserInfo",
+                    "printedName": "ParticleNetworkBase.UserInfo",
+                    "usr": "c:@M@ParticleNetworkBase@objc(cs)UserInfo"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19ParticleAuthAdapterAAC11getUserInfo0A11NetworkBase0eF0CSgyF",
+            "mangledName": "$s19ParticleAuthAdapterAAC11getUserInfo0A11NetworkBase0eF0CSgyF",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "openAccountAndSecurity",
+            "printedName": "openAccountAndSecurity()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, ()>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19ParticleAuthAdapterAAC22openAccountAndSecurity7RxSwift17PrimitiveSequenceVyAD11SingleTraitOytGyF",
+            "mangledName": "$s19ParticleAuthAdapterAAC22openAccountAndSecurity7RxSwift17PrimitiveSequenceVyAD11SingleTraitOytGyF",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "openWebWallet",
+            "printedName": "openWebWallet(styleJsonString:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19ParticleAuthAdapterAAC13openWebWallet15styleJsonStringySSSg_tF",
+            "mangledName": "$s19ParticleAuthAdapterAAC13openWebWallet15styleJsonStringySSSg_tF",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "switchChain",
+            "printedName": "switchChain(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PrimitiveSequence",
+                "printedName": "RxSwift.PrimitiveSequence<RxSwift.SingleTrait, ParticleNetworkBase.UserInfo?>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SingleTrait",
+                    "printedName": "RxSwift.SingleTrait",
+                    "usr": "s:7RxSwift11SingleTraitO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "ParticleNetworkBase.UserInfo?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UserInfo",
+                        "printedName": "ParticleNetworkBase.UserInfo",
+                        "usr": "c:@M@ParticleNetworkBase@objc(cs)UserInfo"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "usr": "s:7RxSwift17PrimitiveSequenceV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ChainInfo",
+                "printedName": "ParticleNetworkBase.ParticleNetwork.ChainInfo",
+                "usr": "s:19ParticleNetworkBase0aB0C9ChainInfoC"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19ParticleAuthAdapterAAC11switchChainy7RxSwift17PrimitiveSequenceVyAD11SingleTraitO0A11NetworkBase8UserInfoCSgGAI0aL0C0eO0CF",
+            "mangledName": "$s19ParticleAuthAdapterAAC11switchChainy7RxSwift17PrimitiveSequenceVyAD11SingleTraitO0A11NetworkBase8UserInfoCSgGAI0aL0C0eO0CF",
+            "moduleName": "ParticleAuthAdapter",
+            "isOpen": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:19ParticleAuthAdapterAAC",
+        "mangledName": "$s19ParticleAuthAdapterAAC",
+        "moduleName": "ParticleAuthAdapter",
+        "isOpen": true,
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "ConnectAdapter",
+            "printedName": "ConnectAdapter",
+            "usr": "s:13ConnectCommon0A7AdapterP",
+            "mangledName": "$s13ConnectCommon0A7AdapterP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "ParticleAdapter",
+            "printedName": "ParticleAdapter",
+            "usr": "s:13ConnectCommon15ParticleAdapterP",
+            "mangledName": "$s13ConnectCommon15ParticleAdapterP"
+          }
+        ]
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": []
+}

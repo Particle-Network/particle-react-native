@@ -1,0 +1,192 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)
+// swift-module-flags: -target arm64-apple-ios14.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name ParticleAuthService
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import CryptoSwift
+import Foundation
+@_exported import ParticleAuthService
+import ParticleNetworkBase
+import RxAlamofire
+import RxCocoa
+import RxSwift
+import SafariServices
+import Swift
+import SwiftyJSON
+import SwiftyUserDefaults
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@_inheritsConvenienceInitializers @objc public class ParticleAuthService : ObjectiveC.NSObject {
+  public static func login(type: ParticleNetworkBase.LoginType, account: Swift.String? = nil, supportAuthType: [ParticleNetworkBase.SupportAuthType] = [SupportAuthType.all], socialLoginPrompt: ParticleNetworkBase.SocialLoginPrompt? = nil, authorization: ParticleNetworkBase.LoginAuthorization? = nil) -> RxSwift.Single<ParticleNetworkBase.UserInfo?>
+  @objc public static func login(type: ParticleNetworkBase.LoginType, account: Swift.String? = nil, supportAuthType: [ParticleNetworkBase.SupportAuthType] = [SupportAuthType.all], socialLoginPrompt: ParticleNetworkBase.SocialLoginPrompt = .null, authorization: ParticleNetworkBase.LoginAuthorization? = nil, successHandler: @escaping ((ParticleNetworkBase.UserInfo?) -> Swift.Void), failureHandler: @escaping ((any Swift.Error) -> Swift.Void))
+  public static func logout() -> RxSwift.Single<Swift.String>
+  @objc public static func logout(successHandler: @escaping ((Swift.String) -> Swift.Void), failureHandler: @escaping ((any Swift.Error) -> Swift.Void))
+  public static func fastLogout() -> RxSwift.Single<Swift.String>
+  @objc public static func fastLogout(successHandler: @escaping ((Swift.String) -> Swift.Void), failureHandler: @escaping ((any Swift.Error) -> Swift.Void))
+  @objc public static func isLogin() -> Swift.Bool
+  public static func isLoginAsync() -> RxSwift.Single<ParticleNetworkBase.UserInfo>
+  public static func signMessage(_ message: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo? = nil) -> RxSwift.Single<Swift.String>
+  public static func signMessageUnique(_ message: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo? = nil) -> RxSwift.Single<Swift.String>
+  @objc public static func signMessage(_ message: Swift.String, successHandler: @escaping ((Swift.String) -> Swift.Void), failureHandler: @escaping ((any Swift.Error) -> Swift.Void))
+  public static func signTransaction(_ transaction: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo? = nil) -> RxSwift.Single<Swift.String>
+  public static func signAllTransactions(_ transactions: [Swift.String], chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo? = nil) -> RxSwift.Single<[Swift.String]>
+  @objc public static func signTransaction(_ transaction: Swift.String, successHandler: @escaping ((Swift.String) -> Swift.Void), failureHandler: @escaping ((any Swift.Error) -> Swift.Void))
+  @objc public static func signAllTransactions(_ transactions: [Swift.String], successHandler: @escaping (([Swift.String]) -> Swift.Void), failureHandler: @escaping ((any Swift.Error) -> Swift.Void))
+  public static func signAndSendTransaction(_ message: Swift.String, feeMode: ParticleNetworkBase.AA.FeeMode = .native, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo? = nil) -> RxSwift.Single<Swift.String>
+  @objc public static func signAndSendTransaction(_ message: Swift.String, successHandler: @escaping ((Swift.String) -> Swift.Void), failureHandler: @escaping ((any Swift.Error) -> Swift.Void))
+  public static func signTypedData(_ message: Swift.String, version: EVMSignTypedDataVersion, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo? = nil) -> RxSwift.Single<Swift.String>
+  @objc public static func signTypedData(_ message: Swift.String, version: EVMSignTypedDataVersion, successHandler: @escaping ((Swift.String) -> Swift.Void), failureHandler: @escaping ((any Swift.Error) -> Swift.Void))
+  @objc public static func getAddress() -> Swift.String
+  public static func getSmartAccount(chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo? = nil) -> RxSwift.Single<ParticleNetworkBase.AA.SmartAccountInfo>
+  @objc public static func getUserInfo() -> ParticleNetworkBase.UserInfo?
+  @objc public static func handleUrl(_ url: Foundation.URL) -> Swift.Bool
+  public static func switchChain(_ chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo) -> RxSwift.Single<ParticleNetworkBase.UserInfo?>
+  @objc public static func setModalPresentStyle(_ modalStyle: ParticleAuthModalStyle)
+  @available(iOS 15.0, *)
+  @objc public static func setMediumScreen(_ isMediumScreen: Swift.Bool)
+  @available(*, deprecated, message: "The method is deprecated")
+  @objc public static func setDisplayWallet(_ displayWallet: Swift.Bool = false)
+  @objc public static func openWebWallet(styleJsonString: Swift.String? = nil)
+  public static func setCustomStyle(string: Swift.String)
+  public static func openAccountAndSecurity() -> RxSwift.Single<Swift.Void>
+  @objc public static func openAccountAndSecurity(successHandler: @escaping (() -> Swift.Void), failureHandler: @escaping ((any Swift.Error) -> Swift.Void))
+  public static func getSecurityAccount() -> RxSwift.Single<ParticleNetworkBase.SecurityAccountInfo>
+  public static func hasMasterPassword() -> Swift.Bool
+  public static func hasPaymentPassword() -> Swift.Bool
+  public static func hasSecurityAccount() -> Swift.Bool
+  public static func setWebAuthConfig(options: WebAuthConfig)
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension ParticleAuthService {
+  @available(*, deprecated, renamed: "switchChain")
+  public static func setChainInfo(_ chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo) -> RxSwift.Single<ParticleNetworkBase.UserInfo?>
+}
+@objc public enum ParticleAuthModalStyle : Swift.Int {
+  case pageSheet = 0
+  case fullScreen = 1
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum EVMSignTypedDataVersion : Swift.Int, Swift.RawRepresentable {
+  case v1
+  case v3
+  case v4
+  case v4Unique
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct WebAuthConfig {
+  public var isDisplayWallet: Swift.Bool
+  public var appearance: UIKit.UIUserInterfaceStyle
+  public init(isDisplayWallet: Swift.Bool, appearance: UIKit.UIUserInterfaceStyle)
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) final public class AuthSafariController : SafariServices.SFSafariViewController {
+  @objc deinit
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidDisappear(_ animated: Swift.Bool)
+  @available(iOS 11.0, *)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(url URL: Foundation.URL, configuration: SafariServices.SFSafariViewController.Configuration)
+  @available(iOS, introduced: 9.0, deprecated: 11.0)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(url URL: Foundation.URL, entersReaderIfAvailable: Swift.Bool)
+}
+extension SwiftyUserDefaults.DefaultsSerializable {
+  public static var _defaultsArray: SwiftyUserDefaults.DefaultsArrayBridge<[Self.T]> {
+    get
+  }
+}
+extension Foundation.Date : SwiftyUserDefaults.DefaultsSerializable {
+  public static var _defaults: SwiftyUserDefaults.DefaultsObjectBridge<Foundation.Date> {
+    get
+  }
+}
+extension Swift.String : SwiftyUserDefaults.DefaultsSerializable {
+  public static var _defaults: SwiftyUserDefaults.DefaultsStringBridge {
+    get
+  }
+}
+extension Swift.Int : SwiftyUserDefaults.DefaultsSerializable {
+  public static var _defaults: SwiftyUserDefaults.DefaultsIntBridge {
+    get
+  }
+}
+extension Swift.Double : SwiftyUserDefaults.DefaultsSerializable {
+  public static var _defaults: SwiftyUserDefaults.DefaultsDoubleBridge {
+    get
+  }
+}
+extension Swift.Bool : SwiftyUserDefaults.DefaultsSerializable {
+  public static var _defaults: SwiftyUserDefaults.DefaultsBoolBridge {
+    get
+  }
+}
+extension Foundation.Data : SwiftyUserDefaults.DefaultsSerializable {
+  public static var _defaults: SwiftyUserDefaults.DefaultsDataBridge {
+    get
+  }
+}
+extension Foundation.URL : SwiftyUserDefaults.DefaultsSerializable {
+  public static var _defaults: SwiftyUserDefaults.DefaultsUrlBridge {
+    get
+  }
+  public static var _defaultsArray: SwiftyUserDefaults.DefaultsKeyedArchiverBridge<[Foundation.URL]> {
+    get
+  }
+}
+extension SwiftyUserDefaults.DefaultsSerializable where Self : Swift.Decodable, Self : Swift.Encodable {
+  public static var _defaults: SwiftyUserDefaults.DefaultsCodableBridge<Self> {
+    get
+  }
+  public static var _defaultsArray: SwiftyUserDefaults.DefaultsCodableBridge<[Self]> {
+    get
+  }
+}
+extension SwiftyUserDefaults.DefaultsSerializable where Self : Swift.RawRepresentable {
+  public static var _defaults: SwiftyUserDefaults.DefaultsRawRepresentableBridge<Self> {
+    get
+  }
+  public static var _defaultsArray: SwiftyUserDefaults.DefaultsRawRepresentableArrayBridge<[Self]> {
+    get
+  }
+}
+extension SwiftyUserDefaults.DefaultsSerializable where Self : Foundation.NSCoding {
+  public static var _defaults: SwiftyUserDefaults.DefaultsKeyedArchiverBridge<Self> {
+    get
+  }
+  public static var _defaultsArray: SwiftyUserDefaults.DefaultsKeyedArchiverBridge<[Self]> {
+    get
+  }
+}
+extension Swift.Dictionary : SwiftyUserDefaults.DefaultsSerializable where Key == Swift.String {
+  public typealias T = [Key : Value]
+  public typealias Bridge = SwiftyUserDefaults.DefaultsObjectBridge<Swift.Dictionary<Key, Value>.T>
+  public typealias ArrayBridge = SwiftyUserDefaults.DefaultsArrayBridge<[Swift.Dictionary<Key, Value>.T]>
+  public static var _defaults: Swift.Dictionary<Swift.String, Value>.Bridge {
+    get
+  }
+  public static var _defaultsArray: Swift.Dictionary<Swift.String, Value>.ArrayBridge {
+    get
+  }
+}
+extension Swift.Array : SwiftyUserDefaults.DefaultsSerializable where Element : SwiftyUserDefaults.DefaultsSerializable {
+  public typealias T = [Element.T]
+  public typealias Bridge = Element.ArrayBridge
+  public typealias ArrayBridge = SwiftyUserDefaults.DefaultsObjectBridge<[Swift.Array<Element>.T]>
+  public static var _defaults: Swift.Array<Element>.Bridge {
+    get
+  }
+  public static var _defaultsArray: Swift.Array<Element>.ArrayBridge {
+    get
+  }
+}
+extension ParticleAuthModalStyle : Swift.Equatable {}
+extension ParticleAuthModalStyle : Swift.Hashable {}
+extension ParticleAuthModalStyle : Swift.RawRepresentable {}
+extension EVMSignTypedDataVersion : Swift.Equatable {}
+extension EVMSignTypedDataVersion : Swift.Hashable {}

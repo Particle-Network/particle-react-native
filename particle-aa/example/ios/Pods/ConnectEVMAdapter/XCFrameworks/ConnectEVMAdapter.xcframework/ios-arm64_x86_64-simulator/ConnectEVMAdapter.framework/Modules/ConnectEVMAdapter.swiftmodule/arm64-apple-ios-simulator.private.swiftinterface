@@ -1,0 +1,122 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)
+// swift-module-flags: -target arm64-apple-ios14.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name ConnectEVMAdapter
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import Base58_swift
+import BigInt
+import ConnectCommon
+@_exported import ConnectEVMAdapter
+import CryptoSwift
+import Foundation
+import ParticleNetworkBase
+import RxAlamofire
+import RxSwift
+import Swift
+import SwiftyJSON
+import SwiftyUserDefaults
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+import secp256k1
+public struct SECP256K1 {
+  public struct UnmarshaledSignature {
+    public var v: Swift.UInt8
+    public var r: Foundation.Data
+    public var s: Foundation.Data
+    public init(v: Swift.UInt8, r: Foundation.Data, s: Foundation.Data)
+  }
+}
+extension SECP256K1 {
+  public static func signForRecovery(hash: Foundation.Data, privateKey: Foundation.Data, useExtraEntropy: Swift.Bool = false) -> (serializedSignature: Foundation.Data?, rawSignature: Foundation.Data?)
+  public static func privateToPublic(privateKey: Foundation.Data, compressed: Swift.Bool = false) -> Foundation.Data?
+  public static func combineSerializedPublicKeys(keys: [Foundation.Data], outputCompressed: Swift.Bool = false) -> Foundation.Data?
+  public static func serializePublicKey(publicKey: inout secp256k1.secp256k1_pubkey, compressed: Swift.Bool = false) -> Foundation.Data?
+  public static func parseSignature(signature: Foundation.Data) -> secp256k1.secp256k1_ecdsa_recoverable_signature?
+  public static func recoverPublicKey(hash: Foundation.Data, signature: Foundation.Data, compressed: Swift.Bool = false) -> Foundation.Data?
+  public static func verifyPrivateKey(privateKey: Foundation.Data) -> Swift.Bool
+  public static func generatePrivateKey() -> Foundation.Data?
+  public static func unmarshalSignature(signatureData: Foundation.Data) -> SECP256K1.UnmarshaledSignature?
+  public static func marshalSignature(v: Swift.UInt8, r: [Swift.UInt8], s: [Swift.UInt8]) -> Foundation.Data?
+  public static func marshalSignature(v: Foundation.Data, r: Foundation.Data, s: Foundation.Data) -> Foundation.Data?
+}
+extension Swift.UInt32 {
+  public func serialize32() -> Foundation.Data
+}
+@_hasMissingDesignatedInitializers public class HDNode {
+  public struct HDversion {
+    public var privatePrefix: Foundation.Data
+    public var publicPrefix: Foundation.Data
+    public init()
+  }
+  public var path: Swift.String?
+  public var privateKey: Foundation.Data?
+  public var publicKey: Foundation.Data
+  public var chaincode: Foundation.Data
+  public var depth: Swift.UInt8
+  public var parentFingerprint: Foundation.Data
+  public var childNumber: Swift.UInt32
+  public var isHardened: Swift.Bool {
+    get
+  }
+  public var index: Swift.UInt32 {
+    get
+  }
+  public var hasPrivate: Swift.Bool {
+    get
+  }
+  public init?(seed: Foundation.Data)
+  public static var defaultPath: Swift.String
+  public static var defaultPathPrefix: Swift.String
+  public static var defaultPathMetamask: Swift.String
+  public static var defaultPathMetamaskPrefix: Swift.String
+  public static var hardenedIndexPrefix: (Swift.UInt32)
+  @objc deinit
+}
+extension HDNode {
+  public func derive(index: Swift.UInt32, derivePrivateKey: Swift.Bool, hardened: Swift.Bool = false) -> HDNode?
+  public func derive(path: Swift.String, derivePrivateKey: Swift.Bool = true) -> HDNode?
+  public func serializeToString(serializePublic: Swift.Bool = true, version: HDNode.HDversion = HDversion()) -> Swift.String?
+  public func serialize(serializePublic: Swift.Bool = true, version: HDNode.HDversion = HDversion()) -> Foundation.Data?
+}
+public struct RIPEMD160 {
+  public init()
+  public mutating func update(data: Foundation.Data) throws
+  public mutating func finalize() throws -> Foundation.Data
+}
+extension RIPEMD160 {
+  public static func hash(message: Foundation.Data) throws -> Foundation.Data
+  public static func hash(message: Swift.String) throws -> Foundation.Data
+}
+extension RIPEMD160 {
+  public static func hmac(key: Foundation.Data, message: Foundation.Data) throws -> Foundation.Data
+  public static func hmac(key: Foundation.Data, message: Swift.String) throws -> Foundation.Data
+  public static func hmac(key: Swift.String, message: Swift.String) throws -> Foundation.Data
+}
+public class EVMConnectAdapter : ConnectCommon.ConnectAdapter, ConnectCommon.LocalAdapter {
+  public init(rpcUrl: Swift.String = RpcUrl.evm)
+  public var walletType: ConnectCommon.WalletType {
+    get
+  }
+  public var readyState: ConnectCommon.WalletReadyState {
+    get
+  }
+  public func getAccounts() -> [ConnectCommon.Account]
+  public func connect<T>(_ config: T? = nil) -> RxSwift.Single<ConnectCommon.Account?> where T : ConnectCommon.ConnectConfig
+  public func isConnected(publicAddress: Swift.String) -> Swift.Bool
+  public func disconnect(publicAddress: Swift.String) -> RxSwift.Single<Swift.String>
+  public func signAndSendTransaction(publicAddress: Swift.String, transaction: Swift.String, feeMode: ParticleNetworkBase.AA.FeeMode, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  public func signAllTransactions(publicAddress: Swift.String, transactions: [Swift.String], chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<[Swift.String]>
+  public func signTransaction(publicAddress: Swift.String, transaction: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  public func signMessage(publicAddress: Swift.String, message: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  public func signTypedData(publicAddress: Swift.String, data message: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  public func handleUrl(_ url: Foundation.URL) -> Swift.Bool
+  public func importWalletFromPrivateKey(_ privateKey: Swift.String) -> RxSwift.Single<ConnectCommon.Account?>
+  public func importWalletFromMnemonic(_ mnemonic: Swift.String) -> RxSwift.Single<ConnectCommon.Account?>
+  public func exportWalletPrivateKey(publicAddress: Swift.String) -> RxSwift.Single<Swift.String?>
+  public func request(publicAddress: Swift.String, method: Swift.String, parameters: [any Swift.Encodable]) -> RxSwift.Single<SwiftyJSON.JSON?>
+  @objc deinit
+}
+extension EVMConnectAdapter : ParticleNetworkBase.MessageSigner {
+  public func signMessage(_ message: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  public func getEoaAddress() -> Swift.String
+}

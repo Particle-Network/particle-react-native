@@ -1,0 +1,6 @@
+framework module react_native_particle_aa {
+  umbrella header "react-native-particle-aa-umbrella.h"
+
+  export *
+  module * { export * }
+}

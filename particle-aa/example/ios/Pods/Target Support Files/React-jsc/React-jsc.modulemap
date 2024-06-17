@@ -1,0 +1,6 @@
+framework module React_jsc {
+  umbrella header "React-jsc-umbrella.h"
+
+  export *
+  module * { export * }
+}

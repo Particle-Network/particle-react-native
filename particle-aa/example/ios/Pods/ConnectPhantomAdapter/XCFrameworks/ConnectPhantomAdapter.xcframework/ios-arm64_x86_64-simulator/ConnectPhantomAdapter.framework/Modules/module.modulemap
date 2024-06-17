@@ -1,0 +1,11 @@
+framework module ConnectPhantomAdapter {
+  umbrella header "ConnectPhantomAdapter.h"
+  export *
+
+  module * { export * }
+}
+
+module ConnectPhantomAdapter.Swift {
+  header "ConnectPhantomAdapter-Swift.h"
+  requires objc
+}

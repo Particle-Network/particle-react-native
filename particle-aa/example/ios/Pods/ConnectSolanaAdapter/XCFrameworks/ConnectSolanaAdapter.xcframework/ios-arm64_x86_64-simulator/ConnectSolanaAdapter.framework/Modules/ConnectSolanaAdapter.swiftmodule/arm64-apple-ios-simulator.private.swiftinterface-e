@@ -1,0 +1,827 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)
+// swift-module-flags: -target arm64-apple-ios14.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name ConnectSolanaAdapter
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import Accelerate
+import Base58_swift
+import CommonCrypto
+import ConnectCommon
+@_exported import ConnectSolanaAdapter
+import CryptoSwift
+import Foundation
+import ParticleNetworkBase
+import RxAlamofire
+import RxSwift
+import Swift
+import SwiftyJSON
+import SwiftyUserDefaults
+import TweetNacl
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+import secp256k1
+import Accelerate.vecLib
+public enum AssociatedTokenProgram : ConnectSolanaAdapter.SolanaBasicProgram {
+  public static var id: ConnectSolanaAdapter.PublicKey {
+    get
+  }
+  public static func createAssociatedTokenAccountInstruction(mint: ConnectSolanaAdapter.PublicKey, owner: ConnectSolanaAdapter.PublicKey, payer: ConnectSolanaAdapter.PublicKey) throws -> ConnectSolanaAdapter.TransactionInstruction
+}
+public class SolanaConnectAdapter : ConnectCommon.ConnectAdapter, ConnectCommon.LocalAdapter {
+  public init(rpcUrl: Swift.String = RpcUrl.solana)
+  public var walletType: ConnectCommon.WalletType {
+    get
+  }
+  public func handleUrl(_ url: Foundation.URL) -> Swift.Bool
+  public var readyState: ConnectCommon.WalletReadyState {
+    get
+  }
+  public func getAccounts() -> [ConnectCommon.Account]
+  public func connect<T>(_ config: T? = nil) -> RxSwift.Single<ConnectCommon.Account?> where T : ConnectCommon.ConnectConfig
+  public func isConnected(publicAddress: Swift.String) -> Swift.Bool
+  public func disconnect(publicAddress: Swift.String) -> RxSwift.Single<Swift.String>
+  public func signAndSendTransaction(publicAddress: Swift.String, transaction: Swift.String, feeMode: ParticleNetworkBase.AA.FeeMode, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  public func signAllTransactions(publicAddress: Swift.String, transactions: [Swift.String], chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<[Swift.String]>
+  public func signTransaction(publicAddress: Swift.String, transaction: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  public func signAllTransactions(publicAddress: Swift.String, transactions: [ConnectSolanaAdapter.SolanaTransaction], chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo? = nil) -> RxSwift.Single<[Swift.String]>
+  public func signTransaction(publicAddress: Swift.String, transaction: ConnectSolanaAdapter.SolanaTransaction, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo? = nil) -> RxSwift.Single<Swift.String>
+  public func signMessage(publicAddress: Swift.String, message: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  public func signTypedData(publicAddress: Swift.String, data: Swift.String, chainInfo: ParticleNetworkBase.ParticleNetwork.ChainInfo?) -> RxSwift.Single<Swift.String>
+  public func importWalletFromPrivateKey(_ privateKey: Swift.String) -> RxSwift.Single<ConnectCommon.Account?>
+  public func importWalletFromMnemonic(_ mnemonic: Swift.String) -> RxSwift.Single<ConnectCommon.Account?>
+  public func exportWalletPrivateKey(publicAddress: Swift.String) -> RxSwift.Single<Swift.String?>
+  public func request(publicAddress: Swift.String, method: Swift.String, parameters: [any Swift.Encodable]) -> RxSwift.Single<SwiftyJSON.JSON?>
+  @objc deinit
+}
+extension Swift.Array {
+  @inlinable internal init(reserveCapacity: Swift.Int) {
+        self = [Element]()
+        self.reserveCapacity(reserveCapacity)
+    }
+  @inlinable internal var slice: Swift.ArraySlice<Element> {
+    get {
+        self[startIndex ..< endIndex]
+    }
+  }
+}
+extension Swift.Array where Element == Swift.UInt8 {
+  public init(hex: Swift.String)
+  public func toHexString() -> Swift.String
+}
+extension Swift.Array where Element == Swift.UInt8 {
+  public func toBase64() -> Swift.String
+  public init(base64: Swift.String)
+}
+public protocol BorshDeserializable {
+  init(from reader: inout ConnectSolanaAdapter.BinaryReader) throws
+}
+extension Swift.FixedWidthInteger {
+  public init(from reader: inout ConnectSolanaAdapter.BinaryReader) throws
+}
+extension Swift.UInt8 : ConnectSolanaAdapter.BorshDeserializable {
+}
+extension Swift.UInt16 : ConnectSolanaAdapter.BorshDeserializable {
+}
+extension Swift.UInt32 : ConnectSolanaAdapter.BorshDeserializable {
+}
+extension Swift.UInt64 : ConnectSolanaAdapter.BorshDeserializable {
+}
+extension ConnectSolanaAdapter.UInt2X : ConnectSolanaAdapter.BorshDeserializable where Word == Swift.UInt64 {
+}
+extension Swift.Int8 : ConnectSolanaAdapter.BorshDeserializable {
+}
+extension Swift.Int16 : ConnectSolanaAdapter.BorshDeserializable {
+}
+extension Swift.Int32 : ConnectSolanaAdapter.BorshDeserializable {
+}
+extension Swift.Int64 : ConnectSolanaAdapter.BorshDeserializable {
+}
+extension ConnectSolanaAdapter.Int2X : ConnectSolanaAdapter.BorshDeserializable where Word == Swift.UInt64 {
+}
+extension Swift.Float : ConnectSolanaAdapter.BorshDeserializable {
+  public init(from reader: inout ConnectSolanaAdapter.BinaryReader) throws
+}
+extension Swift.Double : ConnectSolanaAdapter.BorshDeserializable {
+  public init(from reader: inout ConnectSolanaAdapter.BinaryReader) throws
+}
+extension Swift.Bool : ConnectSolanaAdapter.BorshDeserializable {
+  public init(from reader: inout ConnectSolanaAdapter.BinaryReader) throws
+}
+extension Swift.String : ConnectSolanaAdapter.BorshDeserializable {
+  public init(from reader: inout ConnectSolanaAdapter.BinaryReader) throws
+}
+extension Swift.Array : ConnectSolanaAdapter.BorshDeserializable where Element : ConnectSolanaAdapter.BorshDeserializable {
+  public init(from reader: inout ConnectSolanaAdapter.BinaryReader) throws
+}
+extension Swift.Set : ConnectSolanaAdapter.BorshDeserializable where Element : ConnectSolanaAdapter.BorshDeserializable {
+  public init(from reader: inout ConnectSolanaAdapter.BinaryReader) throws
+}
+extension Swift.Dictionary : ConnectSolanaAdapter.BorshDeserializable where Key : ConnectSolanaAdapter.BorshDeserializable, Value : ConnectSolanaAdapter.BorshDeserializable {
+  public init(from reader: inout ConnectSolanaAdapter.BinaryReader) throws
+}
+public struct SolanaTransaction {
+  public var signatures: [ConnectSolanaAdapter.SolanaTransaction.Signature]
+  public var feePayer: ConnectSolanaAdapter.PublicKey?
+  public var instructions: [ConnectSolanaAdapter.TransactionInstruction]
+  public var recentBlockhash: Swift.String?
+  public init()
+  public init(instructions: [ConnectSolanaAdapter.TransactionInstruction], recentBlockhash: Swift.String?, feePayer: ConnectSolanaAdapter.PublicKey)
+  public mutating func sign(signers: [ConnectSolanaAdapter.SolanaAccount]) throws
+  public func calculateTransactionFee(lamportsPerSignatures: Swift.UInt64) throws -> Swift.UInt64
+  public mutating func serialize(requiredAllSignatures: Swift.Bool = true, verifySignatures: Swift.Bool = false) throws -> Foundation.Data
+  public mutating func addSignature(_ signature: ConnectSolanaAdapter.SolanaTransaction.Signature) throws
+  public mutating func verifySignatures() throws -> Swift.Bool
+  public func findSignature(pubkey: ConnectSolanaAdapter.PublicKey) -> ConnectSolanaAdapter.SolanaTransaction.Signature?
+  public mutating func partialSign(signers: [ConnectSolanaAdapter.SolanaAccount]) throws
+  public func compileMessage() throws -> ConnectSolanaAdapter.SolanaTransaction.Message
+  public static func from(data: Foundation.Data) throws -> ConnectSolanaAdapter.SolanaTransaction
+}
+extension ConnectSolanaAdapter.SolanaTransaction {
+  public struct Signature : Swift.Encodable {
+    public var signature: Foundation.Data?
+    public var publicKey: ConnectSolanaAdapter.PublicKey
+    public init(signature: Foundation.Data?, publicKey: ConnectSolanaAdapter.PublicKey)
+    public func encode(to encoder: any Swift.Encoder) throws
+  }
+}
+extension ConnectSolanaAdapter.SolanaTransaction {
+  public struct Message {
+    public var header: ConnectSolanaAdapter.SolanaTransaction.Message.Header {
+      get
+    }
+    public var accountKeys: [ConnectSolanaAdapter.PublicKey] {
+      get
+    }
+    public var instructions: [ConnectSolanaAdapter.SolanaTransaction.Message.CompiledInstruction] {
+      get
+    }
+    public func isAccountWritable(index: Swift.Int) -> Swift.Bool
+    public func isAccountSigner(index: Swift.Int) -> Swift.Bool
+  }
+}
+extension ConnectSolanaAdapter.SolanaTransaction.Message {
+  public struct Header : Swift.Decodable, Swift.Equatable {
+    public static func == (a: ConnectSolanaAdapter.SolanaTransaction.Message.Header, b: ConnectSolanaAdapter.SolanaTransaction.Message.Header) -> Swift.Bool
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct CompiledInstruction {
+    public let programIdIndex: Swift.UInt8
+    public let data: [Swift.UInt8]
+    public var accounts: [Swift.Int] {
+      get
+    }
+  }
+}
+public protocol BytesEncodable {
+  var bytes: [Swift.UInt8] { get }
+}
+extension Swift.UInt8 : ConnectSolanaAdapter.BytesEncodable {
+  public var bytes: [Swift.UInt8] {
+    get
+  }
+}
+extension Swift.UInt64 : ConnectSolanaAdapter.BytesEncodable {
+}
+extension Swift.UInt32 : ConnectSolanaAdapter.BytesEncodable {
+}
+extension Foundation.Data : ConnectSolanaAdapter.BytesEncodable {
+}
+extension Swift.Bool : ConnectSolanaAdapter.BytesEncodable {
+  public var bytes: [Swift.UInt8] {
+    get
+  }
+}
+extension Swift.Array : ConnectSolanaAdapter.BytesEncodable where Element == any ConnectSolanaAdapter.BytesEncodable {
+  public var bytes: [Swift.UInt8] {
+    get
+  }
+}
+extension Swift.RawRepresentable where Self.RawValue == Swift.UInt32 {
+  public var bytes: [Swift.UInt8] {
+    get
+  }
+}
+extension Swift.RawRepresentable where Self.RawValue == Swift.UInt8 {
+  public var bytes: [Swift.UInt8] {
+    get
+  }
+}
+infix operator >>> : BitwiseShiftPrecedence
+public struct BinaryReader {
+  public init(bytes: [Swift.UInt8])
+}
+extension ConnectSolanaAdapter.BinaryReader {
+  public mutating func read(count: Swift.UInt32) throws -> [Swift.UInt8]
+}
+public enum TokenProgram : ConnectSolanaAdapter.SolanaBasicProgram {
+  public enum Index {
+  }
+  public static var id: ConnectSolanaAdapter.PublicKey {
+    get
+  }
+  public static func transferInstruction(source: ConnectSolanaAdapter.PublicKey, destination: ConnectSolanaAdapter.PublicKey, owner: ConnectSolanaAdapter.PublicKey, amount: Swift.UInt64) -> ConnectSolanaAdapter.TransactionInstruction
+}
+extension Foundation.Data {
+  public var decodedLength: Swift.Int {
+    get
+  }
+  public mutating func decodeLength() -> Swift.Int
+  public static func encodeLength(_ len: Swift.Int) -> Foundation.Data
+}
+extension Swift.Encodable {
+  public var jsonString: Swift.String? {
+    get
+  }
+}
+public struct PublicKey : Swift.Codable, Swift.Equatable, Swift.CustomStringConvertible, Swift.Hashable {
+  public static let NULL_PUBLICKEY_BYTES: [Swift.UInt8]
+  public static let numberOfBytes: Swift.Int
+  public let bytes: [Swift.UInt8]
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+  public init(string: Swift.String?) throws
+  public init(data: Foundation.Data) throws
+  public init(bytes: [Swift.UInt8]?) throws
+  public var base58EncodedString: Swift.String {
+    get
+  }
+  public var data: Foundation.Data {
+    get
+  }
+  public var description: Swift.String {
+    get
+  }
+  public func short(numOfSymbolsRevealed: Swift.Int = 4) -> Swift.String
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: ConnectSolanaAdapter.PublicKey, rhs: ConnectSolanaAdapter.PublicKey) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension ConnectSolanaAdapter.PublicKey : ConnectSolanaAdapter.BytesEncodable {
+}
+extension ConnectSolanaAdapter.PublicKey {
+  public static func associatedTokenAddress(walletAddress: ConnectSolanaAdapter.PublicKey, tokenMintAddress: ConnectSolanaAdapter.PublicKey) throws -> ConnectSolanaAdapter.PublicKey
+  public static func findProgramAddress(seeds: [Foundation.Data], programId: ConnectSolanaAdapter.PublicKey) throws -> (ConnectSolanaAdapter.PublicKey, Swift.UInt8)
+  public static func createProgramAddress(seeds: [Foundation.Data], programId: ConnectSolanaAdapter.PublicKey) throws -> ConnectSolanaAdapter.PublicKey
+  public static func createWithSeed(fromPublicKey: ConnectSolanaAdapter.PublicKey, seed: Swift.String, programId: ConnectSolanaAdapter.PublicKey) throws -> ConnectSolanaAdapter.PublicKey
+}
+extension ConnectSolanaAdapter.PublicKey : ConnectSolanaAdapter.BorshCodable {
+  public func serialize(to writer: inout Foundation.Data) throws
+  public init(from reader: inout ConnectSolanaAdapter.BinaryReader) throws
+}
+public struct TransactionInstruction : Swift.Codable {
+  public let keys: [ConnectSolanaAdapter.SolanaAccount.Meta]
+  public let programId: ConnectSolanaAdapter.PublicKey
+  public let data: [Swift.UInt8]
+  public init(keys: [ConnectSolanaAdapter.SolanaAccount.Meta], programId: ConnectSolanaAdapter.PublicKey, data: [any ConnectSolanaAdapter.BytesEncodable])
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum SystemProgram : ConnectSolanaAdapter.SolanaBasicProgram {
+  public enum Index {
+  }
+  public static var id: ConnectSolanaAdapter.PublicKey {
+    get
+  }
+  public static func createAccountInstruction(from fromPublicKey: ConnectSolanaAdapter.PublicKey, toNewPubkey newPubkey: ConnectSolanaAdapter.PublicKey, lamports: Swift.UInt64, space: Swift.UInt64, programId: ConnectSolanaAdapter.PublicKey) -> ConnectSolanaAdapter.TransactionInstruction
+  public static func transferInstruction(from fromPublicKey: ConnectSolanaAdapter.PublicKey, to toPublicKey: ConnectSolanaAdapter.PublicKey, lamports: Swift.UInt64) -> ConnectSolanaAdapter.TransactionInstruction
+}
+public struct DerivablePath : Swift.Hashable, Swift.Codable {
+  public enum DerivableType : Swift.String, Swift.CaseIterable, Swift.Codable {
+    case bip44Change
+    case bip44
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [ConnectSolanaAdapter.DerivablePath.DerivableType]
+    public typealias RawValue = Swift.String
+    public static var allCases: [ConnectSolanaAdapter.DerivablePath.DerivableType] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public let type: ConnectSolanaAdapter.DerivablePath.DerivableType
+  public let walletIndex: Swift.Int
+  public let accountIndex: Swift.Int?
+  public init(type: ConnectSolanaAdapter.DerivablePath.DerivableType, walletIndex: Swift.Int, accountIndex: Swift.Int? = nil)
+  public static var `default`: ConnectSolanaAdapter.DerivablePath {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: ConnectSolanaAdapter.DerivablePath, b: ConnectSolanaAdapter.DerivablePath) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension Swift.String {
+  @inlinable public var bytes: [Swift.UInt8] {
+    get {
+        data(using: String.Encoding.utf8, allowLossyConversion: true)?.bytes ?? Array(utf8)
+    }
+  }
+}
+public typealias BorshCodable = ConnectSolanaAdapter.BorshDeserializable & ConnectSolanaAdapter.BorshSerializable
+public enum BorshDecodingError : Swift.Error {
+  case unknownData
+  public static func == (a: ConnectSolanaAdapter.BorshDecodingError, b: ConnectSolanaAdapter.BorshDecodingError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Swift.UInt32 {
+  public var bytes: [Swift.UInt8] {
+    get
+  }
+}
+extension Swift.UInt64 {
+  public var bytes: [Swift.UInt8] {
+    get
+  }
+  public func convertToBalance(decimals: Swift.Int?) -> Swift.Double
+  public func convertToBalance(decimals: Swift.UInt8?) -> Swift.Double
+}
+extension Swift.Double {
+  public func toLamport(decimals: Swift.Int) -> Swift.UInt64
+  public func toLamport(decimals: Swift.UInt8) -> Swift.UInt64
+}
+public protocol BorshSerializable {
+  func serialize(to writer: inout Foundation.Data) throws
+}
+extension Swift.UInt8 : ConnectSolanaAdapter.BorshSerializable {
+}
+extension Swift.UInt16 : ConnectSolanaAdapter.BorshSerializable {
+}
+extension Swift.UInt32 : ConnectSolanaAdapter.BorshSerializable {
+}
+extension Swift.UInt64 : ConnectSolanaAdapter.BorshSerializable {
+}
+extension ConnectSolanaAdapter.UInt2X : ConnectSolanaAdapter.BorshSerializable where Word == Swift.UInt64 {
+}
+extension Swift.Int8 : ConnectSolanaAdapter.BorshSerializable {
+}
+extension Swift.Int16 : ConnectSolanaAdapter.BorshSerializable {
+}
+extension Swift.Int32 : ConnectSolanaAdapter.BorshSerializable {
+}
+extension Swift.Int64 : ConnectSolanaAdapter.BorshSerializable {
+}
+extension ConnectSolanaAdapter.Int2X : ConnectSolanaAdapter.BorshSerializable where Word == Swift.UInt64 {
+}
+extension Swift.FixedWidthInteger {
+  public func serialize(to writer: inout Foundation.Data) throws
+}
+extension Swift.Float : ConnectSolanaAdapter.BorshSerializable {
+  public func serialize(to writer: inout Foundation.Data) throws
+}
+extension Swift.Double : ConnectSolanaAdapter.BorshSerializable {
+  public func serialize(to writer: inout Foundation.Data) throws
+}
+extension Swift.Bool : ConnectSolanaAdapter.BorshSerializable {
+  public func serialize(to writer: inout Foundation.Data) throws
+}
+extension Swift.String : ConnectSolanaAdapter.BorshSerializable {
+  public func serialize(to writer: inout Foundation.Data) throws
+}
+extension Swift.Array : ConnectSolanaAdapter.BorshSerializable where Element : ConnectSolanaAdapter.BorshSerializable {
+  public func serialize(to writer: inout Foundation.Data) throws
+}
+extension Swift.Set : ConnectSolanaAdapter.BorshSerializable where Element : ConnectSolanaAdapter.BorshSerializable, Element : Swift.Comparable {
+  public func serialize(to writer: inout Foundation.Data) throws
+}
+extension Swift.Dictionary : ConnectSolanaAdapter.BorshSerializable where Key : ConnectSolanaAdapter.BorshSerializable, Key : Swift.Comparable, Value : ConnectSolanaAdapter.BorshSerializable {
+  public func serialize(to writer: inout Foundation.Data) throws
+}
+public enum Network : Swift.String, Swift.CaseIterable, Swift.Codable {
+  case mainnetBeta
+  case devnet
+  case testnet
+  public var cluster: Swift.String {
+    get
+  }
+  public var isTestnet: Swift.Bool {
+    get
+  }
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [ConnectSolanaAdapter.Network]
+  public typealias RawValue = Swift.String
+  public static var allCases: [ConnectSolanaAdapter.Network] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum SolanaError : Swift.Error, Swift.Equatable {
+  public static func == (lhs: ConnectSolanaAdapter.SolanaError, rhs: ConnectSolanaAdapter.SolanaError) -> Swift.Bool
+  case unauthorized
+  case notFound
+  case assertionFailed
+  case invalidRequest(reason: Swift.String? = nil)
+  case socket(any Swift.Error)
+  case transactionHasNotBeenConfirmed
+  case other(Swift.String)
+  case unknown
+  public static var couldNotRetrieveAccountInfo: ConnectSolanaAdapter.SolanaError {
+    get
+  }
+  public static var couldNotRetrieveBuffer: ConnectSolanaAdapter.SolanaError {
+    get
+  }
+}
+extension ConnectSolanaAdapter.Ed25519HDKey {
+  public struct Keys {
+    public let key: Foundation.Data
+    public let chainCode: Foundation.Data
+  }
+}
+public struct SolanaAccount : Swift.Codable, Swift.Hashable {
+  public let phrase: [Swift.String]
+  public let publicKey: ConnectSolanaAdapter.PublicKey
+  public let secretKey: Foundation.Data
+  public init(secretKey: Foundation.Data) throws
+  #if compiler(>=5.3) && $AsyncAwait
+  public init(phrase: [Swift.String] = [], network: ConnectSolanaAdapter.Network, derivablePath: ConnectSolanaAdapter.DerivablePath) async throws
+  #endif
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: ConnectSolanaAdapter.SolanaAccount, b: ConnectSolanaAdapter.SolanaAccount) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension ConnectSolanaAdapter.SolanaAccount {
+  public struct Meta : Swift.Equatable, Swift.Codable, Swift.CustomDebugStringConvertible {
+    public let publicKey: ConnectSolanaAdapter.PublicKey
+    public var isSigner: Swift.Bool
+    public var isWritable: Swift.Bool
+    public init(from decoder: any Swift.Decoder) throws
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(publicKey: ConnectSolanaAdapter.PublicKey, isSigner: Swift.Bool, isWritable: Swift.Bool)
+    public static func readonly(publicKey: ConnectSolanaAdapter.PublicKey, isSigner: Swift.Bool) -> ConnectSolanaAdapter.SolanaAccount.Meta
+    public static func writable(publicKey: ConnectSolanaAdapter.PublicKey, isSigner: Swift.Bool) -> ConnectSolanaAdapter.SolanaAccount.Meta
+    public var debugDescription: Swift.String {
+      get
+    }
+    public static func == (a: ConnectSolanaAdapter.SolanaAccount.Meta, b: ConnectSolanaAdapter.SolanaAccount.Meta) -> Swift.Bool
+  }
+}
+extension ConnectSolanaAdapter.PublicKey : Swift.ExpressibleByStringLiteral, Swift.ExpressibleByUnicodeScalarLiteral, Swift.ExpressibleByExtendedGraphemeClusterLiteral {
+  public init(stringLiteral value: Swift.String)
+  public init(unicodeScalarLiteral value: Swift.String)
+  public init(extendedGraphemeClusterLiteral value: Swift.String)
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.String
+  public typealias StringLiteralType = Swift.String
+  public typealias UnicodeScalarLiteralType = Swift.String
+}
+public typealias UInt1X = Swift.FixedWidthInteger & Swift.BinaryInteger & Swift.UnsignedInteger & Swift.Codable
+public struct UInt2X<Word> : Swift.Hashable, Swift.Codable where Word : Swift.Decodable, Word : Swift.Encodable, Word : Swift.FixedWidthInteger, Word : Swift.UnsignedInteger {
+  public typealias IntegerLiteralType = Swift.UInt64
+  public typealias Magnitude = ConnectSolanaAdapter.UInt2X<Word>
+  public typealias Words = [Word.Words.Element]
+  public typealias Stride = Swift.Int
+  public var lo: Word
+  public var hi: Word
+  public init(hi: Word, lo: Word)
+  public init(_ source: ConnectSolanaAdapter.UInt2X<Word>)
+  public func hash(into hasher: inout Swift.Hasher)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension ConnectSolanaAdapter.UInt2X {
+  public static func == (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> Swift.Bool
+}
+extension ConnectSolanaAdapter.UInt2X : Swift.ExpressibleByIntegerLiteral {
+  public static var isSigned: Swift.Bool {
+    get
+  }
+  public static var bitWidth: Swift.Int {
+    get
+  }
+  public static var min: ConnectSolanaAdapter.UInt2X<Word> {
+    get
+  }
+  public static var max: ConnectSolanaAdapter.UInt2X<Word> {
+    get
+  }
+  public init(_ source: Word)
+  public init?<T>(exactly source: T) where T : Swift.BinaryInteger
+  public init<T>(_ source: T) where T : Swift.BinaryInteger
+  public init?<T>(exactly source: T) where T : Swift.BinaryFloatingPoint
+  public init<T>(_ source: T) where T : Swift.BinaryFloatingPoint
+  public init<T>(truncatingIfNeeded source: T) where T : Swift.BinaryInteger
+  public init<T>(clamping source: T) where T : Swift.BinaryInteger
+  public init(integerLiteral value: ConnectSolanaAdapter.UInt2X<Word>.IntegerLiteralType)
+}
+extension ConnectSolanaAdapter.UInt2X : Swift.Comparable {
+  public static func < (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> Swift.Bool
+}
+public enum Int2XConfig {
+  public static var useAccelerate: Swift.Bool
+}
+extension ConnectSolanaAdapter.UInt2X : Swift.Numeric {
+  public var magnitude: ConnectSolanaAdapter.UInt2X<Word> {
+    get
+  }
+  prefix public static func ~ (value: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  prefix public static func + (value: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  prefix public static func - (value: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  public func addingReportingOverflow(_ other: ConnectSolanaAdapter.UInt2X<Word>) -> (partialValue: ConnectSolanaAdapter.UInt2X<Word>, overflow: Swift.Bool)
+  public func addingReportingOverflow(_ other: Word) -> (partialValue: ConnectSolanaAdapter.UInt2X<Word>, overflow: Swift.Bool)
+  public static func &+ (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func + (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func + (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: Word) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func + (lhs: Word, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func += (lhs: inout ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>)
+  public static func += (lhs: inout ConnectSolanaAdapter.UInt2X<Word>, rhs: Word)
+  public func subtractingReportingOverflow(_ other: ConnectSolanaAdapter.UInt2X<Word>) -> (partialValue: ConnectSolanaAdapter.UInt2X<Word>, overflow: Swift.Bool)
+  public func subtractingReportingOverflow(_ other: Word) -> (partialValue: ConnectSolanaAdapter.UInt2X<Word>, overflow: Swift.Bool)
+  public static func &- (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func - (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func - (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: Word) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func - (lhs: Word, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func -= (lhs: inout ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>)
+  public static func -= (lhs: inout ConnectSolanaAdapter.UInt2X<Word>, rhs: Word)
+  public func multipliedHalfWidth(by other: Word) -> (high: ConnectSolanaAdapter.UInt2X<Word>, low: ConnectSolanaAdapter.UInt2X<Word>.Magnitude)
+  public func multipliedFullWidth(by other: ConnectSolanaAdapter.UInt2X<Word>) -> (high: ConnectSolanaAdapter.UInt2X<Word>, low: ConnectSolanaAdapter.UInt2X<Word>.Magnitude)
+  public func multipliedReportingOverflow(by other: ConnectSolanaAdapter.UInt2X<Word>) -> (partialValue: ConnectSolanaAdapter.UInt2X<Word>, overflow: Swift.Bool)
+  public static func &* (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func &* (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: Word) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func &* (lhs: Word, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func * (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func * (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: Word) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func * (lhs: Word, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func *= (lhs: inout ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>)
+  public static func *= (lhs: inout ConnectSolanaAdapter.UInt2X<Word>, rhs: Word)
+}
+extension ConnectSolanaAdapter.UInt2X {
+  public func rShifted(_ width: Swift.Int) -> ConnectSolanaAdapter.UInt2X<Word>
+  public func lShifted(_ width: Swift.Int) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func &>> (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func &>>= (lhs: inout ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>)
+  public static func &<< (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func &<<= (lhs: inout ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>)
+}
+extension ConnectSolanaAdapter.UInt2X {
+  public func quotientAndRemainder(dividingBy other: Word) -> (quotient: ConnectSolanaAdapter.UInt2X<Word>, remainder: ConnectSolanaAdapter.UInt2X<Word>)
+  public func quotientAndRemainder(dividingBy other: ConnectSolanaAdapter.UInt2X<Word>) -> (quotient: ConnectSolanaAdapter.UInt2X<Word>, remainder: ConnectSolanaAdapter.UInt2X<Word>)
+  public static func / (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func /= (lhs: inout ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>)
+  public static func % (lhs: ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>) -> ConnectSolanaAdapter.UInt2X<Word>
+  public static func %= (lhs: inout ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>)
+  public func dividedReportingOverflow(by other: ConnectSolanaAdapter.UInt2X<Word>) -> (partialValue: ConnectSolanaAdapter.UInt2X<Word>, overflow: Swift.Bool)
+  public func remainderReportingOverflow(dividingBy other: ConnectSolanaAdapter.UInt2X<Word>) -> (partialValue: ConnectSolanaAdapter.UInt2X<Word>, overflow: Swift.Bool)
+  public func dividingFullWidth(_ dividend: (high: ConnectSolanaAdapter.UInt2X<Word>, low: ConnectSolanaAdapter.UInt2X<Word>.Magnitude)) -> (quotient: ConnectSolanaAdapter.UInt2X<Word>, remainder: ConnectSolanaAdapter.UInt2X<Word>)
+}
+extension ConnectSolanaAdapter.UInt2X : Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible {
+  public func toString(radix: Swift.Int = 10, uppercase: Swift.Bool = false) -> Swift.String
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension Swift.StringProtocol {
+  public init?<Word>(_ source: ConnectSolanaAdapter.UInt2X<Word>, radix: Swift.Int = 10, uppercase: Swift.Bool = false) where Word : Swift.Decodable, Word : Swift.Encodable, Word : Swift.FixedWidthInteger, Word : Swift.UnsignedInteger
+}
+extension ConnectSolanaAdapter.UInt2X : Swift.ExpressibleByStringLiteral {
+  public init(stringLiteral value: Swift.StringLiteralType)
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.StringLiteralType
+  public typealias StringLiteralType = Swift.StringLiteralType
+  public typealias UnicodeScalarLiteralType = Swift.StringLiteralType
+}
+extension Swift.Int {
+  public init<Word>(_ source: ConnectSolanaAdapter.UInt2X<Word>) where Word : Swift.Decodable, Word : Swift.Encodable, Word : Swift.FixedWidthInteger, Word : Swift.UnsignedInteger
+}
+extension ConnectSolanaAdapter.UInt2X : Swift.Strideable {
+  public func distance(to other: ConnectSolanaAdapter.UInt2X<Word>) -> Swift.Int
+  public func advanced(by n: Swift.Int) -> ConnectSolanaAdapter.UInt2X<Word>
+}
+extension ConnectSolanaAdapter.UInt2X : Swift.BinaryInteger {
+  public var bitWidth: Swift.Int {
+    get
+  }
+  public var words: ConnectSolanaAdapter.UInt2X<Word>.Words {
+    get
+  }
+  public var trailingZeroBitCount: Swift.Int {
+    get
+  }
+  public static func &= (lhs: inout ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>)
+  public static func |= (lhs: inout ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>)
+  public static func ^= (lhs: inout ConnectSolanaAdapter.UInt2X<Word>, rhs: ConnectSolanaAdapter.UInt2X<Word>)
+  public static func <<= <RHS>(lhs: inout ConnectSolanaAdapter.UInt2X<Word>, rhs: RHS) where RHS : Swift.BinaryInteger
+  public static func >>= <RHS>(lhs: inout ConnectSolanaAdapter.UInt2X<Word>, rhs: RHS) where RHS : Swift.BinaryInteger
+}
+extension ConnectSolanaAdapter.UInt2X : Swift.FixedWidthInteger {
+  public init(_truncatingBits _: Swift.UInt)
+  public var nonzeroBitCount: Swift.Int {
+    get
+  }
+  public var leadingZeroBitCount: Swift.Int {
+    get
+  }
+  public var byteSwapped: ConnectSolanaAdapter.UInt2X<Word> {
+    get
+  }
+}
+extension ConnectSolanaAdapter.UInt2X : Swift.UnsignedInteger {
+}
+public typealias UInt128 = ConnectSolanaAdapter.UInt2X<Swift.UInt64>
+public typealias UInt256 = ConnectSolanaAdapter.UInt2X<ConnectSolanaAdapter.UInt128>
+public typealias UInt512 = ConnectSolanaAdapter.UInt2X<ConnectSolanaAdapter.UInt256>
+public typealias UInt1024 = ConnectSolanaAdapter.UInt2X<ConnectSolanaAdapter.UInt512>
+public typealias Int1X = Swift.FixedWidthInteger & Swift.BinaryInteger & Swift.SignedInteger & Swift.Codable
+public struct Int2X<Word> : Swift.Hashable, Swift.Codable where Word : Swift.Decodable, Word : Swift.Encodable, Word : Swift.FixedWidthInteger, Word : Swift.UnsignedInteger {
+  public typealias IntegerLiteralType = Swift.UInt64
+  public typealias Magnitude = ConnectSolanaAdapter.UInt2X<Word>
+  public typealias Words = [Word.Words.Element]
+  public typealias Stride = Swift.Int
+  public var rawValue: ConnectSolanaAdapter.Int2X<Word>.Magnitude
+  public init(rawValue: ConnectSolanaAdapter.Int2X<Word>.Magnitude)
+  public init(_ source: ConnectSolanaAdapter.Int2X<Word>)
+  public init()
+  public func hash(into hasher: inout Swift.Hasher)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension ConnectSolanaAdapter.Int2X {
+  public static func == (lhs: ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>) -> Swift.Bool
+}
+extension ConnectSolanaAdapter.Int2X : Swift.ExpressibleByIntegerLiteral {
+  public static var isSigned: Swift.Bool {
+    get
+  }
+  public static var bitWidth: Swift.Int {
+    get
+  }
+  public static var max: ConnectSolanaAdapter.Int2X<Word> {
+    get
+  }
+  public static var min: ConnectSolanaAdapter.Int2X<Word> {
+    get
+  }
+  public init?<T>(exactly source: T) where T : Swift.BinaryInteger
+  public init<T>(_ source: T) where T : Swift.BinaryInteger
+  public init?<T>(exactly source: T) where T : Swift.BinaryFloatingPoint
+  public init<T>(_ source: T) where T : Swift.BinaryFloatingPoint
+  public init<T>(truncatingIfNeeded source: T) where T : Swift.BinaryInteger
+  public init<T>(clamping source: T) where T : Swift.BinaryInteger
+  public init(integerLiteral value: ConnectSolanaAdapter.Int2X<Word>.IntegerLiteralType)
+}
+extension ConnectSolanaAdapter.Int2X : Swift.Comparable {
+  public var magnitude: ConnectSolanaAdapter.Int2X<Word>.Magnitude {
+    get
+  }
+  public static func < (lhs: ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>) -> Swift.Bool
+}
+extension ConnectSolanaAdapter.Int2X : Swift.Numeric {
+  prefix public static func ~ (value: ConnectSolanaAdapter.Int2X<Word>) -> ConnectSolanaAdapter.Int2X<Word>
+  prefix public static func + (value: ConnectSolanaAdapter.Int2X<Word>) -> ConnectSolanaAdapter.Int2X<Word>
+  prefix public static func - (value: ConnectSolanaAdapter.Int2X<Word>) -> ConnectSolanaAdapter.Int2X<Word>
+  public func addingReportingOverflow(_ other: ConnectSolanaAdapter.Int2X<Word>) -> (partialValue: ConnectSolanaAdapter.Int2X<Word>, overflow: Swift.Bool)
+  public static func &+ (lhs: ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>) -> ConnectSolanaAdapter.Int2X<Word>
+  public static func + (lhs: ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>) -> ConnectSolanaAdapter.Int2X<Word>
+  public static func += (lhs: inout ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>)
+  public func subtractingReportingOverflow(_ other: ConnectSolanaAdapter.Int2X<Word>) -> (partialValue: ConnectSolanaAdapter.Int2X<Word>, overflow: Swift.Bool)
+  public static func &- (lhs: ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>) -> ConnectSolanaAdapter.Int2X<Word>
+  public static func - (lhs: ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>) -> ConnectSolanaAdapter.Int2X<Word>
+  public static func -= (lhs: inout ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>)
+  public func multipliedFullWidth(by other: ConnectSolanaAdapter.Int2X<Word>) -> (high: ConnectSolanaAdapter.Int2X<Word>, low: ConnectSolanaAdapter.Int2X<Word>.Magnitude)
+  public func multipliedReportingOverflow(by other: ConnectSolanaAdapter.Int2X<Word>) -> (partialValue: ConnectSolanaAdapter.Int2X<Word>, overflow: Swift.Bool)
+  public static func &* (lhs: ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>) -> ConnectSolanaAdapter.Int2X<Word>
+  public static func * (lhs: ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>) -> ConnectSolanaAdapter.Int2X<Word>
+  public static func *= (lhs: inout ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>)
+}
+extension ConnectSolanaAdapter.Int2X {
+  public static func &>> (lhs: ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>) -> ConnectSolanaAdapter.Int2X<Word>
+  public static func &<< (lhs: ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>) -> ConnectSolanaAdapter.Int2X<Word>
+  public static func &>>= (lhs: inout ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>)
+  public static func &<<= (lhs: inout ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>)
+}
+extension ConnectSolanaAdapter.Int2X {
+  public func quotientAndRemainder(dividingBy other: ConnectSolanaAdapter.Int2X<Word>) -> (quotient: ConnectSolanaAdapter.Int2X<Word>, remainder: ConnectSolanaAdapter.Int2X<Word>)
+  public static func / (lhs: ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>) -> ConnectSolanaAdapter.Int2X<Word>
+  public static func /= (lhs: inout ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>)
+  public static func % (lhs: ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>) -> ConnectSolanaAdapter.Int2X<Word>
+  public static func %= (lhs: inout ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>)
+  public func dividedReportingOverflow(by other: ConnectSolanaAdapter.Int2X<Word>) -> (partialValue: ConnectSolanaAdapter.Int2X<Word>, overflow: Swift.Bool)
+  public func remainderReportingOverflow(dividingBy other: ConnectSolanaAdapter.Int2X<Word>) -> (partialValue: ConnectSolanaAdapter.Int2X<Word>, overflow: Swift.Bool)
+  public func dividingFullWidth(_ dividend: (high: ConnectSolanaAdapter.Int2X<Word>, low: ConnectSolanaAdapter.Int2X<Word>.Magnitude)) -> (quotient: ConnectSolanaAdapter.Int2X<Word>, remainder: ConnectSolanaAdapter.Int2X<Word>)
+}
+extension ConnectSolanaAdapter.Int2X : Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible {
+  public func toString(radix: Swift.Int = 10, uppercase: Swift.Bool = false) -> Swift.String
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension Swift.StringProtocol {
+  public init?<Word>(_ source: ConnectSolanaAdapter.Int2X<Word>, radix: Swift.Int = 10, uppercase: Swift.Bool = false) where Word : Swift.Decodable, Word : Swift.Encodable, Word : Swift.FixedWidthInteger, Word : Swift.UnsignedInteger
+}
+extension ConnectSolanaAdapter.Int2X : Swift.ExpressibleByStringLiteral {
+  public init(stringLiteral value: Swift.StringLiteralType)
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.StringLiteralType
+  public typealias StringLiteralType = Swift.StringLiteralType
+  public typealias UnicodeScalarLiteralType = Swift.StringLiteralType
+}
+extension Swift.Int {
+  public init<Word>(_ source: ConnectSolanaAdapter.Int2X<Word>) where Word : Swift.Decodable, Word : Swift.Encodable, Word : Swift.FixedWidthInteger, Word : Swift.UnsignedInteger
+}
+extension ConnectSolanaAdapter.Int2X : Swift.Strideable {
+  public func distance(to other: ConnectSolanaAdapter.Int2X<Word>) -> Swift.Int
+  public func advanced(by n: Swift.Int) -> ConnectSolanaAdapter.Int2X<Word>
+}
+extension ConnectSolanaAdapter.Int2X : Swift.BinaryInteger {
+  public var bitWidth: Swift.Int {
+    get
+  }
+  public var words: ConnectSolanaAdapter.Int2X<Word>.Words {
+    get
+  }
+  public var trailingZeroBitCount: Swift.Int {
+    get
+  }
+  public static func &= (lhs: inout ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>)
+  public static func |= (lhs: inout ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>)
+  public static func ^= (lhs: inout ConnectSolanaAdapter.Int2X<Word>, rhs: ConnectSolanaAdapter.Int2X<Word>)
+  public static func <<= <RHS>(lhs: inout ConnectSolanaAdapter.Int2X<Word>, rhs: RHS) where RHS : Swift.BinaryInteger
+  public static func >>= <RHS>(lhs: inout ConnectSolanaAdapter.Int2X<Word>, rhs: RHS) where RHS : Swift.BinaryInteger
+}
+extension ConnectSolanaAdapter.Int2X : Swift.FixedWidthInteger {
+  public init(_truncatingBits _: Swift.UInt)
+  public var nonzeroBitCount: Swift.Int {
+    get
+  }
+  public var leadingZeroBitCount: Swift.Int {
+    get
+  }
+  public var byteSwapped: ConnectSolanaAdapter.Int2X<Word> {
+    get
+  }
+}
+extension ConnectSolanaAdapter.Int2X : Swift.SignedInteger {
+}
+public typealias Int128 = ConnectSolanaAdapter.Int2X<Swift.UInt64>
+public typealias Int256 = ConnectSolanaAdapter.Int2X<ConnectSolanaAdapter.UInt128>
+public typealias Int512 = ConnectSolanaAdapter.Int2X<ConnectSolanaAdapter.UInt256>
+public typealias Int1024 = ConnectSolanaAdapter.Int2X<ConnectSolanaAdapter.UInt512>
+public protocol SolanaBasicProgram {
+  static var id: ConnectSolanaAdapter.PublicKey { get }
+}
+extension Foundation.Data {
+  public func checksum() -> Swift.UInt16
+}
+extension Foundation.Data {
+  public init(hex: Swift.String)
+  public var bytes: [Swift.UInt8] {
+    get
+  }
+  public func toHexString() -> Swift.String
+  public func sha256() -> Foundation.Data
+}
+public enum Ed25519HDKey {
+  public typealias Hex = Swift.String
+  public typealias Path = Swift.String
+  public enum Error : Swift.Error {
+    case invalidDerivationPath
+    case hmacCanNotAuthenticate
+    case canNotGetMasterKeyFromSeed
+    public static func == (a: ConnectSolanaAdapter.Ed25519HDKey.Error, b: ConnectSolanaAdapter.Ed25519HDKey.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static let hardenedOffset: Swift.Int
+  public static func getMasterKeyFromSeed(_ seed: ConnectSolanaAdapter.Ed25519HDKey.Hex) -> Swift.Result<ConnectSolanaAdapter.Ed25519HDKey.Keys, ConnectSolanaAdapter.Ed25519HDKey.Error>
+  public static func getPublicKey(privateKey: Foundation.Data, withZeroBytes: Swift.Bool = true) throws -> Foundation.Data
+  public static func derivePath(_ path: ConnectSolanaAdapter.Ed25519HDKey.Path, seed: ConnectSolanaAdapter.Ed25519HDKey.Hex, offSet: Swift.Int = hardenedOffset) -> Swift.Result<ConnectSolanaAdapter.Ed25519HDKey.Keys, ConnectSolanaAdapter.Ed25519HDKey.Error>
+}
+public func sha256(data: Foundation.Data) -> Foundation.Data
+extension ConnectSolanaAdapter.DerivablePath.DerivableType : Swift.Equatable {}
+extension ConnectSolanaAdapter.DerivablePath.DerivableType : Swift.Hashable {}
+extension ConnectSolanaAdapter.DerivablePath.DerivableType : Swift.RawRepresentable {}
+extension ConnectSolanaAdapter.BorshDecodingError : Swift.Equatable {}
+extension ConnectSolanaAdapter.BorshDecodingError : Swift.Hashable {}
+extension ConnectSolanaAdapter.Network : Swift.Equatable {}
+extension ConnectSolanaAdapter.Network : Swift.Hashable {}
+extension ConnectSolanaAdapter.Network : Swift.RawRepresentable {}
+extension ConnectSolanaAdapter.Ed25519HDKey.Error : Swift.Equatable {}
+extension ConnectSolanaAdapter.Ed25519HDKey.Error : Swift.Hashable {}

@@ -1,0 +1,23 @@
+${PODS_ROOT}/Target Support Files/Pods-ParticleAAExample/Pods-ParticleAAExample-resources.sh
+${PODS_CONFIGURATION_BUILD_DIR}/AWSCore/AWSCore.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/AWSKMS/AWSKMS.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.bundle
+${PODS_ROOT}/ConnectWalletConnectAdapter/XCFrameworks/ConnectWalletConnectAdapter/ConnectWalletConnectAdapter.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/CryptoSwift/CryptoSwift.bundle
+${PODS_ROOT}/ParticleAuthCore/XCFrameworks/ParticleAuthCore/ParticleAuthCore.bundle
+${PODS_ROOT}/ParticleNetworkBase/XCFrameworks/ParticleNetworkBase/ParticleNetworkBase.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/SkeletonView/SkeletonView.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit_Privacy.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/SwiftMessages/SwiftMessages.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON/SwiftyJSON.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/WalletConnectSwiftV2/Web3Wallet.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/WalletConnectSwiftV2/WalletConnectNetworking.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/WalletConnectSwiftV2/WalletConnectPairing.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/WalletConnectSwiftV2/WalletConnectPush.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/WalletConnectSwiftV2/WalletConnect_WalletConnectRelay.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/WalletConnectSwiftV2/WalletConnectRelay.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/WalletConnectSwiftV2/WalletConnectSign.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/WalletConnectSwiftV2/WalletConnectVerify.bundle

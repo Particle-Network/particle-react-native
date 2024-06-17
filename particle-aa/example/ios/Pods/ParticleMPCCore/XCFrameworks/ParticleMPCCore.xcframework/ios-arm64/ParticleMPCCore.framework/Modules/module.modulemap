@@ -1,0 +1,11 @@
+framework module ParticleMPCCore {
+  umbrella header "ParticleMPCCore.h"
+  export *
+
+  module * { export * }
+}
+
+module ParticleMPCCore.Swift {
+  header "ParticleMPCCore-Swift.h"
+  requires objc
+}

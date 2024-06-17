@@ -1,8 +1,0 @@
-.circleci
-android
-ios
-dist
-docs
-lib
-out
-__tests__

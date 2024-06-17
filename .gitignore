@@ -69,16 +69,21 @@ lib/
 
 pub.py
 
+particle-base/example/ios/Pods
 particle-auth/example/ios/Pods
 particle-connect/example/ios/Pods
 particle-wallet/example/ios/Pods
 particle-biconomy/example/ios/Pods
 particle-auth-core/example/ios/Pods
+particle-aa/example/ios/Pods
 
+particle-base/example/ios/Podfile.lock
 particle-auth/example/ios/Podfile.lock
 particle-connect/example/ios/Podfile.lock
 particle-wallet/example/ios/Podfile.lock
 particle-biconomy/example/ios/Podfile.lock
 particle-auth-core/example/ios/Podfile.lock
+particle-aa/example/ios/Podfile.lock
+
 *.lock
 *.lock.json

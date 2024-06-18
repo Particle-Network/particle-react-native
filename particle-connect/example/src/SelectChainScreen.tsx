@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, SafeAreaView, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, SafeAreaView, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from './types';

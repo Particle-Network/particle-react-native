@@ -1,7 +1,6 @@
 // import * as particleAuth from '@particle-network/rn-auth';
 import * as particleBase from 'rn-base-beta';
 import { EventEmitter } from 'events';
-import type { AccountInfo } from '../Models';
 import * as particleConnect from '../index';
 import { sendEVMRpc } from './connection';
 import type { ParticleConnectOptions, RequestArguments } from './types';
@@ -67,12 +66,8 @@ class ParticleConnectProvider {
           );
         }
         if (!isConnected) {
-          const result = await particleConnect.connect(this.options.walletType);
-          if (result.status) {
-            return [(result.data as AccountInfo).publicAddress];
-          } else {
-            Promise.reject(result.data);
-          }
+          const accountInfo = await particleConnect.connect(this.options.walletType);
+          return [accountInfo.publicAddress];
         } else {
           return [this.options.publicAddress];
         }

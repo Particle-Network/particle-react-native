@@ -1,5 +1,4 @@
 // import type {
-//   LoginAuthorization,
 //   LoginPageConfig,
 //   LoginType,
 //   SocialLoginPrompt,
@@ -7,12 +6,12 @@
 // } from '@particle-network/rn-auth';
 
 import type {
-  LoginAuthorization,
   LoginPageConfig,
   LoginType,
   SocialLoginPrompt,
   SupportAuthType,
 } from 'rn-base-beta';
+import { WalletType } from './WalletType';
 
 
 export interface ParticleConnectConfig {
@@ -50,7 +49,7 @@ export interface AccountInfo {
   description?: string;
   chainId?: number;
   mnemonic?: string;
-  walletType?: string
+  walletType?: WalletType
 }
 
 export interface LoginResp {

@@ -137,17 +137,25 @@ class ParticleConnectPlugin: NSObject {
     }
     
     @objc
-    public func getAccounts(_ json: String, resolve: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+    public func getAccounts(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let walletTypeString = json
         guard let walletType = map2WalletType(from: walletTypeString) else {
             print("walletType \(walletTypeString) is not existed")
-            rejecter("", "walletType \(walletTypeString) is not existed", nil)
+            let response = ReactResponseError(code: nil, message: "walletType \(walletTypeString) is not existed", data: nil)
+            let statusModel = ReactStatusModel(status: false, data: response)
+            let data = try! JSONEncoder().encode(statusModel)
+            guard let json = String(data: data, encoding: .utf8) else { return }
+            callback([json])
             return
         }
         
         guard let adapter = map2ConnectAdapter(from: walletType) else {
             print("adapter for \(walletTypeString) is not init")
-            rejecter("", "adapter for \(walletTypeString) is not init", nil)
+            let response = ReactResponseError(code: nil, message: "adapter for \(walletTypeString) is not init", data: nil)
+            let statusModel = ReactStatusModel(status: false, data: response)
+            let data = try! JSONEncoder().encode(statusModel)
+            guard let json = String(data: data, encoding: .utf8) else { return }
+            callback([json])
             return
         }
         
@@ -155,7 +163,7 @@ class ParticleConnectPlugin: NSObject {
         let statusModel = ReactStatusModel(status: true, data: accounts)
         let data = try! JSONEncoder().encode(statusModel)
         let json = String(data: data, encoding: .utf8) ?? ""
-        resolve(json)
+        callback([json])
     }
     
     @objc

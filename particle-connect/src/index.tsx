@@ -23,7 +23,6 @@ import type {
   RpcUrl,
   WalletType,
 } from './Models';
-import { formatRespData } from './utils';
 
 const LINKING_ERROR =
   `The package '@particle-network/rn-connect' doesn't seem to be linked. Make sure: \n\n` +
@@ -93,10 +92,25 @@ export function setWalletConnectV2SupportChainInfos(chainInfos: ChainInfo[]) {
 /**
  * Get accounts
  * @param walletType Wallet type
- * @returns Account
+ * @returns Account list
  */
-export async function getAccounts(walletType: WalletType): Promise<string> {
-  return ParticleConnectPlugin.getAccounts(walletType);
+export async function getAccounts(walletType: WalletType): Promise<AccountInfo[]> {
+  return new Promise((resolve, reject) => {
+    ParticleConnectPlugin.getAccounts(walletType, (result: string) => {
+      const parsedResult: CommonResp<AccountInfo[]> = JSON.parse(result);
+
+      if (parsedResult.status) {
+        let accounts = parsedResult.data as AccountInfo[]
+        accounts = accounts.map(account => {
+          account.walletType = walletType || account.walletType;
+          return account;
+        });
+        resolve(accounts);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
+    });
+  });
 }
 
 /**

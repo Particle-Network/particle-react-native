@@ -9,7 +9,7 @@
     "pods": "pod-install --quiet"
   },
   "dependencies": {
-    "@particle-network/rn-auth": "1.4.12",
+    "rn-base-beta": "1.5.0",
     "@particle-network/rn-auth-core": "file:..",
     "@react-navigation/elements": "^1.3.6",
     "@react-navigation/native": "^6.0.13",

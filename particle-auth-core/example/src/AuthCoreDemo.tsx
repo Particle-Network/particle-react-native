@@ -4,14 +4,22 @@ import {
   SolanaTestnet,
   type ChainInfo,
 } from '@particle-network/chains';
-import * as particleAuth from '@particle-network/rn-auth';
-import {Env, ParticleInfo} from '@particle-network/rn-auth';
+// import * as particleAuth from '@particle-network/rn-auth';
+import * as particleBase from 'rn-base-beta';
+// import {Env, ParticleInfo} from '@particle-network/rn-auth';
+import {Env, ParticleInfo} from 'rn-base-beta';
 import * as particleAuthCore from '@particle-network/rn-auth-core';
+// import {
+//   LoginType,
+//   SocialLoginPrompt,
+//   SupportAuthType
+// } from '@particle-network/rn-auth';
+
 import {
   LoginType,
   SocialLoginPrompt,
   SupportAuthType
-} from '@particle-network/rn-auth';
+} from 'rn-base-beta';
 
 import {
   evm,
@@ -429,7 +437,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     console.log('init');
     const chainInfo = this.props.route.params?.chainInfo || EthereumSepolia;
     const env = Env.Dev;
-    particleAuth.init(chainInfo, env);
+    particleBase.init(chainInfo, env);
     particleAuthCore.init();
     Toast.show({
       type: 'success',
@@ -828,7 +836,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
   };
 
   setSecurityAccountConfig = async () => {
-    particleAuth.setSecurityAccountConfig(new particleAuth.SecurityAccountConfig(0, 0));
+    particleBase.setSecurityAccountConfig(new particleBase.SecurityAccountConfig(0, 0));
   }
 
   setBlindEnable = async () => {

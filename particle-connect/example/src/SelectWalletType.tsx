@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { PNAccount } from './Models/PNAccount';
+import * as particleConnect from '@particle-network/rn-connect';
 
 interface SelectWalletTypePageProps {
   navigation: NavigationProp<any>;
@@ -20,7 +21,6 @@ interface SelectWalletTypePageProps {
 export default class SelectWalletTypePage extends PureComponent<SelectWalletTypePageProps> {
   render = () => {
     const data = [
-      { key: 'Particle', value: WalletType.Particle },
       { key: 'ParticleAuthCore', value: WalletType.AuthCore },
       { key: 'MetaMask', value: WalletType.MetaMask },
       { key: 'Trust', value: WalletType.Trust },
@@ -57,15 +57,17 @@ export default class SelectWalletTypePage extends PureComponent<SelectWalletType
 
   selectedWalletType = async (walletType: WalletType) => {
     const { navigation } = this.props;
-    PNAccount.walletType = walletType;
+    const accountInfo = await particleConnect.connect(walletType);
+    accountInfo.walletType = walletType;
+    
     Toast.show({
       type: 'success',
       text1: `select wallet type ${walletType}`,
     });
 
     navigation.navigate({
-      name: 'ConnectDemo',
-      params: { post: walletType },
+      name: 'Home',
+      params: { accountInfo: accountInfo },
       merge: true,
     });
   };

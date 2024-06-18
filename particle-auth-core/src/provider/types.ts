@@ -1,5 +1,5 @@
-import { LoginType } from '@particle-network/rn-auth';
-
+// import { LoginType } from '@particle-network/rn-auth';
+import { LoginType } from 'rn-base-beta';
 export interface RequestArguments {
     method: string;
     params?: any;

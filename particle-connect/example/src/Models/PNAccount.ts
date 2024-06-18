@@ -1,19 +1,20 @@
 import { WalletType } from '@particle-network/rn-connect';
 
 export class PNAccount {
-  static walletType: WalletType = WalletType.Particle;
-
+  walletType: WalletType;
   icons: string[];
   name: string;
   publicAddress: string;
   url: string;
 
   constructor(
+    walletType: WalletType,
     icons: string[],
     name: string,
     publicAddress: string,
     url: string
   ) {
+    this.walletType = walletType;
     this.icons = icons;
     this.name = name;
     this.publicAddress = publicAddress;

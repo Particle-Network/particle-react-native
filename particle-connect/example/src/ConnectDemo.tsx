@@ -1,19 +1,27 @@
 import {
   ChainInfo,
   Ethereum,
-  Polygon,
   SolanaDevnet,
   EthereumSepolia
 } from '@particle-network/chains';
-import * as particleAuth from '@particle-network/rn-auth';
-import * as particleAuthCore from '@particle-network/rn-auth-core';
+// import * as particleAuth from '@particle-network/rn-auth';
+import * as particleBase from 'rn-base-beta';
+// import * as particleAuthCore from '@particle-network/rn-auth-core';
+import * as particleAuthCore from 'rn-auth-core-beta';
+// import {
+//   Env,
+//   LoginType,
+//   ParticleInfo,
+//   SocialLoginPrompt,
+//   SupportAuthType,
+// } from '@particle-network/rn-auth';
 import {
   Env,
   LoginType,
   ParticleInfo,
   SocialLoginPrompt,
   SupportAuthType,
-} from '@particle-network/rn-auth';
+} from 'rn-base-beta';
 import * as particleConnect from '@particle-network/rn-connect';
 import {
   AccountInfo,
@@ -50,7 +58,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     currentKey: '',
     qrCodeUri: '',
   };
-  pnaccount = new PNAccount([], '', '', '');
+  pnaccount = new PNAccount(WalletType.AuthCore, [], '', '', '');
   emitter = new NativeEventEmitter(particleConnect.ParticleConnectEvent);
 
   // Start with new web3, at this time, you don't connect with this walletType, and don't know any publicAddress
@@ -89,7 +97,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     this.newWeb3 = createWeb3(
       '5479798b-26a9-4943-b848-649bb104fdc3',
       'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b',
-      PNAccount.walletType
+      this.pnaccount.walletType
     );
 
     Toast.show({ type: 'success', text1: 'Initialized successfully' });
@@ -100,7 +108,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   newWeb3_getAccounts = async () => {
     try {
       const accounts = await this.newWeb3.eth.getAccounts();
-      this.pnaccount = new PNAccount([], '', accounts[0] as string, '');
+      this.pnaccount = new PNAccount(this.pnaccount.walletType, [], '', accounts[0] as string, '');
       console.log('web3.eth.getAccounts', accounts);
       Toast.show({
         type: 'success',
@@ -121,12 +129,12 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
       this.web3 = restoreWeb3(
         '5479798b-26a9-4943-b848-649bb104fdc3',
         'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b',
-        PNAccount.walletType,
+        this.pnaccount.walletType,
         this.pnaccount.publicAddress
       );
 
       const accounts = await this.web3.eth.getAccounts();
-      this.pnaccount = new PNAccount([], '', accounts[0] as string, '');
+      this.pnaccount = new PNAccount(this.pnaccount.walletType, [], '', accounts[0] as string, '');
       console.log('web3.eth.getAccounts', accounts);
       Toast.show({
         type: 'success',
@@ -338,7 +346,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   };
 
   getAccounts = async () => {
-    const accounts = await particleConnect.getAccounts(PNAccount.walletType);
+    const accounts = await particleConnect.getAccounts(this.pnaccount.walletType);
     Toast.show({
       type: 'success',
       text1: 'Successfully get accounts',
@@ -349,7 +357,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   setChainInfo = async () => {
     const chainInfo: ChainInfo =
       this.props.route.params?.chainInfo || EthereumSepolia;
-    const result = await particleAuth.setChainInfo(chainInfo);
+    const result = await particleBase.setChainInfo(chainInfo);
     console.log(result);
     Toast.show({
       type: result ? 'success' : 'error',
@@ -358,7 +366,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   };
 
   getChainInfo = async () => {
-    const chainInfo: ChainInfo = await particleAuth.getChainInfo();
+    const chainInfo: ChainInfo = await particleBase.getChainInfo();
     console.log(chainInfo);
     Toast.show({
       type: 'success',
@@ -372,10 +380,8 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     var result;
     if (PNAccount.walletType == WalletType.AuthCore) {
       result = await particleAuthCore.switchChain(chainInfo);
-    } else if (PNAccount.walletType == WalletType.Particle) {
-      result = await particleAuth.setChainInfoAsync(chainInfo);
     } else {
-      result = await particleAuth.setChainInfo(chainInfo);
+      result = await particleBase.setChainInfo(chainInfo);
     }
     Toast.show({
       type: result ? 'success' : 'error',
@@ -411,46 +417,6 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     } else {
       const error = result.data as CommonError;
       console.log(error);
-      Toast.show({
-        type: 'error',
-        text1: error.message,
-      });
-    }
-  };
-
-  connectWithParticleAuth = async () => {
-    const message = '0x' + Buffer.from('Hello Particle!').toString('hex');
-    const authorization = { message: message, uniq: false };
-    const connectConfig = {
-      loginType: LoginType.Email,
-      supportAuthType: [SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
-      socialLoginPrompt: SocialLoginPrompt.SelectAccount,
-      authorization: authorization
-    };
-
-    const result = await particleConnect.connect(
-      WalletType.Particle,
-      connectConfig
-    );
-    if (result.status) {
-      console.log('connect success');
-      const account = result.data as AccountInfo;
-      this.pnaccount = new PNAccount(
-        account.icons,
-        account.name,
-        account.publicAddress,
-        account.url
-      );
-      console.log('pnaccount = ', this.pnaccount);
-
-      Toast.show({
-        type: 'success',
-        text1: 'Successfully connected',
-      });
-    } else {
-      const error = result.data as CommonError;
-      console.log(error);
-
       Toast.show({
         type: 'error',
         text1: error.message,
@@ -594,7 +560,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
         return;
       }
 
-      const sender = await particleAuth.getAddress();
+      const sender = await particleAuthCore.evm.getAddress();
       console.log('sender: ', sender);
       const transaction = await Helper.getSolanaTransaction(sender);
       console.log('transaction:', transaction);
@@ -645,7 +611,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
         console.log('publicAddress is underfined, you need connect');
         return;
       }
-      const sender = await particleAuth.getAddress();
+      const sender = await particleAuthCore.evm.getAddress();
       console.log('sender: ', sender);
       const transaction = await Helper.getSolanaTransaction(sender);
       console.log('transaction:', transaction);
@@ -680,7 +646,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   };
 
   signAndSendTransaction = async () => {
-    const sender = await particleAuth.getAddress();
+    const sender = await particleAuthCore.evm.getAddress();
     const chainInfo: ChainInfo =
       this.props.route.params?.chainInfo || EthereumSepolia;
 
@@ -951,14 +917,6 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     { key: 'web3_personalSign', function: this.web3_personalSign },
     { key: 'web3_signTypedData_v4', function: this.web3_signTypedData_v4 },
     { key: 'web3_sendTransaction', function: this.web3_sendTransaction },
-    {
-      key: 'web3_wallet_switchEthereumChain',
-      function: this.web3_wallet_switchEthereumChain,
-    },
-    {
-      key: 'web3_wallet_addEthereumChain',
-      function: this.web3_wallet_addEthereumChain,
-    },
 
     { key: 'SetChainInfo', function: this.setChainInfo },
     { key: 'SetChainInfoAsync', function: this.setChainInfoAsync },
@@ -968,10 +926,6 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     {
       key: 'connectWithParticleAuthCore',
       function: this.connectWithParticleAuthCore,
-    },
-    {
-      key: 'connectWithParticleAuth',
-      function: this.connectWithParticleAuth,
     },
     { key: 'Disconnect', function: this.disconnect },
     { key: 'IsConnected', function: this.isConnected },
@@ -995,7 +949,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
       const chainInfo: ChainInfo = this.props.route.params?.chainInfo;
 
       if (chainInfo) {
-        await particleAuth.setChainInfo(chainInfo);
+        await particleBase.setChainInfo(chainInfo);
       }
     });
 
@@ -1052,7 +1006,6 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
         {this.state.qrCodeUri !== '' && (
           <QRCode
             value={this.state.qrCodeUri}
-          // 其他 QRCode 组件的属性
           />
         )}
       </SafeAreaView>

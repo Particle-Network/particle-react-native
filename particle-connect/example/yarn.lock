@@ -1550,30 +1550,14 @@
   resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.4.13.tgz"
   integrity sha512-GMmmpDVpxbyI5n9tayt421eqn1aEZWaKKSmvJ6/fIhZpmYvcubmFLzHmygM1ef+uBxwbGSh888gnXSCjfn+OUg==
 
-"@particle-network/rn-auth-core@1.4.8":
-  version "1.4.8"
-  resolved "https://registry.npmjs.org/@particle-network/rn-auth-core/-/rn-auth-core-1.4.8.tgz"
-  integrity sha512-vv/BQ4k1K4Aq89d5KBCl7ibbn1p5d1AVilVqb0u1zjGlpXe6rQQ6xUsD6b095NTJwhREAFB3VYCKS6htvWOSsA==
-  dependencies:
-    "@particle-network/rn-auth" "1.4.8"
-
-"@particle-network/rn-auth@1.4.8":
-  version "1.4.8"
-  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.4.8.tgz"
-  integrity sha512-hKQ/DK1cQ85iTuYj/g6up7qymPCtUT+xrThDR87iougWLht4et/7ud/6ahHMW5kWQXX6Ifaox3SEQD205sJ1lQ==
-  dependencies:
-    "@particle-network/chains" "^1.4.13"
-    axios "^1.6.2"
-    bignumber.js "^9.1.0"
-    events "^3.3.0"
-
 "@particle-network/rn-connect@file:..":
-  version "1.4.4"
+  version "1.4.12"
   resolved "file:.."
   dependencies:
-    "@particle-network/rn-auth" "1.4.8"
     axios "^1.3.4"
     events "^3.3.0"
+    rn-auth-core-beta "1.4.12"
+    rn-base-beta "1.5.0"
 
 "@react-native-community/cli-clean@11.3.6":
   version "11.3.6"
@@ -5911,6 +5895,23 @@ rlp@^2.2.4:
   integrity sha512-d5gdPmgQ0Z+AklL2NVXr/IoSjNZFfTVvQWzL/AM2AOcSzYP2xjlb0AC8YyCLc41MSNf6P6QVtjgPdmVtzb+4lQ==
   dependencies:
     bn.js "^5.2.0"
+
+rn-auth-core-beta@1.4.12:
+  version "1.4.12"
+  resolved "https://registry.npmjs.org/rn-auth-core-beta/-/rn-auth-core-beta-1.4.12.tgz"
+  integrity sha512-15c4V5ZkfOGo+FKdhX8wGEPgIERmBIzHfSC+/3Ok/c/23OK5eGdjDt8JqGPQgXpK3ZrXZxAYTBd3DTyoKHik9w==
+  dependencies:
+    rn-base-beta "1.5.0"
+
+rn-base-beta@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/rn-base-beta/-/rn-base-beta-1.5.0.tgz"
+  integrity sha512-xiPOY4PYE5XWBdZ4ZBjwVweDIrFgXht6f/JrdZOA6+peMIJSFWvCvvjcyWYXB92Hx/cz1I3dcDkKFrmi/6afFw==
+  dependencies:
+    "@particle-network/chains" "^1.4.13"
+    axios "^1.6.2"
+    bignumber.js "^9.1.0"
+    events "^3.3.0"
 
 safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@^5.2.0, safe-buffer@^5.2.1, safe-buffer@~5.2.0, safe-buffer@5.2.1:
   version "5.2.1"

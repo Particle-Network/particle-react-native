@@ -1,13 +1,21 @@
 import type { ChainInfo } from '@particle-network/chains';
+// import {
+//   AAFeeMode,
+//   getChainInfo,
+//   isHexString,
+//   type Env,
+// } from '@particle-network/rn-auth';
 import {
   AAFeeMode,
   getChainInfo,
   isHexString,
   type Env,
-} from '@particle-network/rn-auth';
+} from 'rn-base-beta';
+
 import { NativeModules, Platform } from 'react-native';
 import type {
   AccountInfo,
+  CommonError,
   CommonResp,
   DappMetaData,
   LoginResp,
@@ -100,7 +108,7 @@ export async function getAccounts(walletType: WalletType): Promise<string> {
 export async function connect(
   walletType: WalletType,
   config?: ParticleConnectConfig
-): Promise<CommonResp<AccountInfo>> {
+): Promise<AccountInfo> {
   let configJson = '';
   if (config) {
     const obj = {
@@ -109,14 +117,19 @@ export async function connect(
       code: config.code,
       supportAuthTypeValues: config.supportAuthType,
       socialLoginPrompt: config.socialLoginPrompt,
-      authorization: config.authorization,
       loginPageConfig: config.loginPageConifg
     };
     configJson = JSON.stringify(obj);
   }
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleConnectPlugin.connect(walletType, configJson, (result: string) => {
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<AccountInfo> = JSON.parse(result);
+
+      if (parsedResult.status) {
+        resolve(parsedResult.data as AccountInfo);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }
@@ -130,14 +143,17 @@ export async function connect(
 export async function disconnect(
   walletType: WalletType,
   publicAddress: string
-): Promise<CommonResp<string>> {
+): Promise<string> {
   const obj = { wallet_type: walletType, public_address: publicAddress };
   const json = JSON.stringify(obj);
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleConnectPlugin.disconnect(json, (result: string) => {
-      console.log('disconnect', JSON.parse(result));
-
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<string> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as string);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }
@@ -209,7 +225,7 @@ export async function signTransaction(
   walletType: WalletType,
   publicAddress: string,
   transaction: string
-): Promise<CommonResp<string>> {
+): Promise<string> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -217,9 +233,14 @@ export async function signTransaction(
   };
   const json = JSON.stringify(obj);
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleConnectPlugin.signTransaction(json, (result: string) => {
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<string> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as string);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }
@@ -235,7 +256,7 @@ export async function signAllTransactions(
   walletType: WalletType,
   publicAddress: string,
   transactions: string[]
-): Promise<CommonResp<string>> {
+): Promise<string[]> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -243,9 +264,14 @@ export async function signAllTransactions(
   };
   const json = JSON.stringify(obj);
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleConnectPlugin.signAllTransactions(json, (result: string) => {
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<string[]> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as string[]);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }
@@ -262,7 +288,7 @@ export async function signAndSendTransaction(
   publicAddress: string,
   transaction: string,
   feeMode?: AAFeeMode
-): Promise<CommonResp<string>> {
+): Promise<string> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -277,9 +303,14 @@ export async function signAndSendTransaction(
 
   const json = JSON.stringify(obj);
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleConnectPlugin.signAndSendTransaction(json, (result: string) => {
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<string> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as string);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }
@@ -295,7 +326,7 @@ export async function batchSendTransactions(
   publicAddress: string,
   transactions: string[],
   feeMode?: AAFeeMode
-): Promise<CommonResp<string>> {
+): Promise<string> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -309,9 +340,14 @@ export async function batchSendTransactions(
   };
   const json = JSON.stringify(obj);
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleConnectPlugin.batchSendTransactions(json, (result: string) => {
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<string> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as string);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }
@@ -327,7 +363,7 @@ export async function signTypedData(
   walletType: WalletType,
   publicAddress: string,
   typedData: string
-): Promise<CommonResp<string>> {
+): Promise<string> {
   let serializedMessage: string;
 
   if (isHexString(typedData)) {
@@ -343,9 +379,14 @@ export async function signTypedData(
   };
   const json = JSON.stringify(obj);
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleConnectPlugin.signTypedData(json, (result: string) => {
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<string> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as string);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }
@@ -363,7 +404,7 @@ export function login(
   publicAddress: string,
   domain: string,
   uri: string
-): Promise<CommonResp<LoginResp>> {
+): Promise<LoginResp> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -371,9 +412,14 @@ export function login(
     uri: uri,
   };
   const json = JSON.stringify(obj);
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleConnectPlugin.login(json, (result: string) => {
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<LoginResp> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as LoginResp);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }
@@ -391,7 +437,7 @@ export function verify(
   publicAddress: string,
   message: string,
   signature: string
-): Promise<CommonResp<boolean>> {
+): Promise<boolean> {
   const obj = {
     wallet_type: walletType,
     public_address: publicAddress,
@@ -400,9 +446,14 @@ export function verify(
   };
   const json = JSON.stringify(obj);
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleConnectPlugin.verify(json, (result: string) => {
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<boolean> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as boolean);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }
@@ -416,13 +467,18 @@ export function verify(
 export function importPrivateKey(
   walletType: WalletType,
   privateKey: string
-): Promise<CommonResp<Partial<AccountInfo>>> {
+): Promise<Partial<AccountInfo>> {
   const obj = { wallet_type: walletType, private_key: privateKey };
   const json = JSON.stringify(obj);
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleConnectPlugin.importPrivateKey(json, (result: string) => {
-      resolve(formatRespData(result));
+      const parsedResult: CommonResp<AccountInfo> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as AccountInfo);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }
@@ -436,13 +492,18 @@ export function importPrivateKey(
 export function importMnemonic(
   walletType: WalletType,
   mnemonic: string
-): Promise<CommonResp<Partial<AccountInfo>>> {
+): Promise<Partial<AccountInfo>> {
   const obj = { wallet_type: walletType, mnemonic: mnemonic };
   const json = JSON.stringify(obj);
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleConnectPlugin.importMnemonic(json, (result: string) => {
-      resolve(formatRespData(result));
+      const parsedResult: CommonResp<AccountInfo> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as AccountInfo);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }
@@ -456,13 +517,18 @@ export function importMnemonic(
 export function exportPrivateKey(
   walletType: WalletType,
   publicAddress: string
-): Promise<CommonResp<string>> {
+): Promise<string> {
   const obj = { wallet_type: walletType, public_address: publicAddress };
   const json = JSON.stringify(obj);
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleConnectPlugin.exportPrivateKey(json, (result: string) => {
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<string> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as string);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }
@@ -473,11 +539,15 @@ export function exportPrivateKey(
  * you can explore example for more details.
  * @returns Account
  */
-export function connectWalletConnect(): Promise<CommonResp<AccountInfo>> {
-  return new Promise((resolve) => {
+export function connectWalletConnect(): Promise<AccountInfo> {
+  return new Promise((resolve, reject) => {
     ParticleConnectPlugin.connectWalletConnect((result: string) => {
-      console.log('result', result);
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<AccountInfo> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as AccountInfo);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }

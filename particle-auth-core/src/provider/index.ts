@@ -1,8 +1,10 @@
 import { chains } from '@particle-network/chains';
 import { EventEmitter } from 'events';
 import * as particleAuthCore from '../index';
-import * as particleAuth from '@particle-network/rn-auth';
-import { SupportAuthType, SocialLoginPrompt } from '@particle-network/rn-auth';
+// import * as particleAuth from '@particle-network/rn-auth';
+import * as particleBase from 'rn-base-beta';
+// import { SupportAuthType, SocialLoginPrompt } from '@particle-network/rn-auth';
+import { SupportAuthType, SocialLoginPrompt } from 'rn-base-beta';
 import { sendEVMRpc } from './connection';
 import type { ParticleAuthCoreOptions, RequestArguments } from './types';
 import { notSupportMethods, signerMethods } from './types';
@@ -51,7 +53,7 @@ class ParticleAuthCoreProvider {
         }
         if (signerMethods.includes(payload.method)) {
             if (payload.method === 'eth_chainId') {
-                const chainInfo = await particleAuth.getChainInfo();
+                const chainInfo = await particleBase.getChainInfo();
                 return Promise.resolve(`0x${chainInfo.id.toString(16)}`);
             } else if (payload.method === 'eth_accounts' || payload.method === 'eth_requestAccounts') {
                 const isLogin = await particleAuthCore.isConnected();
@@ -64,7 +66,7 @@ class ParticleAuthCoreProvider {
             } else if (payload.method === 'eth_sendTransaction') {
                 const txData = payload.params[0];
                 if (!txData.chainId) {
-                    const chainInfo = await particleAuth.getChainInfo();
+                    const chainInfo = await particleBase.getChainInfo();
                     txData.chainId = `0x${chainInfo.id.toString(16)}`;
                 }
                 const tx = Buffer.from(JSON.stringify(txData)).toString('hex');
@@ -98,7 +100,7 @@ class ParticleAuthCoreProvider {
                         message: 'The Provider does not support the chain',
                     });
                 }
-                const result = await particleAuth.setChainInfo(chainInfo);
+                const result = await particleBase.setChainInfo(chainInfo);
                 if (result) {
                     return Promise.resolve(null);
                 } else {
@@ -129,7 +131,7 @@ class ParticleAuthCoreProvider {
                 });
             }
         } else {
-            const chainInfo = await particleAuth.getChainInfo();
+            const chainInfo = await particleBase.getChainInfo();
             return sendEVMRpc(payload, {
                 ...this.options,
                 chainId: chainInfo.id,

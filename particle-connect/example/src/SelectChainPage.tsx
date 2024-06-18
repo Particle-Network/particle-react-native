@@ -51,12 +51,11 @@ export default class SelectChainPage extends PureComponent<SelectChainPageProps>
       type: 'success',
       text1: `select chain ${chainInfo.name} ${chainInfo.network} ${chainInfo.id}`,
     });
-
-    navigation.navigate({
-      name: 'AuthCoreDemo',
-      params: { chainInfo: chainInfo },
-      merge: true,
+    
+    navigation.navigate('Home', {
+      chainInfo: chainInfo,
     });
+
   };
 }
 

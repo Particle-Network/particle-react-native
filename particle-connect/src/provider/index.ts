@@ -1,4 +1,5 @@
-import * as particleAuth from '@particle-network/rn-auth';
+// import * as particleAuth from '@particle-network/rn-auth';
+import * as particleBase from 'rn-base-beta';
 import { EventEmitter } from 'events';
 import type { AccountInfo } from '../Models';
 import * as particleConnect from '../index';
@@ -49,7 +50,7 @@ class ParticleConnectProvider {
     }
     if (signerMethods.includes(payload.method)) {
       if (payload.method === 'eth_chainId') {
-        const chainInfo = await particleAuth.getChainInfo();
+        const chainInfo = await particleBase.getChainInfo();
         return Promise.resolve(`0x${chainInfo.id.toString(16)}`);
       } else if (
         payload.method === 'eth_accounts' ||
@@ -78,7 +79,7 @@ class ParticleConnectProvider {
       } else if (payload.method === 'eth_sendTransaction') {
         const txData = payload.params[0];
         if (!txData.chainId) {
-          const chainInfo = await particleAuth.getChainInfo();
+          const chainInfo = await particleBase.getChainInfo();
           txData.chainId = `0x${chainInfo.id.toString(16)}`;
         }
         const tx = Buffer.from(JSON.stringify(txData)).toString('hex');
@@ -139,7 +140,7 @@ class ParticleConnectProvider {
         });
       }
     } else {
-      const chainInfo = await particleAuth.getChainInfo();
+      const chainInfo = await particleBase.getChainInfo();
       return sendEVMRpc(payload, {
         ...this.options,
         chainId: chainInfo.id,

@@ -3,7 +3,8 @@ import { NativeModules, Platform } from 'react-native';
 import type { CommonResp, UserInfo } from './Models';
 import * as evm from './evm';
 import * as solana from './solana';
-import { LoginType, SupportAuthType, type LoginPageConfig, type SocialLoginPrompt } from '@particle-network/rn-auth';
+// import { LoginType, SupportAuthType, type LoginPageConfig, type SocialLoginPrompt } from '@particle-network/rn-auth';
+import { LoginType, SupportAuthType, type LoginPageConfig, type SocialLoginPrompt } from 'rn-base-beta';
 
 const LINKING_ERROR =
   `The package '@particle-network/rn-auth' doesn't seem to be linked. Make sure: \n\n` +

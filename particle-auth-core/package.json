@@ -1,5 +1,5 @@
 {
-  "name": "@particle-network/rn-auth-core",
+  "name": "rn-auth-core-beta",
   "version": "1.4.12",
   "description": "@particle-network/rn-auth-core",
   "main": "lib/commonjs/index",
@@ -161,6 +161,6 @@
     ]
   },
   "dependencies": {
-    "@particle-network/rn-base": "git+https://github.com/Particle-Network/particle-react-native.git#branch-1.5.0:path/to/your-package"
+    "rn-base-beta": "1.5.0"
   }
 }

@@ -14,7 +14,6 @@ import Toast from "react-native-toast-message";
 import { CommonError } from "rn-base-beta";
 import QRCode from "react-native-qrcode-svg";
 
-
 export default class AccountPage extends PureComponent<AccountScreenProps> {
 
     pnaccount = new PNAccount(particleConnect.WalletType.AuthCore, [], '', '', '');

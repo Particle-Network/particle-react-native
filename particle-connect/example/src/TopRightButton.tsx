@@ -1,30 +1,30 @@
 import React from 'react';
-import { TouchableOpacity, Image, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
 
-const TopRightButton = ({ onPress, buttonImageUri, buttonText }) => {
+interface TopRightButtonProps {
+  onPress: () => void;
+  buttonImageUri: string;
+  buttonText: string;
+}
+
+export default function TopRightButton({ onPress, buttonImageUri, buttonText }: TopRightButtonProps) {
   return (
-    <TouchableOpacity style={styles.topRightButton} onPress={onPress}>
-      <Image style={styles.buttonImage} source={{ uri: buttonImageUri }} />
-      <Text style={styles.buttonText}>{buttonText}</Text>
+    <TouchableOpacity onPress={onPress} style={styles.button}>
+      <Image source={{ uri: buttonImageUri }} style={styles.image} />
+      <Text>{buttonText}</Text>
     </TouchableOpacity>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  topRightButton: {
+  button: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 10,
+    paddingRight: 10,
   },
-  buttonImage: {
+  image: {
     width: 20,
     height: 20,
     marginRight: 5,
   },
-  buttonText: {
-    fontSize: 16,
-    color: '#000',
-  },
 });
-
-export default TopRightButton;

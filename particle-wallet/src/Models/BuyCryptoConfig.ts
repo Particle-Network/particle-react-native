@@ -1,4 +1,4 @@
-import type { Language } from '@particle-network/rn-auth';
+import type { Language } from 'rn-base-beta';
 
 export interface BuyCryptoConfig {
   /**

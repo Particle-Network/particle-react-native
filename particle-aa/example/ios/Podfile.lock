@@ -358,20 +358,19 @@ PODS:
   - React-jsinspector (0.72.14)
   - React-logger (0.72.14):
     - glog
-  - react-native-particle-aa (1.4.9):
+  - react-native-particle-aa (1.4.12):
     - ParticleAA
     - React-Core
-  - react-native-particle-auth (1.4.8):
-    - ParticleAuthService
+  - react-native-particle-auth (1.5.3):
     - ParticleNetworkBase
     - React-Core
-  - react-native-particle-auth-core (1.4.8):
+  - react-native-particle-auth-core (1.5.3):
     - AuthCoreAdapter
     - ParticleAuthCore
     - ParticleMPCCore
     - React-Core
     - Thresh
-  - react-native-particle-connect (1.4.8):
+  - react-native-particle-connect (1.5.3):
     - ConnectCommon
     - ConnectEVMAdapter
     - ConnectPhantomAdapter
@@ -597,9 +596,9 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-particle-aa (from `../..`)
-  - "react-native-particle-auth (from `../node_modules/@particle-network/rn-auth`)"
-  - "react-native-particle-auth-core (from `../node_modules/@particle-network/rn-auth-core`)"
-  - "react-native-particle-connect (from `../node_modules/@particle-network/rn-connect`)"
+  - react-native-particle-auth (from `../node_modules/rn-base-beta`)
+  - react-native-particle-auth-core (from `../node_modules/rn-auth-core-beta`)
+  - react-native-particle-connect (from `../node_modules/rn-connect-beta`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -708,11 +707,11 @@ EXTERNAL SOURCES:
   react-native-particle-aa:
     :path: "../.."
   react-native-particle-auth:
-    :path: "../node_modules/@particle-network/rn-auth"
+    :path: "../node_modules/rn-base-beta"
   react-native-particle-auth-core:
-    :path: "../node_modules/@particle-network/rn-auth-core"
+    :path: "../node_modules/rn-auth-core-beta"
   react-native-particle-connect:
-    :path: "../node_modules/@particle-network/rn-connect"
+    :path: "../node_modules/rn-connect-beta"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-NativeModulesApple:
@@ -816,10 +815,10 @@ SPEC CHECKSUMS:
   React-jsiexecutor: a05da2c08edb1314cc51671c795fd4ed8440c335
   React-jsinspector: 275d9f80210f15f0af9a4b7fd5683fab9738e28e
   React-logger: 8da4802de77a0eb62512396ad6bb1769904c2f0e
-  react-native-particle-aa: 5acab113f6cc6f3480f6298e9547358854e8be5b
-  react-native-particle-auth: 1c5a0b992d397b796606fd75f5dba97acb4abd49
-  react-native-particle-auth-core: e0dfe665d37c83cfc84b9fa715b5b2b4afc0dbd4
-  react-native-particle-connect: 4424fe82dc98c179058cdbf66a1dc2d35386ba98
+  react-native-particle-aa: b34683878b20381087a89eb5aaec1262a8ec00a0
+  react-native-particle-auth: 8262ebad7ae451d66a70b9d9488331039904ecb5
+  react-native-particle-auth-core: f65199562e232583f30c8578892089340358da70
+  react-native-particle-connect: 7af9c90a6fff8a1704454353545186602f116521
   react-native-safe-area-context: 9697629f7b2cda43cf52169bb7e0767d330648c2
   React-NativeModulesApple: 5db943469b5ca883d5748fb3d7f00780d8e4c714
   React-perflogger: daabc494c6328efc1784a4b49b8b74fca305d11c

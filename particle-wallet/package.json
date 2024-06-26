@@ -154,8 +154,8 @@
     "useTabs": false
   },
   "dependencies": {
-    "@particle-network/rn-auth": "1.4.12",
-    "@particle-network/rn-connect": "1.4.12",
-    "@particle-network/rn-auth-core": "1.4.12"
+    "rn-base-beta": "1.5.3",
+    "rn-connect-beta": "1.5.3",
+    "rn-auth-core-beta": "1.5.3"
   }
 }

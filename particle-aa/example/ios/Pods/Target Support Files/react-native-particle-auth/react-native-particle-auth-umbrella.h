@@ -10,7 +10,7 @@
 #endif
 #endif
 
-#import "ParticleAuth-Bridging-Header.h"
+#import "ParticleBase-Bridging-Header.h"
 
 FOUNDATION_EXPORT double react_native_particle_authVersionNumber;
 FOUNDATION_EXPORT const unsigned char react_native_particle_authVersionString[];

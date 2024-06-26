@@ -1,26 +1,9 @@
-import { WalletType } from '@particle-network/rn-connect';
+import { WalletType } from "rn-connect-beta";
 
-export class PNAccount {
-  static walletType: WalletType = WalletType.Particle;
-
+export interface PNAccount {
+  walletType: WalletType;
   icons: string[];
   name: string;
   publicAddress: string;
   url: string;
-
-  constructor(
-    icons: string[],
-    name: string,
-    publicAddress: string,
-    url: string
-  ) {
-    this.icons = icons;
-    this.name = name;
-    this.publicAddress = publicAddress;
-    this.url = url;
-  }
-
-  static parseFrom(params: string): PNAccount {
-    return JSON.parse(params) as PNAccount;
-  }
 }

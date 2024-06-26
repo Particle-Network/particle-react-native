@@ -1,12 +1,12 @@
 import { Ethereum, EthereumSepolia, PolygonAmoy } from '@particle-network/chains';
-import * as particleAuth from '@particle-network/rn-auth';
-import { Env, Language, WalletDisplay, LoginType, SupportAuthType, SocialLoginPrompt } from '@particle-network/rn-auth';
-import * as particleConnect from '@particle-network/rn-connect';
-import * as ParticleAuthCore from '@particle-network/rn-auth-core';
+import * as particleBase from 'rn-base-beta';
+import { Env, Language, WalletDisplay, LoginType, SupportAuthType, SocialLoginPrompt } from 'rn-base-beta';
+import * as particleConnect from 'rn-connect-beta';
+import * as ParticleAuthCore from 'rn-auth-core-beta';
 import {
   AccountInfo,
   WalletType,
-} from '@particle-network/rn-connect';
+} from 'rn-connect-beta';
 import * as particleWallet from '@particle-network/rn-wallet';
 import {
   CommonError,
@@ -30,9 +30,9 @@ import { PNAccount } from './Models/PNAccount';
 export default class GUIDemo extends PureComponent<GUIScreenProps> {
   state = { currentLoadingBtn: '', currentOptions: [], currentKey: '' };
   modalSelect: ModalSelector<any> | null = null;
-  pnaccount = new PNAccount([], '', '', '');
+  pnaccount!: PNAccount;
 
-  init = async () => {
+  init = () => {
     const chainInfo = PolygonAmoy;
     const env = Env.Dev;
     const metaData = {
@@ -72,77 +72,27 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     }
   };
 
-  connectWithParticleAuth = async () => {
-    const message = '0x' + Buffer.from('Hello Particle!').toString('hex');
-    const authorization = { message: message, uniq: false };
-    const connectConfig = {
-      loginType: LoginType.Email,
-      supportAuthType: [SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
-      socialLoginPrompt: SocialLoginPrompt.SelectAccount,
-      authorization: authorization
-    };
-
-    const result = await particleConnect.connect(
-      WalletType.Particle,
-      connectConfig
-    );
-    if (result.status) {
-      console.log('connect success');
-      const account = result.data as AccountInfo;
-      this.pnaccount = new PNAccount(
-        account.icons,
-        account.name,
-        account.publicAddress,
-        account.url
-      );
-      console.log('pnaccount = ', this.pnaccount);
-
-      particleWallet.createSelectedWallet(
-        account.publicAddress,
-        WalletType.Particle,
-        "Custom Wallet"
-      );
-
-      Toast.show({
-        type: 'success',
-        text1: 'Successfully connected',
-      });
-    } else {
-      const error = result.data as CommonError;
-      console.log(error);
-
-      Toast.show({
-        type: 'error',
-        text1: error.message,
-      });
-    }
-  };
-
   connectWithParticleAuthCore = async () => {
-    const connectConfig = {
-      loginType: LoginType.Email,
-      supportAuthType: [SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
-      socialLoginPrompt: SocialLoginPrompt.SelectAccount,
-      loginPageConifg: {
-        projectName: "React Native Example",
-        description: "Welcome to login",
-        imagePath: "https://connect.particle.network/icons/512.png"
-      }
-    };
+    try {
+      const connectConfig = {
+        loginType: LoginType.Email,
+        supportAuthType: [SupportAuthType.Email, SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
+        socialLoginPrompt: SocialLoginPrompt.SelectAccount,
+        loginPageConifg: {
+          projectName: "React Native Example",
+          description: "Welcome to login",
+          imagePath: "https://connect.particle.network/icons/512.png"
+        }
+      };
 
-    const result = await particleConnect.connect(
-      WalletType.AuthCore,
-      connectConfig
-    );
-    if (result.status) {
-      console.log('connect success');
-      const account = result.data as AccountInfo;
-      this.pnaccount = new PNAccount(
-        account.icons,
-        account.name,
-        account.publicAddress,
-        account.url
-      );
+      const account = await particleConnect.connect(WalletType.AuthCore, connectConfig);
+      this.pnaccount = {
+        walletType: WalletType.AuthCore,
+        icons: account.icons,
+        name: account.name,
+        publicAddress: account.publicAddress,
+        url: account.url
+      }
       console.log('pnaccount = ', this.pnaccount);
 
       particleWallet.createSelectedWallet(
@@ -155,8 +105,9 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
         type: 'success',
         text1: 'Successfully connected',
       });
-    } else {
-      const error = result.data as CommonError;
+
+    } catch (e) {
+      const error = e as CommonError;
       console.log(error);
 
       Toast.show({
@@ -170,22 +121,32 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
   // Before this, you'd better login metamask with our testAccount in TestAccount.js
   // TestAccount provides both evm and solana test account with some tokens.
   connectMetamask = async () => {
-    const result = await particleConnect.connect(WalletType.MetaMask);
+    try {
+      const account = await particleConnect.connect(WalletType.MetaMask);
 
-    const account = result.data as AccountInfo;
-    console.log('accountInfo', account.publicAddress);
+      console.log('accountInfo', account.publicAddress);
 
-    this.pnaccount = new PNAccount(
-      account.icons,
-      account.name,
-      account.publicAddress,
-      account.url
-    );
+      this.pnaccount = {
+        walletType: WalletType.MetaMask,
+        icons: account.icons,
+        name: account.name,
+        publicAddress: account.publicAddress,
+        url: account.url
+      }
 
-    particleWallet.createSelectedWallet(
-      account.publicAddress,
-      WalletType.MetaMask
-    );
+      particleWallet.createSelectedWallet(
+        account.publicAddress,
+        WalletType.MetaMask
+      );
+    } catch (e) {
+      const error = e as CommonError;
+      console.log(error);
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
+    }
   };
 
   navigatorWallet = async () => {
@@ -194,15 +155,29 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
   };
 
   navigatorTokenReceive = async () => {
-    const tokenAddress = TestAccountSolana.tokenContractAddress;
-    particleWallet.navigatorTokenReceive(tokenAddress);
+    const chainInfo = await particleBase.getChainInfo();
+    if (chainInfo.chainType == "evm") { 
+      const tokenAddress = TestAccountEVM.tokenContractAddress;
+      particleWallet.navigatorTokenReceive(tokenAddress);
+    } else {
+      const tokenAddress = TestAccountSolana.tokenContractAddress;
+      particleWallet.navigatorTokenReceive(tokenAddress);
+    }
   };
 
   navigatorTokenSend = async () => {
-    const tokenAddress = TestAccountSolana.tokenContractAddress;
-    const toAddress = TestAccountSolana.receiverAddress;
-    const amount = '1000000000';
-    particleWallet.navigatorTokenSend(tokenAddress, toAddress, amount);
+    const chainInfo = await particleBase.getChainInfo();
+    if (chainInfo.chainType == "evm") {
+      const tokenAddress = TestAccountEVM.tokenContractAddress;
+      const toAddress = TestAccountEVM.receiverAddress;
+      const amount = TestAccountEVM.amount;
+      particleWallet.navigatorTokenSend(tokenAddress, toAddress, amount);
+    } else {
+      const tokenAddress = TestAccountSolana.tokenContractAddress;
+      const toAddress = TestAccountSolana.receiverAddress;
+      const amount = TestAccountSolana.amount;
+      particleWallet.navigatorTokenSend(tokenAddress, toAddress, amount);
+    }
   };
 
   navigatorTokenTransactionRecords = async () => {
@@ -410,8 +385,8 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     switch (this.state.currentKey) {
       case 'SetChainInfo':
         console.log(value);
-        await particleAuth.setChainInfo(value);
-        const chainIfo = await particleAuth.getChainInfo();
+        await particleBase.setChainInfo(value);
+        const chainIfo = await particleBase.getChainInfo();
         console.log(chainIfo);
         Toast.show({
           type: 'success',
@@ -427,10 +402,6 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     {
       key: 'connectWithParticleAuthCore',
       function: this.connectWithParticleAuthCore,
-    },
-    {
-      key: 'connectWithParticleAuth',
-      function: this.connectWithParticleAuth,
     },
     { key: 'ConnectMetamask', function: this.connectMetamask },
     { key: 'NavigatorWallet', function: this.navigatorWallet },

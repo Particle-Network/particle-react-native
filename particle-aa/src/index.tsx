@@ -1,4 +1,4 @@
-import { AccountName } from '@particle-network/rn-auth';
+import { AccountName } from 'rn-base-beta';
 import { NativeModules, Platform } from 'react-native';
 import type { CommonError, CommonResp, WholeFeeQuote } from './Models';
 
@@ -53,12 +53,12 @@ export function init(
  */
 export async function isDeploy(
   eoaAddress: string
-): Promise<string> {
+): Promise<boolean> {
   return new Promise((resolve, reject) => {
     ParticleAAPlugin.isDeploy(eoaAddress, (result: string) => {
-      const parsedResult: CommonResp<string> = JSON.parse(result);
+      const parsedResult: CommonResp<boolean> = JSON.parse(result);
       if (parsedResult.status) {
-        resolve(parsedResult.data as string);
+        resolve(parsedResult.data as boolean);
       } else {
         reject(parsedResult.data as CommonError);
       }

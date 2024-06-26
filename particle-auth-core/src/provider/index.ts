@@ -77,19 +77,11 @@ class ParticleAuthCoreProvider {
                     return Promise.reject(result.data);
                 }
             } else if (payload.method === 'personal_sign') {
-                const result = await evm.personalSign(payload.params[0]);
-                if (result.status) {
-                    return result.data;
-                } else {
-                    return Promise.reject(result.data);
-                }
+                const signature = await evm.personalSign(payload.params[0]);
+                return signature;
             } else if (payload.method === 'personal_sign_unique') {
-                const result = await evm.personalSignUnique(payload.params[0]);
-                if (result.status) {
-                    return result.data;
-                } else {
-                    return Promise.reject(result.data);
-                }
+                const signature = await evm.personalSignUnique(payload.params[0]);
+                return signature;
             } else if (payload.method === 'wallet_switchEthereumChain') {
                 const chainId = Number(payload.params[0].chainId);
 
@@ -108,22 +100,16 @@ class ParticleAuthCoreProvider {
                 }
             } else if (payload.method === 'eth_signTypedData' || payload.method === 'eth_signTypedData_v4') {
                 const typedData = JSON.stringify(payload.params[1]);
-                const result = await evm.signTypedData(
+                const signature = await evm.signTypedData(
                     typedData
                 );
-                if (result.status) {
-                    return result.data;
-                } else {
-                    return Promise.reject(result.data);
-                }
+                return signature;
+
             } else if (payload.method === 'eth_signTypedData_v4_unique') {
                 const typedData = JSON.stringify(payload.params[1]);
-                const result = await evm.signTypedDataUnique(typedData);
-                if (result.status) {
-                    return result.data;
-                } else {
-                    return Promise.reject(result.data);
-                }
+                const signature = await evm.signTypedDataUnique(typedData);
+                return signature;
+
             } else {
                 return Promise.reject({
                     code: 4200,

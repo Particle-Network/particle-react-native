@@ -4,6 +4,7 @@ import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from './types';
 import { type ChainInfo, chains } from '@particle-network/chains';
+import * as particleBase from "rn-base-beta";
 import Toast from 'react-native-toast-message';
 
 type SelectChainScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'SelectChainPage'>;
@@ -18,6 +19,7 @@ export default function SelectChainScreen() {
             type: 'success',
             text1: `select chain ${chainInfo.name} ${chainInfo.network} ${chainInfo.id}`,
         });
+        particleBase.setChainInfo(chainInfo);
 
         navigation.navigate('Home', {
             chainInfo: chainInfo,

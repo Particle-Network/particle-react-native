@@ -143,7 +143,7 @@
     "useTabs": false
   },
   "dependencies": {
-    "@particle-network/rn-auth": "1.4.12"
+    "rn-base-beta": "1.5.3"
   },
   "react-native-builder-bob": {
     "source": "src",

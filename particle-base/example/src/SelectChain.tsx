@@ -43,7 +43,7 @@ export default class SelectChainPage extends PureComponent<SelectChainPageProps>
             text1: `select chain ${chainInfo.name} ${chainInfo.network} ${chainInfo.id}`,
         });
         navigation.navigate({
-            name: 'AuthDemo',
+            name: 'BaseDemo',
             params: { chainInfo: chainInfo },
             merge: true,
         });

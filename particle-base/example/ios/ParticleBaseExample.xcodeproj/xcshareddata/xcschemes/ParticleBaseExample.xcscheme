@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "ParticleAuthExample.app"
-               BlueprintName = "ParticleAuthExample"
-               ReferencedContainer = "container:ParticleAuthExample.xcodeproj">
+               BuildableName = "ParticleBaseExample.app"
+               BlueprintName = "ParticleBaseExample"
+               ReferencedContainer = "container:ParticleBaseExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "ParticleAuthExampleTests.xctest"
-               BlueprintName = "ParticleAuthExampleTests"
-               ReferencedContainer = "container:ParticleAuthExample.xcodeproj">
+               BuildableName = "ParticleBaseExampleTests.xctest"
+               BlueprintName = "ParticleBaseExampleTests"
+               ReferencedContainer = "container:ParticleBaseExample.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ParticleAuthExample.app"
-            BlueprintName = "ParticleAuthExample"
-            ReferencedContainer = "container:ParticleAuthExample.xcodeproj">
+            BuildableName = "ParticleBaseExample.app"
+            BlueprintName = "ParticleBaseExample"
+            ReferencedContainer = "container:ParticleBaseExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ParticleAuthExample.app"
-            BlueprintName = "ParticleAuthExample"
-            ReferencedContainer = "container:ParticleAuthExample.xcodeproj">
+            BuildableName = "ParticleBaseExample.app"
+            BlueprintName = "ParticleBaseExample"
+            ReferencedContainer = "container:ParticleBaseExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

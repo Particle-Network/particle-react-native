@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  ParticleAuthExample
+//  ParticleBaseExample
 //
 
 import Foundation

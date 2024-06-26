@@ -24,9 +24,7 @@ import {
 } from 'rn-base-beta';
 import * as particleConnect from '@particle-network/rn-connect';
 import {
-  AccountInfo,
   CommonError,
-  LoginResp,
   WalletType,
 } from '@particle-network/rn-connect';
 import BigNumber from 'bignumber.js';
@@ -43,13 +41,22 @@ import {
 import QRCode from 'react-native-qrcode-svg';
 import Toast from 'react-native-toast-message';
 import Web3 from 'web3';
-import { ConnectScreenProps } from './App';
-import * as Helper from './Helper';
-import { PNAccount } from './Models/PNAccount';
-import { TestAccountEVM } from './TestAccount';
-import { createWeb3, restoreWeb3 } from './web3Demo';
+import * as Helper from '../utils/Helper';
+import { PNAccount } from '../Models/PNAccount';
+import { TestAccountEVM } from '../utils/TestAccount';
+import { createWeb3, restoreWeb3 } from '../utils/web3Demo';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from './types';
+import { RouteProp } from '@react-navigation/native';
+export interface ConnectScreenProps {
+  route: ConnectDemoRouteProp;
+  navigation: ConnectDemoNavigationProp;
+}
 
-export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
+type ConnectDemoNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
+type ConnectDemoRouteProp = RouteProp<RootStackParamList, 'Home'>;
+
+export default class OldConnectDemo extends PureComponent<ConnectScreenProps> {
   loginSourceMessage = '';
   loginSignature = '';
   state = {
@@ -58,7 +65,8 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     currentKey: '',
     qrCodeUri: '',
   };
-  pnaccount = new PNAccount(WalletType.AuthCore, [], '', '', '');
+  pnaccount!: PNAccount
+  walletType: WalletType = WalletType.AuthCore;
   emitter = new NativeEventEmitter(particleConnect.ParticleConnectEvent);
 
   // Start with new web3, at this time, you don't connect with this walletType, and don't know any publicAddress
@@ -97,7 +105,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     this.newWeb3 = createWeb3(
       '5479798b-26a9-4943-b848-649bb104fdc3',
       'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b',
-      this.pnaccount.walletType
+      this.walletType
     );
 
     Toast.show({ type: 'success', text1: 'Initialized successfully' });
@@ -108,7 +116,13 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   newWeb3_getAccounts = async () => {
     try {
       const accounts = await this.newWeb3.eth.getAccounts();
-      this.pnaccount = new PNAccount(this.pnaccount.walletType, [], '', accounts[0] as string, '');
+      this.pnaccount = {
+        walletType: this.walletType,
+        icons: [],
+        publicAddress: accounts[0] as string,
+        url: "",
+        name: ""
+      }
       console.log('web3.eth.getAccounts', accounts);
       Toast.show({
         type: 'success',
@@ -134,7 +148,13 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
       );
 
       const accounts = await this.web3.eth.getAccounts();
-      this.pnaccount = new PNAccount(this.pnaccount.walletType, [], '', accounts[0] as string, '');
+      this.pnaccount = {
+        walletType: this.walletType,
+        icons: [],
+        publicAddress: accounts[0] as string,
+        url: "",
+        name: ""
+      }
       console.log('web3.eth.getAccounts', accounts);
       Toast.show({
         type: 'success',
@@ -190,6 +210,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
 
     try {
       const accounts = await this.web3.eth.getAccounts();
+      // @ts-ignore
       const result = await this.web3.currentProvider!.request({
         method: 'personal_sign',
         params: ['Hello world', accounts[0]],
@@ -378,7 +399,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     const chainInfo: ChainInfo =
       this.props.route.params?.chainInfo || EthereumSepolia;
     var result;
-    if (PNAccount.walletType == WalletType.AuthCore) {
+    if (this.walletType == WalletType.AuthCore) {
       result = await particleAuthCore.switchChain(chainInfo);
     } else {
       result = await particleBase.setChainInfo(chainInfo);
@@ -390,32 +411,31 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   };
 
   connect = async () => {
-    const result = await particleConnect.connect(PNAccount.walletType);
-    if (result.status) {
-      console.log('connect success');
-      console.log('result.data', result.data);
-      const account = result.data as AccountInfo;
-      this.pnaccount = new PNAccount(
-        account.icons,
-        account.name,
-        account.publicAddress,
-        account.url
-      );
+    try {
+
+      const account = await particleConnect.connect(WalletType.AuthCore);
+      this.pnaccount = {
+        walletType: WalletType.AuthCore,
+        icons: account.icons,
+        name: account.name,
+        publicAddress: account.publicAddress,
+        url: account.url
+      }
+
       console.log('pnaccount = ', this.pnaccount);
 
       this.web3 = restoreWeb3(
         '5479798b-26a9-4943-b848-649bb104fdc3',
         'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b',
-        PNAccount.walletType,
+        this.walletType,
         this.pnaccount.publicAddress
       );
-
       Toast.show({
         type: 'success',
         text1: 'Successfully connected',
       });
-    } else {
-      const error = result.data as CommonError;
+    } catch (e) {
+      const error = e as CommonError;
       console.log(error);
       Toast.show({
         type: 'error',
@@ -425,39 +445,44 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   };
 
   connectWithParticleAuthCore = async () => {
-    const connectConfig = {
-      loginType: LoginType.Google,
-      supportAuthType: [SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
-      socialLoginPrompt: SocialLoginPrompt.SelectAccount,
-      loginPageConifg: {
-        projectName: "React Native Example",
-        description: "Welcome to login",
-        imagePath: "https://connect.particle.network/icons/512.png"
-      }
+    try {
 
-    };
 
-    const result = await particleConnect.connect(
-      WalletType.AuthCore,
-      connectConfig
-    );
-    if (result.status) {
-      console.log('connect success');
-      const account = result.data as AccountInfo;
-      this.pnaccount = new PNAccount(
-        account.icons,
-        account.name,
-        account.publicAddress,
-        account.url
+      const connectConfig = {
+        loginType: LoginType.Google,
+        supportAuthType: [SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
+        socialLoginPrompt: SocialLoginPrompt.SelectAccount,
+        loginPageConifg: {
+          projectName: "React Native Example",
+          description: "Welcome to login",
+          imagePath: "https://connect.particle.network/icons/512.png"
+        }
+
+      };
+
+      const account = await particleConnect.connect(
+        WalletType.AuthCore,
+        connectConfig
       );
+
+      console.log('connect success');
+      this.walletType = WalletType.AuthCore;
+      this.pnaccount = {
+        icons: account.icons,
+        name: account.name,
+        publicAddress: account.publicAddress,
+        url: account.url,
+        walletType: WalletType.AuthCore
+      }
       console.log('pnaccount = ', this.pnaccount);
 
       Toast.show({
         type: 'success',
         text1: 'Successfully connected',
       });
-    } else {
-      const error = result.data as CommonError;
+
+    } catch (e) {
+      const error = e as CommonError;
       console.log(error);
 
       Toast.show({
@@ -468,23 +493,23 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   };
 
   disconnect = async () => {
-    const publicAddress = this.pnaccount.publicAddress;
-    if (publicAddress == undefined) {
-      console.log('publicAddress is underfined, you need connect');
-      return;
-    }
-    const result = await particleConnect.disconnect(
-      PNAccount.walletType,
-      publicAddress
-    );
-    if (result.status) {
-      console.log(result.data);
+    try {
+      const publicAddress = this.pnaccount.publicAddress;
+      if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+      }
+      const result = await particleConnect.disconnect(
+        this.walletType,
+        publicAddress
+      );
+      console.log(result);
       Toast.show({
         type: 'success',
         text1: 'Successfully disconnected',
       });
-    } else {
-      const error = result.data as CommonError;
+    } catch (e) {
+      const error = e as CommonError;
       console.log(error);
 
       Toast.show({
@@ -501,7 +526,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
       return;
     }
     const result = await particleConnect.isConnected(
-      PNAccount.walletType,
+      this.walletType,
       publicAddress
     );
     console.log(result);
@@ -520,7 +545,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     }
     const message = 'Hello world!';
     const result = await particleConnect.signMessage(
-      PNAccount.walletType,
+      this.walletType,
       publicAddress,
       message
     );
@@ -565,34 +590,28 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
       const transaction = await Helper.getSolanaTransaction(sender);
       console.log('transaction:', transaction);
 
-      const result = await particleConnect.signTransaction(
-        PNAccount.walletType,
+      const signature = await particleConnect.signTransaction(
+        this.walletType,
         publicAddress,
         transaction
       );
 
-      if (result.status) {
-        const signedTransaction = result.data as string;
-        console.log(signedTransaction);
+      console.log(signature);
 
-        Toast.show({
-          type: 'success',
-          text1: 'Successfully sign transaction ',
-          text2: signedTransaction,
-        });
-      } else {
-        const error = result.data as CommonError;
-        console.log(error);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully sign transaction ',
+        text2: signature,
+      });
 
-        Toast.show({
-          type: 'error',
-          text1: error.message,
-        });
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        Toast.show({ type: 'error', text1: error.message });
-      }
+    } catch (e) {
+      const error = e as CommonError;
+      console.log(error);
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -617,31 +636,25 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
       console.log('transaction:', transaction);
 
       const transactions = [transaction, transaction];
-      const result = await particleConnect.signAllTransactions(
-        PNAccount.walletType,
+      const signatures = await particleConnect.signAllTransactions(
+        this.walletType,
         publicAddress,
         transactions
       );
-      if (result.status) {
-        const signedTransactions = result.data as string;
-        console.log(signedTransactions);
-        Toast.show({
-          type: 'success',
-          text1: 'Successfully sign transaction ',
-          text2: signedTransactions,
-        });
-      } else {
-        const error = result.data as CommonError;
-        console.log(error);
-        Toast.show({
-          type: 'error',
-          text1: error.message,
-        });
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        Toast.show({ type: 'error', text1: error.message });
-      }
+
+      console.log(signatures);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully sign transaction ',
+        text2: signatures.join(','),
+      });
+    } catch (e) {
+      const error = e as CommonError;
+      console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     }
   };
 
@@ -672,64 +685,20 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
       }
 
       console.log(transaction);
-      const result = await particleConnect.signAndSendTransaction(
-        PNAccount.walletType,
+      const txHash = await particleConnect.signAndSendTransaction(
+        this.walletType,
         publicAddress,
         transaction
       );
-      if (result.status) {
-        const signature = result.data as string;
-        console.log('signAndSendTransaction:', signature);
-        Toast.show({
-          type: 'success',
-          text1: 'Successfully sign transaction ',
-          text2: signature,
-        });
-      } else {
-        const error = result.data as CommonError;
-        console.log(error);
-        Toast.show({
-          type: 'error',
-          text1: error.message,
-        });
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log('error', error);
-        Toast.show({ type: 'error', text1: error.message });
-      }
-    }
-  };
 
-  signTypedData = async () => {
-    const chainInfo: ChainInfo =
-      this.props.route.params?.chainInfo || EthereumSepolia;
-    if (chainInfo.name.toLowerCase() == 'solana') {
-      console.log('signTypedData only supports evm');
-      return;
-    }
-
-    const typedData = `{"types":{"OrderComponents":[{"name":"offerer","type":"address"},{"name":"zone","type":"address"},{"name":"offer","type":"OfferItem[]"},{"name":"consideration","type":"ConsiderationItem[]"},{"name":"orderType","type":"uint8"},{"name":"startTime","type":"uint256"},{"name":"endTime","type":"uint256"},{"name":"zoneHash","type":"bytes32"},{"name":"salt","type":"uint256"},{"name":"conduitKey","type":"bytes32"},{"name":"counter","type":"uint256"}],"OfferItem":[{"name":"itemType","type":"uint8"},{"name":"token","type":"address"},{"name":"identifierOrCriteria","type":"uint256"},{"name":"startAmount","type":"uint256"},{"name":"endAmount","type":"uint256"}],"ConsiderationItem":[{"name":"itemType","type":"uint8"},{"name":"token","type":"address"},{"name":"identifierOrCriteria","type":"uint256"},{"name":"startAmount","type":"uint256"},{"name":"endAmount","type":"uint256"},{"name":"recipient","type":"address"}],"EIP712Domain":[{"name":"name","type":"string"},{"name":"version","type":"string"},{"name":"chainId","type":"uint256"},{"name":"verifyingContract","type":"address"}]},"domain":{"name":"Seaport","version":"1.1","chainId":${chainInfo.id},"verifyingContract":"0x00000000006c3852cbef3e08e8df289169ede581"},"primaryType":"OrderComponents","message":{"offerer":"0x6fc702d32e6cb268f7dc68766e6b0fe94520499d","zone":"0x0000000000000000000000000000000000000000","offer":[{"itemType":"2","token":"0xd15b1210187f313ab692013a2544cb8b394e2291","identifierOrCriteria":"33","startAmount":"1","endAmount":"1"}],"consideration":[{"itemType":"0","token":"0x0000000000000000000000000000000000000000","identifierOrCriteria":"0","startAmount":"9750000000000000","endAmount":"9750000000000000","recipient":"0x6fc702d32e6cb268f7dc68766e6b0fe94520499d"},{"itemType":"0","token":"0x0000000000000000000000000000000000000000","identifierOrCriteria":"0","startAmount":"250000000000000","endAmount":"250000000000000","recipient":"0x66682e752d592cbb2f5a1b49dd1c700c9d6bfb32"}],"orderType":"0","startTime":"1669188008","endTime":"115792089237316195423570985008687907853269984665640564039457584007913129639935","zoneHash":"0x3000000000000000000000000000000000000000000000000000000000000000","salt":"48774942683212973027050485287938321229825134327779899253702941089107382707469","conduitKey":"0x0000000000000000000000000000000000000000000000000000000000000000","counter":"0"}}`;
-    const publicAddress = this.pnaccount.publicAddress;
-    if (publicAddress == undefined) {
-      console.log('publicAddress is underfined, you need connect');
-      return;
-    }
-    const result = await particleConnect.signTypedData(
-      PNAccount.walletType,
-      publicAddress,
-      typedData
-    );
-    if (result.status) {
-      const signature = result.data as string;
-      console.log(signature);
+      console.log('signAndSendTransaction:', txHash);
       Toast.show({
         type: 'success',
-        text1: 'Successfully sign typed data',
-        text2: signature,
+        text1: 'Successfully sign transaction ',
+        text2: txHash,
       });
-    } else {
-      const error = result.data as CommonError;
+    } catch (e) {
+      const error = e as CommonError;
       console.log(error);
       Toast.show({
         type: 'error',
@@ -738,27 +707,71 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     }
   };
 
-  login = async () => {
+  signTypedData = async () => {
+
+    const chainInfo: ChainInfo =
+      this.props.route.params?.chainInfo || EthereumSepolia;
+    if (chainInfo.name.toLowerCase() == 'solana') {
+      console.log('signTypedData only supports evm');
+      return;
+    }
+
+    try {
+
+
+      const typedData = `{"types":{"OrderComponents":[{"name":"offerer","type":"address"},{"name":"zone","type":"address"},{"name":"offer","type":"OfferItem[]"},{"name":"consideration","type":"ConsiderationItem[]"},{"name":"orderType","type":"uint8"},{"name":"startTime","type":"uint256"},{"name":"endTime","type":"uint256"},{"name":"zoneHash","type":"bytes32"},{"name":"salt","type":"uint256"},{"name":"conduitKey","type":"bytes32"},{"name":"counter","type":"uint256"}],"OfferItem":[{"name":"itemType","type":"uint8"},{"name":"token","type":"address"},{"name":"identifierOrCriteria","type":"uint256"},{"name":"startAmount","type":"uint256"},{"name":"endAmount","type":"uint256"}],"ConsiderationItem":[{"name":"itemType","type":"uint8"},{"name":"token","type":"address"},{"name":"identifierOrCriteria","type":"uint256"},{"name":"startAmount","type":"uint256"},{"name":"endAmount","type":"uint256"},{"name":"recipient","type":"address"}],"EIP712Domain":[{"name":"name","type":"string"},{"name":"version","type":"string"},{"name":"chainId","type":"uint256"},{"name":"verifyingContract","type":"address"}]},"domain":{"name":"Seaport","version":"1.1","chainId":${chainInfo.id},"verifyingContract":"0x00000000006c3852cbef3e08e8df289169ede581"},"primaryType":"OrderComponents","message":{"offerer":"0x6fc702d32e6cb268f7dc68766e6b0fe94520499d","zone":"0x0000000000000000000000000000000000000000","offer":[{"itemType":"2","token":"0xd15b1210187f313ab692013a2544cb8b394e2291","identifierOrCriteria":"33","startAmount":"1","endAmount":"1"}],"consideration":[{"itemType":"0","token":"0x0000000000000000000000000000000000000000","identifierOrCriteria":"0","startAmount":"9750000000000000","endAmount":"9750000000000000","recipient":"0x6fc702d32e6cb268f7dc68766e6b0fe94520499d"},{"itemType":"0","token":"0x0000000000000000000000000000000000000000","identifierOrCriteria":"0","startAmount":"250000000000000","endAmount":"250000000000000","recipient":"0x66682e752d592cbb2f5a1b49dd1c700c9d6bfb32"}],"orderType":"0","startTime":"1669188008","endTime":"115792089237316195423570985008687907853269984665640564039457584007913129639935","zoneHash":"0x3000000000000000000000000000000000000000000000000000000000000000","salt":"48774942683212973027050485287938321229825134327779899253702941089107382707469","conduitKey":"0x0000000000000000000000000000000000000000000000000000000000000000","counter":"0"}}`;
+      const publicAddress = this.pnaccount.publicAddress;
+      if (publicAddress == undefined) {
+        console.log('publicAddress is underfined, you need connect');
+        return;
+      }
+      const signature = await particleConnect.signTypedData(
+        this.walletType,
+        publicAddress,
+        typedData
+      );
+
+
+      console.log(signature);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully sign typed data',
+        text2: signature,
+      });
+    } catch (e) {
+      const error = e as CommonError;
+      console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
+    }
+  };
+
+  signInWithEthereum = async () => {
     const publicAddress = this.pnaccount.publicAddress;
 
     if (publicAddress == undefined) {
       console.log('publicAddress is underfined, you need connect');
       return;
     }
+    try {
 
-    const domain = 'login.xyz';
-    const uri = 'https://login.xyz/demo#login';
-    const result = await particleConnect.login(
-      PNAccount.walletType,
-      publicAddress,
-      domain,
-      uri
-    );
-    if (result.status) {
-      const message = result.data.message;
+      const domain = 'login.xyz';
+      const uri = 'https://login.xyz/demo#login';
+      const result = await particleConnect.signInWithEthereum(
+        this.walletType,
+        publicAddress,
+        domain,
+        uri
+      );
+
+      const message = result.message;
+      const signature = result.signature;
+
       this.loginSourceMessage = message;
-      const signature = (result.data as LoginResp).signature;
       this.loginSignature = signature;
+
       console.log('login message:', message);
       console.log('login signature:', signature);
 
@@ -766,8 +779,9 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
         type: 'success',
         text1: 'Login successfully',
       });
-    } else {
-      const error = result.data as CommonError;
+
+    } catch (e) {
+      const error = e as CommonError;
       console.log(error);
       Toast.show({
         type: 'success',
@@ -782,110 +796,32 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
       console.log('publicAddress is underfined, you need connect');
       return;
     }
-    const message = this.loginSourceMessage;
-    const signature = this.loginSignature;
-    if (!message || !signature) {
-      console.log('message or signature is underfined');
-      return;
-    }
-    console.log('verify message:', message);
-    console.log('verify signature:', signature);
-    const result = await particleConnect.verify(
-      PNAccount.walletType,
-      publicAddress,
-      message,
-      signature
-    );
-    if (result.status) {
-      const flag = result.data;
-      console.log(flag);
+    try {
+      const message = this.loginSourceMessage;
+      const signature = this.loginSignature;
+      if (!message || !signature) {
+        console.log('message or signature is underfined');
+        return;
+      }
+      console.log('verify message:', message);
+      console.log('verify signature:', signature);
+      const result = await particleConnect.verify(
+        this.walletType,
+        publicAddress,
+        message,
+        signature
+      );
+
+      console.log(result);
 
       Toast.show({
         type: 'info',
-        text1: String(flag),
+        text1: String(result),
       });
-    } else {
-      const error = result.data as CommonError;
+
+    } catch (e) {
+      const error = e as CommonError;
       console.log(error);
-      Toast.show({
-        type: 'error',
-        text1: error.message,
-      });
-    }
-  };
-
-  importPrivateKey = async () => {
-    // this method only support WalletType is SolanaPrivateKey or EvmPrivateKey
-    // we provide a private key for test
-    const privateKey = TestAccountEVM.privateKey;
-    const result = await particleConnect.importPrivateKey(
-      WalletType.EvmPrivateKey,
-      privateKey
-    );
-    if (result.status) {
-      const account = result.data as AccountInfo;
-      console.log(account);
-
-      Toast.show({
-        type: 'success',
-        text1: 'Successfully imported private key',
-      });
-    } else {
-      const error = result.data as CommonError;
-      console.log(error);
-
-      Toast.show({
-        type: 'error',
-        text1: error.message,
-      });
-    }
-  };
-
-  importMnemonic = async () => {
-    // this method only support WalletType is SolanaPrivateKey or EvmPrivateKey
-    // we provide a mnemonic for test
-    const mnemonic = TestAccountEVM.mnemonic;
-    const result = await particleConnect.importMnemonic(
-      WalletType.EvmPrivateKey,
-      mnemonic
-    );
-    if (result.status) {
-      const account = result.data as AccountInfo;
-      console.log(account);
-
-      Toast.show({
-        type: 'success',
-        text1: 'Successfully imported mnemonic',
-      });
-    } else {
-      const error = result.data as CommonError;
-      console.log(error);
-
-      Toast.show({
-        type: 'error',
-        text1: error.message,
-      });
-    }
-  };
-
-  exportPrivateKey = async () => {
-    // this method only support WalletType is SolanaPrivateKey or EvmPrivateKey
-    const publicAddress = TestAccountEVM.publicAddress;
-    const result = await particleConnect.exportPrivateKey(
-      WalletType.EvmPrivateKey,
-      publicAddress
-    );
-    if (result.status) {
-      const privateKey = result.data as string;
-      console.log(privateKey);
-      Toast.show({
-        type: 'success',
-        text1: privateKey,
-      });
-    } else {
-      const error = result.data as CommonError;
-      console.log(error);
-
       Toast.show({
         type: 'error',
         text1: error.message,
@@ -894,15 +830,15 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   };
 
   connectWalletConnect = async () => {
-    const result = await particleConnect.connectWalletConnect();
+    try {
+      const account = await particleConnect.connectWalletConnect();
+      console.log(account);
 
-    if (result.status) {
-      const data = result.data;
-      console.log(data);
-    } else {
-      const error = result.data;
+    } catch (e) {
+      const error = e as CommonError;
       console.log(error);
     }
+
   };
 
   data = [
@@ -934,11 +870,8 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     { key: 'SignAllTransactions', function: this.signAllTransactions },
     { key: 'SignAndSendTransaction', function: this.signAndSendTransaction },
     { key: 'SignTypedData', function: this.signTypedData },
-    { key: 'Login', function: this.login },
+    { key: 'SignInWithEthereum', function: this.signInWithEthereum },
     { key: 'Verify', function: this.verify },
-    { key: 'ImportPrivateKey', function: this.importPrivateKey },
-    { key: 'ImportMnemonic', function: this.importMnemonic },
-    { key: 'ExportPrivateKey', function: this.exportPrivateKey },
     { key: 'ConnectWalletConnect', function: this.connectWalletConnect },
   ];
 
@@ -946,7 +879,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
     this.init();
 
     this.props.navigation.addListener('focus', async () => {
-      const chainInfo: ChainInfo = this.props.route.params?.chainInfo;
+      const chainInfo: ChainInfo | undefined = this.props.route.params?.chainInfo;
 
       if (chainInfo) {
         await particleBase.setChainInfo(chainInfo);

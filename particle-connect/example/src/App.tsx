@@ -2,20 +2,21 @@ import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Text, StyleSheet } from 'react-native';
-import HomeScreen from './HomeScreen';
+import HomeScreen from './Pages/HomeScreen';
 // import ConnectScreen from './ConnectScreen';
-import SelectChainScreen from './SelectChainScreen';
+import SelectChainScreen from './Pages/SelectChainScreen';
 // import AccountScreen from './AccountScreen';
 import Toast from 'react-native-toast-message';
-import { RootStackParamList } from './types';
-import TopRightButton from './TopRightButton';
+import { RootStackParamList } from './Pages/types';
+import TopRightButton from './Views/TopRightButton';
 import { Ethereum } from "@particle-network/chains";
 import * as particleConnect from '@particle-network/rn-connect';
 import { ParticleInfo } from 'rn-base-beta';
 import * as particleAuthCore from "rn-auth-core-beta";
 import { type ChainInfo } from '@particle-network/chains';
 import { Env } from 'rn-base-beta';
-import SelectWalletScreen from './SelectWalletScreen';
+import SelectWalletScreen from './Pages/SelectWalletScreen';
+import ConnectedWalletScreen from './Pages/ConnectedWalletScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -65,6 +66,7 @@ export default function App() {
         {/* <Stack.Screen name="ConnectDemo" component={ConnectScreen} /> */}
         <Stack.Screen name="SelectChainPage" component={SelectChainScreen} />
         <Stack.Screen name="SelectWalletPage" component={SelectWalletScreen} />
+        <Stack.Screen name="ConnectedWalletPage" component={ConnectedWalletScreen} />
         {/* <Stack.Screen name="AccountPage" component={AccountScreen} /> */}
       </Stack.Navigator>
       <Toast />

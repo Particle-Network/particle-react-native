@@ -9,7 +9,8 @@ import {
     Language,
     ParticleInfo,
     SecurityAccountConfig,
-    SmartAccountInfo
+    SmartAccountInfo,
+    CommonError
 } from 'rn-base-beta';
 
 import React, { PureComponent } from 'react';
@@ -63,8 +64,20 @@ export default class BaseDemo extends PureComponent<BaseScreenProps> {
     };
 
     getChainInfo = async () => {
-        const result = await particleBase.getChainInfo();
-        console.log(result);
+        try {
+            const chainInfo = await particleBase.getChainInfo();
+            Toast.show({
+                type: 'success',
+                text1: `chainName ${chainInfo.fullname}, id ${chainInfo.id}`,
+            });
+        } catch (e) {
+            const error = e as CommonError;
+            console.log('connect', error);
+            Toast.show({
+                type: 'error',
+                text1: error.message,
+            });
+        }
     };
 
 

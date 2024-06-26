@@ -1,6 +1,6 @@
 {
   "name": "rn-base-beta",
-  "version": "1.5.0",
+  "version": "1.5.3",
   "description": "Particle Auth Service in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -159,7 +159,7 @@
     "singleQuote": true
   },
   "dependencies": {
-    "@particle-network/chains": "^1.4.13",
+    "@particle-network/chains": "^1.5.2",
     "axios": "^1.6.2",
     "bignumber.js": "^9.1.0",
     "events": "^3.3.0"

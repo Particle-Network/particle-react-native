@@ -5,7 +5,7 @@ platform :ios, '14.0'
 source 'https://github.com/CocoaPods/Specs.git'
 install! 'cocoapods', :deterministic_uuids => false
 
-target 'ParticleAuthExample' do
+target 'ParticleBaseExample' do
   use_frameworks! :linkage => :static
   config = use_native_modules!
 
@@ -33,7 +33,7 @@ target 'ParticleAuthExample' do
   
   pod 'SwiftyUserDefaults', :git => 'https://github.com/SunZhiC/SwiftyUserDefaults.git', :branch => 'master'
   
-  target 'ParticleAuthExampleTests' do
+  target 'ParticleBaseExampleTests' do
     inherit! :complete
     # Pods for testing
   end

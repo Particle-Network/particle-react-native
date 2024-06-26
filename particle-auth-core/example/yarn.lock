@@ -1559,12 +1559,6 @@
   resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.4.13.tgz"
   integrity sha512-GMmmpDVpxbyI5n9tayt421eqn1aEZWaKKSmvJ6/fIhZpmYvcubmFLzHmygM1ef+uBxwbGSh888gnXSCjfn+OUg==
 
-"@particle-network/rn-auth-core@file:..":
-  version "1.4.12"
-  resolved "file:.."
-  dependencies:
-    rn-base-beta "1.5.0"
-
 "@react-native-community/cli-clean@11.3.6":
   version "11.3.6"
   resolved "https://registry.npmjs.org/@react-native-community/cli-clean/-/cli-clean-11.3.6.tgz"
@@ -6955,6 +6949,12 @@ rlp@^2.2.4:
   integrity sha512-d5gdPmgQ0Z+AklL2NVXr/IoSjNZFfTVvQWzL/AM2AOcSzYP2xjlb0AC8YyCLc41MSNf6P6QVtjgPdmVtzb+4lQ==
   dependencies:
     bn.js "^5.2.0"
+
+"rn-auth-core-beta@file:..":
+  version "1.5.2"
+  resolved "file:.."
+  dependencies:
+    rn-base-beta "^1.5.0"
 
 rn-base-beta@1.5.0:
   version "1.5.0"

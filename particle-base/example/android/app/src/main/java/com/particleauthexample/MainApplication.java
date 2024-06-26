@@ -1,4 +1,4 @@
-package com.particleauthexample;
+package com.particlebaseexample;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

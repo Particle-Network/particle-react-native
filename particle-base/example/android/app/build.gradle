@@ -73,7 +73,7 @@ android {
   compileSdkVersion 33
 
   defaultConfig {
-    applicationId "com.particleauthexample"
+    applicationId "com.particlebaseexample"
     minSdkVersion 23
     targetSdkVersion 33
     versionCode 1

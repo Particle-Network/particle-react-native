@@ -413,7 +413,7 @@ export async function signTypedData(
  * @param uri Uri, example "https://particle.network/demo#login"
  * @returns Result, source message and signature or error
  */
-export function login(
+export function signInWithEthereum(
   walletType: WalletType,
   publicAddress: string,
   domain: string,

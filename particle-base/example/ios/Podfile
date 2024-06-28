@@ -28,7 +28,6 @@ target 'ParticleBaseExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'ParticleAuthService', '1.4.6'
   pod 'ParticleNetworkBase', '1.4.6'
   
   pod 'SwiftyUserDefaults', :git => 'https://github.com/SunZhiC/SwiftyUserDefaults.git', :branch => 'master'
@@ -45,7 +44,6 @@ target 'ParticleBaseExample' do
       # necessary for Mac Catalyst builds
       :mac_catalyst_enabled => false
     )
-    __apply_Xcode_12_5_M1_post_install_workaround(installer)
 
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|

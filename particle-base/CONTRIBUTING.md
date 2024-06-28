@@ -53,7 +53,7 @@ Remember to add tests for your change if possible. Run the unit tests by:
 yarn test
 ```
 
-To edit the Objective-C or Swift files, open `example/ios/ParticleBaseExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > react-native-particle-auth`.
+To edit the Objective-C or Swift files, open `example/ios/ParticleBaseExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > react-native-particle-base`.
 
 To edit the Java or Kotlin files, open `example/android` in Android studio and find the source files at `react-native-particle-base` under `Android`.
 

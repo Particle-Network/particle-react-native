@@ -146,7 +146,7 @@ export default class BaseDemo extends PureComponent<BaseScreenProps> {
     };
 
     getSmartAccount = async () => {
-        const eoaAddress = await particleBase.getAddress();
+        const eoaAddress = "";
         const smartAccountParam = {
             name: AccountName.BICONOMY_V1().name,
             version: AccountName.BICONOMY_V1().version,

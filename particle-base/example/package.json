@@ -18,10 +18,8 @@
     "@react-navigation/native-stack": "^6.9.0",
     "bignumber.js": "^9.1.0",
     "buffer": "^6.0.3",
-    "pnpm": "^8.14.0",
     "react-native-modal-selector": "^2.1.2",
-    "react-native-toast-message": "^2.1.6",
-    "web3": "^1.7.3"
+    "react-native-toast-message": "^2.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

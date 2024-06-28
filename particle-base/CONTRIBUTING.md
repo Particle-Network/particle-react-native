@@ -55,7 +55,7 @@ yarn test
 
 To edit the Objective-C or Swift files, open `example/ios/ParticleBaseExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > react-native-particle-auth`.
 
-To edit the Java or Kotlin files, open `example/android` in Android studio and find the source files at `react-native-particle-auth` under `Android`.
+To edit the Java or Kotlin files, open `example/android` in Android studio and find the source files at `react-native-particle-base` under `Android`.
 
 
 ### Commit message convention

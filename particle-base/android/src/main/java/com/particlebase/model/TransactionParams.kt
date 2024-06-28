@@ -1,4 +1,4 @@
-package com.particleauth.model
+package com.particlebase.model
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName

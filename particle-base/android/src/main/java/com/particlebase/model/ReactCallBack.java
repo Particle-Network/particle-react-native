@@ -1,6 +1,4 @@
-package com.particleauth.model;
-
-import androidx.annotation.NonNull;
+package com.particlebase.model;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;

@@ -1,4 +1,4 @@
-package com.particleauth.utils
+package com.particlebase.utils
 
 import network.particle.chains.ChainInfo
 

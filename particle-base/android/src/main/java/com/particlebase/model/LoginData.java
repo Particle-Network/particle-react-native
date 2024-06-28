@@ -1,4 +1,4 @@
-package com.particleauth.model;
+package com.particlebase.model;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.List;

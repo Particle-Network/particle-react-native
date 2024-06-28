@@ -1,4 +1,4 @@
-package com.particleauth.model;
+package com.particlebase.model;
 
 public class SignTypedData {
 

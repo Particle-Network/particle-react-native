@@ -1,4 +1,4 @@
-package com.particleauth.utils
+package com.particlebase.utils
 
 import com.particle.base.ParticleNetwork
 

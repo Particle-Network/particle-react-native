@@ -1,6 +1,6 @@
 {
   "name": "rn-base-beta",
-  "version": "1.5.31",
+  "version": "1.5.37",
   "description": "Particle Auth Service in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -79,7 +79,7 @@
     "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
     "turbo": "^1.10.7",
-    "typescript": "^5.2.2"
+    "typescript": "^5.0.2"
   },
   "resolutions": {
     "@types/react": "^18.2.44"

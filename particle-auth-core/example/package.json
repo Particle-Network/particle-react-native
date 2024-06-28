@@ -19,7 +19,7 @@
     "react-native-modal-selector": "^2.1.2",
     "react-native-toast-message": "^2.1.6",
     "rn-auth-core-beta": "file:..",
-    "rn-base-beta": "^1.5.35  ",
+    "rn-base-beta": "^1.5.35",
     "web3": "^1.7.3"
   },
   "devDependencies": {

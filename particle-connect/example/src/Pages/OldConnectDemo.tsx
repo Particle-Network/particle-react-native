@@ -22,11 +22,11 @@ import {
   SocialLoginPrompt,
   SupportAuthType,
 } from 'rn-base-beta';
-import * as particleConnect from '@particle-network/rn-connect';
+import * as particleConnect from 'rn-connect-beta';
 import {
   CommonError,
   WalletType,
-} from '@particle-network/rn-connect';
+} from 'rn-connect-beta';
 import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';
 import {

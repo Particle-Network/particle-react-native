@@ -25,8 +25,6 @@ import ConnectPhantomAdapter
 import ConnectWalletConnectAdapter
 #endif
 
-import ParticleAuthAdapter
-
 import ConnectCommon
 import RxSwift
 import SwiftyJSON

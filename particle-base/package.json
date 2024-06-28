@@ -1,6 +1,6 @@
 {
   "name": "rn-base-beta",
-  "version": "1.5.3",
+  "version": "1.5.31",
   "description": "Particle Auth Service in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

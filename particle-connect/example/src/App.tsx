@@ -10,7 +10,7 @@ import Toast from 'react-native-toast-message';
 import { RootStackParamList } from './Pages/types';
 import TopRightButton from './Views/TopRightButton';
 import { Ethereum } from "@particle-network/chains";
-import * as particleConnect from '@particle-network/rn-connect';
+import * as particleConnect from 'rn-connect-beta';
 import { ParticleInfo } from 'rn-base-beta';
 import * as particleAuthCore from "rn-auth-core-beta";
 import { type ChainInfo } from '@particle-network/chains';

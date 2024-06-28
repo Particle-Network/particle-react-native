@@ -3,8 +3,8 @@ import { Text, SafeAreaView, FlatList, TouchableOpacity, StyleSheet, NativeEvent
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from './types';
-import { WalletType } from '@particle-network/rn-connect';
-import * as particleConnect from '@particle-network/rn-connect';
+import { WalletType } from 'rn-connect-beta';
+import * as particleConnect from 'rn-connect-beta';
 import AuthCoreLoginScreen from './AuthCoreLoginScreen';
 import { CommonError } from 'rn-base-beta';
 import Toast from 'react-native-toast-message';
@@ -36,7 +36,7 @@ export default function SelectWalletScreen() {
         setModalVisible(true);
        }
       }, [qrCodeUri]);
-    
+
 
     const toggleModal = () => {
         setModalVisible(false);

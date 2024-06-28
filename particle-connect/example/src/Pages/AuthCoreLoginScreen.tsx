@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Button, FlatList } from 'react-native';
 import { Picker } from "@react-native-picker/picker";
-import * as particleConnect from "@particle-network/rn-connect";
+import * as particleConnect from "rn-connect-beta";
 import { LoginType, SocialLoginPrompt, CommonError, SupportAuthType } from "rn-base-beta";
-import { WalletType } from "@particle-network/rn-connect";
+import { WalletType } from "rn-connect-beta";
 import Toast from 'react-native-toast-message';
 
 interface LoginTypesScreenProps {

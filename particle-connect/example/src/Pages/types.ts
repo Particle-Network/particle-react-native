@@ -1,4 +1,4 @@
-import { AccountInfo, WalletType } from "@particle-network/rn-connect";
+import { AccountInfo, WalletType } from "rn-connect-beta";
 import { type ChainInfo } from '@particle-network/chains';
 
 export type RootStackParamList = {
@@ -9,4 +9,3 @@ export type RootStackParamList = {
     ConnectedWalletPage: {accountInfo: AccountInfo};
     // AccountPage: undefined;
   };
-  

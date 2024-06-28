@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "rootDir": ".",
+    "rootDir": "./",
     "paths": {
-      "network.particle": ["./src/index"]
+      "rn-auth-core-beta": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

@@ -292,7 +292,7 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun getAccounts(walletType: String, promise: Promise) {
+  fun getAccounts(walletType: String, callback: Callback) {
     LogUtils.d("getAccounts", walletType)
     val adapterAccounts: List<AdapterAccount> = ParticleConnect.getAccounts()
     var accounts: List<Account> = ArrayList()
@@ -302,7 +302,7 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
         break
       }
     }
-    return promise.resolve(ReactCallBack.success(accounts).toGson())
+    return callback.invoke(ReactCallBack.success(accounts).toGson())
   }
 
   @ReactMethod

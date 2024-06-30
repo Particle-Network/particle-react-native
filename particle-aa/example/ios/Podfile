@@ -33,9 +33,9 @@ target 'ParticleAAExample' do
   pod "ParticleAuthCore", '1.4.7'
   pod "AuthCoreAdapter", '1.4.7'
   
-  pod 'ParticleNetworkBase', '1.4.6'
-  pod 'ParticleAuthService', '1.4.6'
-  pod 'ParticleAA', '1.4.6'
+  pod 'ParticleNetworkBase', '1.4.8'
+  pod 'ParticleAuthService', '1.4.8'
+  pod 'ParticleAA', '1.4.8'
 
   pod 'ParticleConnect', '0.2.24'
   pod 'ConnectWalletConnectAdapter', '0.2.24'

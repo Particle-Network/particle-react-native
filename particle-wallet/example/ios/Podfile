@@ -27,11 +27,11 @@ target 'ParticleWalletExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'ParticleWalletGUI', '1.4.6'
-  pod 'ParticleWalletAPI', '1.4.6'
-  pod 'ParticleNetworkBase', '1.4.6'
-  pod 'ParticleAuthService', '1.4.6'
-  pod 'ParticleWalletConnect', '1.4.6'
+  pod 'ParticleWalletGUI', '1.4.8'
+  pod 'ParticleWalletAPI', '1.4.8'
+  pod 'ParticleNetworkBase', '1.4.8'
+  pod 'ParticleAuthService', '1.4.8'
+  pod 'ParticleWalletConnect', '1.4.8'
   
   pod 'ParticleConnect', '0.2.24'
   pod 'ConnectWalletConnectAdapter', '0.2.24'

@@ -33,8 +33,8 @@ target 'ParticleAuthCoreExample' do
    pod "ParticleAuthCore", '1.4.7'
    pod "AuthCoreAdapter", '1.4.7'
   
-   pod 'ParticleAuthService', '1.4.6'
-   pod 'ParticleNetworkBase', '1.4.6'
+   pod 'ParticleAuthService', '1.4.8'
+   pod 'ParticleNetworkBase', '1.4.8'
    pod 'ConnectCommon',  '0.2.24'
 
    pod 'SwiftyUserDefaults', :git => 'https://github.com/SunZhiC/SwiftyUserDefaults.git', :branch => 'master'

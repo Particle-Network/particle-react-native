@@ -20,8 +20,8 @@ import {
   View,
 } from 'react-native';
 
-import * as particleAA from '@particle-network/rn-aa';
-import { CommonError, WholeFeeQuote } from '@particle-network/rn-aa';
+import * as particleAA from 'rn-aa-beta';
+import { CommonError, WholeFeeQuote } from 'rn-aa-beta';
 import * as particleBase from 'rn-base-beta';
 import * as particleAuthCore from 'rn-auth-core-beta';
 import Toast from 'react-native-toast-message';

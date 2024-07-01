@@ -2694,7 +2694,7 @@ color-name@1.1.3:
 colorette@^1.0.7:
   version "1.4.0"
 
-"com.xxx-example@file:/Users/houn/xxhong/workspaces/react/particle-react-native-rn/particle-aa/example":
+"com.xxx-example@file:/Users/minijoy3/Documents/particle-react-native-github/particle-aa/example":
   version "0.0.1"
   resolved "file:example"
   dependencies:

@@ -33,9 +33,8 @@ target 'ParticleAAExample' do
   pod "ParticleAuthCore", '1.4.7'
   pod "AuthCoreAdapter", '1.4.7'
   
-  pod 'ParticleNetworkBase', '1.4.6'
-  pod 'ParticleAuthService', '1.4.6'
-  pod 'ParticleAA', '1.4.6'
+  pod 'ParticleNetworkBase', '1.4.8'
+  pod 'ParticleAA', '1.4.8'
 
   pod 'ParticleConnect', '0.2.24'
   pod 'ConnectWalletConnectAdapter', '0.2.24'
@@ -43,8 +42,7 @@ target 'ParticleAAExample' do
   pod 'ConnectEVMAdapter', '0.2.24'
   pod 'ConnectCommon', '0.2.24'
   pod 'ConnectPhantomAdapter', '0.2.24'
-  pod 'ParticleAuthAdapter', '0.2.24'
- 
+
   pod 'SwiftyUserDefaults', :git => 'https://github.com/SunZhiC/SwiftyUserDefaults.git', :branch => 'master'
   pod 'WalletConnectSwiftV2', :git => 'https://github.com/SunZhiC/WalletConnectSwiftV2.git', :branch => 'particle'
   pod 'SkeletonView', :git => 'https://github.com/SunZhiC/SkeletonView.git', :branch => 'main'
@@ -62,7 +60,6 @@ target 'ParticleAAExample' do
       # necessary for Mac Catalyst builds
       :mac_catalyst_enabled => false
     )
-    __apply_Xcode_12_5_M1_post_install_workaround(installer)
     
     installer.pods_project.targets.each do |target|
           target.build_configurations.each do |config|

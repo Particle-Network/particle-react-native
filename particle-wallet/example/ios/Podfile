@@ -50,6 +50,8 @@ target 'ParticleWalletExample' do
   pod 'SwiftyUserDefaults', :git => 'https://github.com/SunZhiC/SwiftyUserDefaults.git', :branch => 'master'
   pod 'WalletConnectSwiftV2', :git => 'https://github.com/SunZhiC/WalletConnectSwiftV2.git', :branch => 'particle'
 
+  pod 'SDWebImageSwiftUI', '3.0.4'
+  
   target 'ParticleWalletExampleTests' do
     inherit! :complete
     # Pods for testing

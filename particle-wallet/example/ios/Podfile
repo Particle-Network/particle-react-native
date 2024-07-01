@@ -27,24 +27,24 @@ target 'ParticleWalletExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'ParticleWalletGUI', '1.4.6'
-  pod 'ParticleWalletAPI', '1.4.6'
-  pod 'ParticleNetworkBase', '1.4.6'
-  pod 'ParticleAuthService', '1.4.6'
-  pod 'ParticleWalletConnect', '1.4.6'
-  
+  pod 'ParticleWalletGUI', '1.4.8'
+  pod 'ParticleWalletAPI', '1.4.8'
+  pod 'ParticleNetworkBase', '1.4.8'
+  pod 'ParticleWalletConnect', '1.4.8'
+
   pod 'ParticleConnect', '0.2.24'
   pod 'ConnectWalletConnectAdapter', '0.2.24'
   pod 'ConnectEVMAdapter', '0.2.24'
   pod 'ConnectSolanaAdapter', '0.2.24'
   pod 'ConnectPhantomAdapter', '0.2.24'
   pod 'ConnectCommon', '0.2.24'
-  pod 'ParticleAuthAdapter', '0.2.24'
 
   pod 'AuthCoreAdapter', '1.4.7'
   pod 'ParticleAuthCore', '1.4.7'
   pod 'ParticleMPCCore', '1.4.7'
   pod 'Thresh', '1.4.7'
+
+  pod 'SDWebImageSwiftUI', '3.0.4'
   
   pod 'SkeletonView', :git => 'https://github.com/SunZhiC/SkeletonView.git', :branch => 'main'
   pod 'SwiftyUserDefaults', :git => 'https://github.com/SunZhiC/SwiftyUserDefaults.git', :branch => 'master'
@@ -62,7 +62,6 @@ target 'ParticleWalletExample' do
       # necessary for Mac Catalyst builds
       :mac_catalyst_enabled => false
     )
-    __apply_Xcode_12_5_M1_post_install_workaround(installer)
 
     installer.pods_project.targets.each do |target|
         target.build_configurations.each do |config|
@@ -79,10 +78,10 @@ target 'ParticleWalletExample' do
         end
       end
     end
-    
+
   end
-  
-  
-  
+
+
+
 
 end

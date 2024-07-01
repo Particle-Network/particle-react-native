@@ -1,6 +1,0 @@
-framework module react_native_particle_connect {
-  umbrella header "react-native-particle-connect-umbrella.h"
-
-  export *
-  module * { export * }
-}

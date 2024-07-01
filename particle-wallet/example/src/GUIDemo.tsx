@@ -7,11 +7,11 @@ import {
   AccountInfo,
   WalletType,
 } from 'rn-connect-beta';
-import * as particleWallet from '@particle-network/rn-wallet';
+import * as particleWallet from 'rn-wallet-beta';
 import {
   CommonError,
   OpenBuyNetwork
-} from '@particle-network/rn-wallet';
+} from 'rn-wallet-beta';
 import React, { PureComponent } from 'react';
 import {
   FlatList,
@@ -156,7 +156,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
 
   navigatorTokenReceive = async () => {
     const chainInfo = await particleBase.getChainInfo();
-    if (chainInfo.chainType == "evm") { 
+    if (chainInfo.chainType == "evm") {
       const tokenAddress = TestAccountEVM.tokenContractAddress;
       particleWallet.navigatorTokenReceive(tokenAddress);
     } else {

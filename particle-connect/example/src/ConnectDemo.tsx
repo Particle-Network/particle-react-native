@@ -594,9 +594,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
         return;
       }
 
-      const sender = await particleAuth.getAddress();
-      console.log('sender: ', sender);
-      const transaction = await Helper.getSolanaTransaction(sender);
+      const transaction = await Helper.getSolanaTransaction(publicAddress);
       console.log('transaction:', transaction);
 
       const result = await particleConnect.signTransaction(
@@ -645,9 +643,8 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
         console.log('publicAddress is underfined, you need connect');
         return;
       }
-      const sender = await particleAuth.getAddress();
-      console.log('sender: ', sender);
-      const transaction = await Helper.getSolanaTransaction(sender);
+
+      const transaction = await Helper.getSolanaTransaction(publicAddress);
       console.log('transaction:', transaction);
 
       const transactions = [transaction, transaction];
@@ -680,10 +677,6 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
   };
 
   signAndSendTransaction = async () => {
-    const sender = await particleAuth.getAddress();
-    const chainInfo: ChainInfo =
-      this.props.route.params?.chainInfo || EthereumSepolia;
-
     const publicAddress = this.pnaccount.publicAddress;
 
     if (publicAddress == undefined) {
@@ -691,10 +684,13 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
       return;
     }
 
+    const chainInfo: ChainInfo =
+      this.props.route.params?.chainInfo || EthereumSepolia;
+
     try {
       let transaction = '';
       if (chainInfo.name.toLowerCase() == 'solana') {
-        transaction = await Helper.getSolanaTransaction(sender);
+        transaction = await Helper.getSolanaTransaction(publicAddress);
       } else {
         const receiver = TestAccountEVM.receiverAddress;
         const amount = TestAccountEVM.amount;

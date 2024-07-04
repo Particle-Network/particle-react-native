@@ -16,5 +16,5 @@ data class ConnectData(
     @SerializedName("login_page_config")
     val loginPageConfig: LoginPageConfig? = null,
     @SerializedName("social_login_prompt")
-    val prompt: LoginPrompt? = null
+    val prompt: String? = null
 )

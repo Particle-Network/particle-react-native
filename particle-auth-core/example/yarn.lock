@@ -1554,23 +1554,23 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@particle-network/chains@^1.4.13":
-  version "1.4.13"
-  resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.4.13.tgz"
-  integrity sha512-GMmmpDVpxbyI5n9tayt421eqn1aEZWaKKSmvJ6/fIhZpmYvcubmFLzHmygM1ef+uBxwbGSh888gnXSCjfn+OUg==
+"@particle-network/chains@^1.5.2":
+  version "1.5.5"
+  resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.5.5.tgz"
+  integrity sha512-+aqxfYmHlChfFBSezVE2LkbLY9d0ZApxmQj1ATjGSVOM9+bxGWD4gWCm+BIF8GFuJ4jA3T8ueuIzv9Knk4wk8w==
 
 "@particle-network/rn-auth-core@file:..":
-  version "1.4.11"
+  version "1.4.13"
   resolved "file:.."
   dependencies:
-    "@particle-network/rn-auth" "1.4.7"
+    "@particle-network/rn-auth" "1.4.11"
 
-"@particle-network/rn-auth@1.4.11":
-  version "1.4.11"
-  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.4.11.tgz"
-  integrity sha512-p7fWlGrqUuQ2Fb69VOts9qaWjFqLFdVmROpra/giAK+nC0rxkeO46n8zwAkdtamEfWNJxTR0yFzIZ0bXCgIWgg==
+"@particle-network/rn-auth@1.4.13":
+  version "1.4.13"
+  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.4.13.tgz"
+  integrity sha512-4Lv3vditS/ygS5dk1P9hLn3jhknScgP326vt+e9Ntxs3OEmOoE7Oel7jISCGd7088WPuVSHKNgXmBXvUNJgF1A==
   dependencies:
-    "@particle-network/chains" "^1.4.13"
+    "@particle-network/chains" "^1.5.2"
     axios "^1.6.2"
     bignumber.js "^9.1.0"
     events "^3.3.0"

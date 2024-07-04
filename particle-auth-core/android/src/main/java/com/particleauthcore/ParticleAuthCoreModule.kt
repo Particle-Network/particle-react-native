@@ -26,6 +26,10 @@ import com.particle.base.iaa.FeeModeNative
 import com.particle.base.iaa.FeeModeToken
 import com.particle.base.iaa.MessageSigner
 import com.particle.base.model.CodeReq
+import com.particle.base.model.LoginPrompt
+import com.particle.base.model.LoginPrompt.ConSent
+import com.particle.base.model.LoginPrompt.None
+import com.particle.base.model.LoginPrompt.SelectAccount
 import com.particle.base.model.LoginType
 import com.particle.base.model.Result1Callback
 import com.particle.base.model.ResultCallback
@@ -65,14 +69,22 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
             AuthCore.isConnected()
         }
     }
-
+    fun loginPromptParse(value: String?): LoginPrompt? {
+        if (value == null) return null
+        if (value.equals("none", true)) return None
+        if (value.equals("consent", true)) return ConSent
+        if (value.equals("select_account", true) ||
+            value.equals("SelectAccount", true)
+        ) return SelectAccount
+        return null
+    }
     @ReactMethod
     fun connect(loginJson: String, callback: Callback) {
         LogUtils.d("connect", loginJson)
         val loginData = GsonUtils.fromJson(loginJson, ConnectData::class.java);
         val loginType = LoginType.valueOf(loginData.loginType.uppercase())
         val account = loginData.account ?: ""
-        val prompt = loginData.prompt
+        val prompt = loginPromptParse(loginData.prompt)
         val loginPageConfig = loginData.loginPageConfig
         val supportLoginTypes: List<SupportLoginType> = loginData.supportLoginTypes?.map {
             SupportLoginType.valueOf(it.uppercase())

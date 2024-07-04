@@ -183,7 +183,15 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
     }
     ParticleConnect.setWalletConnectV2SupportChainInfos(chainInfos)
   }
-
+  fun loginPromptParse(value: String?): LoginPrompt? {
+    if (value == null) return null
+    if (value.equals("none", true)) return LoginPrompt.None
+    if (value.equals("consent", true)) return LoginPrompt.ConSent
+    if (value.equals("select_account", true) ||
+      value.equals("SelectAccount", true)
+    ) return LoginPrompt.SelectAccount
+    return null
+  }
   @ReactMethod
   fun connect(walletType: String, loginParams: String, callback: Callback) {
     LogUtils.d("connect", walletType,loginParams)
@@ -215,18 +223,18 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
             val supportLoginTypes: List<SupportLoginType> = connectData.supportAuthTypeValues.map {
               SupportLoginType.valueOf(it.uppercase())
             }
-            val prompt = LoginPrompt.parse(connectData.prompt)
+            val prompt = loginPromptParse(connectData.prompt)
             config = ConnectConfigPhone(account, connectData.code ?: "", supportLoginTypes, prompt, connectData.loginPageConfig)
           } else if (loginType == LoginType.EMAIL) {
             val supportLoginTypes: List<SupportLoginType> = connectData.supportAuthTypeValues.map {
               SupportLoginType.valueOf(it.uppercase())
             }
-            val prompt = LoginPrompt.parse(connectData.prompt)
+            val prompt = loginPromptParse(connectData.prompt)
             config = ConnectConfigEmail(account, connectData.code ?: "", supportLoginTypes, prompt, connectData.loginPageConfig)
 
           } else {
             val socialLoginType = SocialLoginType.valueOf(connectData.loginType.uppercase(Locale.ENGLISH))
-            val prompt = LoginPrompt.parse(connectData.prompt)
+            val prompt = loginPromptParse(connectData.prompt)
             config = ConnectConfigSocialLogin(socialLoginType, prompt)
           }
         }

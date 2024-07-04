@@ -460,7 +460,7 @@ export default class ConnectDemo extends PureComponent<ConnectScreenProps> {
 
   connectWithParticleAuthCore = async () => {
     const connectConfig = {
-      loginType: LoginType.Google,
+      loginType: LoginType.Email,
       supportAuthType: [SupportAuthType.Phone, SupportAuthType.Google, SupportAuthType.Apple],
       socialLoginPrompt: SocialLoginPrompt.SelectAccount,
       loginPageConifg: {

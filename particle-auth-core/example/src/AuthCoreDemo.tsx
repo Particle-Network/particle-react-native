@@ -476,7 +476,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
       SupportAuthType.Linkedin,
       SupportAuthType.Twitter,
     ];
-    const result = await particleAuthCore.connect(LoginType.Email, null, supportAuthType, SocialLoginPrompt.SelectAccount, {
+    const result = await particleAuthCore.connect(LoginType.Email, null, supportAuthType, SocialLoginPrompt.None, {
       projectName: "React Native Example",
       description: "Welcome to login",
       imagePath: "https://connect.particle.network/icons/512.png"

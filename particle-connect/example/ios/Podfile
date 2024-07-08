@@ -18,8 +18,8 @@ target 'ParticleConnectExample' do
   pod 'ConnectCommon', '0.2.24'
   pod 'ParticleAuthAdapter', '0.2.24'
 
-  pod 'ParticleNetworkBase', '1.4.8'
-  pod 'ParticleAuthService', '1.4.8'
+  pod 'ParticleNetworkBase', '1.4.9'
+  pod 'ParticleAuthService', '1.4.9'
   
   pod 'AuthCoreAdapter', '1.4.7'
   pod 'ParticleAuthCore', '1.4.7'

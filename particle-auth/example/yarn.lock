@@ -1616,10 +1616,10 @@
     fastq "^1.6.0"
 
 "@particle-network/rn-auth@file:..":
-  version "1.4.12"
+  version "1.4.16"
   resolved "file:.."
   dependencies:
-    "@particle-network/chains" "^1.4.13"
+    "@particle-network/chains" "^1.5.2"
     axios "^1.6.2"
     bignumber.js "^9.1.0"
     events "^3.3.0"

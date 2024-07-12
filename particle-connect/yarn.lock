@@ -1919,10 +1919,10 @@
   resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.5.3.tgz"
   integrity sha512-CU9VV5dxzZmcdVhDrrti7Bp7oEr4pbDJHjHvOfCz71Fllr6BTJdhnmq73kfUOdiLAAdBQpQPzWytwaalRoKGUw==
 
-"@particle-network/rn-auth@1.4.16":
-  version "1.4.16"
-  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.4.16.tgz"
-  integrity sha512-72DzC16RCsaxJMrbbp8uto9uzywtc95r91rSOJQI62izcfgdfaOzozZeb7O7KRbDMDojfuBUfiAhWrqRrGtoXQ==
+"@particle-network/rn-auth@1.4.17":
+  version "1.4.17"
+  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.4.17.tgz"
+  integrity sha512-hKutIoScICWZ6eErp05bZ7Y6dbr8AZFNERy6TM6qpJN/ik0uW5fh6u1SCdl951XBItLqWSlqE4syvQ305zppPQ==
   dependencies:
     "@particle-network/chains" "^1.5.2"
     axios "^1.6.2"

@@ -9,10 +9,10 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@particle-network/rn-connect": "^1.4.0",
-    "@particle-network/rn-wallet": "^1.4.0",
-    "@particle-network/rn-auth-core": "^1.4.0",
-    "@particle-network/rn-auth": "^1.4.0",
+    "@particle-network/rn-connect": "^1.4.17",
+    "@particle-network/rn-wallet": "^1.4.17",
+    "@particle-network/rn-auth-core": "^1.4.17",
+    "@particle-network/rn-auth": "^1.4.17",
     "@types/react": "~18.2.14",
     "expo": "~49.0.15",
     "expo-splash-screen": "~0.20.5",

@@ -10,7 +10,7 @@ import {
   getChainInfo,
   isHexString,
   type Env,
-} from 'rn-base-beta';
+} from '@particle-network/rn-base';
 
 import { NativeModules, Platform } from 'react-native';
 import type {

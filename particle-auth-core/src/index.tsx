@@ -4,7 +4,7 @@ import type { CommonError, CommonResp, UserInfo } from './Models';
 import * as evm from './evm';
 import * as solana from './solana';
 // import { LoginType, SupportAuthType, type LoginPageConfig, type SocialLoginPrompt } from '@particle-network/rn-auth';
-import { LoginType, SupportAuthType, type LoginPageConfig, type SocialLoginPrompt } from 'rn-base-beta';
+import { LoginType, SupportAuthType, type LoginPageConfig, type SocialLoginPrompt } from '@particle-network/rn-base';
 
 const LINKING_ERROR =
   `The package '@particle-network/rn-auth' doesn't seem to be linked. Make sure: \n\n` +
@@ -35,7 +35,7 @@ export function init() {
 }
 
 /**
- * Connect 
+ * Connect
  * @param type LoginType
  * @param account Optional, phone number, email or jwt, phone number request format E.164, such as '+11234567890' '+442012345678' '+8613611112222'
  * @param supportAuthType Optional, Support auth types
@@ -76,7 +76,7 @@ export async function connectJWT(jwt: String): Promise<UserInfo> {
  * @param phone Phone number format E.164, such as '+11234567890' '+442012345678' '+8613611112222'
  * @param email Email address
  * @param code Verification code
- * @returns 
+ * @returns
  */
 export async function connectWithCode(phone: string | null, email: string | null, code: string): Promise<UserInfo> {
   const obj = {

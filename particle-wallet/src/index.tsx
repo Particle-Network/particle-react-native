@@ -1,6 +1,6 @@
 import type { ChainInfo } from '@particle-network/chains';
-import type { WalletDisplay } from 'rn-base-beta';
-import type { WalletType, DappMetaData } from 'rn-connect-beta';
+import type { WalletDisplay } from '@particle-network/rn-base';
+import type { WalletType, DappMetaData } from '@particle-network/rn-connect';
 import { NativeModules, Platform } from 'react-native';
 import { BuyCryptoConfig } from './Models/BuyCryptoConfig';
 

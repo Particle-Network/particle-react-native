@@ -1,7 +1,7 @@
 // import type { LoginType } from '@particle-network/rn-auth';
-import type { LoginType } from 'rn-base-beta';
+import type { LoginType } from '@particle-network/rn-base';
 // import { ParticleAuthCoreProvider } from '@particle-network/rn-auth-core';
-import { ParticleAuthCoreProvider } from 'rn-auth-core-beta'; 
+import { ParticleAuthCoreProvider } from '@particle-network/rn-auth-core';
 import Web3 from 'web3';
 
 export const createWeb3 = (projectId: string, clientKey: string, loginType: LoginType) => {

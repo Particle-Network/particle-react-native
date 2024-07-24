@@ -8,9 +8,9 @@ import TopRightButton from '../Views/TopRightButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from './types';
-import { AccountInfo, WalletType } from "rn-connect-beta";
-import * as particleBase from "rn-base-beta";
-import * as particleConnect from "rn-connect-beta";
+import { AccountInfo, WalletType } from "@particle-network/rn-connect";
+import * as particleBase from "@particle-network/rn-base";
+import * as particleConnect from "@particle-network/rn-connect";
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;

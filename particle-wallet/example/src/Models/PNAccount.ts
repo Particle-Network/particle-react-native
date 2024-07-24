@@ -1,4 +1,4 @@
-import { WalletType } from "rn-connect-beta";
+import { WalletType } from "@particle-network/rn-connect;
 
 export interface PNAccount {
   walletType: WalletType;

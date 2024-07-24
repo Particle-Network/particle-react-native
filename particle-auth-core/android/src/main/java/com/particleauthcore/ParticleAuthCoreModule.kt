@@ -26,6 +26,7 @@ import com.particle.base.iaa.FeeModeNative
 import com.particle.base.iaa.FeeModeToken
 import com.particle.base.iaa.MessageSigner
 import com.particle.base.model.CodeReq
+import com.particle.base.model.LoginPrompt
 import com.particle.base.model.LoginType
 import com.particle.base.model.Result1Callback
 import com.particle.base.model.ResultCallback
@@ -82,7 +83,7 @@ class ParticleAuthCoreModule(reactContext: ReactApplicationContext) :
             AuthCore.connect(loginType,
                 account,
                 supportLoginTypes,
-                prompt,
+                LoginPrompt.parse(prompt),
                 loginPageConfig = loginPageConfig,
                 object : AuthCoreServiceCallback<UserInfo> {
                     override fun success(output: UserInfo) {

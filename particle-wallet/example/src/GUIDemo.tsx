@@ -1,17 +1,17 @@
 import { Ethereum, EthereumSepolia, PolygonAmoy } from '@particle-network/chains';
-import * as particleBase from 'rn-base-beta';
-import { Env, Language, WalletDisplay, LoginType, SupportAuthType, SocialLoginPrompt } from 'rn-base-beta';
-import * as particleConnect from 'rn-connect-beta';
-import * as ParticleAuthCore from 'rn-auth-core-beta';
+import * as particleBase from '@particle-network/rn-base';
+import { Env, Language, WalletDisplay, LoginType, SupportAuthType, SocialLoginPrompt } from '@particle-network/rn-base';
+import * as particleConnect from '@particle-network/rn-connect';
+import * as ParticleAuthCore from '@particle-network/rn-auth-core';
 import {
   AccountInfo,
   WalletType,
-} from 'rn-connect-beta';
-import * as particleWallet from 'rn-wallet-beta';
+} from '@particle-network/rn-connect';
+import * as particleWallet from '@particle-network/rn-wallet';
 import {
   CommonError,
   OpenBuyNetwork
-} from 'rn-wallet-beta';
+} from '@particle-network/rn-wallet';
 import React, { PureComponent } from 'react';
 import {
   FlatList,

@@ -7,11 +7,11 @@ import SelectChainScreen from './Pages/SelectChainScreen';
 import Toast from 'react-native-toast-message';
 import { RootStackParamList } from './Pages/types';
 import { Ethereum } from "@particle-network/chains";
-import * as particleConnect from 'rn-connect-beta';
-import { ParticleInfo } from 'rn-base-beta';
-import * as particleAuthCore from "rn-auth-core-beta";
+import * as particleConnect from '@particle-network/rn-connect';
+import { ParticleInfo } from '@particle-network/rn-base';
+import * as particleAuthCore from "@particle-network/rn-auth-core";
 import { type ChainInfo } from '@particle-network/chains';
-import { Env } from 'rn-base-beta';
+import { Env } from '@particle-network/rn-base';
 import SelectWalletScreen from './Pages/SelectWalletScreen';
 import ConnectedWalletScreen from './Pages/ConnectedWalletScreen';
 

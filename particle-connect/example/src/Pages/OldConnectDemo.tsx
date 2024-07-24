@@ -5,9 +5,9 @@ import {
   EthereumSepolia
 } from '@particle-network/chains';
 // import * as particleAuth from '@particle-network/rn-auth';
-import * as particleBase from 'rn-base-beta';
+import * as particleBase from '@particle-network/rn-base';
 // import * as particleAuthCore from '@particle-network/rn-auth-core';
-import * as particleAuthCore from 'rn-auth-core-beta';
+import * as particleAuthCore from '@particle-network/rn-auth-core';
 // import {
 //   Env,
 //   LoginType,
@@ -21,12 +21,12 @@ import {
   ParticleInfo,
   SocialLoginPrompt,
   SupportAuthType,
-} from 'rn-base-beta';
-import * as particleConnect from 'rn-connect-beta';
+} from '@particle-network/rn-base';
+import * as particleConnect from '@particle-network/rn-connect';
 import {
   CommonError,
   WalletType,
-} from 'rn-connect-beta';
+} from '@particle-network/rn-connect';
 import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';
 import {

@@ -1,6 +1,6 @@
 {
-  "name": "rn-auth-core-beta",
-  "version": "1.5.40",
+  "name": "@particle-network/rn-auth-core",
+  "version": "1.5.0",
   "description": "@particle-network/rn-auth-core",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -54,7 +54,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "rn-base-beta": "^1.5.37"
+    "@particle-network/rn-base": "1.5.0"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",

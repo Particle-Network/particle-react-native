@@ -12,13 +12,13 @@
   "dependencies": {
     "react": "18.2.0",
     "react-native": "0.74.2",
-    "rn-auth-core-beta": "1.5.37",
-    "rn-base-beta": "1.5.37",
-    "rn-connect-beta": "1.5.37",
-    "rn-wallet-beta": "file:..",
     "react-native-toast-message": "^2.1.6",
     "react-native-modal-selector": "^2.1.2",
-    "@react-navigation/native-stack": "^6.9.0"
+    "@react-navigation/native-stack": "^6.9.0",
+    "@particle-network/rn-base": "1.5.0",
+    "@particle-network/rn-connect": "1.5.0",
+    "@particle-network/rn-wallet": "file:..",
+    "@particle-network/rn-auth-core": "1.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

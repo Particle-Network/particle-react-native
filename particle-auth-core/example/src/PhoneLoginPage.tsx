@@ -15,11 +15,11 @@ import {
 import {
     type UserInfo,
     type CommonError,
-} from 'rn-auth-core-beta';
+} from '@particle-network/rn-auth-core';
 
 import Toast from 'react-native-toast-message';
 // import * as particleAuthCore from '@particle-network/rn-auth-core';
-import * as particleAuthCore from 'rn-auth-core-beta';
+import * as particleAuthCore from '@particle-network/rn-auth-core';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
 interface PhoneLoginPagePageProps {

@@ -1,7 +1,7 @@
 {
-  "name": "rn-base-beta",
-  "version": "1.5.37",
-  "description": "Particle Auth Service in React Native",
+  "name": "@particle-network/rn-base",
+  "version": "1.5.0",
+  "description": "Particle Base Service in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
@@ -163,5 +163,4 @@
     "quoteProps": "as-needed",
     "singleQuote": true
   }
-
 }

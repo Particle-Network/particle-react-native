@@ -4,12 +4,9 @@ import {
   SolanaTestnet,
   type ChainInfo,
 } from '@particle-network/chains';
-// import * as particleAuth from '@particle-network/rn-auth';
-import * as particleBase from 'rn-base-beta';
-// import {Env, ParticleInfo} from '@particle-network/rn-auth';
-import { Env, ParticleInfo } from 'rn-base-beta';
-// import * as particleAuthCore from '@particle-network/rn-auth-core';
-import * as particleAuthCore from 'rn-auth-core-beta';
+import * as particleBase from '@particle-network/rn-base';
+import { Env, ParticleInfo } from '@particle-network/rn-base';
+import * as particleAuthCore from '@particle-network/rn-auth-core';
 // import {
 //   LoginType,
 //   SocialLoginPrompt,
@@ -20,7 +17,7 @@ import {
   LoginType,
   SocialLoginPrompt,
   SupportAuthType
-} from 'rn-base-beta';
+} from '@particle-network/rn-base';
 
 // import {
 //   evm,
@@ -33,7 +30,7 @@ import {
   solana,
   type CommonError,
   type UserInfo,
-} from 'rn-auth-core-beta';
+} from '@particle-network/rn-auth-core';
 
 import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';

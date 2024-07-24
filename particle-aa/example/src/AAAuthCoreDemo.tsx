@@ -8,7 +8,7 @@ import {
   ParticleInfo,
   SupportAuthType,
   SmartAccountInfo, SocialLoginPrompt
-} from 'rn-base-beta';
+} from '@particle-network/rn-base';
 import React, { PureComponent } from 'react';
 import {
   ActivityIndicator,
@@ -20,14 +20,14 @@ import {
   View,
 } from 'react-native';
 
-import * as particleAA from 'rn-aa-beta';
-import { CommonError, WholeFeeQuote } from 'rn-aa-beta';
-import * as particleBase from 'rn-base-beta';
-import * as particleAuthCore from 'rn-auth-core-beta';
+import * as particleAA from '@particle-network/rn-aa';
+import { CommonError, WholeFeeQuote } from '@particle-network/rn-aa';
+import * as particleBase from '@particle-network/rn-base';
+import * as particleAuthCore from '@particle-network/rn-auth-core';
 import Toast from 'react-native-toast-message';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
-import { evm } from "rn-auth-core-beta";
+import { evm } from "@particle-network/rn-auth-core";
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import BigNumber from 'bignumber.js';
 

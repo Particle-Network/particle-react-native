@@ -2,7 +2,7 @@ import { Buffer } from 'buffer';
 import type { CommonResp, CommonError } from './Models';
 import { ParticleAuthCorePlugin } from './index';
 // import { AAFeeMode } from '@particle-network/rn-base';
-import { AAFeeMode } from 'rn-base-beta';
+import { AAFeeMode } from '@particle-network/rn-base';
 export async function getAddress(): Promise<string> {
   return await ParticleAuthCorePlugin.evmGetAddress();
 }

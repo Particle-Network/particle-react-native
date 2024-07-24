@@ -1,5 +1,5 @@
 // import { EvmService, SolanaService } from '@particle-network/rn-auth';
-import { EvmService, SolanaService } from 'rn-base-beta';
+import { EvmService, SolanaService } from '@particle-network/rn-base';
 import BigNumber from 'bignumber.js';
 import { TestAccountSolana } from './TestAccount';
 

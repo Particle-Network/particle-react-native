@@ -3,10 +3,10 @@ import { Text, SafeAreaView, FlatList, TouchableOpacity, StyleSheet, NativeEvent
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from './types';
-import { WalletType } from 'rn-connect-beta';
-import * as particleConnect from 'rn-connect-beta';
+import { WalletType } from '@particle-network/rn-connect';
+import * as particleConnect from '@particle-network/rn-connect';
 import AuthCoreLoginScreen from './AuthCoreLoginScreen';
-import { CommonError } from 'rn-base-beta';
+import { CommonError } from '@particle-network/rn-base';
 import Toast from 'react-native-toast-message';
 import QRCode from 'react-native-qrcode-svg';
 type SelectWalletScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'SelectWalletPage'>;

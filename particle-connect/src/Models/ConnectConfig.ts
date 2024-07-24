@@ -10,7 +10,7 @@ import type {
   LoginType,
   SocialLoginPrompt,
   SupportAuthType,
-} from 'rn-base-beta';
+} from '@particle-network/rn-base';
 import { WalletType } from './WalletType';
 
 
@@ -28,7 +28,7 @@ export interface ParticleConnectConfig {
    */
   code?: string;
   /**
-   * List of SupportAuthType 
+   * List of SupportAuthType
    */
   supportAuthType: SupportAuthType[];
   /**

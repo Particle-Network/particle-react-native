@@ -3,18 +3,18 @@ import {
   Polygon,
   EthereumSepolia,
 } from '@particle-network/chains';
-import * as particleAA from 'rn-aa-beta';
-import { CommonError, WholeFeeQuote } from 'rn-aa-beta';
-import * as particleBase from 'rn-base-beta';
+import * as particleAA from '@particle-network/rn-aa';
+import { CommonError, WholeFeeQuote } from '@particle-network/rn-aa';
+import * as particleBase from '@particle-network/rn-base';
 // import * as particleConnect from '@particle-network/rn-connect';
-import * as particleConnect from 'rn-connect-beta';
+import * as particleConnect from '@particle-network/rn-connect';
 // import {
 //   AccountInfo,
 //   WalletType,
 // } from '@particle-network/rn-connect';
 import {
   WalletType,
-} from 'rn-connect-beta';
+} from '@particle-network/rn-connect';
 // import {
 //   Env,
 //   ParticleInfo,
@@ -30,7 +30,7 @@ import {
   EvmService,
   AAFeeMode,
   SmartAccountInfo
-} from 'rn-base-beta';
+} from '@particle-network/rn-base';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import BigNumber from 'bignumber.js';
 import React, { PureComponent } from 'react';

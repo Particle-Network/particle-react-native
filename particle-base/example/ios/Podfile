@@ -28,7 +28,7 @@ target 'ParticleBaseExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'ParticleNetworkBase', '1.4.8'
+  pod 'ParticleNetworkBase', '1.4.10'
   
   pod 'SwiftyUserDefaults', :git => 'https://github.com/SunZhiC/SwiftyUserDefaults.git', :branch => 'master'
   

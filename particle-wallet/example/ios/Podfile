@@ -27,29 +27,29 @@ target 'ParticleWalletExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'ParticleWalletGUI', '1.4.10'
-  pod 'ParticleWalletAPI', '1.4.10'
-  pod 'ParticleNetworkBase', '1.4.10'
-  pod 'ParticleAuthService', '1.4.10'
-  pod 'ParticleWalletConnect', '1.4.10'
-  
-  pod 'ParticleConnect', '0.2.26'
-  pod 'ConnectWalletConnectAdapter', '0.2.26'
-  pod 'ConnectEVMAdapter', '0.2.26'
-  pod 'ConnectSolanaAdapter', '0.2.26'
-  pod 'ConnectPhantomAdapter', '0.2.26'
-  pod 'ConnectCommon', '0.2.26'
-  pod 'ParticleAuthAdapter', '0.2.26'
+  pod 'ParticleWalletGUI', '1.4.8'
+  pod 'ParticleWalletAPI', '1.4.8'
+  pod 'ParticleNetworkBase', '1.4.8'
+  pod 'ParticleWalletConnect', '1.4.8'
 
-  pod 'AuthCoreAdapter', '1.4.9'
-  pod 'ParticleAuthCore', '1.4.9'
-  pod 'ParticleMPCCore', '1.4.9'
-  pod 'Thresh', '1.4.9'
+  pod 'ParticleConnect', '0.2.24'
+  pod 'ConnectWalletConnectAdapter', '0.2.24'
+  pod 'ConnectEVMAdapter', '0.2.24'
+  pod 'ConnectSolanaAdapter', '0.2.24'
+  pod 'ConnectPhantomAdapter', '0.2.24'
+  pod 'ConnectCommon', '0.2.24'
+
+  pod 'AuthCoreAdapter', '1.4.7'
+  pod 'ParticleAuthCore', '1.4.7'
+  pod 'ParticleMPCCore', '1.4.7'
+  pod 'Thresh', '1.4.7'
+
+  pod 'SDWebImageSwiftUI', '3.0.4'
   
   pod 'SkeletonView', :git => 'https://github.com/SunZhiC/SkeletonView.git', :branch => 'main'
   pod 'SwiftyUserDefaults', :git => 'https://github.com/SunZhiC/SwiftyUserDefaults.git', :branch => 'master'
   pod 'WalletConnectSwiftV2', :git => 'https://github.com/SunZhiC/WalletConnectSwiftV2.git', :branch => 'particle'
-  
+
   target 'ParticleWalletExampleTests' do
     inherit! :complete
     # Pods for testing
@@ -78,10 +78,10 @@ target 'ParticleWalletExample' do
         end
       end
     end
-    
+
   end
-  
-  
-  
+
+
+
 
 end

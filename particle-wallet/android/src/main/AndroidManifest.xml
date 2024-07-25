@@ -1,10 +1,3 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.particlewallet">
-
-  <application>
-    <activity
-      android:name=".ui.PNLoginOptActivity"
-      android:exported="false"
-      android:theme="@style/PnThemeWallet.FullScreen" />
-  </application>
+          package="com.particlewallet">
 </manifest>

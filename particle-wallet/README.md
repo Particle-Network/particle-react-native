@@ -1,11 +1,21 @@
-# @particle-network/rn-wallet
+# com.xxx
 
-Particle Wallet in React Native
+xxx
 
 ## Installation
 
 ```sh
-npm install @particle-network/rn-wallet
+npm install com.xxx
+```
+
+## Usage
+
+```js
+import { multiply } from 'com.xxx';
+
+// ...
+
+const result = await multiply(3, 7);
 ```
 
 ## Contributing
@@ -14,7 +24,7 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 
 ## License
 
-Apache 2.0
+MIT
 
 ---
 

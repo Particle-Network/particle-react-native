@@ -1,11 +1,21 @@
-# @particle-network/rn-aa
+# com.xxx
 
-Particle AA
+xxx
 
 ## Installation
 
 ```sh
-npm install @particle-network/rn-aa
+npm install com.xxx
+```
+
+## Usage
+
+```js
+import { multiply } from 'com.xxx';
+
+// ...
+
+const result = await multiply(3, 7);
 ```
 
 ## Contributing

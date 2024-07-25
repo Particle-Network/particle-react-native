@@ -1,33 +1,35 @@
 import { Buffer } from 'buffer';
-import type { CommonResp } from './Models';
+import type { CommonResp, CommonError } from './Models';
 import { ParticleAuthCorePlugin } from './index';
-import { AAFeeMode } from '@particle-network/rn-auth';
+// import { AAFeeMode } from '@particle-network/rn-base';
+import { AAFeeMode } from '@particle-network/rn-base';
 export async function getAddress(): Promise<string> {
   return await ParticleAuthCorePlugin.evmGetAddress();
 }
 
-export function personalSign(message: string): Promise<CommonResp<string>> {
+export function personalSign(message: string): Promise<string> {
   let serializedMessage: string;
-
   if (isHexString(message)) {
     serializedMessage = message;
   } else {
     serializedMessage = '0x' + Buffer.from(message).toString('hex');
   }
 
-  return new Promise((resolve) => {
-    ParticleAuthCorePlugin.evmPersonalSign(
-      serializedMessage,
-      (result: string) => {
-        resolve(JSON.parse(result));
+  return new Promise((resolve, reject) => {
+    ParticleAuthCorePlugin.evmPersonalSign(serializedMessage, (result: string) => {
+      const parsedResult: CommonResp<string> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as string);
+      } else {
+        reject(parsedResult.data as CommonError);
       }
-    );
+    });
   });
 }
 
 export function personalSignUnique(
   message: string
-): Promise<CommonResp<string>> {
+): Promise<string> {
   let serializedMessage: string;
 
   if (isHexString(message)) {
@@ -36,17 +38,19 @@ export function personalSignUnique(
     serializedMessage = '0x' + Buffer.from(message).toString('hex');
   }
 
-  return new Promise((resolve) => {
-    ParticleAuthCorePlugin.evmPersonalSignUnique(
-      serializedMessage,
-      (result: string) => {
-        resolve(JSON.parse(result));
+  return new Promise((resolve, reject) => {
+    ParticleAuthCorePlugin.evmPersonalSignUnique(serializedMessage, (result: string) => {
+      const parsedResult: CommonResp<string> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as string);
+      } else {
+        reject(parsedResult.data as CommonError);
       }
-    );
+    });
   });
 }
 
-export function signTypedData(message: string): Promise<CommonResp<string>> {
+export function signTypedData(message: string): Promise<string> {
   let serializedMessage: string;
 
   if (isHexString(message)) {
@@ -55,19 +59,22 @@ export function signTypedData(message: string): Promise<CommonResp<string>> {
     serializedMessage = '0x' + Buffer.from(message).toString('hex');
   }
 
-  return new Promise((resolve) => {
-    ParticleAuthCorePlugin.evmSignTypedData(
-      serializedMessage,
-      (result: string) => {
-        resolve(JSON.parse(result));
+  return new Promise((resolve, reject) => {
+    ParticleAuthCorePlugin.evmSignTypedData(serializedMessage, (result: string) => {
+      const parsedResult: CommonResp<string> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as string);
+      } else {
+        reject(parsedResult.data as CommonError);
       }
+    }
     );
   });
 }
 
 export function signTypedDataUnique(
   message: string
-): Promise<CommonResp<string>> {
+): Promise<string> {
   let serializedMessage: string;
 
   if (isHexString(message)) {
@@ -76,17 +83,19 @@ export function signTypedDataUnique(
     serializedMessage = '0x' + Buffer.from(message).toString('hex');
   }
 
-  return new Promise((resolve) => {
-    ParticleAuthCorePlugin.evmSignTypedDataUnique(
-      serializedMessage,
-      (result: string) => {
-        resolve(JSON.parse(result));
+  return new Promise((resolve, reject) => {
+    ParticleAuthCorePlugin.evmSignTypedDataUnique(serializedMessage, (result: string) => {
+      const parsedResult: CommonResp<string> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as string);
+      } else {
+        reject(parsedResult.data as CommonError);
       }
-    );
+    });
   });
 }
 
-export function sendTransaction(transaction: string, feeMode?: AAFeeMode): Promise<CommonResp<string>> {
+export function sendTransaction(transaction: string, feeMode?: AAFeeMode): Promise<string> {
   let obj;
   if (feeMode) {
     obj = {
@@ -104,9 +113,14 @@ export function sendTransaction(transaction: string, feeMode?: AAFeeMode): Promi
     };
   }
   const json = JSON.stringify(obj);
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleAuthCorePlugin.evmSendTransaction(json, (result: string) => {
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<string> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as string);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }
@@ -117,7 +131,7 @@ export function sendTransaction(transaction: string, feeMode?: AAFeeMode): Promi
  * @param feeMode Optional, default is native
  * @returns Result, signature or error
  */
-export async function batchSendTransactions(transactions: string[], feeMode?: AAFeeMode): Promise<CommonResp<string>> {
+export async function batchSendTransactions(transactions: string[], feeMode?: AAFeeMode): Promise<string> {
   const obj = {
     transactions: transactions,
     fee_mode: {
@@ -128,9 +142,14 @@ export async function batchSendTransactions(transactions: string[], feeMode?: AA
     },
   };
   const json = JSON.stringify(obj);
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleAuthCorePlugin.evmBatchSendTransactions(json, (result: string) => {
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<string> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as string);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }

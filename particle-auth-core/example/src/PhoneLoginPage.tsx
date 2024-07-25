@@ -8,12 +8,17 @@ import {
     TextInput
 } from 'react-native';
 
+// import {
+//     type UserInfo,
+//     type CommonError,
+// } from '@particle-network/rn-auth-core';
 import {
     type UserInfo,
     type CommonError,
 } from '@particle-network/rn-auth-core';
 
 import Toast from 'react-native-toast-message';
+// import * as particleAuthCore from '@particle-network/rn-auth-core';
 import * as particleAuthCore from '@particle-network/rn-auth-core';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
@@ -66,17 +71,16 @@ export default class PhoneLoginPage extends PureComponent<PhoneLoginPagePageProp
                 <TouchableOpacity
                     style={styles.buttonStyle}
                     onPress={async () => {
-                        const result = await particleAuthCore.sendPhoneCode(this.state.phone);
-                        if (result.status) {
-                            const isSuccess = result.data as boolean;
+                        try {
+                            const isSuccess = await particleAuthCore.sendPhoneCode(this.state.phone);
                             console.log('sendPhoneCode', isSuccess);
                             Toast.show({
                                 type: 'success',
                                 text1: `sendPhoneCode ${isSuccess}`,
                             });
-                        } else {
-                            const error = result.data as CommonError;
-                            console.log('connect', error);
+                        } catch (e) {
+                            const error = e as CommonError;
+                            console.log(error);
                             Toast.show({
                                 type: 'error',
                                 text1: error.message,
@@ -109,17 +113,16 @@ export default class PhoneLoginPage extends PureComponent<PhoneLoginPagePageProp
                 <TouchableOpacity
                     style={styles.buttonStyle}
                     onPress={async () => {
-                        const result = await particleAuthCore.connectWithCode(this.state.phone, null, this.state.code);
-                        if (result.status) {
-                            const userInfo = result.data as UserInfo;
+                        try {
+                            const userInfo = await particleAuthCore.connectWithCode(this.state.phone, null, this.state.code);
                             console.log('connect', userInfo);
                             Toast.show({
                                 type: 'success',
                                 text1: 'Successfully connected',
                             });
-                        } else {
-                            const error = result.data as CommonError;
-                            console.log('connect', error);
+                        } catch (e) {
+                            const error = e as CommonError;
+                            console.log(error);
                             Toast.show({
                                 type: 'error',
                                 text1: error.message,

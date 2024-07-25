@@ -1,4 +1,4 @@
-import { AccountName } from '@particle-network/rn-auth';
+import { AccountName } from '@particle-network/rn-base';
 import { NativeModules, Platform } from 'react-native';
 import type { CommonError, CommonResp, WholeFeeQuote } from './Models';
 
@@ -11,13 +11,13 @@ const LINKING_ERROR =
 const ParticleAAPlugin = NativeModules.ParticleAAPlugin
   ? NativeModules.ParticleAAPlugin
   : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    {},
+    {
+      get() {
+        throw new Error(LINKING_ERROR);
+      },
+    }
+  );
 
 /**
  * Init particle AA service
@@ -53,10 +53,15 @@ export function init(
  */
 export async function isDeploy(
   eoaAddress: string
-): Promise<CommonResp<string>> {
-  return new Promise((resolve) => {
+): Promise<boolean> {
+  return new Promise((resolve, reject) => {
     ParticleAAPlugin.isDeploy(eoaAddress, (result: string) => {
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<boolean> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as boolean);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }
@@ -97,24 +102,23 @@ export function disableAAMode() {
 export async function rpcGetFeeQuotes(
   eoaAddress: string,
   transactions: string[]
-): Promise<WholeFeeQuote | CommonError> {
+): Promise<WholeFeeQuote> {
   const obj = {
     eoa_address: eoaAddress,
     transactions: transactions,
   };
   const json = JSON.stringify(obj);
-  const result: CommonResp<WholeFeeQuote> = await new Promise((resolve) => {
+
+  return new Promise((resolve, reject) => {
     ParticleAAPlugin.rpcGetFeeQuotes(json, (result: string) => {
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<WholeFeeQuote> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as WholeFeeQuote);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
-
-  if (result.status) {
-    const data = result.data;
-    return data;
-  } else {
-    return Promise.reject(result.data);
-  }
 }
 
 export * from './Models';

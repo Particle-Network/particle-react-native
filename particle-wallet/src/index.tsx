@@ -1,5 +1,5 @@
 import type { ChainInfo } from '@particle-network/chains';
-import type { WalletDisplay } from '@particle-network/rn-auth';
+import type { WalletDisplay } from '@particle-network/rn-base';
 import type { WalletType, DappMetaData } from '@particle-network/rn-connect';
 import { NativeModules, Platform } from 'react-native';
 import { BuyCryptoConfig } from './Models/BuyCryptoConfig';
@@ -265,9 +265,9 @@ export function setPayDisabled(disabled: boolean) {
  * Get pay disabled state
  * @returns Trus if disabled, otherwise false
  */
-export function getPayDisabled(): Promise<any> {
+export function getPayDisabled(): Promise<boolean> {
   return new Promise((resolve) => {
-    ParticleWalletPlugin.getPayDisabled((result: string) => {
+    ParticleWalletPlugin.getPayDisabled((result: boolean) => {
       console.log('getPayDisabled', result);
       resolve(result);
     });
@@ -286,9 +286,9 @@ export function setSwapDisabled(disabled: boolean) {
  * Get swap disabled state
  * @returns Trus if disabled, otherwise true
  */
-export function getSwapDisabled(): Promise<any> {
+export function getSwapDisabled(): Promise<boolean> {
   return new Promise((resolve) => {
-    ParticleWalletPlugin.getSwapDisabled((result: string) => {
+    ParticleWalletPlugin.getSwapDisabled((result: boolean) => {
       resolve(result);
     });
   });

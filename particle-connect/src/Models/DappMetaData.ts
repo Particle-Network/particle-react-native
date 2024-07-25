@@ -18,7 +18,4 @@ export interface DappMetaData {
   description: string;
   redirect?: string;
   verifyUrl?: string;
-
-
-
 }

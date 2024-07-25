@@ -1,10 +1,18 @@
+// import type {
+//   LoginPageConfig,
+//   LoginType,
+//   SocialLoginPrompt,
+//   SupportAuthType,
+// } from '@particle-network/rn-auth';
+
 import type {
-  LoginAuthorization,
   LoginPageConfig,
   LoginType,
   SocialLoginPrompt,
   SupportAuthType,
-} from '@particle-network/rn-auth';
+} from '@particle-network/rn-base';
+import { WalletType } from './WalletType';
+
 
 export interface ParticleConnectConfig {
   /**
@@ -20,17 +28,13 @@ export interface ParticleConnectConfig {
    */
   code?: string;
   /**
-   * List of SupportAuthType 
+   * List of SupportAuthType
    */
   supportAuthType: SupportAuthType[];
   /**
    *SocialLoginPrompt
    */
   socialLoginPrompt?: SocialLoginPrompt;
-  /**
-   * LoginAuthorization, will work when use particle-auth to login, won't work when use particle-auth-core to login
-   */
-  authorization?: LoginAuthorization;
   /**
    * LoginPageConfig, to config the login page user interface, will work when use particle-auth-core to login, won't work when use particle-auth to login
    */
@@ -45,6 +49,7 @@ export interface AccountInfo {
   description?: string;
   chainId?: number;
   mnemonic?: string;
+  walletType?: WalletType
 }
 
 export interface LoginResp {

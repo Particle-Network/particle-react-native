@@ -1,171 +1,79 @@
-import { ChainInfo, EthereumSepolia } from '@particle-network/chains';
-import type { RouteProp } from '@react-navigation/native';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
+import HomeScreen from './Pages/HomeScreen';
+import SelectChainScreen from './Pages/SelectChainScreen';
 import Toast from 'react-native-toast-message';
-import ConnectDemo from './ConnectDemo';
-import SelectChainPage from './SelectChain';
-import SelectWalletTypePage from './SelectWalletType';
+import { RootStackParamList } from './Pages/types';
+import { Ethereum } from "@particle-network/chains";
+import * as particleConnect from '@particle-network/rn-connect';
+import { ParticleInfo } from '@particle-network/rn-base';
+import * as particleAuthCore from "@particle-network/rn-auth-core";
+import { type ChainInfo } from '@particle-network/chains';
+import { Env } from '@particle-network/rn-base';
+import SelectWalletScreen from './Pages/SelectWalletScreen';
+import ConnectedWalletScreen from './Pages/ConnectedWalletScreen';
 
-const logo = require('../images/ic_round.png');
-
-type StackParamList = {
-  Home: undefined;
-  ConnectDemo: { chainInfo: ChainInfo };
-  SelectChainPage: undefined;
-  SelectWalletTypePage: undefined;
-};
-
-type HomeScreenRouteProp = RouteProp<StackParamList, 'Home'>;
-type HomeScreenNavigationProp = NativeStackNavigationProp<
-  StackParamList,
-  'Home'
->;
-
-interface HomeScreenProps {
-  route: HomeScreenRouteProp;
-  navigation: HomeScreenNavigationProp;
-}
-
-const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
-  return (
-    <View style={styles.container}>
-      <Image style={styles.logo} source={logo} />
-
-      <TouchableOpacity
-        style={styles.buttonStyle}
-        onPress={() =>
-          navigation.push('ConnectDemo', { chainInfo: EthereumSepolia })
-        }
-      >
-        <Text style={styles.textStyle}>ConnectDemo</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-const Stack = createNativeStackNavigator<StackParamList>();
-
-type ConnectScreenRouteProp = RouteProp<StackParamList, 'ConnectDemo'>;
-type ConnectScreenNavigationProp = NativeStackNavigationProp<
-  StackParamList,
-  'ConnectDemo'
->;
-
-export interface ConnectScreenProps {
-  route: ConnectScreenRouteProp;
-  navigation: ConnectScreenNavigationProp;
-}
-
-const ConnectScreen: React.FC<ConnectScreenProps> = ({ route, navigation }) => {
-  return (
-    <View style={styles.container}>
-      <ConnectDemo navigation={navigation} route={route} />
-    </View>
-  );
-};
-
-type SelectChainScreenRouteProp = RouteProp<StackParamList, 'SelectChainPage'>;
-type SelectChainScreenNavigationProp = NativeStackNavigationProp<
-  StackParamList,
-  'SelectChainPage'
->;
-
-interface SelectChainScreenProps {
-  route: SelectChainScreenRouteProp;
-  navigation: SelectChainScreenNavigationProp;
-}
-
-const SelectChainScreen: React.FC<SelectChainScreenProps> = ({
-  route,
-  navigation,
-}) => {
-  return (
-    <View style={styles.container}>
-      <SelectChainPage navigation={navigation} route={route} />
-    </View>
-  );
-};
-
-type SelectWalletScreenRouteProp = RouteProp<
-  StackParamList,
-  'SelectWalletTypePage'
->;
-type SelectWalletScreenNavigationProp = NativeStackNavigationProp<
-  StackParamList,
-  'SelectWalletTypePage'
->;
-
-interface SelectWalletScreenProps {
-  route: SelectWalletScreenRouteProp;
-  navigation: SelectWalletScreenNavigationProp;
-}
-
-const SelectWalletScreen: React.FC<SelectWalletScreenProps> = ({
-  route,
-  navigation,
-}) => {
-  return (
-    <View style={styles.container}>
-      <SelectWalletTypePage navigation={navigation} route={route} />
-    </View>
-  );
-};
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
+  useEffect(() => {
+    initParticle();
+  }, []);
+
+  const initParticle = () => {
+    // Get your project id and client from dashboard,
+    // https://dashboard.particle.network/
+
+    ParticleInfo.projectId = '5479798b-26a9-4943-b848-649bb104fdc3'; // your project id
+    ParticleInfo.clientKey = 'cUKfeOA7rnNFCxSBtXE5byLgzIhzGrE4Y7rDdY4b'; // your client key
+
+    if (ParticleInfo.projectId == '' || ParticleInfo.clientKey == '') {
+      throw new Error(
+        'You need set project info, Get your project id and client from dashboard, https://dashboard.particle.network'
+      );
+    }
+
+    const chainInfo: ChainInfo = Ethereum;
+    const env = Env.Dev;
+    const metadata = {
+      walletConnectProjectId: '75ac08814504606fc06126541ace9df6',
+      url: 'https://connect.particle.network',
+      icon: 'https://connect.particle.network/icons/512.png',
+      name: 'Particle Connect',
+      description: 'Particle Wallet'
+    }
+
+    particleConnect.init(chainInfo, env, metadata);
+    particleAuthCore.init();
+  };
+
   return (
-    <>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="ConnectDemo" component={ConnectScreen} />
-          <Stack.Screen name="SelectChainPage" component={SelectChainScreen} />
-          <Stack.Screen
-            name="SelectWalletTypePage"
-            component={SelectWalletScreen}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={() => ({
+            headerTitle: "",
+            headerLeft: () => <Text style={styles.headerLeftText}>Particle</Text>
+          })}
+        />
+        {/* <Stack.Screen name="ConnectDemo" component={ConnectScreen} /> */}
+        <Stack.Screen name="SelectChainPage" component={SelectChainScreen} />
+        <Stack.Screen name="SelectWalletPage" component={SelectWalletScreen} />
+        <Stack.Screen name="ConnectedWalletPage" component={ConnectedWalletScreen} />
+        {/* <Stack.Screen name="AccountPage" component={AccountScreen} /> */}
+      </Stack.Navigator>
       <Toast />
-    </>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-
-  content: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    height: '60%',
-    marginTop: -200,
-  },
-
-  logo: {
-    width: 100,
-    height: 100,
-    marginTop: 0,
-  },
-  buttonStyle: {
-    backgroundColor: 'rgba(78, 116, 289, 1)',
-    borderRadius: 3,
-    margin: 10,
-    height: 30,
-    width: 300,
-    justifyContent: 'center',
-  },
-
-  textStyle: {
-    color: 'white',
-    textAlign: 'center',
+  headerLeftText: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });

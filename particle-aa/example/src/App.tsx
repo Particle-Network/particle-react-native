@@ -5,14 +5,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
-import AAAuthDemo from './AAAuthDemo';
 import AAConnectDemo from './AAConnectDemo';
 import AAAuthCoreDemo from './AAAuthCoreDemo';
 const logo = require('../images/ic_round.png');
 
 type StackParamList = {
   Home: undefined;
-  AAAuthDemo: undefined;
   AAConnectDemo: undefined;
   AAAuthCoreDemo: undefined;
 };
@@ -35,13 +33,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.buttonStyle}
-        onPress={() => navigation.push('AAAuthDemo')}
-      >
-        <Text style={styles.textStyle}>AAAuthDemo</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.buttonStyle}
         onPress={() => navigation.push('AAConnectDemo')}
       >
         <Text style={styles.textStyle}>AAConnectDemo</Text>
@@ -58,25 +49,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
-
-type AAAuthScreenRouteProp = RouteProp<StackParamList, 'AAAuthDemo'>;
-type AAAuthScreenNavigationProp = NativeStackNavigationProp<
-  StackParamList,
-  'AAAuthDemo'
->;
-
-interface AAAuthScreenProps {
-  route: AAAuthScreenRouteProp;
-  navigation: AAAuthScreenNavigationProp;
-}
-
-const AAAuthScreen: React.FC<AAAuthScreenProps> = ({ route, navigation }) => {
-  return (
-    <View style={styles.container}>
-      <AAAuthDemo navigation={navigation} route={route} />
-    </View>
-  );
-};
 
 type AAConnectScreenRouteProp = RouteProp<StackParamList, 'AAConnectDemo'>;
 type AAConnectScreenNavigationProp = NativeStackNavigationProp<
@@ -125,7 +97,6 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="AAAuthDemo" component={AAAuthScreen} />
           <Stack.Screen name="AAConnectDemo" component={AAConnectScreen} />
           <Stack.Screen name="AAAuthCoreDemo" component={AAAuthCoreScreen} />
         </Stack.Navigator>

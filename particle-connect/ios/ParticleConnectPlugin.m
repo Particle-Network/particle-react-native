@@ -16,8 +16,7 @@ RCT_EXTERN_METHOD(supportedEvents)
 
 RCT_EXTERN_METHOD(initialize:(NSString* _Nonnull)json)
 
-RCT_EXTERN_METHOD(getAccounts: (NSString* _Nonnull)json resolve:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(getAccounts: (NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(connect:(NSString* _Nonnull)json configJson:(NSString* _Nonnull)configJson callback:(RCTResponseSenderBlock)callback)
 

@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
 /**
@@ -70,21 +71,21 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
     ndkVersion rootProject.ext.ndkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdk rootProject.ext.compileSdkVersion
 
-    compileSdkVersion 33
-
-    namespace "com.particleaaexample"
+    namespace "com.particleconnectexample"
     defaultConfig {
-        applicationId "com.particleaaeexample"
-        minSdkVersion 23
-        targetSdkVersion 33
+        applicationId "com.particleconnectexample"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-
         manifestPlaceholders["PN_PROJECT_ID"] = "2ac9501b-bde1-4e09-9c1a-403768db896b"
         manifestPlaceholders["PN_PROJECT_CLIENT_KEY"] =
                 "c4CqHS0nbdVBthI1XDw3jky0OoFj3Yu3YcgKhNSk"
         manifestPlaceholders["PN_APP_ID"] = "f53fe952-6562-4cd5-b1bc-1ca96a0c8e48"
+
     }
     signingConfigs {
         debug {
@@ -120,12 +121,6 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 
-    debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
-    debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
-        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
-    }
-
-    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {

@@ -23,8 +23,8 @@
     "react-native-qrcode-svg": "6.3.1",
     "@particle-network/rn-base": "1.5.0",
     "@particle-network/rn-connect": "1.5.0",
-    "@particle-network/rn-wallet": "file:..",
-    "@particle-network/rn-auth-core": "1.5.0"
+    "@particle-network/rn-auth-core": "1.5.0",
+    "@particle-network/rn-wallet": "1.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

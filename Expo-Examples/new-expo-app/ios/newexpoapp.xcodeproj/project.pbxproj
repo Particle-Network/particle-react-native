@@ -12,7 +12,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		47D5C316E5C5B6FEDE7FB9D4 /* Pods_newexpoapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 129656BCBAEAAB76EAD0E672 /* Pods_newexpoapp.framework */; };
-		5F7F181B2C58E61500F07236 /* ParticleNetwork-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F7F181A2C58E61400F07236 /* ParticleNetwork-Info.plist */; };
+		5F7F181F2C58F09900F07236 /* ParticleNetwork-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F7F181E2C58F09900F07236 /* ParticleNetwork-Info.plist */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		E71A2022564945E5B1FBCE7C /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1330B126A9B34E308CFF65A3 /* noop-file.swift */; };
@@ -28,7 +28,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = newexpoapp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = newexpoapp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = newexpoapp/main.m; sourceTree = "<group>"; };
-		5F7F181A2C58E61400F07236 /* ParticleNetwork-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ParticleNetwork-Info.plist"; path = "../../my-app/ios/myapp/ParticleNetwork-Info.plist"; sourceTree = "<group>"; };
+		5F7F181E2C58F09900F07236 /* ParticleNetwork-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ParticleNetwork-Info.plist"; sourceTree = "<group>"; };
 		657DB68CB3870E1821C905D6 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = newexpoapp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		6C2E3173556A471DD304B334 /* Pods-newexpoapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newexpoapp.debug.xcconfig"; path = "Target Support Files/Pods-newexpoapp/Pods-newexpoapp.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-newexpoapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newexpoapp.release.xcconfig"; path = "Target Support Files/Pods-newexpoapp/Pods-newexpoapp.release.xcconfig"; sourceTree = "<group>"; };
@@ -62,7 +62,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 				1330B126A9B34E308CFF65A3 /* noop-file.swift */,
-				5F7F181A2C58E61400F07236 /* ParticleNetwork-Info.plist */,
+				5F7F181E2C58F09900F07236 /* ParticleNetwork-Info.plist */,
 				D93DFE0D08D6438B8B70A9D3 /* newexpoapp-Bridging-Header.h */,
 				657DB68CB3870E1821C905D6 /* PrivacyInfo.xcprivacy */,
 			);
@@ -207,9 +207,9 @@
 			files = (
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				5F7F181B2C58E61500F07236 /* ParticleNetwork-Info.plist in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
 				F31BFB8D75C0B5387610E4FA /* PrivacyInfo.xcprivacy in Resources */,
+				5F7F181F2C58F09900F07236 /* ParticleNetwork-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

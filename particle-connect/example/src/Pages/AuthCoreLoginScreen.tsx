@@ -101,7 +101,6 @@ const AuthCoreLoginScreen = () => {
                 description: "Welcome to login",
                 imagePath: "https://connect.particle.network/icons/512.png"
             }
-
         };
         try {
             const account = await particleConnect.connect(WalletType.AuthCore, connectConfig)

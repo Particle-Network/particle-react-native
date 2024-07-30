@@ -1,6 +1,6 @@
 {
   "name": "@particle-network/rn-wallet",
-  "version": "1.4.17",
+  "version": "1.4.19",
   "description": "Particle Wallet in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -154,8 +154,8 @@
     "useTabs": false
   },
   "dependencies": {
-    "@particle-network/rn-auth": "1.4.17",
-    "@particle-network/rn-connect": "1.4.17",
-    "@particle-network/rn-auth-core": "1.4.17"
+    "@particle-network/rn-auth": "1.4.19",
+    "@particle-network/rn-connect": "1.4.19",
+    "@particle-network/rn-auth-core": "1.4.19"
   }
 }

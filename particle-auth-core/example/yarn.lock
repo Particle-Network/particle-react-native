@@ -1560,15 +1560,15 @@
   integrity sha512-+aqxfYmHlChfFBSezVE2LkbLY9d0ZApxmQj1ATjGSVOM9+bxGWD4gWCm+BIF8GFuJ4jA3T8ueuIzv9Knk4wk8w==
 
 "@particle-network/rn-auth-core@file:..":
-  version "1.4.16"
+  version "1.4.19"
   resolved "file:.."
   dependencies:
-    "@particle-network/rn-auth" "1.4.13"
+    "@particle-network/rn-auth" "1.4.16"
 
-"@particle-network/rn-auth@1.4.16":
-  version "1.4.16"
-  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.4.16.tgz"
-  integrity sha512-72DzC16RCsaxJMrbbp8uto9uzywtc95r91rSOJQI62izcfgdfaOzozZeb7O7KRbDMDojfuBUfiAhWrqRrGtoXQ==
+"@particle-network/rn-auth@1.4.19":
+  version "1.4.19"
+  resolved "https://registry.npmjs.org/@particle-network/rn-auth/-/rn-auth-1.4.19.tgz"
+  integrity sha512-+9dDwcbKPOCqKcfLQMuiRRHyB+8PyV+nVWG/6v7i+jH2zUWZ/a2m00dlMQZkAYBIp2cjFC6BfPRwIPAGiH6abA==
   dependencies:
     "@particle-network/chains" "^1.5.2"
     axios "^1.6.2"

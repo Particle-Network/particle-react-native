@@ -89,7 +89,7 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  def sdkVersion = "1.4.42"
+  def sdkVersion = "1.4.43"
   implementation("network.particle:base-service:$sdkVersion")
   implementation("network.particle:auth-service:$sdkVersion")
   implementation("network.particle:auth-core:$sdkVersion")

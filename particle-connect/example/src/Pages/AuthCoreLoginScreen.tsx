@@ -5,7 +5,7 @@ import * as particleConnect from "@particle-network/rn-connect";
 import { LoginType, SocialLoginPrompt, CommonError, SupportAuthType } from "@particle-network/rn-base";
 import { WalletType } from "@particle-network/rn-connect";
 import Toast from 'react-native-toast-message';
-
+import * as particleAuthCore from "@particle-network/rn-auth-core";
 interface LoginTypesScreenProps {
     visible: boolean;
     onClose: () => void;
@@ -111,6 +111,10 @@ const AuthCoreLoginScreen = () => {
                 type: 'success',
                 text1: 'Successfully connected',
             });
+
+          const userInfo = await particleAuthCore.getUserInfo();
+          console.log('userInfo ', userInfo);
+
         } catch (e) {
             const error = e as CommonError;
             console.log(error);

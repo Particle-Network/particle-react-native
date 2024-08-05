@@ -4,17 +4,11 @@ import {
   SolanaDevnet,
   EthereumSepolia
 } from '@particle-network/chains';
-// import * as particleAuth from '@particle-network/rn-auth';
+
 import * as particleBase from '@particle-network/rn-base';
-// import * as particleAuthCore from '@particle-network/rn-auth-core';
+
 import * as particleAuthCore from '@particle-network/rn-auth-core';
-// import {
-//   Env,
-//   LoginType,
-//   ParticleInfo,
-//   SocialLoginPrompt,
-//   SupportAuthType,
-// } from '@particle-network/rn-auth';
+
 import {
   Env,
   LoginType,

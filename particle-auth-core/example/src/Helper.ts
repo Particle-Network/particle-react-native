@@ -6,7 +6,7 @@ import { TestAccountSolana } from './TestAccount';
 export async function getSolanaTransaction(from: string) {
     // mock a solana native transaction
     // send some native on solana devnet
-    const result = await SolanaService.serializeSolTransction(from, TestAccountSolana.receiverAddress, 1000000);
+    const result = await SolanaService.serializeSolTransaction(from, TestAccountSolana.receiverAddress, 1000000);
     console.log(result.transaction.serialized);
     return result.transaction.serialized;
 }
@@ -14,7 +14,7 @@ export async function getSolanaTransaction(from: string) {
 export async function getSplTokenTransaction(from: string) {
     // mock a solana spl token transaction
     // send some spl token on solana devnet
-    const result = await SolanaService.serializeSplTokenTransction(from, TestAccountSolana.receiverAddress, TestAccountSolana.tokenContractAddress, parseInt(TestAccountSolana.amount));
+    const result = await SolanaService.serializeSplTokenTransaction(from, TestAccountSolana.receiverAddress, TestAccountSolana.tokenContractAddress, parseInt(TestAccountSolana.amount));
 
     console.log(result.transaction.serialized);
     return result.transaction.serialized;

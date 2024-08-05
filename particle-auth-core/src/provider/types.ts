@@ -1,4 +1,4 @@
-// import { LoginType } from '@particle-network/rn-auth';
+
 import { LoginType } from '@particle-network/rn-base';
 export interface RequestArguments {
     method: string;

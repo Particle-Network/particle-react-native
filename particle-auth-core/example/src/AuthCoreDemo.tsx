@@ -5,7 +5,7 @@ import {
   type ChainInfo,
 } from '@particle-network/chains';
 import * as particleBase from '@particle-network/rn-base';
-import { Env, ParticleInfo } from '@particle-network/rn-base';
+import { Env, ParticleInfo, SecurityAccountConfig } from '@particle-network/rn-base';
 import * as particleAuthCore from '@particle-network/rn-auth-core';
 // import {
 //   LoginType,
@@ -975,7 +975,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
   };
 
   setSecurityAccountConfig = () => {
-    particleBase.setSecurityAccountConfig(new particleBase.SecurityAccountConfig(0, 0));
+    particleBase.setSecurityAccountConfig(new SecurityAccountConfig(0, 0));
   }
 
   setBlindEnable = () => {

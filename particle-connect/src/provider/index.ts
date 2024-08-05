@@ -1,4 +1,4 @@
-// import * as particleAuth from '@particle-network/rn-auth';
+
 import * as particleBase from '@particle-network/rn-base';
 import { EventEmitter } from 'events';
 import * as particleConnect from '../index';

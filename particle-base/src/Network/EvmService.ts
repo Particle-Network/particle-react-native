@@ -41,7 +41,7 @@ export class EvmService {
      * @param currencies Currencies array, like ["usd", "cny"]
      * @returns Json string
      */
-    static async getPrice(addresses: [string], currencies: [string]): Promise<any> {
+    static async getPrice(addresses: string[], currencies: string[]): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleGetPrice, [addresses, currencies]);
     }
 
@@ -87,7 +87,7 @@ export class EvmService {
      * Get suggest gas fee
      * @returns Json string, contains base fee, high, medium, low fee.
      */
-    static async suggeseGasFee(): Promise<any> {
+    static async suggestedGasFees(): Promise<any> {
         return await this.rpc(EVMReqBodyMethod.particleSuggestedGasFees, []);
     }
 
@@ -234,6 +234,8 @@ export class EvmService {
 
     /**
      * Read contract
+     * @param address address the transaction is sent from.
+     * @param value the value sent with this transaction.
      * @param contractAddress Contract address
      * @param methodName Method name, like `mint`, `balanceOf` or other methods that are defined in your contract
      * @param params Parameters request by method
@@ -241,20 +243,26 @@ export class EvmService {
      * @returns Json string
      */
     static async readContract(
+        address: string,
+        value: BigNumber,
         contractAddress: string,
         methodName: string,
         params: string[],
         abiJsonString: string
     ): Promise<string> {
         const data = await this.abiEncodeFunctionCall(contractAddress, methodName, params, abiJsonString);
-        const callParams = { data: data, to: contractAddress };
+        const valueHex = '0x' + value.toString(16);
+        const callParams = { data: data, to: contractAddress, from: address, value: valueHex };
         const result = this.rpc('eth_call', [callParams, 'latest']);
         return result;
     }
 
+
+
     /**
      * Write contract, it works for blockchain which support EIP1559.
-     * @param from From address
+     * @param from address the transaction is sent from.
+     * @param value the value sent with this transaction.
      * @param contractAddress Contract address
      * @param methodName Method name, like `mint`, `balanceOf` or other methods that are defined in your contract
      * @param params Parameters request by method
@@ -264,6 +272,7 @@ export class EvmService {
      */
     static async writeContract(
         from: string,
+        value: BigNumber,
         contractAddress: string,
         methodName: string,
         params: string[],
@@ -271,7 +280,7 @@ export class EvmService {
         gasFeeLevel: GasFeeLevel = GasFeeLevel.high
     ): Promise<string> {
         const data = await this.abiEncodeFunctionCall(contractAddress, methodName, params, abiJsonString);
-        return await this.createTransaction(from, data, BigNumber(0), contractAddress, gasFeeLevel);
+        return await this.createTransaction(from, data, value, contractAddress, gasFeeLevel);
     }
 
     /**
@@ -292,7 +301,7 @@ export class EvmService {
     ): Promise<string> {
         const valueHex = '0x' + value.toString(16);
         const gasLimit = await this.estimateGas(from, to, valueHex, data);
-        const gasFeesResult = await this.suggeseGasFee();
+        const gasFeesResult = await this.suggestedGasFees();
 
         let gasFee;
         switch (gasFeeLevel) {

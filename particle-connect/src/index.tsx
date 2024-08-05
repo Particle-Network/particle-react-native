@@ -1,10 +1,5 @@
 import type { ChainInfo } from '@particle-network/chains';
-// import {
-//   AAFeeMode,
-//   getChainInfo,
-//   isHexString,
-//   type Env,
-// } from '@particle-network/rn-auth';
+
 import {
   AAFeeMode,
   getChainInfo,

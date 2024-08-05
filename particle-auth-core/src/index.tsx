@@ -3,7 +3,7 @@ import { NativeModules, Platform } from 'react-native';
 import type { CommonError, CommonResp, UserInfo } from './Models';
 import * as evm from './evm';
 import * as solana from './solana';
-// import { LoginType, SupportAuthType, type LoginPageConfig, type SocialLoginPrompt } from '@particle-network/rn-auth';
+
 import { LoginType, SupportAuthType, type LoginPageConfig, type SocialLoginPrompt } from '@particle-network/rn-base';
 
 const LINKING_ERROR =

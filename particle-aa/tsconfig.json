@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "rn-wallet-beta": ["./src/index"]
+      "@particle-network/rn-aa": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

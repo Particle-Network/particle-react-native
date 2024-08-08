@@ -87,30 +87,30 @@ export default function ConnectedWalletScreen() {
     };
 
     const signMessage = async () => {
-        const publicAddress = accountInfo.publicAddress;
-        const walletType = accountInfo.walletType!;
+        try {
+            const publicAddress = accountInfo.publicAddress;
+            const walletType = accountInfo.walletType!;
 
-        if (publicAddress == undefined) {
-            console.log('publicAddress is underfined, you need connect');
-            return;
-        }
-        const message = 'Hello world!';
-        const result = await particleConnect.signMessage(
-            walletType,
-            publicAddress,
-            message
-        );
-        if (result.status) {
-            const signedMessage = result.data as string;
-            console.log(signedMessage);
+            if (publicAddress == undefined) {
+                console.log('publicAddress is underfined, you need connect');
+                return;
+            }
+            const message = 'Hello world!';
+            const signature = await particleConnect.signMessage(
+                walletType,
+                publicAddress,
+                message
+            );
+
+            console.log(signature);
 
             Toast.show({
                 type: 'success',
-                text1: 'Successfully sign message',
-                text2: signedMessage,
+                text1: 'Successfully sign transaction ',
+                text2: signature,
             });
-        } else {
-            const error = result.data as CommonError;
+        } catch (e) {
+            const error = e as CommonError;
             console.log(error);
 
             Toast.show({

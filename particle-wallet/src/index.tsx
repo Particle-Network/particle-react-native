@@ -150,7 +150,7 @@ export function navigatorBuyCrypto(config?: BuyCryptoConfig) {
   if (config != null) {
     const obj = {
       wallet_address: config.walletAddres,
-      network: config.network,
+      network: { chain_id: config.chainInfo?.id, chain_name: config.chainInfo?.name },
       crypto_coin: config.cryptoCoin,
       fiat_coin: config.fiatCoin,
       fiat_amt: config.fiatAmt,
@@ -165,19 +165,6 @@ export function navigatorBuyCrypto(config?: BuyCryptoConfig) {
   } else {
     ParticleWalletPlugin.navigatorBuyCrypto(config);
   }
-}
-
-/**
- * Navigator login list page
- * @returns  Result, account or eror
- */
-export function navigatorLoginList(): Promise<any> {
-  return new Promise((resolve) => {
-    ParticleWalletPlugin.navigatorLoginList((result: string) => {
-      console.log('navigatorLoginList', JSON.parse(result));
-      resolve(JSON.parse(result));
-    });
-  });
 }
 
 export function navigatorWalletConnect(): Promise<any> {

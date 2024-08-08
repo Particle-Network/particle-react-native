@@ -1,16 +1,15 @@
-import { Ethereum, EthereumSepolia, PolygonAmoy } from '@particle-network/chains';
+import { Ethereum, EthereumSepolia, PolygonAmoy, Polygon } from '@particle-network/chains';
 import * as particleBase from '@particle-network/rn-base';
 import { Env, Language, WalletDisplay, LoginType, SupportAuthType, SocialLoginPrompt } from '@particle-network/rn-base';
 import * as particleConnect from '@particle-network/rn-connect';
-import * as ParticleAuthCore from '@particle-network/rn-auth-core';
+import * as particleAuthCore from '@particle-network/rn-auth-core';
 import {
   AccountInfo,
   WalletType,
 } from '@particle-network/rn-connect';
 import * as particleWallet from "@particle-network/rn-wallet";
 import {
-  CommonError,
-  OpenBuyNetwork
+  CommonError
 } from '@particle-network/rn-wallet';
 import React, { PureComponent } from 'react';
 import {
@@ -43,7 +42,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
       description: 'Particle Wallet',
     };
     particleConnect.init(chainInfo, env, metaData);
-    ParticleAuthCore.init();
+    particleAuthCore.init();
     particleWallet.initWallet(metaData);
     Toast.show({
       type: 'success',
@@ -209,7 +208,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
       cryptoCoin: 'BNB',
       fiatCoin: 'USD',
       fiatAmt: 1000,
-      network: OpenBuyNetwork.BinanceSmartChain,
+      chainInfo: Polygon,
       fixFiatCoin: true,
       fixCryptoCoin: true,
       fixFiatAmt: true,
@@ -221,10 +220,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     particleWallet.navigatorBuyCrypto(config);
   };
 
-  navigatorLoginList = async () => {
-    const result = await particleWallet.navigatorLoginList();
-    console.log('navigatorLoginList', result);
-  };
+
   navigatorWalletConnect = async () => {
     const result = await particleWallet.navigatorWalletConnect();
     console.log('navigatorWalletConnect', result);
@@ -317,55 +313,55 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     });
   };
 
-  setDisplayTokenAddresses = async () => {
+  setDisplayTokenAddresses = () => {
     const tokenAddresses = ['', ''];
     particleWallet.setDisplayTokenAddresses(tokenAddresses);
   };
 
-  setDisplayNFTContractAddresses = async () => {
+  setDisplayNFTContractAddresses = () => {
     const nftContractAddresses = ['', ''];
     particleWallet.setDisplayNFTContractAddresses(nftContractAddresses);
   };
 
-  setPriorityTokenAddresses = async () => {
+  setPriorityTokenAddresses = () => {
     const tokenAddresses = ['0x0Fd9e8d3aF1aaee056EB9e802c3A762a667b1904'];
     particleWallet.setPriorityTokenAddresses(tokenAddresses);
   };
 
-  setPriorityNFTContractAddresses = async () => {
+  setPriorityNFTContractAddresses = () => {
     const nftContractAddresses = ['', ''];
     particleWallet.setPriorityNFTContractAddresses(nftContractAddresses);
   };
 
-  setShowLanguageSetting = async () => {
+  setShowLanguageSetting = () => {
     particleWallet.setShowLanguageSetting(false);
   };
 
-  setShowAppearanceSetting = async () => {
+  setShowAppearanceSetting = () => {
     particleWallet.setShowAppearanceSetting(false);
   };
 
-  setSupportAddToken = async () => {
+  setSupportAddToken = () => {
     particleWallet.setSupportAddToken(false);
   };
 
-  setSupportWalletConnect = async () => {
+  setSupportWalletConnect = () => {
     particleWallet.setSupportWalletConnect(false);
   };
 
-  setSupportDappBrowserTrue = async () => {
+  setSupportDappBrowserTrue = () => {
     particleWallet.setSupportDappBrowser(true);
   };
 
-  setSupportDappBrowserFalse = async () => {
+  setSupportDappBrowserFalse = () => {
     particleWallet.setSupportDappBrowser(false);
   };
 
-  setCustomWalletName = async () => {
+  setCustomWalletName = () => {
     particleWallet.setCustomWalletName('Playbux Wallet', "https://static.particle.network/wallet-icons/Rainbow.png")
   }
 
-  setCustomLocalizable = async () => {
+  setCustomLocalizable = () => {
     if (Platform.OS === 'ios') {
       // use language code in type Language
       const localizables: any = {
@@ -414,7 +410,6 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     { key: 'NavigatorNFTSend', function: this.navigatorNFTSend },
     { key: 'NavigatorNFTDetails', function: this.navigatorNFTDetails },
     { key: 'NavigatorBuyCrypto', function: this.navigatorBuyCrypto },
-    { key: 'NavigatorLoginList', function: this.navigatorLoginList },
     { key: 'NavigatorWalletConnect', function: this.navigatorWalletConnect },
     { key: 'NavigatorSwap', function: this.navigatorSwap },
     { key: 'NavigatorDappBrowser', function: this.navigatorDappBrowser },

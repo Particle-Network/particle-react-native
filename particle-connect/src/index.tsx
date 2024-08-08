@@ -196,7 +196,7 @@ export async function signMessage(
   walletType: WalletType,
   publicAddress: string,
   message: string
-): Promise<CommonResp<string>> {
+): Promise<string> {
   let serializedMessage: string;
 
   let chainInfo = await getChainInfo();
@@ -216,9 +216,14 @@ export async function signMessage(
     message: serializedMessage,
   };
   const json = JSON.stringify(obj);
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleConnectPlugin.signMessage(json, (result: string) => {
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<string> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as string);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }

@@ -61,15 +61,13 @@ show how how to connect with jwt and open wallet.
 
 ## Docs
 
-[particle-auth](https://docs.particle.network/auth-service/sdks/react-native)
+[particle-connect](https://developers.particle.network/api-reference/connect/mobile/react)
 
-[particle-connect](https://docs.particle.network/connect-service/sdks/react-native)
+[particle-wallet](https://developers.particle.network/api-reference/wallet/mobile/react)
 
-[particle-wallet](https://docs.particle.network/wallet-service/sdks/react-native)
+[particle-aa](https://developers.particle.network/api-reference/aa/sdks/mobile/react)
 
-[particle-aa](https://docs.particle.network/developers/account-abstraction/react-native)
-
-[particle-auth-core](https://docs.particle.network/developers/auth-service/core/react-native)
+[particle-auth-core](https://developers.particle.network/api-reference/auth/mobile-sdks/react)
 
 
 ## License

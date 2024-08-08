@@ -98,8 +98,11 @@ public class ParticleWalletPlugin: NSObject {
         } else {
             let data = JSON(parseJSON: json!)
             let walletAddress = data["wallet_address"].string
-            let networkString = data["network"].stringValue.lowercased()
-            let chainInfo = ParticleNetwork.getChainInfo()
+            let chainId = data["chain_info"]["chain_id"].intValue
+            let chainName = data["chain_info"]["chain_name"].stringValue.lowercased()
+            let chainType: ChainType = chainName == "solana" ? .solana : .evm
+
+            let chainInfo = ParticleNetwork.searchChainInfo(by: chainId, chainType: chainType) ?? ParticleNetwork.getChainInfo()
             
             let fiatCoin = data["fiat_coin"].string
             let fiatAmt = data["fiat_amt"].int
@@ -122,7 +125,7 @@ public class ParticleWalletPlugin: NSObject {
             buyConfig.fixFiatCoin = fixFiatCoin
             buyConfig.fixFiatAmt = fixFiatAmt
             buyConfig.theme = theme
-            buyConfig.language = language?.webString  ?? Language.en.webString
+            buyConfig.language = language?.webString ?? Language.en.webString
 
             PNRouter.navigatorBuy(buyCryptoConfig: buyConfig)
         }
@@ -192,29 +195,6 @@ public class ParticleWalletPlugin: NSObject {
     @objc
     public func getSwapDisabled(_ callback: @escaping RCTResponseSenderBlock) {
         callback([ParticleWalletGUI.getSwapDisabled()])
-    }
-    
-    @objc
-    public func navigatorLoginList(_ callback: @escaping RCTResponseSenderBlock) {
-        PNRouter.navigatorLoginList().subscribe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                let response = self.ResponseFromError(error)
-                let statusModel = ReactStatusModel(status: false, data: response)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            case .success(let (walletType, account)):
-                guard let account = account else { return }
-                
-                let loginListModel = ReactLoginListModel(walletType: walletType.stringValue, account: account)
-                let statusModel = ReactStatusModel(status: true, data: loginListModel)
-                let data = try! JSONEncoder().encode(statusModel)
-                guard let json = String(data: data, encoding: .utf8) else { return }
-                callback([json])
-            }
-        }.disposed(by: self.bag)
     }
     
     @objc

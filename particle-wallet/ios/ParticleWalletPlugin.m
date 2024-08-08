@@ -36,8 +36,6 @@ RCT_EXTERN_METHOD(setSwapDisabled:(BOOL _Nonnull)json)
 
 RCT_EXTERN_METHOD(getSwapDisabled:(RCTResponseSenderBlock)callback)
 
-RCT_EXTERN_METHOD(navigatorLoginList:(RCTResponseSenderBlock)callback)
-
 RCT_EXTERN_METHOD(switchWallet:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(setSupportWalletConnect:(BOOL _Nonnull)json)

@@ -538,13 +538,12 @@ export default class OldConnectDemo extends PureComponent<ConnectScreenProps> {
       return;
     }
     const message = 'Hello world!';
-    const result = await particleConnect.signMessage(
-      this.walletType,
-      publicAddress,
-      message
-    );
-    if (result.status) {
-      const signedMessage = result.data as string;
+    try {
+      const signedMessage = await particleConnect.signMessage(
+        this.walletType,
+        publicAddress,
+        message
+      );
       console.log(signedMessage);
 
       Toast.show({
@@ -552,8 +551,8 @@ export default class OldConnectDemo extends PureComponent<ConnectScreenProps> {
         text1: 'Successfully sign message',
         text2: signedMessage,
       });
-    } else {
-      const error = result.data as CommonError;
+    } catch (e) {
+      const error = e as CommonError;
       console.log(error);
 
       Toast.show({

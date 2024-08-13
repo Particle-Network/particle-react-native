@@ -7,11 +7,6 @@ import {
 import * as particleBase from '@particle-network/rn-base';
 import { Env, ParticleInfo, SecurityAccountConfig } from '@particle-network/rn-base';
 import * as particleAuthCore from '@particle-network/rn-auth-core';
-// import {
-//   LoginType,
-//   SocialLoginPrompt,
-//   SupportAuthType
-// } from '@particle-network/rn-auth';
 
 import {
   LoginType,
@@ -19,12 +14,6 @@ import {
   SupportAuthType
 } from '@particle-network/rn-base';
 
-// import {
-//   evm,
-//   solana,
-//   type CommonError,
-//   type UserInfo,
-// } from '@particle-network/rn-auth-core';
 import {
   evm,
   solana,

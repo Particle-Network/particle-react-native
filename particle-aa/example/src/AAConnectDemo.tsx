@@ -11,14 +11,7 @@ import * as particleConnect from '@particle-network/rn-connect';
 import {
   WalletType,
 } from '@particle-network/rn-connect';
-// import {
-//   Env,
-//   ParticleInfo,
-//   AccountName,
-//   EvmService,
-//   AAFeeMode,
-//   SmartAccountInfo
-// } from '@particle-network/rn-auth';
+
 import {
   Env,
   ParticleInfo,

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": ".",
+    "baseUrl": ".",
     "paths": {
       "@particle-network/rn-aa": ["./src/index"]
     },

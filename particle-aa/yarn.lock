@@ -1646,29 +1646,17 @@
   resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.5.3.tgz"
   integrity sha512-CU9VV5dxzZmcdVhDrrti7Bp7oEr4pbDJHjHvOfCz71Fllr6BTJdhnmq73kfUOdiLAAdBQpQPzWytwaalRoKGUw==
 
-"@particle-network/rn-auth-core@1.5.0", "@particle-network/rn-auth-core@1.5.3":
-  version "1.5.3"
-  resolved "https://registry.npmjs.org/@particle-network/rn-auth-core/-/rn-auth-core-1.5.3.tgz"
-  integrity sha512-Bb0W9+nduDVZpTtjImqndEJ7J+U2tiVpqes9kTqrgbyOF/GkHO1DMHc4VBF2AaK1lHFlnDwQzlxVXODHZgPf2Q==
+"@particle-network/rn-auth-core@1.5.0", "@particle-network/rn-auth-core@1.5.4":
+  version "1.5.4"
+  resolved "https://registry.npmjs.org/@particle-network/rn-auth-core/-/rn-auth-core-1.5.4.tgz"
+  integrity sha512-yAfrzp+Rf434yxfdUtCPGwDGKN9bKnHSnX6fzpBBgJo0yP5qKiBcl1HsWqqmovzlC2wc7rHEXh3TMJVbwYEezg==
   dependencies:
-    "@particle-network/rn-base" "1.5.2"
+    "@particle-network/rn-base" "1.5.4"
 
-"@particle-network/rn-base@1.5.0", "@particle-network/rn-base@1.5.3":
-  version "1.5.3"
-  resolved "https://registry.npmjs.org/@particle-network/rn-base/-/rn-base-1.5.3.tgz"
-  integrity sha512-bGZmuT9pzC8U2WW9ByYUq49ifonI6WOzJw3atIolN0fuKHFTA+LdJCsAvPv5bOScjCB1ueG0CZykAuVuOY+M4A==
-  dependencies:
-    "@particle-network/chains" "^1.5.2"
-    axios "^1.6.2"
-    bignumber.js "^9.1.0"
-    events "^3.3.0"
-    react "18.2.0"
-    react-native "0.74.2"
-
-"@particle-network/rn-base@1.5.2":
-  version "1.5.2"
-  resolved "https://registry.npmjs.org/@particle-network/rn-base/-/rn-base-1.5.2.tgz"
-  integrity sha512-otY2LFhOEvYSNjhbFbVhVgb/TGA+tn81aoAEsLvbStmKzznuDLrGXeEey+QbUkEI5qLpOovx3ltQx/XW6by4HA==
+"@particle-network/rn-base@1.5.0", "@particle-network/rn-base@1.5.4":
+  version "1.5.4"
+  resolved "https://registry.npmjs.org/@particle-network/rn-base/-/rn-base-1.5.4.tgz"
+  integrity sha512-zJMunpvLAq77hYR1YP2tSX0BjkpA4jSvdYBbquyF/UDX7yNlIMJAcFQcblMHgQDe/6c+m0wpq+xlaGupYzpT8g==
   dependencies:
     "@particle-network/chains" "^1.5.2"
     axios "^1.6.2"

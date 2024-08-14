@@ -21,9 +21,11 @@
     "@react-native-picker/picker": "2.7.7",
     "web3": "^1.7.3",
     "react-native-qrcode-svg": "6.3.1",
-    "@particle-network/rn-base": "1.5.4",
+    "@particle-network/rn-base": "1.5.5",
     "@particle-network/rn-connect": "file:..",
-    "@particle-network/rn-auth-core": "1.5.4"
+    "@particle-network/rn-auth-core": "1.5.5",
+    "@particle-network/rn-wallet": "1.5.5",
+    "@particle-network/rn-aa": "1.5.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

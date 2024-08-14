@@ -253,7 +253,7 @@ class ParticleConnectPlugin: NSObject {
                 socialLoginPrompt = SocialLoginPrompt.none
             } else if socialLoginPromptString == "consent" {
                 socialLoginPrompt = SocialLoginPrompt.consent
-            } else if socialLoginPromptString == "selectaccount" {
+            } else if socialLoginPromptString == "select_account" || socialLoginPromptString == "selectaccount" {
                 socialLoginPrompt = SocialLoginPrompt.selectAccount
             }
                 

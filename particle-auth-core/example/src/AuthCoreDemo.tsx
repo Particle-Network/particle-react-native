@@ -38,6 +38,7 @@ import type { AuthCoreScreenProps } from './App';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
 import { createWeb3 } from './web3Demo';
+import { base64Img } from './const';
 
 export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
   state = { currentLoadingBtn: '', currentKey: '', currentOptions: [] };
@@ -506,7 +507,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
       const userInfo = await particleAuthCore.connect(LoginType.Email, null, supportAuthType, SocialLoginPrompt.SelectAccount, {
         projectName: "React Native Example",
         description: "Welcome to login",
-        imagePath: "https://connect.particle.network/icons/512.png"
+        imagePath: base64Img
       });
 
       console.log('connect', userInfo);
@@ -897,14 +898,16 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
         text1: error.message,
       });
     }
-
   };
 
   getUserInfo = async () => {
     try {
       const userInfo = await particleAuthCore.getUserInfo();
       console.log(userInfo);
-
+      Toast.show({
+        type: 'success',
+        text1: JSON.stringify(userInfo),
+      });
     } catch (e) {
       const error = e as CommonError;
       console.log(error);
@@ -1041,10 +1044,6 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     { key: 'SetBlindEnable', function: this.setBlindEnable },
     { key: 'GetBlindEnable', function: this.getBlindEnable },
   ];
-
-  componentDidMount(): void {
-    this.init();
-  }
 
   render = () => {
     const { navigation } = this.props;

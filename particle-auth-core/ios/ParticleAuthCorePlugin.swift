@@ -14,7 +14,7 @@ import ParticleNetworkBase
 import RxSwift
 import SwiftyJSON
 
-typealias ParticleCallback = RCTResponseSenderBlock
+typealias RCTResponseSenderBlock = RCTResponseSenderBlock
 
 @objc(ParticleAuthCorePlugin)
 class ParticleAuthCorePlugin: NSObject {
@@ -43,84 +43,84 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    func sendPhoneCode(_ json: String, callback: @escaping ParticleCallback) {
+    func sendPhoneCode(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.sendPhoneCode(json) { value in
             callback([value])
         }
     }
 
     @objc
-    func sendEmailCode(_ json: String, callback: @escaping ParticleCallback) {
+    func sendEmailCode(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.sendEmailCode(json) { value in
             callback([value])
         }
     }
 
     @objc
-    public func switchChain(_ json: String, callback: @escaping ParticleCallback) {
+    public func switchChain(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.switchChain(json) { value in
             callback([value])
         }
     }
 
     @objc
-    func connect(_ json: String, callback: @escaping ParticleCallback) {
+    func connect(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.connect(json) { value in
             callback([value])
         }
     }
 
     @objc
-    func connectWithCode(_ json: String, callback: @escaping ParticleCallback) {
+    func connectWithCode(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.connectWithCode(json) { value in
             callback([value])
         }
     }
 
     @objc
-    public func disconnect(_ callback: @escaping ParticleCallback) {
+    public func disconnect(_ callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.disconnect { value in
             callback([value])
         }
     }
 
     @objc
-    public func isConnected(_ callback: @escaping ParticleCallback) {
+    public func isConnected(_ callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.isConnected { value in
             callback([value])
         }
     }
 
     @objc
-    public func solanaSignMessage(_ json: String, callback: @escaping ParticleCallback) {
+    public func solanaSignMessage(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.solanaSignMessage(json) { value in
             callback([value])
         }
     }
 
     @objc
-    public func solanaSignTransaction(_ json: String, callback: @escaping ParticleCallback) {
+    public func solanaSignTransaction(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.solanaSignTransaction(json) { value in
             callback([value])
         }
     }
 
     @objc
-    public func solanaSignAllTransactions(_ json: String, callback: @escaping ParticleCallback) {
+    public func solanaSignAllTransactions(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.solanaSignAllTransactions(json) { value in
             callback([value])
         }
     }
 
     @objc
-    public func solanaSignAndSendTransaction(_ json: String, callback: @escaping ParticleCallback) {
+    public func solanaSignAndSendTransaction(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.solanaSignAndSendTransaction(json) { value in
             callback([value])
         }
     }
 
     @objc
-    public func evmPersonalSign(_ json: String, callback: @escaping ParticleCallback) {
+    public func evmPersonalSign(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let chainInfo = ParticleNetwork.getChainInfo()
         ShareAuthCore.shared.evmPersonalSign(json) { value in
             callback([value])
@@ -128,35 +128,35 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func evmPersonalSignUnique(_ json: String, callback: @escaping ParticleCallback) {
+    public func evmPersonalSignUnique(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.evmPersonalSignUnique(json) { value in
             callback([value])
         }
     }
 
     @objc
-    public func evmSignTypedData(_ json: String, callback: @escaping ParticleCallback) {
+    public func evmSignTypedData(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.evmSignTypedData(json) { value in
             callback([value])
         }
     }
 
     @objc
-    public func evmSignTypedDataUnique(_ json: String, callback: @escaping ParticleCallback) {
+    public func evmSignTypedDataUnique(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.evmSignTypedDataUnique(json) { value in
             callback([value])
         }
     }
 
     @objc
-    public func evmSendTransaction(_ json: String, callback: @escaping ParticleCallback) {
+    public func evmSendTransaction(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.evmSendTransaction(json) { value in
             callback([value])
         }
     }
 
     @objc
-    func evmBatchSendTransactions(_ json: String, callback: @escaping ParticleCallback) {
+    func evmBatchSendTransactions(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.evmBatchSendTransactions(json) { value in
             callback([value])
         }
@@ -186,28 +186,28 @@ class ParticleAuthCorePlugin: NSObject {
     }
 
     @objc
-    public func openAccountAndSecurity(_ callback: @escaping ParticleCallback) {
+    public func openAccountAndSecurity(_ callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.openAccountAndSecurity { value in
             callback([value])
         }
     }
 
     @objc
-    public func hasPaymentPassword(_ callback: @escaping ParticleCallback) {
+    public func hasPaymentPassword(_ callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.hasPaymentPassword { value in
             callback([value])
         }
     }
 
     @objc
-    public func hasMasterPassword(_ callback: @escaping ParticleCallback) {
+    public func hasMasterPassword(_ callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.hasMasterPassword { value in
             callback([value])
         }
     }
 
     @objc
-    public func changeMasterPassword(_ callback: @escaping ParticleCallback) {
+    public func changeMasterPassword(_ callback: @escaping RCTResponseSenderBlock) {
         ShareAuthCore.shared.changeMasterPassword { value in
             callback([value])
         }

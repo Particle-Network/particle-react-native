@@ -72,7 +72,7 @@ export default function SelectWalletScreen() {
         { key: 'ParticleAuthCore', value: WalletType.AuthCore },
         { key: 'MetaMask', value: WalletType.MetaMask },
         { key: 'Trust', value: WalletType.Trust },
-        { key: 'BitKeep', value: WalletType.BitKeep },
+        { key: 'Bitget', value: WalletType.Bitget },
         { key: 'Rainbow', value: WalletType.Rainbow },
         { key: 'Imtoken', value: WalletType.ImToken },
         { key: 'Phantom', value: WalletType.Phantom },

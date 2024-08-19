@@ -74,7 +74,7 @@ export default function HomeScreen() {
       WalletType.AuthCore,
       WalletType.MetaMask,
       WalletType.Trust,
-      WalletType.BitKeep,
+      WalletType.Bitget,
       WalletType.Rainbow,
       WalletType.ImToken,
       WalletType.EvmPrivateKey,
@@ -135,7 +135,7 @@ export default function HomeScreen() {
         [WalletType.ImToken]: require('../../images/ImToken.png'),
         [WalletType.Phantom]: require('../../images/Phantom.png'),
         [WalletType.WalletConnect]: require('../../images/WalletConnect.png'),
-        [WalletType.BitKeep]: require('../../images/BitKeep.png'),
+        [WalletType.Bitget]: require('../../images/Bitget.png'),
       };
       if (accountInfo.walletType && walletTypeToImageMap[accountInfo.walletType]) {
         return walletTypeToImageMap[accountInfo.walletType];

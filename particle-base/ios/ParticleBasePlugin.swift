@@ -11,8 +11,6 @@ import ParticleNetworkBase
 import RxSwift
 import SwiftyJSON
 
-typealias ParticleCallBack = RCTResponseSenderBlock
-
 @objc(ParticleBasePlugin)
 class ParticleBasePlugin: NSObject {
     let bag = DisposeBag()
@@ -28,14 +26,14 @@ class ParticleBasePlugin: NSObject {
     }
     
     @objc
-    public func setChainInfo(_ json: String, callback: @escaping ParticleCallBack) {
+    public func setChainInfo(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         let value = ShareBase.shared.setChainInfo(json)
         callback([value])
     }
 
     @objc
-    public func getChainInfo(_ callback: @escaping ParticleCallBack) {
-        let value = ShareBase.shared.getChainInfo
+    public func getChainInfo(_ callback: @escaping RCTResponseSenderBlock) {
+        let value = ShareBase.shared.getChainInfo()
         callback([value])
     }
     
@@ -56,12 +54,24 @@ class ParticleBasePlugin: NSObject {
     
     @objc
     public func getLanguage(_ resolve: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock) {
-        let value = ShareBase.shared.getLanguage
+        let value = ShareBase.shared.getLanguage()
         resolve(value)
     }
     
     @objc
     public func setSecurityAccountConfig(_ json: String) {
         ShareBase.shared.setSecurityAccountConfig(json)
+    }
+    
+    @objc func setThemeColor(_ json: String) {
+        ShareBase.shared.setThemeColor(json)
+    }
+    
+    @objc func setCustomUIConfigJsonString(_ json: String) {
+        ShareBase.shared.setCustomUIConfigJsonString(json)
+    }
+    
+    @objc func setUnsupportCountries(_ json: String) {
+        ShareBase.shared.setUnsupportCountries(json)
     }
 }

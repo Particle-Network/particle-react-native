@@ -5,7 +5,9 @@
 //  Created by link on 15/08/2024.
 //
 
+import ConnectCommon
 import Foundation
+import ParticleConnect
 import ParticleNetworkBase
 
 extension Dictionary {
@@ -19,6 +21,22 @@ extension Dictionary {
     }
 }
 
+func responseFromError(_ error: Error) -> PNResponseError {
+    if let responseError = error as? ParticleNetwork.ResponseError {
+        return PNResponseError(code: responseError.code, message: responseError.message ?? "", data: responseError.data)
+    } else {
+        return PNResponseError(code: nil, message: String(describing: error), data: nil)
+    }
+}
+
+func map2ConnectAdapter(from walletType: WalletType) -> ConnectAdapter? {
+    let adapters = ParticleConnect.getAllAdapters().filter {
+        $0.walletType == walletType
+    }
+    let adapter = adapters.first
+    return adapter
+}
+
 struct PNResponseError: Codable {
     let code: Int?
     let message: String?
@@ -28,4 +46,9 @@ struct PNResponseError: Codable {
 struct PNStatusModel<T: Codable>: Codable {
     let status: Bool
     let data: T
+}
+
+struct PNConnectLoginResult: Codable {
+    let message: String
+    let signature: String
 }

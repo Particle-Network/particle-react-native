@@ -10,9 +10,8 @@
   },
   "dependencies": {
     "@react-navigation/elements": "^1.3.6",
-    "@react-navigation/native": "^6.0.13",
-    "@react-navigation/native-stack": "^6.9.0",
-    "bignumber.js": "^9.1.0",
+    "@react-navigation/native": "^6.0.18",
+    "@react-navigation/native-stack": "^6.11.0",
     "buffer": "^6.0.3",
     "react": "18.2.0",
     "react-native": "0.74.2",
@@ -22,10 +21,7 @@
     "web3": "^1.7.3",
     "react-native-qrcode-svg": "6.3.1",
     "@particle-network/rn-base": "1.5.5",
-    "@particle-network/rn-connect": "file:..",
-    "@particle-network/rn-auth-core": "1.5.5",
-    "@particle-network/rn-wallet": "1.5.5",
-    "@particle-network/rn-aa": "1.5.5"
+    "@particle-network/rn-connect": "file:.."
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

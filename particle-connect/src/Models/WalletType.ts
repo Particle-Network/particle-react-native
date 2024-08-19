@@ -4,7 +4,7 @@ export enum WalletType {
   Rainbow = 'Rainbow',
   Trust = 'Trust',
   ImToken = 'ImToken',
-  BitKeep = 'BitKeep',
+  Bitget = 'Bitget',
   WalletConnect = 'WalletConnect',
   Phantom = 'Phantom',
   Zerion = 'Zerion',

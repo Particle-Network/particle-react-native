@@ -148,7 +148,7 @@ export default class BaseDemo extends PureComponent<BaseScreenProps> {
     };
 
     getSmartAccount = async () => {
-        const eoaAddress = "";
+        const eoaAddress = "0x064c236De17dF90e994DacB22040AA9b95569573";
         const smartAccountParam = {
             name: AccountName.BICONOMY_V1().name,
             version: AccountName.BICONOMY_V1().version,
@@ -161,8 +161,6 @@ export default class BaseDemo extends PureComponent<BaseScreenProps> {
             text1: `Successfully get smart account ${result[0]!.smartAccountAddress}`,
         });
     };
-
-
 
     handleModelSelect = async ({ value }: any) => {
         switch (this.state.currentKey) {
@@ -234,10 +232,19 @@ export default class BaseDemo extends PureComponent<BaseScreenProps> {
         console.log('ethEstimateGas: ', gasLimit);
     }
 
-    suggestedGasFees = async () => { 
+    suggestedGasFees = async () => {
         const gasFeesResult = await EvmService.suggestedGasFees();
 
         console.log('gasFeesResult: ', gasFeesResult);
+    }
+
+    setThemeColor = async () => {
+        particleBase.setThemeColor("#003468");
+    }
+
+    setUnsupportCountries = async () => {
+        const isoCodeList = ['US', 'CA', 'GB'];
+        particleBase.setUnsupportCountries(isoCodeList);
     }
 
     data = [
@@ -253,13 +260,15 @@ export default class BaseDemo extends PureComponent<BaseScreenProps> {
         { key: 'GetSmartAccount', function: this.getSmartAccount },
         { key: 'ReadContract Code Example', function: this.readContract },
         { key: 'WriteContract Code Example', function: this.writeContract },
+        { key: 'SetThemeColor', function: this.setThemeColor },
+        { key: 'SetUnsupportCountries', function: this.setUnsupportCountries },
     ];
 
     render = () => {
         const { navigation } = this.props;
         return (
             <SafeAreaView>
-                <View style={{ paddingBottom: 100 }}>
+                <View style={{ paddingBottom: 50 }}>
                     <FlatList
                         // @ts-ignore
                         data={this.data}

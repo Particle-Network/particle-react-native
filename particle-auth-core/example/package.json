@@ -12,7 +12,6 @@
     "@react-navigation/elements": "^1.3.6",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
-    "bignumber.js": "^9.1.0",
     "buffer": "^6.0.3",
     "react": "18.2.0",
     "react-native": "0.74.2",
@@ -20,10 +19,7 @@
     "react-native-toast-message": "^2.1.6",
     "web3": "^1.7.3",
     "@particle-network/rn-base": "1.5.5",
-    "@particle-network/rn-auth-core": "file:..",
-    "@particle-network/rn-connect": "1.5.5",
-    "@particle-network/rn-wallet": "1.5.5",
-    "@particle-network/rn-aa": "1.5.5"
+    "@particle-network/rn-auth-core": "file:.."
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

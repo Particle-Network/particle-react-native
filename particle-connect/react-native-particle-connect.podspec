@@ -23,6 +23,7 @@ Pod::Spec.new do |s|
   s.dependency 'ConnectEVMAdapter'
   s.dependency 'ConnectPhantomAdapter'
   s.dependency 'ConnectWalletConnectAdapter'
+  s.dependency 'ParticleConnectKit'
 
   s.static_framework = true
   

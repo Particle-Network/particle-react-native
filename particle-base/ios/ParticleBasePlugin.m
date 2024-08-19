@@ -24,6 +24,12 @@ RCT_EXTERN_METHOD(setSecurityAccountConfig:(NSString* _Nonnull)json)
 
 RCT_EXTERN_METHOD(getSecurityAccount: (RCTResponseSenderBlock)callback)
 
+RCT_EXTERN_METHOD(setThemeColor:(NSString* _Nonnull)json)
+
+RCT_EXTERN_METHOD(setCustomUIConfigJsonString:(NSString* _Nonnull)json)
+
+RCT_EXTERN_METHOD(setUnsupportCountries:(NSString* _Nonnull)json)
+
 - (dispatch_queue_t)methodQueue {
   return dispatch_get_main_queue();
 }

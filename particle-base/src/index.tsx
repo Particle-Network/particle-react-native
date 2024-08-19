@@ -34,7 +34,6 @@ export function init(chainInfo: ChainInfo, env: Env) {
     const obj = {
         chain_name: chainInfo.name,
         chain_id: chainInfo.id,
-        chain_id_name: chainInfo.network,
         env: env,
     };
     const json = JSON.stringify(obj);
@@ -54,7 +53,6 @@ export function setChainInfo(chainInfo: ChainInfo): Promise<boolean> {
     const obj = {
         chain_name: chainInfo.name,
         chain_id: chainInfo.id,
-        chain_id_name: chainInfo.network,
     };
     const json = JSON.stringify(obj);
     return new Promise((resolve) => {
@@ -126,11 +124,50 @@ export function setAppearance(appearance: Appearance) {
     // todo
 }
 
+
+/**
+ * Set fiat coin
+ * @param fiatCoin FiatCoin
+ */
 export function setFiatCoin(fiatCoin: FiatCoin) {
     if (Platform.OS === 'ios') {
         ParticleBasePlugin.setFiatCoin(fiatCoin);
     }
     // todo
+}
+
+/**
+ * Set theme color
+ * @param hexColor requires 6-digit hexadecimal color code, such as #FFFFFF, the defualt theme color is #A257FA
+ */
+export function setThemeColor(hexColor: string) {
+    if (Platform.OS === 'ios') {
+        ParticleBasePlugin.setThemeColor(hexColor);
+    }
+    // todo
+}
+
+/**
+ * Set customize UI config json string, only support iOS
+ * 
+ * @param jsonString can reference example customUIConfig.json files
+ */
+export function setCustomUIConfigJsonString(jsonString: string) {
+    if (Platform.OS === 'ios') {
+        ParticleBasePlugin.setCustomUIConfigJsonString(jsonString);
+    }
+    // todo
+}
+
+/**
+ * Set unsupport countries list, used with phone login UI
+ * @param isoCodeList is ISO 3166-1 alpha-2 code list, https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2, such as the US, the UK, etc.
+ */
+export function setUnsupportCountries(isoCodeList: string[]) {
+    const jsonString = JSON.stringify(isoCodeList);
+    if (Platform.OS === 'ios') {
+        ParticleBasePlugin.setUnsupportCountries(jsonString);
+    }
 }
 
 /**

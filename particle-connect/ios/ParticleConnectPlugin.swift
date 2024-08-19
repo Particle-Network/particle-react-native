@@ -26,13 +26,14 @@ class ParticleConnectPlugin: NSObject {
     }
     
     @objc
-    public func connect(_ json: String, configJson: String, callback: @escaping RCTResponseSenderBlock) {
+    public func connect(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareConnect.shared.connect(json) { value in
             callback([value])
         }
     }
-    
-    @objc func connectWithConnectKitConfig(_ json: String, configJson: String, callback: @escaping RCTResponseSenderBlock) {
+
+    @objc
+    public func connectWithConnectKitConfig(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareConnect.shared.connectWithConnectKitConfig(json) { value in
             callback([value])
         }

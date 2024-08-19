@@ -47,18 +47,19 @@ export default function SelectWalletScreen() {
         try {
             if (walletType != WalletType.WalletConnect) {
                 let accountInfo = await particleConnect.connect(walletType);
+                console.log(`accountInfo ${accountInfo}`);
                 accountInfo.walletType = walletType;
                 navigation.navigate('Home', {
                     accountInfo: accountInfo,
                 });
             } else {
                 let accountInfo = await particleConnect.connectWalletConnect();
+                console.log(`accountInfo ${accountInfo}`);
                 accountInfo.walletType = walletType;
                 navigation.navigate('Home', {
                     accountInfo: accountInfo,
                 });
             }
-
         } catch (e) {
             const error = e as CommonError;
             console.log(error);

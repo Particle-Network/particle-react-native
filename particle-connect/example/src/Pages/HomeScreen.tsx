@@ -8,9 +8,11 @@ import TopRightButton from '../Views/TopRightButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from './types';
-import { AccountInfo, WalletType } from "@particle-network/rn-connect";
+import { AccountInfo, WalletType, ConnectOption, EnableSocialProvider, EnableWallet, EnableWalletLabel } from "@particle-network/rn-connect";
 import * as particleBase from "@particle-network/rn-base";
 import * as particleConnect from "@particle-network/rn-connect";
+import { base64Icon } from "../utils/Base64Image";
+import Toast from "react-native-toast-message";
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;
@@ -77,8 +79,7 @@ export default function HomeScreen() {
       WalletType.Bitget,
       WalletType.Rainbow,
       WalletType.ImToken,
-      WalletType.EvmPrivateKey,
-      WalletType.SolanaPrivateKey,
+      WalletType.OKX,
       WalletType.WalletConnect
       // available walletType is defined in WalletType.ts
       // you can edit, add other wallet type to test
@@ -122,6 +123,47 @@ export default function HomeScreen() {
       accountInfo: accountInfo,
     });
   };
+
+  const connectWithConnectKit = async () => {
+    // explore https://demo.particle.network to customize login interface.
+    const config = {
+      //  You can control the array elements and adjust the UI order
+      connectOptions: [ConnectOption.Email, ConnectOption.Phone, ConnectOption.Social, ConnectOption.Wallet],
+      //  You can control the array elements and adjust the UI order
+      socialProviders: [EnableSocialProvider.Google, EnableSocialProvider.Apple, EnableSocialProvider.Twitter, EnableSocialProvider.Discord, EnableSocialProvider.Github],
+      //  You can control the array elements and adjust the UI order
+      walletProviders: [{ enableWallet: EnableWallet.MetaMask, label: EnableWalletLabel.Recommended },
+      { enableWallet: EnableWallet.OKX, label: EnableWalletLabel.Popular },
+      { enableWallet: EnableWallet.Trust, label: EnableWalletLabel.None },
+      { enableWallet: EnableWallet.Bitget, label: EnableWalletLabel.None }
+      ],
+
+      additionalLayoutOptions: {
+        isCollapseWalletList: false,
+        isSplitEmailAndSocial: true,
+        isSplitEmailAndPhone: false,
+        isHideContinueButton: false,
+      },
+      logo: base64Icon // base64 string or url
+    };
+
+    try {
+      const accountInfo = await particleConnect.connectWithConnectKitConfig(config);
+      console.log(`accountInfo ${accountInfo}`);
+      Toast.show({
+        type: 'success',
+        text1: 'Successfully get accounts',
+      });
+      fetchAccounts();
+    } catch (e) {
+      const error = e as particleBase.CommonError;
+      console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
+    }
+  }
 
   const getImageSource = (accountInfo: AccountInfo) => {
     if (accountInfo.icons.length > 0) {
@@ -170,10 +212,16 @@ export default function HomeScreen() {
         contentContainerStyle={styles.flatListContent}
       />
 
+      <TouchableOpacity style={styles.connectKitButton} onPress={() =>
+        connectWithConnectKit()
+      }>
+        <Text style={styles.connectButtonText}>ConnectWithConnectKit</Text>
+      </TouchableOpacity>
+
       <TouchableOpacity style={styles.connectButton} onPress={() => navigation.navigate('SelectWalletPage')}>
         <Text style={styles.connectButtonText}>Connect</Text>
       </TouchableOpacity>
-    </View>
+    </View >
   );
 }
 
@@ -196,6 +244,15 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginLeft: 10,
+  },
+  connectKitButton: {
+    position: 'absolute',
+    right: 20,
+    bottom: 150,
+    backgroundColor: '#9933ff',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
   },
   connectButton: {
     position: 'absolute',

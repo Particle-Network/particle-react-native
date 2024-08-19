@@ -298,8 +298,8 @@ export default function ConnectedWalletScreen() {
         const walletType = accountInfo.walletType!;
         try {
 
-            const domain = 'login.xyz';
-            const uri = 'https://login.xyz/demo#login';
+            const domain = 'particle.network';
+            const uri = 'https://demo.particle.network';
             const result = await particleConnect.signInWithEthereum(
                 walletType,
                 publicAddress,
@@ -500,37 +500,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    rowContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    button: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingRight: 10,
-    },
     image: {
         width: 40,
         height: 40,
         marginLeft: 10,
-    },
-    connectButton: {
-        position: 'absolute',
-        right: 20,
-        bottom: 100,
-        backgroundColor: '#6200EE',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 5,
-    },
-    textContainer: {
-        flexDirection: 'column',
-        marginLeft: 5,
-    },
-    connectButtonText: {
-        color: 'white',
-        fontSize: 16,
-        fontWeight: 'bold',
     },
     buttonStyle: {
         backgroundColor: '#9933ff',

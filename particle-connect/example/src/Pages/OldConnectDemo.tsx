@@ -749,9 +749,8 @@ export default class OldConnectDemo extends PureComponent<ConnectScreenProps> {
       return;
     }
     try {
-
-      const domain = 'login.xyz';
-      const uri = 'https://login.xyz/demo#login';
+      const domain = 'particle.network';
+      const uri = 'https://demo.particle.network';
       const result = await particleConnect.signInWithEthereum(
         this.walletType,
         publicAddress,

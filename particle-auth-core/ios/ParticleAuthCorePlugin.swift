@@ -5,22 +5,10 @@
 //  Created by link on 2022/9/28.
 //
 
-import AuthCoreAdapter
-import Base58_swift
-import ConnectCommon
 import Foundation
-import ParticleAuthCore
-import ParticleNetworkBase
-import RxSwift
-import SwiftyJSON
-
-typealias RCTResponseSenderBlock = RCTResponseSenderBlock
 
 @objc(ParticleAuthCorePlugin)
 class ParticleAuthCorePlugin: NSObject {
-    let bag = DisposeBag()
-    let auth = Auth()
-
     @objc
     static func requiresMainQueueSetup() -> Bool {
         return true
@@ -121,7 +109,6 @@ class ParticleAuthCorePlugin: NSObject {
 
     @objc
     public func evmPersonalSign(_ json: String, callback: @escaping RCTResponseSenderBlock) {
-        let chainInfo = ParticleNetwork.getChainInfo()
         ShareAuthCore.shared.evmPersonalSign(json) { value in
             callback([value])
         }
@@ -164,25 +151,20 @@ class ParticleAuthCorePlugin: NSObject {
 
     @objc
     public func solanaGetAddress(_ resolve: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
-        let address = auth.solana.getAddress()
-        resolve(address)
+        let value = ShareAuthCore.shared.solanaGetAddress()
+        resolve(value)
     }
 
     @objc
     public func evmGetAddress(_ resolve: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
-        let address = auth.evm.getAddress()
-        resolve(address)
+        let value = ShareAuthCore.shared.evmGetAddress()
+        resolve(value)
     }
 
     @objc
     public func getUserInfo(_ resolve: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
-        guard let userInfo = auth.getUserInfo() else {
-            rejecter("", "user is not login", nil)
-            return
-        }
-
-        let json = userInfo.jsonStringFullSnake()
-        resolve(json)
+        let value = ShareAuthCore.shared.getUserInfo()
+        resolve(value)
     }
 
     @objc

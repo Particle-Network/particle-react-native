@@ -115,6 +115,7 @@ class ShareConnect {
     
     func connectWithConnectKitConfig(_ json: String, callback: @escaping ShareCallback) {
         let data = JSON(parseJSON: json)
+        print(data)
         let connectOptions: [ConnectOption] = data["connectOptions"].arrayValue.compactMap {
             ConnectOption(rawValue: $0.stringValue.lowercased())
         }

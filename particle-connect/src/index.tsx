@@ -93,13 +93,33 @@ export function setWalletConnectV2SupportChainInfos(chainInfos: ChainInfo[]) {
 export async function getAccounts(walletType: WalletType): Promise<AccountInfo[]> {
   return new Promise((resolve, reject) => {
     ParticleConnectPlugin.getAccounts(walletType, (result: string) => {
-      const parsedResult: CommonResp<AccountInfo[]> = JSON.parse(result);
+      const rawData = JSON.parse(result);
 
-      if (parsedResult.status) {
-        let accounts = parsedResult.data as AccountInfo[]
-        resolve(accounts);
+      if (rawData.status) {
+        const accountInfoArray: AccountInfo[] = rawData.data.map((item: any) => {
+          let walletType: WalletType | undefined;
+
+          if (Platform.OS === 'ios') {
+            const value = Object.keys(item.walletType)[0];
+            walletType = getWalletType(value!);
+          } else {
+            walletType = getWalletType(item.walletType);
+          }
+
+          return {
+            icons: item.icons,
+            name: item.name,
+            publicAddress: item.publicAddress,
+            url: item.url,
+            description: item.description,
+            chainId: item.chainId,
+            mnemonic: item.mnemonic,
+            walletType: walletType
+          };
+        });
+        resolve(accountInfoArray);
       } else {
-        reject(parsedResult.data as CommonError);
+        reject(rawData.data as CommonError);
       }
     });
   });
@@ -140,7 +160,8 @@ export async function connect(
 
         if (Platform.OS === 'ios') {
           const value = Object.keys(rawData.data.walletType)[0];
-          accountInfo.walletType = WalletType[value as keyof typeof WalletType]
+          accountInfo.walletType = getWalletType(value!);
+          resolve(accountInfo);
         } else {
           resolve(accountInfo);
         }
@@ -156,7 +177,7 @@ export async function connect(
  * @param config can be derived from ConnectKitConfig
  * @returns 
  */
-export async function connectWithConnectKitConfig(config: ConnectKitConfig) {
+export async function connectWithConnectKitConfig(config: ConnectKitConfig): Promise<AccountInfo> {
   const configJson = JSON.stringify(config);
   return new Promise((resolve, reject) => {
     ParticleConnectPlugin.connectWithConnectKitConfig(configJson, (result: string) => {
@@ -175,7 +196,13 @@ export async function connectWithConnectKitConfig(config: ConnectKitConfig) {
 
         if (Platform.OS === 'ios') {
           const value = Object.keys(rawData.data.walletType)[0];
-          accountInfo.walletType = WalletType[value as keyof typeof WalletType]
+          for (const key in WalletType) {
+            if (key.toLowerCase() === value!.toLowerCase()) {
+              accountInfo.walletType = WalletType[key as keyof typeof WalletType];
+              break;
+            }
+          }
+          resolve(accountInfo);
         } else {
           resolve(accountInfo);
         }
@@ -608,6 +635,18 @@ export function connectWalletConnect(): Promise<AccountInfo> {
     });
   });
 }
+
+function getWalletType(value: string): WalletType | undefined {
+  const normalizedValue = value.toLowerCase();
+
+  for (const key in WalletType) {
+    if (key.toLowerCase() === normalizedValue) {
+      return WalletType[key as keyof typeof WalletType];
+    }
+  }
+  return undefined;
+}
+
 
 export * from './Models';
 export { ParticleConnectProvider } from './provider';

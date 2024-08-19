@@ -71,9 +71,7 @@ export async function getChainInfo(): Promise<ChainInfo> {
     return new Promise((resolve) => {
         ParticleBasePlugin.getChainInfo((result: string) => {
             const json = JSON.parse(result);
-
             const chainInfo = chains.getChainInfo({ id: json.chain_id, name: json.chain_name })!;
-
             resolve(chainInfo);
         });
     });

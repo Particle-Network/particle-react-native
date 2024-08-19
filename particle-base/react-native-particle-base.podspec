@@ -17,7 +17,8 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm,swift}"
 
   s.dependency "React-Core"
-  s.dependency 'ParticleNetworkBase'
+  s.dependency "ParticleNetworkBase"
+  s.dependency "ParticleNetworkChains"
 
 
   # Don't install the dependencies when we run `pod install` in the old architecture.

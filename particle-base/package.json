@@ -55,7 +55,7 @@
   "dependencies": {
     "react": "18.2.0",
     "react-native": "0.74.2",
-    "@particle-network/chains": "^1.5.2",
+    "@particle-network/chains": "^1.6.2",
     "axios": "^1.6.2",
     "bignumber.js": "^9.1.0",
     "events": "^3.3.0"

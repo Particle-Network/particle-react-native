@@ -32,6 +32,10 @@ RCT_EXTERN_METHOD(setPayDisabled:(BOOL _Nonnull)json)
 
 RCT_EXTERN_METHOD(getPayDisabled:(RCTResponseSenderBlock)callback)
 
+RCT_EXTERN_METHOD(setBridgeDisabled:(BOOL _Nonnull)json)
+
+RCT_EXTERN_METHOD(getBridgeDisabled:(RCTResponseSenderBlock)callback)
+
 RCT_EXTERN_METHOD(setSwapDisabled:(BOOL _Nonnull)json)
 
 RCT_EXTERN_METHOD(getSwapDisabled:(RCTResponseSenderBlock)callback)

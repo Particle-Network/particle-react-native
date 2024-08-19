@@ -1,4 +1,4 @@
-import { Ethereum, EthereumSepolia, PolygonAmoy, Polygon } from '@particle-network/chains';
+import { Ethereum, EthereumSepolia, BaseSepolia, Base} from '@particle-network/chains';
 import * as particleBase from '@particle-network/rn-base';
 import { Env, Language, WalletDisplay, LoginType, SupportAuthType, SocialLoginPrompt } from '@particle-network/rn-base';
 import * as particleConnect from '@particle-network/rn-connect';
@@ -32,7 +32,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
   pnaccount!: PNAccount;
 
   init = () => {
-    const chainInfo = PolygonAmoy;
+    const chainInfo = EthereumSepolia;
     const env = Env.Dev;
     const metaData = {
       walletConnectProjectId: '75ac08814504606fc06126541ace9df6',
@@ -60,9 +60,9 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
           value: EthereumSepolia,
         },
         {
-          label: 'Polygon Amy',
-          key: 'Polygon Amy',
-          value: PolygonAmoy,
+          label: 'Base Sepolia',
+          key: 'Base Sepolia',
+          value: BaseSepolia,
         },
       ],
     });
@@ -208,7 +208,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
       cryptoCoin: 'BNB',
       fiatCoin: 'USD',
       fiatAmt: 1000,
-      chainInfo: Polygon,
+      chainInfo: Base,
       fixFiatCoin: true,
       fixCryptoCoin: true,
       fixFiatAmt: true,
@@ -225,6 +225,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     const result = await particleWallet.navigatorWalletConnect();
     console.log('navigatorWalletConnect', result);
   };
+
   navigatorSwap = async () => {
     const fromTokenAddress = '';
     const toTokenAddress = '';
@@ -266,7 +267,7 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
   };
 
   setSupportChain = async () => {
-    const chainInfos = [Ethereum, EthereumSepolia, PolygonAmoy];
+    const chainInfos = [Ethereum, EthereumSepolia, Base];
     particleWallet.setSupportChain(chainInfos);
     Toast.show({
       type: 'success',
@@ -309,6 +310,25 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     Toast.show({
       type: 'info',
       text1: 'Swap Disabled',
+      text2: String(result),
+    });
+  };
+
+  setBridgeDisabled = async () => {
+    const disabled = true;
+    particleWallet.setBridgeDisabled(disabled);
+    Toast.show({
+      type: 'success',
+      text1: 'Successfully set',
+    });
+  };
+
+  getBridgeDisabled = async () => {
+    const result = await particleWallet.getBridgeDisabled();
+    console.log(result);
+    Toast.show({
+      type: 'info',
+      text1: 'Bridge Disabled',
       text2: String(result),
     });
   };
@@ -420,6 +440,8 @@ export default class GUIDemo extends PureComponent<GUIScreenProps> {
     { key: 'GetPayDisabled', function: this.getPayDisabled },
     { key: 'SetSwapDisabled', function: this.setSwapDisabled },
     { key: 'GetSwapDisabled', function: this.getSwapDisabled },
+    { key: 'SetBridgeDisabled', function: this.setBridgeDisabled },
+    { key: 'GetBridgeDisabled', function: this.getBridgeDisabled },
     {
       key: 'SetDisplayTokenAddresses',
       function: this.setDisplayTokenAddresses,

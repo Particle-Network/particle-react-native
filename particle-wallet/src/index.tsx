@@ -282,6 +282,26 @@ export function getSwapDisabled(): Promise<boolean> {
 }
 
 /**
+ * Set bridge disabled, default value is false.
+ * @param disabled
+ */
+export function setBridgeDisabled(disabled: boolean) {
+  ParticleWalletPlugin.setBridgeDisabled(disabled);
+}
+
+/**
+ * Get bridge disabled state
+ * @returns Trus if disabled, otherwise true
+ */
+export function getBridgeDisabled(): Promise<boolean> {
+  return new Promise((resolve) => {
+    ParticleWalletPlugin.getBridgeDisabled((result: boolean) => {
+      resolve(result);
+    });
+  });
+}
+
+/**
  * Set display token addresses
  *
  * If you called this method, Wallet SDK will only show these tokens in the token addresses.

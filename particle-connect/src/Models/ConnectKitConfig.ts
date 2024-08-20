@@ -13,23 +13,23 @@ export interface AdditionalLayoutOptions {
     isHideContinueButton: boolean,
 }
 export enum ConnectOption {
-    Email = "Email",
-    Phone = "Phone",
-    Social = "Social",
-    Wallet = "Wallet"
+    Email = "EMAIL",
+    Phone = "PHONE",
+    Social = "SOCIAL",
+    Wallet = "WALLET"
 }
 
 export enum EnableSocialProvider {
-    Phone = 'Phone',
-    Google = 'Google',
-    Facebook = 'Facebook',
-    Apple = 'Apple',
-    Discord = 'Discord',
-    Github = 'Github',
-    Twitch = 'Twitch',
-    Microsoft = 'Microsoft',
-    Linkedin = 'Linkedin',
-    Twitter = 'Twitter',
+    Phone = 'PHONE',
+    Google = 'GOOGLE',
+    Facebook = 'FACEBOOK',
+    Apple = 'APPLE',
+    Discord = 'DISCORD',
+    Github = 'GITHUB',
+    Twitch = 'TWITCH',
+    Microsoft = 'MICROSOFT',
+    Linkedin = 'LINKEDIN',
+    Twitter = 'TWITTER',
 }
 
 export interface EnableWalletProvider {

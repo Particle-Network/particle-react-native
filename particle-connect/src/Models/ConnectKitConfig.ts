@@ -49,7 +49,7 @@ export enum EnableWallet {
 }
 
 export enum EnableWalletLabel {
-    Recommended = "Recommended",
-    Popular = "Popular",
-    None = "None"
+    Recommended = "RECOMMENDED",
+    Popular = "POPULAR",
+    None = "NONE"
 }

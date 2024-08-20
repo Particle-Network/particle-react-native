@@ -8,7 +8,7 @@ buildscript {
   }
 
   dependencies {
-    classpath "com.android.tools.build:gradle:7.2.1"
+    classpath "com.android.tools.build:gradle:8.5.1"
     // noinspection DifferentKotlinGradleVersion
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
@@ -68,8 +68,8 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
   }
   dataBinding {
     enabled = true
@@ -96,7 +96,7 @@ dependencies {
   implementation "com.facebook.react:react-native:+"
 // From node_modules
 
-  def sdkVersion = "1.4.43"
+  def sdkVersion = "2.0.10"
   implementation("network.particle:base-service:$sdkVersion")
   implementation("network.particle:auth-service:$sdkVersion")
   implementation("network.particle:wallet-service:$sdkVersion") {
@@ -111,7 +111,7 @@ dependencies {
   implementation("network.particle:connect-phantom-adapter:$sdkVersion")
   implementation("network.particle:connect-wallet-connect-adapter:$sdkVersion")
 
-  implementation("com.blankj:utilcodex:1.31.0")
+  implementation("com.github.xxhong:CollectsPkg:2.1.0")
   implementation("commons-codec:commons-codec:1.15")
   implementation("com.google.code.gson:gson:2.8.5")
   implementation("com.google.android.material:material:1.5.0")

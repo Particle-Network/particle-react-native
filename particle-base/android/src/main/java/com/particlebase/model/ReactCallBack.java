@@ -1,8 +1,10 @@
 package com.particlebase.model;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
-
+@Keep
 public class ReactCallBack<T> {
 
     public enum FlutterCallBackStatus {

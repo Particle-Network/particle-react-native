@@ -130,10 +130,7 @@ export function setAppearance(appearance: Appearance) {
  * @param fiatCoin FiatCoin
  */
 export function setFiatCoin(fiatCoin: FiatCoin) {
-    if (Platform.OS === 'ios') {
-        ParticleBasePlugin.setFiatCoin(fiatCoin);
-    }
-    // todo
+    ParticleBasePlugin.setFiatCoin(fiatCoin);
 }
 
 /**
@@ -143,8 +140,10 @@ export function setFiatCoin(fiatCoin: FiatCoin) {
 export function setThemeColor(hexColor: string) {
     if (Platform.OS === 'ios') {
         ParticleBasePlugin.setThemeColor(hexColor);
+    }else{
+        //unsupported
     }
-    // todo
+    
 }
 
 /**
@@ -155,8 +154,10 @@ export function setThemeColor(hexColor: string) {
 export function setCustomUIConfigJsonString(jsonString: string) {
     if (Platform.OS === 'ios') {
         ParticleBasePlugin.setCustomUIConfigJsonString(jsonString);
+    }else{
+        //unsupported
     }
-    // todo
+    
 }
 
 /**
@@ -165,9 +166,7 @@ export function setCustomUIConfigJsonString(jsonString: string) {
  */
 export function setUnsupportCountries(isoCodeList: string[]) {
     const jsonString = JSON.stringify(isoCodeList);
-    if (Platform.OS === 'ios') {
-        ParticleBasePlugin.setUnsupportCountries(jsonString);
-    }
+    ParticleBasePlugin.setUnsupportCountries(jsonString);
 }
 
 /**

@@ -54,7 +54,8 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@particle-network/rn-base": "1.5.6"
+    "@particle-network/rn-base": "file:../particle-base"
+
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",

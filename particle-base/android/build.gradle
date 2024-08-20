@@ -77,8 +77,8 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
   }
 }
 
@@ -95,9 +95,9 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  def sdkVersion = "1.4.43"
-  implementation("network.particle:auth-service:$sdkVersion")
-  implementation("com.blankj:utilcodex:1.31.0")
+  def sdkVersion = "2.0.10"
+  implementation("network.particle:base-service:$sdkVersion")
+  implementation("com.github.xxhong:CollectsPkg:2.1.0")
   implementation("commons-codec:commons-codec:1.15")
   implementation("com.google.code.gson:gson:2.8.5")
 }

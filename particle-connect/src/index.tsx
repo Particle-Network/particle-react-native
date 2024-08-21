@@ -97,15 +97,6 @@ export async function getAccounts(walletType: WalletType): Promise<AccountInfo[]
 
       if (rawData.status) {
         const accountInfoArray: AccountInfo[] = rawData.data.map((item: any) => {
-          let walletType: WalletType | undefined;
-
-          if (Platform.OS === 'ios') {
-            const value = Object.keys(item.walletType)[0];
-            walletType = getWalletType(value!);
-          } else {
-            walletType = getWalletType(item.walletType);
-          }
-
           return {
             icons: item.icons,
             name: item.name,
@@ -196,12 +187,7 @@ export async function connectWithConnectKitConfig(config: ConnectKitConfig): Pro
 
         if (Platform.OS === 'ios') {
           const value = Object.keys(rawData.data.walletType)[0];
-          for (const key in WalletType) {
-            if (key.toLowerCase() === value!.toLowerCase()) {
-              accountInfo.walletType = WalletType[key as keyof typeof WalletType];
-              break;
-            }
-          }
+          accountInfo.walletType = getWalletType(value!);
           resolve(accountInfo);
         } else {
           resolve(accountInfo);

@@ -35,7 +35,7 @@ class ParticleAAPlugin: NSObject {
     }
     
     @objc
-    public func isDeploy(_ eoaAddress: String, callback: @escaping RCTResponseSenderBlock) {
+    public func isDeploy(_ json: String, callback: @escaping RCTResponseSenderBlock) {
         ShareAA.shared.isDeploy(json) { value in
             callback([value])
         }

@@ -61,6 +61,14 @@ PODS:
     - Then
   - ParticleConnect (2.0.0):
     - ConnectCommon
+  - ParticleConnectKit (2.0.2):
+    - AuthCoreAdapter
+    - ConnectCommon
+    - ConnectPhantomAdapter
+    - ConnectWalletConnectAdapter
+    - ParticleAuthCore
+    - ParticleConnect
+    - SnapKit (~> 5.7.1)
   - ParticleMPCCore (2.0.1):
     - Base58.swift
     - CryptoSwift (~> 1.8.1)
@@ -983,22 +991,24 @@ PODS:
   - react-native-particle-aa (1.5.6):
     - ParticleAA
     - React-Core
-  - react-native-particle-auth-core (1.5.6):
+  - react-native-particle-auth-core (2.0.1):
     - AuthCoreAdapter
     - ParticleAuthCore
     - ParticleMPCCore
     - React-Core
     - Thresh
-  - react-native-particle-base (1.5.6):
+  - "react-native-particle-base (2.0.1+alpha1)":
     - ParticleNetworkBase
+    - ParticleNetworkChains
     - React-Core
-  - react-native-particle-connect (1.5.6):
+  - react-native-particle-connect (2.0.1):
     - ConnectCommon
     - ConnectEVMAdapter
     - ConnectPhantomAdapter
     - ConnectSolanaAdapter
     - ConnectWalletConnectAdapter
     - ParticleConnect
+    - ParticleConnectKit
     - React-Core
   - react-native-safe-area-context (4.10.8):
     - React-Core
@@ -1403,6 +1413,7 @@ SPEC REPOS:
     - ParticleAA
     - ParticleAuthCore
     - ParticleConnect
+    - ParticleConnectKit
     - ParticleMPCCore
     - ParticleNetworkBase
     - ParticleNetworkChains
@@ -1582,6 +1593,7 @@ SPEC CHECKSUMS:
   ParticleAA: 55e5d7e883179b72ae49e367c67c208532d1b7b4
   ParticleAuthCore: d1ba2101389c1fc890dfe5489ee5c7e43743ab5d
   ParticleConnect: da52d3b71180e1e934054bace65a308d56e7cf6c
+  ParticleConnectKit: ea9cd51d0a220026f1ce06847379d47c3e6b264e
   ParticleMPCCore: 48e135aaef2cbb658f4fdec1c540975c68359e8b
   ParticleNetworkBase: d3201fded5097841b7768a44af08903a48eae299
   ParticleNetworkChains: 8e7cb4af29bad061fe6f6ad6a392cfaeaa05f2f7
@@ -1610,9 +1622,9 @@ SPEC CHECKSUMS:
   React-logger: 29fa3e048f5f67fe396bc08af7606426d9bd7b5d
   React-Mapbuffer: 86703e9e4f6522053568300827b436ccc01e1101
   react-native-particle-aa: 24a069a2d70ff17e9267549756883faef217656c
-  react-native-particle-auth-core: 1e4e9ddbbde54e17d22a2074f794a2e865b06512
-  react-native-particle-base: 7325a22559a11e33b7a0b70abd181339d3130b45
-  react-native-particle-connect: 752ed383837640589d2f23e64efa9b4730452468
+  react-native-particle-auth-core: 9afc6915e0b1c1882cf457a6c07f66e2132ef985
+  react-native-particle-base: ac3656e7368f16aac76f4420c357e83ca0f32f44
+  react-native-particle-connect: 195a00ba503fd24800b015f8ed22b46d79ed6f5f
   react-native-safe-area-context: b7daa1a8df36095a032dff095a1ea8963cb48371
   React-nativeconfig: 5d452e509d6fbedc1522e21b566451fc673ac6b7
   React-NativeModulesApple: 959d55408917b6ba08154cd607b2fc7d576275f4

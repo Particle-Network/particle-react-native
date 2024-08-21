@@ -54,7 +54,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@particle-network/rn-base": "file:../particle-base"
+    "@particle-network/rn-base": "2.0.0"
 
   },
   "devDependencies": {

@@ -30,6 +30,7 @@ target 'ParticleWalletExample' do
   pod 'ParticleWalletGUI', '2.0.1'
   pod 'ParticleWalletAPI', '2.0.1'
   pod 'ParticleNetworkBase', '2.0.1'
+  pod 'ParticleNetworkChains', '2.0.1'
   pod 'ParticleWalletConnect', '2.0.1'
 
   pod 'ParticleConnect', '2.0.0'

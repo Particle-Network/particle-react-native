@@ -62,7 +62,7 @@ import kotlinx.coroutines.withContext
       900,
       900,
       RNQrParams(
-        ContextCompat.getColor(ParticleNetwork.context, com.particle.gui.R.color.pn_black),
+        ContextCompat.getColor(ParticleNetwork.context, network.particle.theme.R.color.pn_black),
         ContextCompat.getColor(ParticleNetwork.context, network.particle.theme.R.color.pn_white)
       )
     )

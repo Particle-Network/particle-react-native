@@ -38,7 +38,6 @@ export default function App() {
     const chainInfo: ChainInfo = Ethereum;
     const env = Env.Dev;
     const metadata = {
-      walletConnectProjectId: '75ac08814504606fc06126541ace9df6',
       url: 'https://connect.particle.network',
       icon: 'https://connect.particle.network/icons/512.png',
       name: 'Particle Connect',

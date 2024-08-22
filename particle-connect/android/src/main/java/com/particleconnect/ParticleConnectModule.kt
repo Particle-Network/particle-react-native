@@ -88,6 +88,10 @@ class ParticleConnectPlugin(var reactContext: ReactApplicationContext) :
         ) { initAdapter(rpcUrl) }
     }
 
+    @ReactMethod
+    fun setWalletConnectProjectId(walletConnectProjectId:String){
+        ParticleNetwork.setWalletConnectProjectId(walletConnectProjectId)
+    }
     var job: Job? = null
 
     @ReactMethod

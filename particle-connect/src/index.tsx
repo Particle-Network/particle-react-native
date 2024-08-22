@@ -69,6 +69,14 @@ export function init(
   const json = JSON.stringify(obj);
   ParticleConnectPlugin.initialize(json);
 }
+/**
+ * Set WalletConnect ProjectId
+ */
+export function setWalletConnectProjectId(
+  walletConnectProjectId: string,
+) {
+  ParticleConnectPlugin.setWalletConnectProjectId(walletConnectProjectId);
+}
 
 /**
  * Set the required chains for wallet connect v2. If not set, the current chain connection will be used.

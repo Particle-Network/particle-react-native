@@ -177,4 +177,8 @@ public class ParticleWalletPlugin: NSObject {
     func setCustomLocalizable(_ json: String) {
         ShareWallet.shared.setCustomLocalizable(json)
     }
+    
+    @objc func setWalletConnectProjectId(_ json: String) {
+        ShareWallet.shared.setWalletConnectProjectId(json)
+    }
 }

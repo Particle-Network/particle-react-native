@@ -50,6 +50,8 @@ RCT_EXTERN_METHOD(exportPrivateKey:(NSString* _Nonnull)json callback:(RCTRespons
 
 RCT_EXTERN_METHOD(setWalletConnectV2SupportChainInfos:(NSString* _Nonnull)json)
 
+RCT_EXTERN_METHOD(setWalletConnectProjectId:(NSString* _Nonnull)json)
+
 RCT_EXTERN_METHOD(connectWalletConnect:(RCTResponseSenderBlock)callback)
 
 - (dispatch_queue_t)methodQueue {

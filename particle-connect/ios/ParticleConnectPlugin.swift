@@ -48,9 +48,8 @@ class ParticleConnectPlugin: NSObject {
     
     @objc
     public func isConnected(_ json: String, callback: @escaping RCTResponseSenderBlock) {
-        ShareConnect.shared.isConnected(json) { value in
-            callback([value])
-        }
+        let value = ShareConnect.shared.isConnected(json)
+        callback([value])
     }
     
     @objc
@@ -142,6 +141,10 @@ class ParticleConnectPlugin: NSObject {
         } eventCallback: { uri in
             ParticleConnectEvent.emitter.sendEvent(withName: "qrCodeUri", body: uri)
         }
+    }
+    
+    @objc func setWalletConnectProjectId(_ json: String) {
+        ShareConnect.shared.setWalletConnectProjectId(json)
     }
 }
 

@@ -3,6 +3,7 @@ import type { WalletDisplay } from '@particle-network/rn-base';
 import type { WalletType, DappMetaData } from '@particle-network/rn-connect';
 import { NativeModules, Platform } from 'react-native';
 import { BuyCryptoConfig } from './Models/BuyCryptoConfig';
+import * as particleConnect from '@particle-network/rn-connect';
 
 const LINKING_ERROR =
   `The package '@particle-network/rn-wallet' doesn't seem to be linked. Make sure: \n\n` +
@@ -428,6 +429,19 @@ export function navigatorDappBrowser(url: string) {
     ParticleWalletPlugin.navigatorDappBrowser(json);
   } else {
     ParticleWalletPlugin.navigatorDappBrowser(url);
+  }
+}
+
+/**
+ * Set WalletConnect ProjectId
+ */
+export function setWalletConnectProjectId(
+  walletConnectProjectId: string,
+) {
+  if (Platform.OS === 'ios') {
+    ParticleWalletPlugin.navigatorDappBrowser(walletConnectProjectId);
+  } else {
+    particleConnect.setWalletConnectProjectId(walletConnectProjectId)
   }
 }
 

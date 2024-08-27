@@ -65,7 +65,6 @@ export async function init() {
   const chainInfo: ChainInfo = Ethereum;
   const env = Env.Dev;
   const metaData = {
-    walletConnectProjectId: '75ac08814504606fc06126541ace9df6',
     name: 'Particle Connect',
     icon: 'https://connect.particle.network/icons/512.png',
     url: 'https://connect.particle.network',
@@ -92,7 +91,6 @@ export async function connectParticle() {
   };
 
   try {
-    await particleConnect.disconnect(WalletType.AuthCore, "");
     const account = await particleConnect.connect(WalletType.AuthCore, connectConfig);
     console.log('connect success', account);
 

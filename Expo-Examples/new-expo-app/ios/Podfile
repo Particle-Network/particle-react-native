@@ -1,13 +1,13 @@
 require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
 require File.join(File.dirname(`node --print "require.resolve('react-native/package.json')"`), "scripts/react_native_pods")
-
+source 'https://github.com/CocoaPods/Specs.git'
 require 'json'
 podfile_properties = JSON.parse(File.read(File.join(__dir__, 'Podfile.properties.json'))) rescue {}
 
 ENV['RCT_NEW_ARCH_ENABLED'] = podfile_properties['newArchEnabled'] == 'true' ? '1' : '0'
 ENV['EX_DEV_CLIENT_NETWORK_INSPECTOR'] = podfile_properties['EX_DEV_CLIENT_NETWORK_INSPECTOR']
 
-platform :ios, podfile_properties['ios.deploymentTarget'] || '13.4'
+platform :ios, podfile_properties['ios.deploymentTarget'] || '14.0'
 install! 'cocoapods',
   :deterministic_uuids => false
 
@@ -20,26 +20,24 @@ target 'newexpoapp' do
   use_frameworks! :linkage => podfile_properties['ios.useFrameworks'].to_sym if podfile_properties['ios.useFrameworks']
   use_frameworks! :linkage => ENV['USE_FRAMEWORKS'].to_sym if ENV['USE_FRAMEWORKS']
 
-  pod "Thresh", '1.4.10'
-  pod "ParticleMPCCore", '1.4.10'
-  pod "ParticleAuthCore", '1.4.10'
-  pod "AuthCoreAdapter", '1.4.10'
+  pod "Thresh", '2.0.2'
+  pod "ParticleMPCCore", '2.0.2'
+  pod "ParticleAuthCore", '2.0.2'
+  pod "AuthCoreAdapter", '2.0.2'
 
-  pod 'ParticleWalletGUI', '1.4.10'
-  pod 'ParticleWalletAPI', '1.4.10'
-  pod 'ParticleNetworkBase', '1.4.10'
-  pod 'ParticleAuthService', '1.4.10'
-  pod 'ParticleWalletConnect', '1.4.10'
+  pod 'ParticleWalletGUI', '2.0.2'
+  pod 'ParticleWalletAPI', '2.0.2'
+  pod 'ParticleNetworkBase', '2.0.2'
+  pod 'ParticleNetworkChains', '2.0.2'
+  pod 'ParticleWalletConnect', '2.0.2'
   
-  pod 'ParticleConnect', '0.2.26'
-  pod 'ConnectWalletConnectAdapter', '0.2.26'
-  pod 'ConnectEVMAdapter', '0.2.26'
-  pod 'ConnectSolanaAdapter', '0.2.26'
-  pod 'ConnectPhantomAdapter', '0.2.26'
-  pod 'ConnectCommon', '0.2.26'
-  pod 'ParticleAuthAdapter', '0.2.26'
+  pod 'ParticleConnect', '2.0.2'
+  pod 'ConnectWalletConnectAdapter', '2.0.2'
+  pod 'ConnectEVMAdapter', '2.0.2'
+  pod 'ConnectSolanaAdapter', '2.0.2'
+  pod 'ConnectPhantomAdapter', '2.0.2'
+  pod 'ConnectCommon', '2.0.2'
   
-      
   pod 'SkeletonView', :git => 'https://github.com/SunZhiC/SkeletonView.git', :branch => 'main'
   pod 'SwiftyUserDefaults', :git => 'https://github.com/SunZhiC/SwiftyUserDefaults.git', :branch => 'master'
   pod 'WalletConnectSwiftV2', :git => 'https://github.com/SunZhiC/WalletConnectSwiftV2.git', :branch => 'particle'
@@ -61,20 +59,20 @@ target 'newexpoapp' do
     )
 
     installer.pods_project.targets.each do |target|
-      if target.name == 'ParticleNetworkBase' or 
-         target.name == 'ParticleAuthService' or 
+      if target.name == 'ParticleNetworkBase' or
+         target.name == 'ParticleNetworkChains' or
          target.name == 'ParticleWalletAPI' or
          target.name == 'ParticleWalletGUI' or
          target.name == 'ParticleWalletConnect' or
          target.name == 'ParticleAA' or
          
          target.name == 'ParticleConnect' or
+         target.name == 'ParticleConnectKit' or
          target.name == 'ConnectWalletConnectAdapter' or
          target.name == 'ConnectSolanaAdapter' or
          target.name == 'ConnectEVMAdapter' or
          target.name == 'ConnectPhantomAdapter' or
          target.name == 'ConnectCommon' or
-         target.name == 'ParticleAuthAdapter' or
          
          target.name == 'WalletConnectSwiftV2' or
          target.name == 'CryptoSwift' or

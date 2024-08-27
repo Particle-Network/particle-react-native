@@ -253,7 +253,7 @@ class ParticleWalletModule(ParticleBase):
 
 
 if __name__ == "__main__":
-  version = '2.0.3'
+  version = '2.0.4'
   betaMode = False
   sleep_time = 0
   print("Base Start")
@@ -266,15 +266,15 @@ if __name__ == "__main__":
   print("AuthCore Finish")
   time.sleep(sleep_time)
 
-  # print("Connect Start")
-  # ParticleConnectModule(version, betaMode).publish()
-  # print("Connect Finish")
+  print("Connect Start")
+  ParticleConnectModule(version, betaMode).publish()
+  print("Connect Finish")
 
-  # time.sleep(sleep_time)
-  # print("ParticleAA Start")
-  # ParticleAAModule(version, betaMode).publish()
-  # print("ParticleAA Finish")
-  # time.sleep(sleep_time)
-  # print("ParticleWallet Start")
-  # ParticleWalletModule(version, betaMode).publish()
-  # print("ParticleWallet Finish")
+  time.sleep(sleep_time)
+  print("ParticleAA Start")
+  ParticleAAModule(version, betaMode).publish()
+  print("ParticleAA Finish")
+  time.sleep(sleep_time)
+  print("ParticleWallet Start")
+  ParticleWalletModule(version, betaMode).publish()
+  print("ParticleWallet Finish")

@@ -42,22 +42,7 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>imtokenv2</string>
-		<string>metamask</string>
-		<string>phantom</string>
-		<string>bitget</string>
-		<string>trust</string>
-		<string>rainbow</string>
-		<string>gnosissafe</string>
-		<string>particlewallet</string>
-		<string>zerion</string>
-		<string>mathwallet</string>
-		<string>oneinch</string>
-		<string>awallet</string>
-		<string>okex</string>
-	</array>
+	
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -97,5 +82,28 @@
 	<string>Automatic</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>imtokenv2</string>
+		<string>metamask</string>
+		<string>phantom</string>
+		<string>bitget</string>
+		<string>trust</string>
+		<string>rainbow</string>
+		<string>gnosissafe</string>
+		<string>particlewallet</string>
+		<string>zerion</string>
+		<string>mathwallet</string>
+		<string>oneinch</string>
+		<string>awallet</string>
+		<string>okex</string>
+		<string>bnc</string>
+	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access in order to open photos of barcodes</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We use the camera to scan barcodes</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>We use Face ID for secure access to the app.</string>
 </dict>
 </plist>

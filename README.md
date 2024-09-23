@@ -8,9 +8,9 @@
 Please note that the SDK `particle_auth_core` only supports ios-arm64 (iOS devices), does not support simulators, to perform testing, you will require an actual iPhone device.
 
 
-## Particle Auth Service
+## Particle Auth Core Service
 ```sh
-npm install @particle-network/rn-auth
+npm install @particle-network/rn-auth-core
 ```
 
 ## Particle Connect Service
@@ -28,10 +28,7 @@ npm install @particle-network/rn-wallet
 npm install @particle-network/rn-aa
 ```
 
-## Particle Auth Core Service
-```sh
-npm install @particle-network/rn-auth-core
-```
+
 
 ## Getting Started
 
@@ -63,13 +60,13 @@ show how how to connect with jwt and open wallet.
 
 ## Docs
 
+[particle-auth-core](https://developers.particle.network/api-reference/auth/mobile-sdks/react)
+
 [particle-connect](https://developers.particle.network/api-reference/connect/mobile/react)
 
 [particle-wallet](https://developers.particle.network/api-reference/wallet/mobile/react)
 
 [particle-aa](https://developers.particle.network/api-reference/aa/sdks/mobile/react)
-
-[particle-auth-core](https://developers.particle.network/api-reference/auth/mobile-sdks/react)
 
 
 ## License

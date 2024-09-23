@@ -32,18 +32,18 @@ npm install @particle-network/rn-aa
 
 ## Getting Started
 
-1. Run example
+1. Run particle-connect/example
 
 2. Select chain
 
-3. Init
+3. Connect with socila or wallet
 
-4. Login
+4. Explore sign message
+   
 
-5. Try other methods
 
 <div align="left">
-  <img src="https://user-images.githubusercontent.com/18244874/224315719-7c94b6db-3a2f-4ce5-8a40-ea1a11ccc515.gif" width=20% height=20%>
+  <img src="https://github.com/user-attachments/assets/c6893636-8b16-4460-98c4-b59f2bfd47d8" width=20% height=20%>
   <br>
   <br>
   <br>

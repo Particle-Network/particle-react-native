@@ -1,6 +1,6 @@
 # Particle Service in React Native
 
-![](https://img.shields.io/npm/v/@particle-network/rn-auth?color=blue&style=round) 
+![](https://img.shields.io/npm/v/@particle-network/rn-base?color=blue&style=round) 
 
 <img width="420" src="/images/connectkit-mobile.svg"></img>
 

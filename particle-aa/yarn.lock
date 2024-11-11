@@ -1785,24 +1785,24 @@
   dependencies:
     "@octokit/openapi-types" "^18.0.0"
 
-"@particle-network/chains@^1.6.2":
-  version "1.6.8"
-  resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.6.8.tgz"
-  integrity sha512-8YnKI5yq7Wprdc0vomW4FOnYcbp39GozUgUJomIJIOpOm+m+cJRgsQxLe+IHmJ9ZyfKN4NkOPQF5ANA7maxBUQ==
+"@particle-network/chains@^1.7.7":
+  version "1.7.7"
+  resolved "https://registry.npmjs.org/@particle-network/chains/-/chains-1.7.7.tgz"
+  integrity sha512-Q0vXR41x8pSWDxrnT3Ensq0T2cDpnBHrfy1g1Rl0GycO2vTuIMJeA4sPqexUG/Uv39fVKfebt0TLdHS78b/P0w==
 
-"@particle-network/rn-auth-core@1.5.0", "@particle-network/rn-auth-core@2.0.4":
-  version "2.0.4"
-  resolved "https://registry.npmjs.org/@particle-network/rn-auth-core/-/rn-auth-core-2.0.4.tgz"
-  integrity sha512-spETJcBASUJf6fxRFUyZcQ/y+OgknolW1Nn/3c2Ho8KBDM07Mi7flVk7yCf1dpyjmh/8yhYuB9vg02oE5ImZCg==
+"@particle-network/rn-auth-core@1.5.0", "@particle-network/rn-auth-core@2.0.5":
+  version "2.0.5"
+  resolved "https://registry.npmjs.org/@particle-network/rn-auth-core/-/rn-auth-core-2.0.5.tgz"
+  integrity sha512-7iWfK1EQC0ujuShATLFEezyL0UQTwyu3dK7b9KbszPjyFKQo3Zk9ZX6l/FGlqT8PxBVVn78VC6tefPVLQLQYkw==
   dependencies:
-    "@particle-network/rn-base" "2.0.4"
+    "@particle-network/rn-base" "2.0.5"
 
-"@particle-network/rn-base@1.5.0", "@particle-network/rn-base@2.0.4":
-  version "2.0.4"
-  resolved "https://registry.npmjs.org/@particle-network/rn-base/-/rn-base-2.0.4.tgz"
-  integrity sha512-93b+CnzSI/3QP9J4zVQBo40WA0elOhM3/P40MrPGwIJwWe5+6FP8Q8r+vHDMaw7JeYyBUCB4JYEyx6S3ouRD7Q==
+"@particle-network/rn-base@1.5.0", "@particle-network/rn-base@2.0.5":
+  version "2.0.5"
+  resolved "https://registry.npmjs.org/@particle-network/rn-base/-/rn-base-2.0.5.tgz"
+  integrity sha512-qRSDpnUbeBWcLCg7vHZoE3lX4+TNrH345vBYonyq5CwruPRvgShNvXe59CgE070gHKVMoLsUfnvBRf9aWsASEQ==
   dependencies:
-    "@particle-network/chains" "^1.6.2"
+    "@particle-network/chains" "^1.7.7"
     axios "^1.6.2"
     bignumber.js "^9.1.0"
     events "^3.3.0"

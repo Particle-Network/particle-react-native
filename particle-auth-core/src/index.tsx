@@ -180,6 +180,7 @@ export async function getUserInfo(): Promise<UserInfo> {
  * @returns Result
  */
 export async function switchChain(chainInfo: ChainInfo): Promise<boolean> {
+  console.log(`swith chain chainInfo ${JSON.stringify(chainInfo)}`)
   const obj = {
     chain_name: chainInfo.name,
     chain_id: chainInfo.id,

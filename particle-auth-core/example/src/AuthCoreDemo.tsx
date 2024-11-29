@@ -1,6 +1,8 @@
 import {
   Ethereum,
   EthereumSepolia,
+  Solana,
+  SolanaDevnet,
   SolanaTestnet,
   type ChainInfo,
 } from '@particle-network/chains';
@@ -473,12 +475,22 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
         {
           label: 'Ethereum Sepolia',
           key: 'Ethereum Sepolia',
-          Value: EthereumSepolia,
+          value: EthereumSepolia,
+        },
+        {
+          label: 'Solana',
+          key: 'Solana',
+          value: Solana,
         },
         {
           label: 'Solana Testnet',
           key: 'Solana Testnet',
           value: SolanaTestnet,
+        },
+        {
+          label: 'Solana Devnet',
+          key: 'Solana Devnet',
+          value: SolanaDevnet,
         },
       ],
     });
@@ -954,8 +966,8 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     }
   };
 
-  handleModelSelect = async ({ value }: { value: ChainInfo }) => {
-    console.log(value);
+  handleModalSelect = async ({ value }: { value: ChainInfo }) => {
+    console.log(`handleModalSelect value ${value}`);
     switch (this.state.currentKey) {
       case 'SwitchChain':
         const result = await particleAuthCore.switchChain(value);
@@ -1013,7 +1025,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     { key: 'IsConnected', function: this.isConnected },
     { key: 'ChangeMasterPassword', function: this.changeMasterPassword },
     { key: 'GetUserInfo', function: this.getUserInfo },
-    { key: 'SetChinInfo', function: this.setChainInfo },
+    { key: 'SetChainInfo', function: this.setChainInfo },
     { key: 'GetChainInfo', function: this.getChainInfo },
     { key: 'SwitchChain', function: this.switchChain },
 
@@ -1093,7 +1105,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
         </View>
         <ModalSelector
           selectStyle={{ display: 'none' }}
-          onChange={this.handleModelSelect}
+          onChange={this.handleModalSelect}
           data={this.state.currentOptions}
           ref={(el) => {
             this.modalSelect = el;

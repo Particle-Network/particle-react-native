@@ -1,5 +1,5 @@
 import type { Language } from '@particle-network/rn-base';
-
+import type { ChainInfo} from '@particle-network/chains'
 export interface BuyCryptoConfig {
   /**
    * Public address
@@ -20,7 +20,7 @@ export interface BuyCryptoConfig {
   /**
    * Open buy network
    */
-  network?: OpenBuyNetwork;
+  chainInfo?: ChainInfo;
   /**
    * If fix fiat coin, default value is false
    */
@@ -41,20 +41,4 @@ export interface BuyCryptoConfig {
    * Language
    */
   language?: Language;
-}
-
-export enum OpenBuyNetwork {
-  Solana = 'Solana',
-  Ethereum = 'Ethereum',
-  BinanceSmartChain = 'BinanceSmartChain',
-  Optimism = 'Optimism',
-  Polygon = 'Polygon',
-  Tron = 'Tron',
-  ArbitrumOne = 'ArbitrumOne',
-  Avalanche = 'Avalanche',
-  Celo = 'Celo',
-  ZkSync = 'ZkSync',
-  Base = 'Base',
-  Linea = 'Linea',
-  Mantle = 'Mantle',
 }

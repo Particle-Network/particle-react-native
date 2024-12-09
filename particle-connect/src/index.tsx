@@ -1,10 +1,5 @@
 import type { ChainInfo } from '@particle-network/chains';
-// import {
-//   AAFeeMode,
-//   getChainInfo,
-//   isHexString,
-//   type Env,
-// } from '@particle-network/rn-auth';
+
 import {
   AAFeeMode,
   getChainInfo,
@@ -13,7 +8,7 @@ import {
 } from '@particle-network/rn-base';
 
 import { NativeModules, Platform } from 'react-native';
-import type {
+import {
   AccountInfo,
   CommonError,
   CommonResp,
@@ -23,6 +18,7 @@ import type {
   RpcUrl,
   WalletType,
 } from './Models';
+import { ConnectKitConfig } from './Models/ConnectKitConfig';
 
 const LINKING_ERROR =
   `The package '@particle-network/rn-connect' doesn't seem to be linked. Make sure: \n\n` +
@@ -73,6 +69,14 @@ export function init(
   const json = JSON.stringify(obj);
   ParticleConnectPlugin.initialize(json);
 }
+/**
+ * Set WalletConnect ProjectId
+ */
+export function setWalletConnectProjectId(
+  walletConnectProjectId: string,
+) {
+  ParticleConnectPlugin.setWalletConnectProjectId(walletConnectProjectId);
+}
 
 /**
  * Set the required chains for wallet connect v2. If not set, the current chain connection will be used.
@@ -97,17 +101,24 @@ export function setWalletConnectV2SupportChainInfos(chainInfos: ChainInfo[]) {
 export async function getAccounts(walletType: WalletType): Promise<AccountInfo[]> {
   return new Promise((resolve, reject) => {
     ParticleConnectPlugin.getAccounts(walletType, (result: string) => {
-      const parsedResult: CommonResp<AccountInfo[]> = JSON.parse(result);
+      const rawData = JSON.parse(result);
 
-      if (parsedResult.status) {
-        let accounts = parsedResult.data as AccountInfo[]
-        accounts = accounts.map(account => {
-          account.walletType = walletType || account.walletType;
-          return account;
+      if (rawData.status) {
+        const accountInfoArray: AccountInfo[] = rawData.data.map((item: any) => {
+          return {
+            icons: item.icons,
+            name: item.name,
+            publicAddress: item.publicAddress,
+            url: item.url,
+            description: item.description,
+            chainId: item.chainId,
+            mnemonic: item.mnemonic,
+            walletType: walletType
+          };
         });
-        resolve(accounts);
+        resolve(accountInfoArray);
       } else {
-        reject(parsedResult.data as CommonError);
+        reject(rawData.data as CommonError);
       }
     });
   });
@@ -123,26 +134,74 @@ export async function connect(
   walletType: WalletType,
   config?: ParticleConnectConfig
 ): Promise<AccountInfo> {
-  let configJson = '';
-  if (config) {
-    const obj = {
-      loginType: config.loginType,
-      account: config.account,
-      code: config.code,
-      supportAuthTypeValues: config.supportAuthType,
-      socialLoginPrompt: config.socialLoginPrompt,
-      loginPageConfig: config.loginPageConifg
-    };
-    configJson = JSON.stringify(obj);
-  }
-  return new Promise((resolve, reject) => {
-    ParticleConnectPlugin.connect(walletType, configJson, (result: string) => {
-      const parsedResult: CommonResp<AccountInfo> = JSON.parse(result);
 
-      if (parsedResult.status) {
-        resolve(parsedResult.data as AccountInfo);
+  const obj = {
+    walletType: walletType,
+    particleConnectConfig: config
+  }
+
+  const configJson = JSON.stringify(obj);
+
+  return new Promise((resolve, reject) => {
+    ParticleConnectPlugin.connect(configJson, (result: string) => {
+      const rawData = JSON.parse(result);
+      if (rawData.status) {
+        let accountInfo: AccountInfo = {
+          icons: rawData.data.icons,
+          name: rawData.data.name,
+          publicAddress: rawData.data.publicAddress,
+          url: rawData.data.url,
+          description: rawData.data.description,
+          chainId: rawData.data.chainId,
+          mnemonic: rawData.data.mnemonic,
+          walletType: rawData.data.walletType
+        };
+
+        if (Platform.OS === 'ios') {
+          const value = Object.keys(rawData.data.walletType)[0];
+          accountInfo.walletType = getWalletType(value!);
+          resolve(accountInfo);
+        } else {
+          resolve(accountInfo);
+        }
       } else {
-        reject(parsedResult.data as CommonError);
+        reject(rawData.data as CommonError);
+      }
+    });
+  });
+}
+
+/**
+ * connectWithConnectKitConfig is one click login function, which can present a customizable login UI
+ * @param config can be derived from ConnectKitConfig
+ * @returns 
+ */
+export async function connectWithConnectKitConfig(config: ConnectKitConfig): Promise<AccountInfo> {
+  const configJson = JSON.stringify(config);
+  return new Promise((resolve, reject) => {
+    ParticleConnectPlugin.connectWithConnectKitConfig(configJson, (result: string) => {
+      const rawData = JSON.parse(result);
+      if (rawData.status) {
+        let accountInfo: AccountInfo = {
+          icons: rawData.data.icons,
+          name: rawData.data.name,
+          publicAddress: rawData.data.publicAddress,
+          url: rawData.data.url,
+          description: rawData.data.description,
+          chainId: rawData.data.chainId,
+          mnemonic: rawData.data.mnemonic,
+          walletType: rawData.data.walletType
+        };
+
+        if (Platform.OS === 'ios') {
+          const value = Object.keys(rawData.data.walletType)[0];
+          accountInfo.walletType = getWalletType(value!);
+          resolve(accountInfo);
+        } else {
+          resolve(accountInfo);
+        }
+      } else {
+        reject(rawData.data as CommonError);
       }
     });
   });
@@ -201,7 +260,7 @@ export async function signMessage(
   walletType: WalletType,
   publicAddress: string,
   message: string
-): Promise<CommonResp<string>> {
+): Promise<string> {
   let serializedMessage: string;
 
   let chainInfo = await getChainInfo();
@@ -221,9 +280,14 @@ export async function signMessage(
     message: serializedMessage,
   };
   const json = JSON.stringify(obj);
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     ParticleConnectPlugin.signMessage(json, (result: string) => {
-      resolve(JSON.parse(result));
+      const parsedResult: CommonResp<string> = JSON.parse(result);
+      if (parsedResult.status) {
+        resolve(parsedResult.data as string);
+      } else {
+        reject(parsedResult.data as CommonError);
+      }
     });
   });
 }
@@ -405,8 +469,8 @@ export async function signTypedData(
   });
 }
 
-/**
- * Sign in with Ethereum/Solana
+/** 
+ * Sign in with Ethereum/Solana (EIP4361)
  * @param walletType Wallet type
  * @param publicAddress Public address
  * @param domain Domain, example "particle.network"
@@ -427,7 +491,7 @@ export function signInWithEthereum(
   };
   const json = JSON.stringify(obj);
   return new Promise((resolve, reject) => {
-    ParticleConnectPlugin.login(json, (result: string) => {
+    ParticleConnectPlugin.signInWithEthereum(json, (result: string) => {
       const parsedResult: CommonResp<LoginResp> = JSON.parse(result);
       if (parsedResult.status) {
         resolve(parsedResult.data as LoginResp);
@@ -565,6 +629,18 @@ export function connectWalletConnect(): Promise<AccountInfo> {
     });
   });
 }
+
+function getWalletType(value: string): WalletType | undefined {
+  const normalizedValue = value.toLowerCase();
+
+  for (const key in WalletType) {
+    if (key.toLowerCase() === normalizedValue) {
+      return WalletType[key as keyof typeof WalletType];
+    }
+  }
+  return undefined;
+}
+
 
 export * from './Models';
 export { ParticleConnectProvider } from './provider';

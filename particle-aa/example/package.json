@@ -15,9 +15,10 @@
     "react-native-toast-message": "^2.1.6",
     "react-native-modal-selector": "^2.1.2",
     "@react-navigation/native-stack": "^6.9.0",
-    "@particle-network/rn-base": "1.5.1",
-    "@particle-network/rn-connect": "1.5.1",
-    "@particle-network/rn-auth-core": "1.5.1",
+    "@react-navigation/native": "6.1.18",
+    "@particle-network/rn-base": "2.0.5",
+    "@particle-network/rn-connect": "2.0.5",
+    "@particle-network/rn-auth-core": "2.0.5",
     "@particle-network/rn-aa": "file:.."
   },
   "devDependencies": {

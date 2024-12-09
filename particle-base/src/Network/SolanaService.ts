@@ -11,7 +11,7 @@ export class SolanaService {
         return result;
     }
 
-    static async getPrice(addresses: [string], currencies: [string]): Promise<any> {
+    static async getPrice(addresses: string[], currencies: string[]): Promise<any> {
         return await this.rpc(SolanaReqBodyMethod.enhancedGetPrice, [addresses, currencies]);
     }
 
@@ -28,7 +28,7 @@ export class SolanaService {
         return await this.rpc(SolanaReqBodyMethod.enhancedGetTokenTransactionsByAddress, [obj]);
     }
 
-    static async serializeSolTransction(from: string, to: string, amount: number): Promise<any> {
+    static async serializeSolTransaction(from: string, to: string, amount: number): Promise<any> {
         const obj = { sender: from, receiver: to, lamports: amount };
         return await this.rpc(SolanaReqBodyMethod.enhancedSerializeTransaction, [
             SerializeTransactionParams.transferSol,
@@ -36,7 +36,7 @@ export class SolanaService {
         ]);
     }
 
-    static async serializeSplTokenTransction(from: string, to: string, mint: string, amount: number): Promise<any> {
+    static async serializeSplTokenTransaction(from: string, to: string, mint: string, amount: number): Promise<any> {
         const obj = { sender: from, receiver: to, mint: mint, amount: amount };
         return await this.rpc(SolanaReqBodyMethod.enhancedSerializeTransaction, [
             SerializeTransactionParams.transferToken,
@@ -44,7 +44,7 @@ export class SolanaService {
         ]);
     }
 
-    static async serializeUnwrapWSolTransction(address: string): Promise<any> {
+    static async serializeUnwrapWSolTransaction(address: string): Promise<any> {
         const obj = { address: address };
         return await this.rpc(SolanaReqBodyMethod.enhancedSerializeTransaction, [
             SerializeTransactionParams.unwrapSol,

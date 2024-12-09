@@ -6,23 +6,12 @@ import {
 import * as particleAA from '@particle-network/rn-aa';
 import { CommonError, WholeFeeQuote } from '@particle-network/rn-aa';
 import * as particleBase from '@particle-network/rn-base';
-// import * as particleConnect from '@particle-network/rn-connect';
 import * as particleConnect from '@particle-network/rn-connect';
-// import {
-//   AccountInfo,
-//   WalletType,
-// } from '@particle-network/rn-connect';
+
 import {
   WalletType,
 } from '@particle-network/rn-connect';
-// import {
-//   Env,
-//   ParticleInfo,
-//   AccountName,
-//   EvmService,
-//   AAFeeMode,
-//   SmartAccountInfo
-// } from '@particle-network/rn-auth';
+
 import {
   Env,
   ParticleInfo,

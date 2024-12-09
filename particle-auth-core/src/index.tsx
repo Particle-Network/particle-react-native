@@ -3,11 +3,11 @@ import { NativeModules, Platform } from 'react-native';
 import type { CommonError, CommonResp, UserInfo } from './Models';
 import * as evm from './evm';
 import * as solana from './solana';
-// import { LoginType, SupportAuthType, type LoginPageConfig, type SocialLoginPrompt } from '@particle-network/rn-auth';
+
 import { LoginType, SupportAuthType, type LoginPageConfig, type SocialLoginPrompt } from '@particle-network/rn-base';
 
 const LINKING_ERROR =
-  `The package '@particle-network/rn-auth' doesn't seem to be linked. Make sure: \n\n` +
+  `The package '@particle-network/rn-auth-core' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
@@ -180,6 +180,7 @@ export async function getUserInfo(): Promise<UserInfo> {
  * @returns Result
  */
 export async function switchChain(chainInfo: ChainInfo): Promise<boolean> {
+  console.log(`swith chain chainInfo ${JSON.stringify(chainInfo)}`)
   const obj = {
     chain_name: chainInfo.name,
     chain_id: chainInfo.id,

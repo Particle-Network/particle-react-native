@@ -58,9 +58,7 @@ export default class AAAuthCoreDemo extends PureComponent<AAAuthCoreDemoProps> {
     particleBase.init(chainInfo, env);
     particleAuthCore.init();
 
-    // Optional, if you prefer to use particle paymaster, you don't need to pass biconomyApiKeys.
-    // if you prefer to use biconomy paymaster, you should pass the right api keys.
-    particleAA.init(this.accountName, /** biconomyApiKeys */);
+    particleAA.init(this.accountName);
 
     Toast.show({
       type: 'success',

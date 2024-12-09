@@ -47,18 +47,19 @@ export default function SelectWalletScreen() {
         try {
             if (walletType != WalletType.WalletConnect) {
                 let accountInfo = await particleConnect.connect(walletType);
+                console.log(`accountInfo ${accountInfo}`);
                 accountInfo.walletType = walletType;
                 navigation.navigate('Home', {
                     accountInfo: accountInfo,
                 });
             } else {
                 let accountInfo = await particleConnect.connectWalletConnect();
+                console.log(`accountInfo ${accountInfo}`);
                 accountInfo.walletType = walletType;
                 navigation.navigate('Home', {
                     accountInfo: accountInfo,
                 });
             }
-
         } catch (e) {
             const error = e as CommonError;
             console.log(error);
@@ -72,7 +73,7 @@ export default function SelectWalletScreen() {
         { key: 'ParticleAuthCore', value: WalletType.AuthCore },
         { key: 'MetaMask', value: WalletType.MetaMask },
         { key: 'Trust', value: WalletType.Trust },
-        { key: 'BitKeep', value: WalletType.BitKeep },
+        { key: 'Bitget', value: WalletType.Bitget },
         { key: 'Rainbow', value: WalletType.Rainbow },
         { key: 'Imtoken', value: WalletType.ImToken },
         { key: 'Phantom', value: WalletType.Phantom },

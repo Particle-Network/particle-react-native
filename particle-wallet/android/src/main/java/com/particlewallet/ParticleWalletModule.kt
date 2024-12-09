@@ -216,6 +216,17 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
+    fun getBridgeDisabled(callback: Callback){
+        callback.invoke(ParticleWallet.getBridgeDisabled())
+    }
+
+    @ReactMethod
+    fun setBridgeDisabled(disable: Boolean) {
+        LogUtils.d("setBridgeDisabled", disable.toString());
+        ParticleWallet.setBridgeDisabled(disable)
+    }
+
+    @ReactMethod
     fun navigatorPay() {
         currentActivity?.apply {
             ParticleNetwork.openBuy(this)
@@ -437,6 +448,7 @@ class ParticleWalletPlugin(reactContext: ReactApplicationContext) :
             ParticleWallet.navigatorDAppBrowser(url!!)
         }
     }
+
 
     override fun getName(): String {
         return "ParticleWalletPlugin"

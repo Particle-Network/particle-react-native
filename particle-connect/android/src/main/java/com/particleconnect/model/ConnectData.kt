@@ -27,3 +27,12 @@ data class ParticleConnectData(
     @SerializedName("authorization") var authorization: LoginAuthorization? = null
 )
 
+@Keep
+data class ParticleConnectDataParams(
+    @SerializedName("walletType") var walletType: String,
+    @SerializedName("particleConnectConfig") var particleConnectConfig: ParticleConnectData?
+)
+
+
+
+

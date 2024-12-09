@@ -1,9 +1,3 @@
-// import type {
-//   LoginPageConfig,
-//   LoginType,
-//   SocialLoginPrompt,
-//   SupportAuthType,
-// } from '@particle-network/rn-auth';
 
 import type {
   LoginPageConfig,
@@ -12,7 +6,6 @@ import type {
   SupportAuthType,
 } from '@particle-network/rn-base';
 import { WalletType } from './WalletType';
-
 
 export interface ParticleConnectConfig {
   /**

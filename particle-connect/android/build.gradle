@@ -89,20 +89,20 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  def sdkVersion = "1.4.43"
+  def sdkVersion = "2.1.20"
   implementation("network.particle:base-service:$sdkVersion")
-  implementation("network.particle:auth-service:$sdkVersion")
   implementation("network.particle:auth-core:$sdkVersion")
   implementation("network.particle:connect-auth-core-adapter:${sdkVersion}")
   implementation("network.particle:connect-auth-adapter:${sdkVersion}")
   implementation("network.particle:connect-common:$sdkVersion")
   implementation("network.particle:connect:$sdkVersion")
+  implementation("network.particle:connect-kit:$sdkVersion")
   implementation("network.particle:connect-evm-adapter:$sdkVersion")
   implementation("network.particle:connect-solana-adapter:$sdkVersion")
   implementation("network.particle:connect-phantom-adapter:$sdkVersion")
   implementation("network.particle:connect-wallet-connect-adapter:$sdkVersion")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
-  implementation("com.blankj:utilcodex:1.31.0")
+  implementation("com.github.xxhong:CollectsPkg:2.1.0")
   implementation("commons-codec:commons-codec:1.15")
   implementation("com.google.code.gson:gson:2.8.5")
 }

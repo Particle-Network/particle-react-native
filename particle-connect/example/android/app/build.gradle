@@ -71,13 +71,13 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 android {
     ndkVersion rootProject.ext.ndkVersion
 
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     namespace "com.particleconnectexample"
     defaultConfig {
         applicationId "com.particleconnectexample"
         minSdkVersion 23
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
 
@@ -115,6 +115,9 @@ dependencies {
     //required by particle network sdk
     modules {
         module("org.bouncycastle:bcprov-jdk15to18") {
+            replacedBy("org.bouncycastle:bcprov-jdk15on")
+        }
+        module("org.bouncycastle:bcprov-jdk18on") {
             replacedBy("org.bouncycastle:bcprov-jdk15on")
         }
     }

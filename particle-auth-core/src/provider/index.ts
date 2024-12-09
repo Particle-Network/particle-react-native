@@ -1,9 +1,9 @@
 import { chains } from '@particle-network/chains';
 import { EventEmitter } from 'events';
 import * as particleAuthCore from '../index';
-// import * as particleAuth from '@particle-network/rn-auth';
+
 import * as particleBase from '@particle-network/rn-base';
-// import { SupportAuthType, SocialLoginPrompt } from '@particle-network/rn-auth';
+
 import { SupportAuthType, SocialLoginPrompt } from '@particle-network/rn-base';
 import { sendEVMRpc } from './connection';
 import type { ParticleAuthCoreOptions, RequestArguments } from './types';

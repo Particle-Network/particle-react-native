@@ -87,30 +87,30 @@ export default function ConnectedWalletScreen() {
     };
 
     const signMessage = async () => {
-        const publicAddress = accountInfo.publicAddress;
-        const walletType = accountInfo.walletType!;
+        try {
+            const publicAddress = accountInfo.publicAddress;
+            const walletType = accountInfo.walletType!;
 
-        if (publicAddress == undefined) {
-            console.log('publicAddress is underfined, you need connect');
-            return;
-        }
-        const message = 'Hello world!';
-        const result = await particleConnect.signMessage(
-            walletType,
-            publicAddress,
-            message
-        );
-        if (result.status) {
-            const signedMessage = result.data as string;
-            console.log(signedMessage);
+            if (publicAddress == undefined) {
+                console.log('publicAddress is underfined, you need connect');
+                return;
+            }
+            const message = 'Hello world!';
+            const signature = await particleConnect.signMessage(
+                walletType,
+                publicAddress,
+                message
+            );
+
+            console.log(signature);
 
             Toast.show({
                 type: 'success',
-                text1: 'Successfully sign message',
-                text2: signedMessage,
+                text1: 'Successfully sign transaction ',
+                text2: signature,
             });
-        } else {
-            const error = result.data as CommonError;
+        } catch (e) {
+            const error = e as CommonError;
             console.log(error);
 
             Toast.show({
@@ -298,8 +298,8 @@ export default function ConnectedWalletScreen() {
         const walletType = accountInfo.walletType!;
         try {
 
-            const domain = 'login.xyz';
-            const uri = 'https://login.xyz/demo#login';
+            const domain = 'particle.network';
+            const uri = 'https://demo.particle.network';
             const result = await particleConnect.signInWithEthereum(
                 walletType,
                 publicAddress,
@@ -500,37 +500,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    rowContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    button: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingRight: 10,
-    },
     image: {
         width: 40,
         height: 40,
         marginLeft: 10,
-    },
-    connectButton: {
-        position: 'absolute',
-        right: 20,
-        bottom: 100,
-        backgroundColor: '#6200EE',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 5,
-    },
-    textContainer: {
-        flexDirection: 'column',
-        marginLeft: 5,
-    },
-    connectButtonText: {
-        color: 'white',
-        fontSize: 16,
-        fontWeight: 'bold',
     },
     buttonStyle: {
         backgroundColor: '#9933ff',

@@ -1,7 +1,9 @@
 package com.particlebase.model;
 
-import com.google.gson.annotations.SerializedName;
+import androidx.annotation.Keep;
 
+import com.google.gson.annotations.SerializedName;
+@Keep
 public class ReactErrorMessage {
     public static final int ExceptionCode = 10000;
     @SerializedName("code")

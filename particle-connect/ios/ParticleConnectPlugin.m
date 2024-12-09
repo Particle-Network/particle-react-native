@@ -18,7 +18,9 @@ RCT_EXTERN_METHOD(initialize:(NSString* _Nonnull)json)
 
 RCT_EXTERN_METHOD(getAccounts: (NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
-RCT_EXTERN_METHOD(connect:(NSString* _Nonnull)json configJson:(NSString* _Nonnull)configJson callback:(RCTResponseSenderBlock)callback)
+RCT_EXTERN_METHOD(connect:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
+
+RCT_EXTERN_METHOD(connectWithConnectKitConfig:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(disconnect:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
@@ -36,7 +38,7 @@ RCT_EXTERN_METHOD(batchSendTransactions: (NSString* _Nonnull)message callback:(R
 
 RCT_EXTERN_METHOD(signTypedData:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
-RCT_EXTERN_METHOD(login:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
+RCT_EXTERN_METHOD(signInWithEthereum:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(verify:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
@@ -47,6 +49,8 @@ RCT_EXTERN_METHOD(importMnemonic:(NSString* _Nonnull)json callback:(RCTResponseS
 RCT_EXTERN_METHOD(exportPrivateKey:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(setWalletConnectV2SupportChainInfos:(NSString* _Nonnull)json)
+
+RCT_EXTERN_METHOD(setWalletConnectProjectId:(NSString* _Nonnull)json)
 
 RCT_EXTERN_METHOD(connectWalletConnect:(RCTResponseSenderBlock)callback)
 

@@ -2,6 +2,7 @@ export * from './ConnectConfig';
 export * from './DappMetaData';
 export * from './RpcUrl';
 export * from './WalletType';
+export * from './ConnectKitConfig';
 
 export interface CommonError {
   code: number;

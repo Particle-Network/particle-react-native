@@ -8,17 +8,12 @@ import {
     TextInput
 } from 'react-native';
 
-// import {
-//     type UserInfo,
-//     type CommonError,
-// } from '@particle-network/rn-auth-core';
 import {
     type UserInfo,
     type CommonError,
 } from '@particle-network/rn-auth-core';
 
 import Toast from 'react-native-toast-message';
-// import * as particleAuthCore from '@particle-network/rn-auth-core';
 import * as particleAuthCore from '@particle-network/rn-auth-core';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 

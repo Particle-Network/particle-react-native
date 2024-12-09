@@ -8,7 +8,7 @@ buildscript {
   }
 
   dependencies {
-    classpath "com.android.tools.build:gradle:7.2.1"
+    classpath "com.android.tools.build:gradle:8.5.1"
     // noinspection DifferentKotlinGradleVersion
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
@@ -77,8 +77,8 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
   }
   dataBinding {
     enabled = true
@@ -107,9 +107,9 @@ dependencies {
 
 
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-  def sdkVersion = "1.4.43"
+  def sdkVersion = "2.1.20"
   implementation("network.particle:aa-service:$sdkVersion")
-  implementation("com.blankj:utilcodex:1.31.0")
+  implementation("com.github.xxhong:CollectsPkg:2.1.0")
   implementation("commons-codec:commons-codec:1.15")
   implementation("com.google.code.gson:gson:2.8.5")
 }

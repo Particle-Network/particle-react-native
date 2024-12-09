@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "rn-connect-beta": ["./src/index"]
+      "@particle-network/rn-connect": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

@@ -15,8 +15,12 @@ export class AccountName {
         return new AccountName('BICONOMY', '2.0.0');
     }
 
-    static SIMPLE(): AccountName {
+    static SIMPLE_V1(): AccountName {
         return new AccountName('SIMPLE', '1.0.0');
+    }
+
+    static SIMPLE_V2(): AccountName {
+        return new AccountName('SIMPLE', '2.0.0');
     }
 
     static CYBERCONNECT(): AccountName {

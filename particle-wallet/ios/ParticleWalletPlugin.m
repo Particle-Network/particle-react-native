@@ -32,11 +32,13 @@ RCT_EXTERN_METHOD(setPayDisabled:(BOOL _Nonnull)json)
 
 RCT_EXTERN_METHOD(getPayDisabled:(RCTResponseSenderBlock)callback)
 
+RCT_EXTERN_METHOD(setBridgeDisabled:(BOOL _Nonnull)json)
+
+RCT_EXTERN_METHOD(getBridgeDisabled:(RCTResponseSenderBlock)callback)
+
 RCT_EXTERN_METHOD(setSwapDisabled:(BOOL _Nonnull)json)
 
 RCT_EXTERN_METHOD(getSwapDisabled:(RCTResponseSenderBlock)callback)
-
-RCT_EXTERN_METHOD(navigatorLoginList:(RCTResponseSenderBlock)callback)
 
 RCT_EXTERN_METHOD(switchWallet:(NSString* _Nonnull)json callback:(RCTResponseSenderBlock)callback)
 
@@ -64,6 +66,8 @@ RCT_EXTERN_METHOD(setCustomWalletName:(NSString* _Nonnull)json)
 RCT_EXTERN_METHOD(setCustomLocalizable:(NSString* _Nonnull)json)
 
 RCT_EXTERN_METHOD(initializeWalletMetaData:(NSString* _Nonnull)json)
+
+RCT_EXTERN_METHOD(setWalletConnectProjectId:(NSString* _Nonnull)json)
 
 - (dispatch_queue_t)methodQueue {
   return dispatch_get_main_queue();

@@ -15,9 +15,9 @@ export default function TabLayout() {
         headerShown: false,
       }}>
         <Tabs.Screen
-        name="particle"
+        name="index"
         options={{
-          title: 'Particle',
+          title: 'Home',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
           ),

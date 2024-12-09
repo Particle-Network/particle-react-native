@@ -1,5 +1,5 @@
 import { ChainInfo, ArbitrumSepolia } from '@particle-network/chains';
-import * as particleBase from 'rn-base-beta';
+import * as particleBase from '@particle-network/rn-base';
 import {
     AccountName,
     Appearance,
@@ -10,8 +10,9 @@ import {
     ParticleInfo,
     SecurityAccountConfig,
     SmartAccountInfo,
-    CommonError
-} from 'rn-base-beta';
+    CommonError,
+    GasFeeLevel
+} from '@particle-network/rn-base';
 
 import React, { PureComponent } from 'react';
 import {
@@ -26,6 +27,7 @@ import {
 import ModalSelector from 'react-native-modal-selector';
 import Toast from 'react-native-toast-message';
 import type { BaseScreenProps } from './App';
+import BigNumber from 'bignumber.js';
 
 export default class BaseDemo extends PureComponent<BaseScreenProps> {
     modalSelect: ModalSelector<any> | null = null;
@@ -146,7 +148,7 @@ export default class BaseDemo extends PureComponent<BaseScreenProps> {
     };
 
     getSmartAccount = async () => {
-        const eoaAddress = "";
+        const eoaAddress = "0x064c236De17dF90e994DacB22040AA9b95569573";
         const smartAccountParam = {
             name: AccountName.BICONOMY_V1().name,
             version: AccountName.BICONOMY_V1().version,
@@ -159,8 +161,6 @@ export default class BaseDemo extends PureComponent<BaseScreenProps> {
             text1: `Successfully get smart account ${result[0]!.smartAccountAddress}`,
         });
     };
-
-
 
     handleModelSelect = async ({ value }: any) => {
         switch (this.state.currentKey) {
@@ -188,6 +188,65 @@ export default class BaseDemo extends PureComponent<BaseScreenProps> {
         }
     };
 
+    writeContract = async () => {
+        const from = "sender address";
+        const contractAddress = "the contract address";
+        const methodName = "mint";
+        const params: string[] = [];
+        const abiJsonString = "";
+
+        const transaction = await EvmService.writeContract(from, BigNumber(0), contractAddress, methodName, params, abiJsonString, GasFeeLevel.high);
+        console.log('write contract: ', transaction);
+    }
+
+    readContract = async () => {
+        const from = "sender address";
+        const contractAddress = "the contract address";
+        const methodName = "mint";
+        const params: string[] = [];
+        const abiJsonString = "";
+
+        const result = await EvmService.readContract(from, BigNumber(0), contractAddress, methodName, params, abiJsonString);
+        console.log('read contract: ', result);
+    }
+
+    createTransaction = async () => {
+        const from = "sender address";
+        const data = "contract data"
+        const value = BigNumber(10000);
+        const to = "the receiver address or contract address";
+        const transaction = await EvmService.createTransaction(from, data, value, to, GasFeeLevel.high);
+        console.log('create transaction: ', transaction);
+
+    }
+
+    ethEstimateGas = async () => {
+        const from = "sender address";
+        const data = "contract data"
+        const value = BigNumber(10000);
+        const to = "the receiver address or contract address";
+
+        const valueHex = '0x' + value.toString(16);
+        const gasLimit = await EvmService.estimateGas(from, to, valueHex, data);
+
+        console.log('ethEstimateGas: ', gasLimit);
+    }
+
+    suggestedGasFees = async () => {
+        const gasFeesResult = await EvmService.suggestedGasFees();
+
+        console.log('gasFeesResult: ', gasFeesResult);
+    }
+
+    setThemeColor = async () => {
+        particleBase.setThemeColor("#003468");
+    }
+
+    setUnsupportCountries = async () => {
+        const isoCodeList = ['US', 'CA', 'GB'];
+        particleBase.setUnsupportCountries(isoCodeList);
+    }
+
     data = [
         { key: 'Select Chain Page', function: null },
         { key: 'Init', function: this.init },
@@ -199,13 +258,17 @@ export default class BaseDemo extends PureComponent<BaseScreenProps> {
         { key: 'SetFiatCoin', function: this.setFiatCoin },
         { key: 'SetSecurityAccountConfig', function: this.setSecurityAccountConfig },
         { key: 'GetSmartAccount', function: this.getSmartAccount },
+        { key: 'ReadContract Code Example', function: this.readContract },
+        { key: 'WriteContract Code Example', function: this.writeContract },
+        { key: 'SetThemeColor', function: this.setThemeColor },
+        { key: 'SetUnsupportCountries', function: this.setUnsupportCountries },
     ];
 
     render = () => {
         const { navigation } = this.props;
         return (
             <SafeAreaView>
-                <View style={{ paddingBottom: 100 }}>
+                <View style={{ paddingBottom: 50 }}>
                     <FlatList
                         // @ts-ignore
                         data={this.data}

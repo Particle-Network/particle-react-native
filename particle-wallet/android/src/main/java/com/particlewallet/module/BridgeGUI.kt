@@ -238,16 +238,7 @@ class BridgeGUI(reactContext: ReactApplicationContext) : ReactContextBaseJavaMod
     ParticleWallet.setShowManageWalletSetting(show)
   }
 
-  @ReactMethod
-  fun navigatorLoginList(callback: Callback) {
-    loginOptCallback = callback
-    currentActivity?.startActivity(
-      Intent(
-        currentActivity,
-        PNLoginOptActivity::class.java
-      )
-    )
-  }
+
 
   /**
    * GUI

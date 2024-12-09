@@ -1,17 +1,14 @@
 import {
   Ethereum,
   EthereumSepolia,
+  Solana,
+  SolanaDevnet,
   SolanaTestnet,
   type ChainInfo,
 } from '@particle-network/chains';
 import * as particleBase from '@particle-network/rn-base';
-import { Env, ParticleInfo } from '@particle-network/rn-base';
+import { Env, ParticleInfo, SecurityAccountConfig } from '@particle-network/rn-base';
 import * as particleAuthCore from '@particle-network/rn-auth-core';
-// import {
-//   LoginType,
-//   SocialLoginPrompt,
-//   SupportAuthType
-// } from '@particle-network/rn-auth';
 
 import {
   LoginType,
@@ -19,12 +16,6 @@ import {
   SupportAuthType
 } from '@particle-network/rn-base';
 
-// import {
-//   evm,
-//   solana,
-//   type CommonError,
-//   type UserInfo,
-// } from '@particle-network/rn-auth-core';
 import {
   evm,
   solana,
@@ -49,6 +40,7 @@ import type { AuthCoreScreenProps } from './App';
 import * as Helper from './Helper';
 import { TestAccountEVM } from './TestAccount';
 import { createWeb3 } from './web3Demo';
+import { base64Img } from './const';
 
 export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
   state = { currentLoadingBtn: '', currentKey: '', currentOptions: [] };
@@ -483,12 +475,22 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
         {
           label: 'Ethereum Sepolia',
           key: 'Ethereum Sepolia',
-          Value: EthereumSepolia,
+          value: EthereumSepolia,
+        },
+        {
+          label: 'Solana',
+          key: 'Solana',
+          value: Solana,
         },
         {
           label: 'Solana Testnet',
           key: 'Solana Testnet',
           value: SolanaTestnet,
+        },
+        {
+          label: 'Solana Devnet',
+          key: 'Solana Devnet',
+          value: SolanaDevnet,
         },
       ],
     });
@@ -517,7 +519,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
       const userInfo = await particleAuthCore.connect(LoginType.Email, null, supportAuthType, SocialLoginPrompt.SelectAccount, {
         projectName: "React Native Example",
         description: "Welcome to login",
-        imagePath: "https://connect.particle.network/icons/512.png"
+        imagePath: base64Img
       });
 
       console.log('connect', userInfo);
@@ -908,14 +910,16 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
         text1: error.message,
       });
     }
-
   };
 
   getUserInfo = async () => {
     try {
       const userInfo = await particleAuthCore.getUserInfo();
       console.log(userInfo);
-
+      Toast.show({
+        type: 'success',
+        text1: JSON.stringify(userInfo),
+      });
     } catch (e) {
       const error = e as CommonError;
       console.log(error);
@@ -962,8 +966,8 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     }
   };
 
-  handleModelSelect = async ({ value }: { value: ChainInfo }) => {
-    console.log(value);
+  handleModalSelect = async ({ value }: { value: ChainInfo }) => {
+    console.log(`handleModalSelect value ${value}`);
     switch (this.state.currentKey) {
       case 'SwitchChain':
         const result = await particleAuthCore.switchChain(value);
@@ -975,7 +979,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
   };
 
   setSecurityAccountConfig = () => {
-    particleBase.setSecurityAccountConfig(new particleBase.SecurityAccountConfig(0, 0));
+    particleBase.setSecurityAccountConfig(new SecurityAccountConfig(0, 0));
   }
 
   setBlindEnable = () => {
@@ -1021,7 +1025,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     { key: 'IsConnected', function: this.isConnected },
     { key: 'ChangeMasterPassword', function: this.changeMasterPassword },
     { key: 'GetUserInfo', function: this.getUserInfo },
-    { key: 'SetChinInfo', function: this.setChainInfo },
+    { key: 'SetChainInfo', function: this.setChainInfo },
     { key: 'GetChainInfo', function: this.getChainInfo },
     { key: 'SwitchChain', function: this.switchChain },
 
@@ -1052,10 +1056,6 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
     { key: 'SetBlindEnable', function: this.setBlindEnable },
     { key: 'GetBlindEnable', function: this.getBlindEnable },
   ];
-
-  componentDidMount(): void {
-    this.init();
-  }
 
   render = () => {
     const { navigation } = this.props;
@@ -1105,7 +1105,7 @@ export default class AuthCoreDemo extends PureComponent<AuthCoreScreenProps> {
         </View>
         <ModalSelector
           selectStyle={{ display: 'none' }}
-          onChange={this.handleModelSelect}
+          onChange={this.handleModalSelect}
           data={this.state.currentOptions}
           ref={(el) => {
             this.modalSelect = el;

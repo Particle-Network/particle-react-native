@@ -4,17 +4,11 @@ import {
   SolanaDevnet,
   EthereumSepolia
 } from '@particle-network/chains';
-// import * as particleAuth from '@particle-network/rn-auth';
+
 import * as particleBase from '@particle-network/rn-base';
-// import * as particleAuthCore from '@particle-network/rn-auth-core';
+
 import * as particleAuthCore from '@particle-network/rn-auth-core';
-// import {
-//   Env,
-//   LoginType,
-//   ParticleInfo,
-//   SocialLoginPrompt,
-//   SupportAuthType,
-// } from '@particle-network/rn-auth';
+
 import {
   Env,
   LoginType,
@@ -544,13 +538,12 @@ export default class OldConnectDemo extends PureComponent<ConnectScreenProps> {
       return;
     }
     const message = 'Hello world!';
-    const result = await particleConnect.signMessage(
-      this.walletType,
-      publicAddress,
-      message
-    );
-    if (result.status) {
-      const signedMessage = result.data as string;
+    try {
+      const signedMessage = await particleConnect.signMessage(
+        this.walletType,
+        publicAddress,
+        message
+      );
       console.log(signedMessage);
 
       Toast.show({
@@ -558,8 +551,8 @@ export default class OldConnectDemo extends PureComponent<ConnectScreenProps> {
         text1: 'Successfully sign message',
         text2: signedMessage,
       });
-    } else {
-      const error = result.data as CommonError;
+    } catch (e) {
+      const error = e as CommonError;
       console.log(error);
 
       Toast.show({
@@ -756,9 +749,8 @@ export default class OldConnectDemo extends PureComponent<ConnectScreenProps> {
       return;
     }
     try {
-
-      const domain = 'login.xyz';
-      const uri = 'https://login.xyz/demo#login';
+      const domain = 'particle.network';
+      const uri = 'https://demo.particle.network';
       const result = await particleConnect.signInWithEthereum(
         this.walletType,
         publicAddress,

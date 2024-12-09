@@ -3,6 +3,7 @@ import type { WalletDisplay } from '@particle-network/rn-base';
 import type { WalletType, DappMetaData } from '@particle-network/rn-connect';
 import { NativeModules, Platform } from 'react-native';
 import { BuyCryptoConfig } from './Models/BuyCryptoConfig';
+import * as particleConnect from '@particle-network/rn-connect';
 
 const LINKING_ERROR =
   `The package '@particle-network/rn-wallet' doesn't seem to be linked. Make sure: \n\n` +
@@ -150,7 +151,7 @@ export function navigatorBuyCrypto(config?: BuyCryptoConfig) {
   if (config != null) {
     const obj = {
       wallet_address: config.walletAddres,
-      network: config.network,
+      network: { chain_id: config.chainInfo?.id, chain_name: config.chainInfo?.name },
       crypto_coin: config.cryptoCoin,
       fiat_coin: config.fiatCoin,
       fiat_amt: config.fiatAmt,
@@ -165,19 +166,6 @@ export function navigatorBuyCrypto(config?: BuyCryptoConfig) {
   } else {
     ParticleWalletPlugin.navigatorBuyCrypto(config);
   }
-}
-
-/**
- * Navigator login list page
- * @returns  Result, account or eror
- */
-export function navigatorLoginList(): Promise<any> {
-  return new Promise((resolve) => {
-    ParticleWalletPlugin.navigatorLoginList((result: string) => {
-      console.log('navigatorLoginList', JSON.parse(result));
-      resolve(JSON.parse(result));
-    });
-  });
 }
 
 export function navigatorWalletConnect(): Promise<any> {
@@ -289,6 +277,26 @@ export function setSwapDisabled(disabled: boolean) {
 export function getSwapDisabled(): Promise<boolean> {
   return new Promise((resolve) => {
     ParticleWalletPlugin.getSwapDisabled((result: boolean) => {
+      resolve(result);
+    });
+  });
+}
+
+/**
+ * Set bridge disabled, default value is false.
+ * @param disabled
+ */
+export function setBridgeDisabled(disabled: boolean) {
+  ParticleWalletPlugin.setBridgeDisabled(disabled);
+}
+
+/**
+ * Get bridge disabled state
+ * @returns Trus if disabled, otherwise true
+ */
+export function getBridgeDisabled(): Promise<boolean> {
+  return new Promise((resolve) => {
+    ParticleWalletPlugin.getBridgeDisabled((result: boolean) => {
       resolve(result);
     });
   });
@@ -421,6 +429,19 @@ export function navigatorDappBrowser(url: string) {
     ParticleWalletPlugin.navigatorDappBrowser(json);
   } else {
     ParticleWalletPlugin.navigatorDappBrowser(url);
+  }
+}
+
+/**
+ * Set WalletConnect ProjectId
+ */
+export function setWalletConnectProjectId(
+  walletConnectProjectId: string,
+) {
+  if (Platform.OS === 'ios') {
+    ParticleWalletPlugin.navigatorDappBrowser(walletConnectProjectId);
+  } else {
+    particleConnect.setWalletConnectProjectId(walletConnectProjectId)
   }
 }
 

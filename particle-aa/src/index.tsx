@@ -21,19 +21,14 @@ const ParticleAAPlugin = NativeModules.ParticleAAPlugin
 
 /**
  * Init particle AA service
- * if you prefer to use particle paymaster, you don't need to pass biconomyApiKeys.
  * In mainnet, fund in particle dashboard, the gasless transaction will work in mainnet.
- * In testnet, no need to fund, particle will handle the fees.
- * if you prefer to use biconomy paymaster, you should pass the right api keys.
+ * In testnet, particle will handle the fees.
  * @param accountName AccountName
- * @param biconomyAppKeys Optional, biconomy api keys
  */
 export function init(
-  accountName: AccountName,
-  biconomyAppKeys?: { [key: number]: string }
+  accountName: AccountName
 ) {
   const obj = {
-    biconomy_app_keys: biconomyAppKeys,
     name: accountName.name,
     version: accountName.version,
   };

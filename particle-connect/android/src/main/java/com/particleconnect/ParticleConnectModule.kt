@@ -7,8 +7,8 @@ import auth.core.adapter.ConnectConfigEmail
 import auth.core.adapter.ConnectConfigJWT
 import auth.core.adapter.ConnectConfigPhone
 import auth.core.adapter.ConnectConfigSocialLogin
-import com.blankj.utilcode.util.GsonUtils
-import com.blankj.utilcode.util.LogUtils
+import network.blankj.utilcode.util.GsonUtils
+import network.blankj.utilcode.util.LogUtils
 import com.connect.common.*
 import com.connect.common.eip4361.Eip4361Message
 import com.connect.common.model.Account

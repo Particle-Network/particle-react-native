@@ -1,7 +1,7 @@
 package com.particleaa
 
-import com.blankj.utilcode.util.GsonUtils
-import com.blankj.utilcode.util.LogUtils
+import network.blankj.utilcode.util.GsonUtils
+import network.blankj.utilcode.util.LogUtils
 import com.facebook.react.bridge.*
 import com.particle.base.ParticleNetwork
 import com.particle.base.data.ErrorInfo

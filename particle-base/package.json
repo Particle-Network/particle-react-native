@@ -1,6 +1,6 @@
 {
   "name": "@particle-network/rn-base",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Particle Base Service in React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

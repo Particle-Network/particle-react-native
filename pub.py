@@ -253,7 +253,7 @@ class ParticleWalletModule(ParticleBase):
 
 
 if __name__ == "__main__":
-  version = '2.0.5'
+  version = '2.0.6'
   betaMode = False
   sleep_time = 0
   print("Base Start")

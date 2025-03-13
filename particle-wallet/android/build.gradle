@@ -96,7 +96,7 @@ dependencies {
   implementation "com.facebook.react:react-native:+"
 // From node_modules
 
-  def sdkVersion = "2.1.20"
+  def sdkVersion = "2.1.22"
   implementation("network.particle:base-service:$sdkVersion")
   implementation("network.particle:auth-service:$sdkVersion")
   implementation("network.particle:wallet-service:$sdkVersion") {

@@ -1,6 +1,6 @@
 # @particle-network/rn-connect
 
-React Native Particle Connect
+React Native SDK for Particle Network's Connect service. Provides a unified connection interface supporting both social logins and external wallets in your React Native app.
 
 ## Installation
 
@@ -8,6 +8,9 @@ React Native Particle Connect
 npm install @particle-network/rn-connect
 ```
 
+## Documentation
+
+For full API reference and integration guides, see the [Particle Connect React Native docs](https://developers.particle.network/api-reference/connect/mobile/react).
 
 ## Contributing
 
@@ -16,7 +19,3 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 ## License
 
 MIT
-
----
-
-Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)

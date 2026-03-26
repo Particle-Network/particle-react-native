@@ -1,22 +1,16 @@
-# com.xxx
+# @particle-network/rn-aa
 
-xxx
+React Native SDK for Particle Network's Account Abstraction service. Enables ERC-4337 smart account functionality, including user operations, gas sponsorship, and batch transactions in your React Native app.
 
 ## Installation
 
 ```sh
-npm install com.xxx
+npm install @particle-network/rn-aa
 ```
 
-## Usage
+## Documentation
 
-```js
-import { multiply } from 'com.xxx';
-
-// ...
-
-const result = await multiply(3, 7);
-```
+For full API reference and integration guides, see the [Particle AA React Native docs](https://developers.particle.network/api-reference/aa/sdks/mobile/react).
 
 ## Contributing
 
@@ -25,7 +19,3 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 ## License
 
 MIT
-
----
-
-Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)

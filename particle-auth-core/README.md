@@ -1,6 +1,8 @@
 # @particle-network/rn-auth-core
 
-react-native-particle-auth-core
+React Native SDK for Particle Network's Auth Core service. Provides social login and MPC-based wallet creation for your React Native app.
+
+> **Note for iOS:** This SDK only supports `ios-arm64` (physical devices). Simulators are not supported.
 
 ## Installation
 
@@ -8,15 +10,9 @@ react-native-particle-auth-core
 npm install @particle-network/rn-auth-core
 ```
 
-## Usage
+## Documentation
 
-```js
-import { multiply } from '@particle-network/rn-auth-core';
-
-// ...
-
-const result = await multiply(3, 7);
-```
+For full API reference and integration guides, see the [Particle Auth Core React Native docs](https://developers.particle.network/api-reference/auth/mobile-sdks/react).
 
 ## Contributing
 
@@ -25,7 +21,3 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 ## License
 
 MIT
-
----
-
-Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)

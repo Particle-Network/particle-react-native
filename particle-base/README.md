@@ -1,6 +1,6 @@
-# react-native-particle-base
+# @particle-network/rn-base
 
-Particle Auth Service in React Native
+React Native base layer for Particle Network SDKs. Provides shared utilities, configuration, and core primitives used by the other `@particle-network/rn-*` packages.
 
 ## Installation
 
@@ -8,6 +8,9 @@ Particle Auth Service in React Native
 npm install @particle-network/rn-base
 ```
 
+## Documentation
+
+For full API reference and integration guides, see the [Particle Network React Native docs](https://developers.particle.network/api-reference/auth/mobile-sdks/react).
 
 ## Contributing
 
@@ -16,7 +19,3 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 ## License
 
 MIT
-
----
-
-Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)

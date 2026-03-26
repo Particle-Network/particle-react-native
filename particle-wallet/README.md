@@ -1,22 +1,16 @@
-# com.xxx
+# @particle-network/rn-wallet
 
-xxx
+React Native SDK for the Particle Wallet service. Provides a ready-to-use wallet UI and underlying wallet management APIs for your React Native app.
 
 ## Installation
 
 ```sh
-npm install com.xxx
+npm install @particle-network/rn-wallet
 ```
 
-## Usage
+## Documentation
 
-```js
-import { multiply } from 'com.xxx';
-
-// ...
-
-const result = await multiply(3, 7);
-```
+For full API reference and integration guides, see the [Particle Wallet React Native docs](https://developers.particle.network/api-reference/wallet/mobile/react).
 
 ## Contributing
 
@@ -25,7 +19,3 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 ## License
 
 MIT
-
----
-
-Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)

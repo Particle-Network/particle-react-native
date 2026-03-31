@@ -9,7 +9,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.blankj.utilcode.util.LogUtils
+import network.blankj.utilcode.util.LogUtils
 import com.connect.common.ConnectCallback
 import com.connect.common.model.Account
 import com.connect.common.model.ConnectError

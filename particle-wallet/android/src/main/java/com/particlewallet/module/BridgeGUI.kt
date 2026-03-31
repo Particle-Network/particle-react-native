@@ -2,8 +2,8 @@ package com.particlewallet.module
 
 import android.content.Intent
 import android.util.Log
-import com.blankj.utilcode.util.GsonUtils
-import com.blankj.utilcode.util.LogUtils
+import network.blankj.utilcode.util.GsonUtils
+import network.blankj.utilcode.util.LogUtils
 import com.connect.common.IConnectAdapter
 import com.facebook.react.bridge.Callback
 import com.facebook.react.bridge.ReactApplicationContext

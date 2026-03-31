@@ -1,8 +1,8 @@
 package com.particlewallet.module
 
 import android.app.Application
-import com.blankj.utilcode.util.GsonUtils
-import com.blankj.utilcode.util.LogUtils
+import network.blankj.utilcode.util.GsonUtils
+import network.blankj.utilcode.util.LogUtils
 import com.connect.common.*
 import com.connect.common.eip4361.Eip4361Message
 import com.connect.common.model.Account
